@@ -25,6 +25,7 @@ export default {
             console.log('挑战了')
 
         },
+        
         //搜索框搜索
         //文件改变时搜索
         handelSearch() {
