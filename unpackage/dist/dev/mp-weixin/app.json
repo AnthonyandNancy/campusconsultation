@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/tabbel/home/home",
+    "pages/tabbel/news/news",
+    "pages/tabbel/my/my"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "selectedColor": "#b50e03",
+    "color": "#ccc",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/tabbel/home/home"
+      },
+      {
+        "text": "消息",
+        "pagePath": "pages/tabbel/news/news"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/tabbel/my/my"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

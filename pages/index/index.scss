@@ -1,0 +1,48 @@
+.bg{
+    height: 1300rpx;
+    /*background-image: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3395864961,1527657332&fm=26&gp=0.jpg") ;*/
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.box2{
+    margin-top: 30%;
+    //.search{
+    //    width:400rpx;
+    //}
+    //.chooseUnivercity{
+    //    margin-top: -55rpx;
+    //    width: 280rpx;
+    //    height: 50rpx;
+    //    float: right;
+    //}
+
+
+}
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 5%;
+    border: #2C405A 1rpx solid;
+}
+
+.logo {
+    height: 50rpx;
+    width: 50rpx;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50rpx;
+}
+
+.text-area {
+    display: flex;
+    justify-content: center;
+}
+
+.title {
+    font-size: 36rpx;
+    color: #8f8f94;
+}

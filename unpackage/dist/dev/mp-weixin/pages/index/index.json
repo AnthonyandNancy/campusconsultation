@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "uni-app",
+  "usingComponents": {
+    "u-search": "/node-modules/uview-ui/components/u-search/u-search",
+    "u-select": "/node-modules/uview-ui/components/u-select/u-select"
+  }
+}
