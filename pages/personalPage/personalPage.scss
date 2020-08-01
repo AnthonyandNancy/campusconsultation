@@ -1,0 +1,80 @@
+$bg_color:#f0f0f0;
+$color:#606266;
+$fontSize:40rpx;
+.box{
+  height: 100vh;
+  background-color: $bg_color;
+  .userDetail{
+    .top{
+      height: 20rpx;
+    }
+    .common{
+      //margin-top: 10rpx;
+      background-color: #ffffff;
+      margin-bottom: 4%;
+      border: none;
+      height: 8.5vh;
+      border-radius: 10rpx;
+      .commonLeft{
+        width: 26%;
+        color: $color;
+        font-size:$fontSize;
+        text-align: left;
+        margin-left: 20rpx;
+        line-height: 109rpx;
+      }
+      .commonRight{
+        width: 75%;
+        margin-top: -13%;
+
+      }
+      //头像
+      .u_avater{
+        float: right;
+        margin-right: -32%;
+
+      }
+      //昵称
+      .userNickName{
+        font-size: 35rpx;
+        float: right;
+        margin-right: -32%;
+        line-height: 90rpx;
+      }
+      //个性签名
+      u-input{
+        float: right;
+        margin-top: 2%;
+        margin-right: -31%;
+        width: 84%;
+      }
+      .sex{
+        height: 8vh;
+        width: 78%;
+        float: right;
+        margin-top: 4%;
+        margin-right: -30%;
+        text-align: right;
+
+      }
+      .likeSchool{
+        height: 8vh;
+        width: 78%;
+        float: right;
+        margin-top: 4%;
+        margin-right: -32%;
+        text-align: right;
+      }
+      .personRegion{
+        height: 8vh;
+        width: 78%;
+        float: right;
+        margin-top: 4%;
+        margin-right: -32%;
+        text-align: right;
+      }
+    }
+
+      }
+
+}
