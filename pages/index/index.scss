@@ -1,22 +1,35 @@
 .bg{
-    height: 1300rpx;
-    /*background-image: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3395864961,1527657332&fm=26&gp=0.jpg") ;*/
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
+    padding: 20rpx 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+}
+.dropdown-item__selected{
+    background: #dd524d !important;
 }
 .box2{
-    margin-top: 30%;
-    //.search{
-    //    width:400rpx;
-    //}
-    //.chooseUnivercity{
-    //    margin-top: -55rpx;
-    //    width: 280rpx;
-    //    height: 50rpx;
-    //    float: right;
-    //}
-
-
+    .searchEle{
+        width: 90%;
+        margin: 0 auto ;
+    }
+    .chooseUnivercity{
+        width: 280rpx;
+        height: 50rpx;
+        line-height: 44rpx;
+        border: 2px solid #000;
+        margin:50% auto 0;
+        text-align: center;
+        font-size: 32rpx;
+        font-weight: 600;
+        border-radius:10rpx;
+    }
 }
 
 
