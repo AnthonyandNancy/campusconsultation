@@ -48,6 +48,10 @@
 					</view>
 				</view>
 			</view>
+
+				<u-button type="success" @click="save" class="uBTnSave">保存信息</u-button>
+
+
 		</view>
 
 

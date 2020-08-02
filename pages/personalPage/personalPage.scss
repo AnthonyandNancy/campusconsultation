@@ -14,7 +14,7 @@ $fontSize:40rpx;
       margin-bottom: 4%;
       border: none;
       height: 8.5vh;
-      border-radius: 10rpx;
+      border-radius: 20rpx;
       .commonLeft{
         width: 26%;
         color: $color;
@@ -72,6 +72,9 @@ $fontSize:40rpx;
         margin-top: 4%;
         margin-right: -32%;
         text-align: right;
+      }
+      .uBTnSave{
+        margin-top: 1%;
       }
     }
 

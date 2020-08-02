@@ -170,9 +170,12 @@ export default {
         getschoolVal(val) {
             let schoolTotal = this.schoolList[val].total;
             this.schoolTotal=this.schoolList[val].total;
+            console.log('>>>>>>>>>>>',schoolTotal)
+            this.schoolName=schoolTotal[0]
             //确定按钮
             // this.updateSchool(schoolTotal);
             this.schoolValue = val;
+            this.showPopup=false
         },
         async updateSchool(schoolItem) {
             if (schoolItem == this.schoolName) {
@@ -269,5 +272,10 @@ export default {
             }
 
         },
+        //保存信息
+        save(){
+            this.updateSchool(this.schoolTotal)
+            uni.navigateBack();
+        }
     }
 }
