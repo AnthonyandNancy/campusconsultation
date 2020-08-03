@@ -26,8 +26,7 @@ export default {
     data() {
         return {
             bannerImg:['/static/images/b1.jpg','/static/images/b2.jpg','/static/images/b3.jpg'],
-
-
+            cartTypeList:['热门动态','以书会友','校园爱情','百团大战','约起开黑','操场相见'],
 
             getMineSchoolName: "",
             hideTop: false,
@@ -271,6 +270,13 @@ export default {
         }
     },
     methods: {
+        toHotDynamicPage(index){
+            constant.setSelectType(index+1)
+            
+            uni.switchTab({
+                url:'/pages/tabbel/schoolCircle/schoolCircle'
+            })
+        },
         //悬浮按钮事件
         //点击悬浮按钮事件
         trigger(val) {

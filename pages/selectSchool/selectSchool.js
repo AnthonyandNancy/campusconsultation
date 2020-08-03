@@ -197,6 +197,9 @@ export default {
                     schoolName: nameVal
                 }
             })
+            if(json.data.errcode == 200){
+                this.toLogin();
+            }
         },
 
         onSelected(res){

@@ -4,17 +4,18 @@
   },
   "pages": [
     {
-          "path": "pages/selectSchool/selectSchool",
-          "style": {
-            "navigationBarTitleText": "连校园",
-            "backgroundColorTop": "#ffffff"
-          },
-          "permission": {
-            "scope.userLocation": {
-              "desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
-            }
-          }
-        },
+      "path": "pages/selectSchool/selectSchool",
+      "style": {
+        "navigationBarTitleText": "连校园",
+        "backgroundColorTop": "#ffffff"
+      },
+      "permission": {
+        "scope.userLocation": {
+          "desc": "你的位置信息将用于小程序位置接口的效果展示"
+          // 高速公路行驶持续后台定位
+        }
+      }
+    },
     {
       "path": "pages/tabbel/home/home",
       "style": {
@@ -93,20 +94,20 @@
           "bounce": "none"
         }
       }
+    },
+    {
+      "path": "pages/tabbel/campus/campus",
+      "style": {}
+    },
+    {
+      "path": "pages/tabbel/schoolCircle/schoolCircle",
+      "style": {}
+    },
+    {
+      "path": "pages/personalPage/personalPage",
+      "style": {}
     }
-      ,{
-            "path" : "pages/tabbel/campus/campus",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/tabbel/schoolCircle/schoolCircle",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/personalPage/personalPage",
-            "style" : {}
-        }
-    ],
+  ],
   "tabBar": {
     "selectedColor": "#1B7AFF",
     "color": "#000",
@@ -117,18 +118,18 @@
         "iconPath": "/static/images/home.png",
         "selectedIconPath": "/static/images/home_active.png"
       },
-	  {
-	    "text": "校园",
-	    "pagePath": "pages/tabbel/campus/campus",
-	    "iconPath": "/static/images/campus.png",
-	    "selectedIconPath": "/static/images/campus_active.png"
-	  },
-	  {
-	    "text": "校圈",
-	    "pagePath": "pages/tabbel/schoolCircle/schoolCircle",
-	    "iconPath": "/static/images/schoolCircle.png",
-	    "selectedIconPath": "/static/images/schoolCircle_active.png"
-	  },
+      {
+        "text": "校园",
+        "pagePath": "pages/tabbel/campus/campus",
+        "iconPath": "/static/images/campus.png",
+        "selectedIconPath": "/static/images/campus_active.png"
+      },
+      {
+        "text": "校圈",
+        "pagePath": "pages/tabbel/schoolCircle/schoolCircle",
+        "iconPath": "/static/images/schoolCircle.png",
+        "selectedIconPath": "/static/images/schoolCircle_active.png"
+      },
       {
         "text": "消息",
         "pagePath": "pages/tabbel/news/news",

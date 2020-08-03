@@ -194,6 +194,7 @@ export default {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
+  border-bottom: 1rpx solid rgba(0,0,0,0.1);
 
   .v-tabs__inner {
     position: relative;

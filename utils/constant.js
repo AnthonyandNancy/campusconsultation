@@ -10,6 +10,7 @@ const SCHOOL_INFO = '';
 const IS_AUTHOR = '';
 const AUDIO_IS_AUTHOR = '';
 const IS_PREVIEW = '';
+const SELECT_TYPE = '';
 
 /**
  * get****  获取缓存的函数
@@ -68,6 +69,14 @@ const getAudioIsAuthor = ()=>{
 	return ret;
 }
 
+const getSelectType = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('SELECT_TYPE');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
 
 
 
@@ -96,6 +105,9 @@ const setAudioIsAuthor= (res)=>{
 	uni.setStorageSync('AUDIO_IS_AUTHOR', res);
 }
 
+const setSelectType= (res)=>{
+	uni.setStorageSync('SELECT_TYPE', res);
+}
 
 
 export default {
@@ -105,11 +117,13 @@ export default {
 	getSchoolInfo,
 	getIsAuthor,
 	getAudioIsAuthor,
+	getSelectType,
 
     setUserSign,
 	setUserLogin,
 	setUserInfo,
 	setSchoolInfo,
 	setIsAuthor,
-	setAudioIsAuthor
+	setAudioIsAuthor,
+	setSelectType
 }

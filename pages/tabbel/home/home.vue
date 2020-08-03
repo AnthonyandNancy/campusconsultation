@@ -1,12 +1,21 @@
 <template>
-    <view class="content">
-        <view>
+    <view class="home_content">
+        <view class="home_swiper">
             <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="5000" :duration="500" :loop="true">
                 <swiper-item v-for="(item,index) in bannerImg" :key="index">
 
                         <image :src="item" class="auto-img"></image>
                 </swiper-item>
             </swiper>
+        </view>
+
+        <view class="home_cart">
+            <view class="cart">
+                <view class="cartItem" v-for="(cartItem,index) in cartTypeList" :key="index" @click="toHotDynamicPage(index)">
+                    <view class="cart_text">{{cartItem}}</view>
+                    <view></view>
+                </view>
+            </view>
         </view>
 
         <!--新用户进入时，首次看到的是动态列表 v-show="getMineSchoolName && !hideTop"  -->
