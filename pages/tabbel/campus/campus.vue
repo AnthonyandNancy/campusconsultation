@@ -1,5 +1,6 @@
 <template>
 	<view class="campus">
+<!--		校园页面-->
 		<view class="campusSearch">
 			<view class="search">
 				搜索您心仪的学校

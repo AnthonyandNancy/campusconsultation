@@ -52,10 +52,9 @@ export default {
 
         uni.setStorageSync('IS_PREVIEW',false);
         setTimeout(function () {
-
         },1500);
 
-        that.userInfo = constant.getUserInfo();
+        that.userInfo = constant.getUserLogin();
 
         if (constant.getIsAuthor().length == 0) {
             this.isAuthor = false;
@@ -76,15 +75,16 @@ export default {
     methods:{
         //去修改个人信息修改页面、
         toEditDetail(val){
-            console.log('去修改个人信息修改页面',val)
+            // console.log('去修改个人信息修改页面',val)
             // url:"/pages/chatRoom/chatRoom?roomSign=" + roomSign + '&roomName=' + roomName + '&chatType=' + type + '&userName=' + constant.getUserInfo().name
             uni.navigateTo({
-                url: '/pages/personalPage/personalPage?userSign=' + val.sign + '&userNickName=' + val.name + '&userAvater=' + val.pic + '&schoolName=' +val.schoolName
+                url: '/pages/personalPage/personalPage'
             });
         },
 
 
         toAuthor(res) {
+            console.log('>>>>>',res)
             uni.getUserInfo({
                 provider: 'weixin',
                 success: async function (infoRes) {

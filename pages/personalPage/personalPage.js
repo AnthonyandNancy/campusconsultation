@@ -46,7 +46,7 @@ export default {
             schoolTotal:'',
             showRegion:false,
             // regionList:
-            chooseRegion:'广东省  广州市'
+            chooseRegion:''
         };
     },
     onLoad(option){
@@ -54,12 +54,25 @@ export default {
         uni.setNavigationBarTitle({
             title: '个人信息'
         });
-        //个人信息
-        console.log('个人信息页面',option)
-        this.schoolName=option.schoolName
-        this.userAvater=option.userAvater
-        // this.userNickName=option.userNickName
-        this.userSign=option.userSign
+        uni.getStorage({
+            key: 'USER_LOGIN',
+            success:  (res) =>{
+                console.log('USER_LOGIN>>>>>>>>',res.data);
+                let data=res.data
+                this.schoolName=data.schoolName
+                this.userAvater=data.pic
+                this.userNickName=data.name
+                this.userSign=data.sign
+            }
+        });
+        uni.getStorage({
+            key: 'USER_INFO',
+            success:  (res) =>{
+                console.log('USER_INFO',res.data);
+                this.chooseRegion=res.data.province+'  '+res.data.city
+
+            }
+        });
     },
     onShow(){
         //获取城市数据

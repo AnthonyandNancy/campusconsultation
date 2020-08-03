@@ -1,19 +1,16 @@
 <template>
 	<view>
-		
+		<view class="tabs">
+
+		</view>
+		<view class="dynamicList">
+
+		</view>
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				
-			};
-		}
-	}
-</script>
+<script src="./schoolCircle.js"></script>
 
 <style lang="scss" scoped>
-
+ @import "./schoolCircle";
 </style>
