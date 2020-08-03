@@ -22,7 +22,23 @@ export default {
             publishType: '',
             dynamicSign: '',
             audioPlay: false,
-            audioIsAuthor:Boolean
+            audioIsAuthor:Boolean,
+            list: [
+                '随便写写',
+                '以书会友',
+                '百团大战',
+                '约起开黑',
+                '操场相见',
+                '个人杂物',
+                '校园爱情'
+            ],
+            chooseTab:0,
+            tabsText:null,
+            commentType:0,
+            showTag:false,
+            showSchoolList:false,
+            roomList:[],
+            chooseSchool:null
         }
     },
     onLoad(option) {
@@ -245,13 +261,16 @@ export default {
 
         //发表动态
         async pushDynamic() {
+            console.log(this.userSign)
             let json = await api.sendDynamic({
                 query: {
                     sign: this.userSign,
                     content: this.inputText,
+                    type:this.commentType,
                     imgList: this.realImgUrlList || [],
                     video: this.realVideoUrlList || null,
-                    audio: this.realAudioUrlList || null
+                    audio: this.realAudioUrlList || null,
+                    roomId: this.chooseRoomId
                 }
             })
             if (json.data.errcode == 200) {
@@ -346,6 +365,94 @@ export default {
                     that.pushComment()
                 }
             }
-        }
+        },
+        /*创建群聊*/
+      async  creatQun(){
+          //已经加入的群聊
+          //   let res= await api.getGroupChatList({
+          //       query:{
+          //           sign:that.userSign
+          //       }
+          //   })
+          let res= await api.getSchoolChatRoom({
+              query:{
+                  sign:that.userSign,
+                  schoolName:'中山大学'
+              }
+          })
+          if (res.data.errcode ==200){
+              this.roomList=res.data.roomList
+              this.showSchoolList=true
+              console.log(res.data)
+          }
+
+        },
+        /*标签的选择*/
+        activeTab(val){
+         console.log(val)
+            switch(val) {
+                case 0:
+                    this.tabsText='随便写写'
+                    this.chooseTab=0
+                    this.commentType=0
+                    this.showTag=true
+                    break;
+                case 1:
+                 this.tabsText='以书会友'
+                    this.chooseTab=1
+                       this.commentType=1
+                    this.showTag=true
+                    break;
+                case 2:
+                  this.tabsText='百团大战'
+                    this.chooseTab=2
+                       this.commentType=2
+                    this.showTag=true
+                    break;
+                case 3:
+                   this.tabsText='约起开黑'
+                    this.chooseTab=3
+                       this.commentType=3
+                    this.showTag=true
+                    break;
+                case 4:
+                   this.tabsText='操场相见'
+                    this.chooseTab=4
+                       this.commentType=4
+                    this.showTag=true
+                    break;
+                case 5:
+                  this.tabsText='个人杂物'
+                    this.chooseTab=5
+                       this.commentType=5
+                    this.showTag=true
+                    break;
+                case 6:
+                 this.tabsText='校园爱情'
+                    this.chooseTab=6
+                       this.commentType=6
+                    this.showTag=true
+                    break;
+                default:
+                    // 默认代码块
+                   // this.switchTabs(0)
+                   //  this.chooseTab=0
+                    console.log('tabs栏炸了')
+            }
+        },
+        closeTag(){
+            console.log('关闭便签')
+            this.showTag=false
+            this.commentType=null
+        },
+        /**群聊选择
+         * */
+        radioGroupChange(val){
+            console.log('radioGroupChange>>>',val)
+        },
+        radioChange(val){
+            console.log('radioChange>>>',val)
+            this.chooseRoomId=val
+        },
     }
 }

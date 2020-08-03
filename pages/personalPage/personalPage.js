@@ -16,7 +16,7 @@ export default {
             userAvater:'',
             userNickName:'Anthony哈哈哈',
             userSign:'',
-            personalSignature:'清华人清华魂，来世还做清华人',
+            // personalSignature:'清华人清华魂，来世还做清华人',
             personalName:'彭于晏',
             sex:[
                 {
