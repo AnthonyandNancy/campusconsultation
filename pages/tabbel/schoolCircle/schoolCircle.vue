@@ -17,15 +17,22 @@
 <!--						{{src}}-->
 						<view :key="indexImg" class="dynamicImage" v-for="(srcI,indexImg) in  item.imgList" v-if="item.imgList">
 							<image :src="srcI" class="image" v-if="indexImg <=4"></image>
+							<image :src="srcI" class="image" v-if="indexImg <=4"></image>
+							<image :src="srcI" class="image" v-if="indexImg <=4"></image>
+							<image :src="srcI" class="image" v-if="indexImg <=4"></image>
+							<image :src="srcI" class="image" v-if="indexImg <=4"></image>
 							<view class="image" v-if="indexImg >4">
 								<image class="more" src="../../../static/images/more.png"></image>
 								查看更多
 							</view>
 
 						</view>
-						<view :key="indexvideo" class="dynamicVideo" v-for="(srcV,indexvideo) in  item.video" v-if="item.video">
-							<video :src="srcV" class="video"></video>
-						</view>
+<!--						<view :key="indexvideo" class="dynamicVideo" v-for="(srcV,indexvideo) in  item.video" v-if="item.video">-->
+<!--							<video :src="srcV" class="video"></video>-->
+<!--						</view>-->
+
+					</view>
+					<view class="dynamicFooter">
 
 					</view>
 				</view>

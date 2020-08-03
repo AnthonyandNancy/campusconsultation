@@ -18,6 +18,7 @@ export default {
         };
     },
     onLoad(){
+        // this.feachData(3)
         /*获取缓存中的个人信息*/
         this.userInfo = constant.getUserLogin();
     },
