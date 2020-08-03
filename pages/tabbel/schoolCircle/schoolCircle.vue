@@ -1,12 +1,7 @@
 <template>
-	<view>
-		<view class="tabs">
+	<view class="box">
 
-		</view>
-		<view class="dynamicList">
-
-		</view>
-	</view>
+<</view>
 </template>
 
 <script src="./schoolCircle.js"></script>
