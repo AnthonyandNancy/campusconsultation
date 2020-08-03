@@ -905,7 +905,7 @@ export default {
 
             if (json.data.errcode == 200) {
                 let supportList = json.data.dynamicList;
-                console.log('我点赞的列表', supportList)
+                console.log(' 我点赞的列表', supportList)
 
                 for (let i = 0; i < this.totalDynamicList.length; i++) {
                     for(let j = 0;j<supportList.length;j++){
