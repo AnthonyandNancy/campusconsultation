@@ -272,7 +272,7 @@ export default {
     methods: {
         toHotDynamicPage(index){
             constant.setSelectType(index+1)
-            
+
             uni.switchTab({
                 url:'/pages/tabbel/schoolCircle/schoolCircle'
             })
@@ -893,6 +893,7 @@ export default {
                 console.log('11111111111111111111111',this.totalDynamicList)
             }
         },
+
         //获取我点赞的动态列表
         async getSupportList() {
             let json = await api.getSupportList({
