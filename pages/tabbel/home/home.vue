@@ -3,7 +3,6 @@
         <view class="home_swiper">
             <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="5000" :duration="500" :loop="true">
                 <swiper-item v-for="(item,index) in bannerImg" :key="index">
-
                         <image :src="item" class="auto-img"></image>
                 </swiper-item>
             </swiper>
@@ -11,9 +10,9 @@
 
         <view class="home_cart">
             <view class="cart">
-                <view class="cartItem" v-for="(cartItem,index) in cartTypeList" :key="index" @click="toHotDynamicPage(index)">
-                    <view class="cart_text">{{cartItem}}</view>
+                <view class="cartItem"   v-for="(cartItem,index) in cartTypeList" :key="index" :style="{backgroundColor:cartItem.bgColor}" @click="toHotDynamicPage(index)">
                     <view></view>
+                    <view class="cart_text">{{cartItem.name}}</view>
                 </view>
             </view>
         </view>

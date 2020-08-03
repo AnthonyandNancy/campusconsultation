@@ -1,5 +1,7 @@
 <template>
     <view class="hotDynamic_content">
+        <dynamicCard :dynamic-obj="hotDynamicList[0]" :currentIndex="0" @shareEvent="toShare" @commentEvent="toComment" @supportEvent="toSupport" @showAllEvent="showAll"></dynamicCard>
+
         <v-tabs padding="10px 20px" v-model="tab" auto :tabs="tabsList" @change="changeTab"></v-tabs>
         <view>
             <swiper class="navTab" :current="currentSwiper" @change="changeSwiper"
@@ -87,28 +89,28 @@
 
                                     <view class="Item support_comment">
 
-                                        <view class="shareIcon" @click="share(item1.dynamicSign)">
+                                        <view class="shareIcon" @click="toShare(item1.dynamicSign)">
                                             <view class="icon">
                                                 <image src="/static/images/share.png"
                                                        class="auto-img"></image>
                                             </view>
-                                            <view>{{item1.shareTimes}}</view>
+                                            <view class="tip">{{item1.shareTimes}}</view>
                                         </view>
 
-                                        <view class="commentIcon" @click="comment(item1.dynamicSign)">
+                                        <view class="commentIcon" @click="toComment(item1.dynamicSign)">
                                             <view class="icon">
                                                 <image src="/static/images/comment.png"
                                                        class="auto-img"></image>
                                             </view>
-                                            <view>{{item1.commentTimes}}</view>
+                                            <view class="tip">{{item1.commentTimes}}</view>
                                         </view>
 
-                                        <view class="supportIcon" @click="support(item1.dynamicSign)">
+                                        <view class="supportIcon" @click="toSupport(item1.dynamicSign)">
                                             <view class="icon">
                                                 <image :src="item1.isMySupport?'/static/images/support_active.png':'/static/images/support.png'"
                                                        class="auto-img"></image>
                                             </view>
-                                            <view>{{item1.likeTimes}}</view>
+                                            <view class="tip">{{item1.likeTimes}}</view>
                                         </view>
 
 

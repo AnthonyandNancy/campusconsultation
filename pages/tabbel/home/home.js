@@ -26,7 +26,7 @@ export default {
     data() {
         return {
             bannerImg:['/static/images/b1.jpg','/static/images/b2.jpg','/static/images/b3.jpg'],
-            cartTypeList:['热门动态','以书会友','校园爱情','百团大战','约起开黑','操场相见'],
+            cartTypeList:[{name:'热门动态',bgColor:'#ACB2FD'},{name:'以书会友',bgColor:'#ACB2FD'},{name:'校园爱情',bgColor:'#89D4B5'},{name:'百团大战',bgColor:'#89D4B5'},{name:'约起开黑',bgColor:'#D5A5FD'},{name:'操场相见',bgColor:'#D5A5FD'}],
 
             getMineSchoolName: "",
             hideTop: false,
@@ -123,152 +123,152 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
-    onLoad() {
-        //获取系统高度
-        uni.getSystemInfo({
-            success: (res) => {
-                this.viewHeight = res.windowHeight;
-            }
-        });
-    },
-    onShow() {
-        //判断是否是添加动态后返回的
-        this.isPreView = uni.getStorageSync('IS_PREVIEW');
-        //获取城市数据
-        this.provinceList = universityChoose;
-        if (constant.getUserSign().length != 0) {
-            if (this.isPreView) {
-                this.dynamicList = []
-                this.totalDynamicList = []
-                this.currPage = 1;
-                this.allDynamicCurrPage = 1;
-                this.getTotalDynaicList(this.allDynamicCurrPage);
-                this.getDynamicList(this.currPage);
-                this.getChatRoom();
-            }
-            this.getSupportList();
-        }
-    },
-    onReady() {
-        that = this;
-
-        //授权判断
-        if (constant.getIsAuthor().length == 0) {
-            this.isAuthor = false;
-        } else {
-            this.isAuthor = constant.getIsAuthor();
-        }
-
-        //sign为空时
-        if (constant.getUserSign().length == 0) {
-            new Promise((resolve, reject) => {
-                uni.login({
-                    success: async res => {
-                        let {errMsg, code} = res;
-                        if (errMsg == "login:ok") {
-                            let json = await api.getLogin({
-                                query: {
-                                    code: code,
-                                    version: '1.0'
-                                }
-                            })
-                            let {errcode} = json.data;
-                            if (errcode == 200) {
-                                that.userSign = json.data.sign;
-                                that.getMineSchoolName = json.data.schoolName;
-                                resolve();
-                            }
-                        }
-                    }
-                })
-            }).then(res => {
-                if (that.getMineSchoolName == null) {
-                    that.hideTop = true;
-                }
-
-                this.avatarImgUrl = 'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + this.getMineSchoolName + '.png';
-                if (constant.getSchoolInfo().length == 0 && this.getMineSchoolName != null) {
-                    this.getSchoolInfo();//获取学校信息
-                }
-
-                // 判断用户本身有没有绑定学校，来获取高度
-                if (this.getMineSchoolName != null) {
-
-                    const query = uni.createSelectorQuery().in(this);
-                    new Promise((resolve, reject) => {
-                        query.select('.top').boundingClientRect(data => {
-                            resolve(data.height)
-                        }).exec();
-                    }).then(res => {
-                        query.select('.swiper').boundingClientRect(data => {
-                            this.swiperHeight = this.viewHeight - data.top;
-                            this.otherViewHight = data.top;
-                        }).exec();
-                    })
-                } else {
-                    const query = uni.createSelectorQuery().in(this);
-                    query.select('.swiper').boundingClientRect(data => {
-                        this.swiperHeight = this.viewHeight - data.top;
-                        this.otherViewHight = data.top;
-                    }).exec();
-                }
-                that.getTotalDynaicList(this.allDynamicCurrPage);
-                that.getDynamicList(this.currPage);
-                that.getChatRoom();
-                that.getSupportList();
-            })
-        } else {
-            this.userSign = constant.getUserSign();
-            //获取旧用户已绑定的学校
-            new Promise((resolve, reject) => {
-                if (constant.getSchoolInfo().length == 0) {
-                    that.getMineSchoolName = constant.getUserInfo().schoolName;
-                } else {
-                    that.getMineSchoolName = constant.getSchoolInfo().schoolName;
-                }
-                resolve(that.getMineSchoolName)
-            }).then((res) => {
-                if (that.getMineSchoolName == null) {
-                    that.hideTop = true;
-                }
-                this.avatarImgUrl = 'https://game.xunyi.online/static/SchoolLian/Badges/' + res + '.png';
-
-                if (constant.getSchoolInfo().length == 0 && that.getMineSchoolName != null) {
-                    that.getSchoolInfo();
-                } else {
-                    that.schoolInfo = constant.getSchoolInfo();
-                }
-
-                if (res != null) {
-                    const query = uni.createSelectorQuery().in(this);
-
-                    new Promise((resolve, reject) => {
-                        query.select('.top').boundingClientRect(data => {
-                            resolve(data.height)
-                        }).exec();
-                    }).then(res => {
-                        query.select('.swiper').boundingClientRect(data => {
-
-                            that.swiperHeight = that.viewHeight - data.top;
-                            that.otherViewHight = data.top;
-                        }).exec();
-                    })
-                } else {
-                    const query = uni.createSelectorQuery().in(this);
-                    query.select('.swiper').boundingClientRect(data => {
-                        that.swiperHeight = that.viewHeight - data.top;
-                        that.otherViewHight = data.top;
-
-                    }).exec();
-                }
-                //调用动态列表
-                that.getTotalDynaicList(this.allDynamicCurrPage);
-                that.getDynamicList(this.currPage);
-                that.getChatRoom();
-                that.getSupportList();
-            })
-        }
-    },
+    // onLoad() {
+    //     //获取系统高度
+    //     uni.getSystemInfo({
+    //         success: (res) => {
+    //             this.viewHeight = res.windowHeight;
+    //         }
+    //     });
+    // },
+    // onShow() {
+    //     //判断是否是添加动态后返回的
+    //     this.isPreView = uni.getStorageSync('IS_PREVIEW');
+    //     //获取城市数据
+    //     this.provinceList = universityChoose;
+    //     if (constant.getUserSign().length != 0) {
+    //         if (this.isPreView) {
+    //             this.dynamicList = []
+    //             this.totalDynamicList = []
+    //             this.currPage = 1;
+    //             this.allDynamicCurrPage = 1;
+    //             this.getTotalDynaicList(this.allDynamicCurrPage);
+    //             this.getDynamicList(this.currPage);
+    //             this.getChatRoom();
+    //         }
+    //         this.getSupportList();
+    //     }
+    // },
+    // onReady() {
+    //     that = this;
+    //
+    //     //授权判断
+    //     if (constant.getIsAuthor().length == 0) {
+    //         this.isAuthor = false;
+    //     } else {
+    //         this.isAuthor = constant.getIsAuthor();
+    //     }
+    //
+    //     //sign为空时
+    //     if (constant.getUserSign().length == 0) {
+    //         new Promise((resolve, reject) => {
+    //             uni.login({
+    //                 success: async res => {
+    //                     let {errMsg, code} = res;
+    //                     if (errMsg == "login:ok") {
+    //                         let json = await api.getLogin({
+    //                             query: {
+    //                                 code: code,
+    //                                 version: '1.0'
+    //                             }
+    //                         })
+    //                         let {errcode} = json.data;
+    //                         if (errcode == 200) {
+    //                             that.userSign = json.data.sign;
+    //                             that.getMineSchoolName = json.data.schoolName;
+    //                             resolve();
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //         }).then(res => {
+    //             if (that.getMineSchoolName == null) {
+    //                 that.hideTop = true;
+    //             }
+    //
+    //             this.avatarImgUrl = 'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + this.getMineSchoolName + '.png';
+    //             if (constant.getSchoolInfo().length == 0 && this.getMineSchoolName != null) {
+    //                 this.getSchoolInfo();//获取学校信息
+    //             }
+    //
+    //             // 判断用户本身有没有绑定学校，来获取高度
+    //             if (this.getMineSchoolName != null) {
+    //
+    //                 const query = uni.createSelectorQuery().in(this);
+    //                 new Promise((resolve, reject) => {
+    //                     query.select('.top').boundingClientRect(data => {
+    //                         resolve(data.height)
+    //                     }).exec();
+    //                 }).then(res => {
+    //                     query.select('.swiper').boundingClientRect(data => {
+    //                         this.swiperHeight = this.viewHeight - data.top;
+    //                         this.otherViewHight = data.top;
+    //                     }).exec();
+    //                 })
+    //             } else {
+    //                 const query = uni.createSelectorQuery().in(this);
+    //                 query.select('.swiper').boundingClientRect(data => {
+    //                     this.swiperHeight = this.viewHeight - data.top;
+    //                     this.otherViewHight = data.top;
+    //                 }).exec();
+    //             }
+    //             that.getTotalDynaicList(this.allDynamicCurrPage);
+    //             that.getDynamicList(this.currPage);
+    //             that.getChatRoom();
+    //             that.getSupportList();
+    //         })
+    //     } else {
+    //         this.userSign = constant.getUserSign();
+    //         //获取旧用户已绑定的学校
+    //         new Promise((resolve, reject) => {
+    //             if (constant.getSchoolInfo().length == 0) {
+    //                 that.getMineSchoolName = constant.getUserInfo().schoolName;
+    //             } else {
+    //                 that.getMineSchoolName = constant.getSchoolInfo().schoolName;
+    //             }
+    //             resolve(that.getMineSchoolName)
+    //         }).then((res) => {
+    //             if (that.getMineSchoolName == null) {
+    //                 that.hideTop = true;
+    //             }
+    //             this.avatarImgUrl = 'https://game.xunyi.online/static/SchoolLian/Badges/' + res + '.png';
+    //
+    //             if (constant.getSchoolInfo().length == 0 && that.getMineSchoolName != null) {
+    //                 that.getSchoolInfo();
+    //             } else {
+    //                 that.schoolInfo = constant.getSchoolInfo();
+    //             }
+    //
+    //             if (res != null) {
+    //                 const query = uni.createSelectorQuery().in(this);
+    //
+    //                 new Promise((resolve, reject) => {
+    //                     query.select('.top').boundingClientRect(data => {
+    //                         resolve(data.height)
+    //                     }).exec();
+    //                 }).then(res => {
+    //                     query.select('.swiper').boundingClientRect(data => {
+    //
+    //                         that.swiperHeight = that.viewHeight - data.top;
+    //                         that.otherViewHight = data.top;
+    //                     }).exec();
+    //                 })
+    //             } else {
+    //                 const query = uni.createSelectorQuery().in(this);
+    //                 query.select('.swiper').boundingClientRect(data => {
+    //                     that.swiperHeight = that.viewHeight - data.top;
+    //                     that.otherViewHight = data.top;
+    //
+    //                 }).exec();
+    //             }
+    //             //调用动态列表
+    //             that.getTotalDynaicList(this.allDynamicCurrPage);
+    //             that.getDynamicList(this.currPage);
+    //             that.getChatRoom();
+    //             that.getSupportList();
+    //         })
+    //     }
+    // },
     methods: {
         toHotDynamicPage(index){
             constant.setSelectType(index+1)
@@ -293,7 +293,6 @@ export default {
                 })
             } else if (index == 1) {
                 uni.setStorageSync('IS_PREVIEW', false);
-
                 this.showApplyPanel = true;
             } else {
                 console.log('没有该选项')
@@ -346,7 +345,6 @@ export default {
         },
         toApply() {
             uni.setStorageSync('IS_PREVIEW', false);
-
             this.showApplyPanel = true;
         },
         onUploaded() {

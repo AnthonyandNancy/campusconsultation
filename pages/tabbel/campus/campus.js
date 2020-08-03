@@ -4,11 +4,15 @@ import uniFab from '../../../components/uni-fab/uni-fab'
 import api from "../../../utils/request/api";
 import constant from "../../../utils/constant";
 
+
+import dynamicCard from "../../../components/dynamicCard";
+
 export default {
     components:{
         vTabs,
         loadRefresh,
-        uniFab
+        uniFab,
+        dynamicCard
     },
     data() {
         return {
@@ -46,7 +50,7 @@ export default {
 
             hotDynamicList: [], //热门动态列表,
             audioPlay:false,
-            animationData:{}
+            animationData:{},
         }
     },
     onLoad(){
@@ -56,6 +60,9 @@ export default {
             }
         })
     },
+    onShow(){
+
+    },
     onReady(){
         this.userSign = constant.getUserSign();
         let query = uni.createSelectorQuery().in(this);
@@ -64,7 +71,8 @@ export default {
             this.swiperViewHeight =this.systemInfo.windowHeight - res.top;
         }).exec();
 
-        this.getHotDynamicList();
+        this.getAllDynamicList();
+        this.getSupportList();
     },
     methods: {
         changeTab(index){
@@ -112,21 +120,22 @@ export default {
                 this.audioPlay = false;
             }
         },
-        //热门动态
-        async getHotDynamicList(currPage) {
+
+        //所有动态
+        async getAllDynamicList(currPage) {
             uni.showLoading();
 
             let json = await api.getDynamicList({
                 query: {
                     sign: this.userSign,
                     page: currPage,
-                    type: 1
+                    type: 0
                 }
             })
 
             if (json.data.errcode == 200) {
                 uni.hideLoading();
-                console.log('热门动态',json);
+                console.log('所有动态',json);
                 this.totalPage = json.data.totalPage;
                 json.data.dynamicList.forEach((res)=>{
                     res['isShowAllContent'] = false
@@ -134,16 +143,42 @@ export default {
                 this.hotDynamicList = [...this.hotDynamicList, ...json.data.dynamicList]
             }
         },
+
         //发布动态
         toPublishDynamic(){
+            uni.navigateTo({
+                url: "/pages/publish/publish?publishType=publishDynamic"
+            })
+        },
+        //分享
+        async toShare(dynSign){
+            let json = await api.shareDynamic({
+                query:{
+                    dynamicSign:dynSign,
+                    sign:this.userSign
+                }
+            })
 
+            if(json.data.errcode == 200){
+                uni.showToast({
+                    title: json.data.info,
+                    mask: true,
+                    icon: 'none'
+                })
+                console.log('----->分享成功',json)
+            }
+        },
+        // 评论
+        toComment(dynSign) {
+            uni.navigateTo({
+                url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
+            })
         },
         //点赞
-        async support(dynamicSign) {
-            console.log('dynamicSign',dynamicSign)
+        async toSupport(dynSign) {
             let json = await api.addSupport({
                 query: {
-                    dynamicSign: dynamicSign,
+                    dynamicSign: dynSign,
                     sign: this.userSign
                 }
             })
@@ -155,13 +190,36 @@ export default {
             })
 
             if (json.data.errcode == 200) {
-                this.totalDynamicList.forEach(res => {
-
-                    if (res.dynamicSign == dynamicSign) {
+                console.log('----->点赞成功',json)
+                this.hotDynamicList.forEach(res => {
+                    if (res.dynamicSign == dynSign) {
                         this.$set(res,'isMySupport',true)
                     }
                 })
-                console.log('11111111111111111111111',this.totalDynamicList)
+            }
+        },
+
+        //获取我点赞的动态列表
+        async getSupportList() {
+            let json = await api.getSupportList({
+                query: {
+                    sign: this.userSign,
+                    page: 1
+                }
+            })
+
+            if (json.data.errcode == 200) {
+                let supportList = json.data.dynamicList;
+                console.log(' 我点赞的列表', supportList)
+
+                for (let i = 0; i < this.hotDynamicList.length; i++) {
+                    for(let j = 0;j<supportList.length;j++){
+                        if (this.hotDynamicList[i].dynamicSign == supportList[j].dynamicSign) {
+                            this.$set(this.hotDynamicList[i],'isMySupport',true)
+                        }
+                    }
+                }
+                console.log('22222', this.hotDynamicList)
             }
         },
 

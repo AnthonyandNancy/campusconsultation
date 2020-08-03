@@ -80,6 +80,9 @@ const getFollowList = (params) => uniRequest(params,base_URL+ '/SchoolLian_wx/ap
 //关注我的用户列表
 const getFollowMineList = (params) => uniRequest(params,base_URL+ '/SchoolLian_wx/api/getFollowerUserList');
 
+//分享动态
+const shareDynamic = (params) => uniRequest(params,base_URL + '/SchoolLian_wx/api/dynamicShare');
+
 export default {
     // requresyUrl,
     getLogin,
@@ -106,6 +109,7 @@ export default {
     cancelFollow,
     checkFollow,
     getFollowList,
-    getFollowMineList
+    getFollowMineList,
+    shareDynamic
 }
 
