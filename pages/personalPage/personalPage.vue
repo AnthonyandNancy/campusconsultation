@@ -11,10 +11,10 @@
 				<view class="commonLeft">昵称</view>
 				<view class="commonRight"><view class="userNickName">{{userNickName}}</view></view>
 			</view>
-			<view class="common">
-				<view class="commonLeft">个性签名</view>
-				<view class="commonRight"><u-input :border="false" :type="text" input-align="right" placeholder="请输入你的个性签名" v-model="personalSignature"/></view>
-			</view>
+<!--			<view class="common">-->
+<!--				<view class="commonLeft">个性签名</view>-->
+<!--				<view class="commonRight"><u-input :border="false" :type="text" input-align="right" placeholder="请输入你的个性签名" v-model="personalSignature"/></view>-->
+<!--			</view>-->
 			<view class="common">
 				<view class="commonLeft">姓名</view>
 				<view class="commonRight"><u-input :border="false" :type="text" input-align="right" v-model="personalName"/></view>

@@ -1,7 +1,7 @@
 <template>
 	<view class="box">
 
-<</view>
+	</view>
 </template>
 
 <script src="./schoolCircle.js"></script>
