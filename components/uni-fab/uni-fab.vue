@@ -116,10 +116,10 @@
 		},
 		computed: {
 			contentWidth(e) {
-				return (this.content.length + 1) * 55 + 10 + 'px'
+				return (this.content.length + 1) * 45 + 10 + 'px'
 			},
 			contentWidthMin() {
-				return 55 + 'px'
+				return 45 + 'px'
 			},
 			// 动态计算宽度
 			boxWidth() {
@@ -270,10 +270,10 @@
 		/* #endif */
 		justify-content: center;
 		align-items: center;
-		width: 55px;
-		height: 55px;
+		width: 45px;
+		height: 45px;
 		background-color: #3c3e49;
-		border-radius: 55px;
+		border-radius: 45px;
 		z-index: 11;
 	}
 
@@ -333,8 +333,8 @@
 		position: absolute;
 		width: 3px;
 		height: 31px;
-		left: 26px;
-		top: 12px;
+		left: 22px;
+		top: 8px;
 		background-color: white;
 		transform: rotate(0deg);
 		transition: transform 0.3s;
@@ -344,8 +344,8 @@
 		position: absolute;
 		width: 31px;
 		height: 3px;
-		left: 12px;
-		top: 26px;
+		left: 8px;
+		top: 22px;
 		background-color: white;
 		transform: rotate(0deg);
 		transition: transform 0.3s;
@@ -365,7 +365,7 @@
 		overflow: hidden;
 		transition-property: width, height;
 		transition-duration: 0.2s;
-		width: 55px;
+		width: 45px;
 		border-color: #DDDDDD;
 		border-width: 1rpx;
 		border-style: solid;
@@ -406,8 +406,8 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 55px;
-		height: 55px;
+		width: 45px;
+		height: 45px;
 		opacity: 0;
 		transition: opacity 0.2s;
 	}
@@ -424,10 +424,12 @@
 
 	.uni-fab__item-text {
 		color: #FFFFFF;
-		font-size: 12px;
+		font-size: 11px;
+		font-family: "Microsoft YaHei UI";
+		font-weight: 500;
 	}
 
 	.uni-fab__item--first {
-		width: 55px;
+		width: 45px;
 	}
 </style>
