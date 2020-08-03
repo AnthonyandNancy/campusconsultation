@@ -3,7 +3,18 @@
     "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
   },
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+          "path": "pages/selectSchool/selectSchool",
+          "style": {
+            "navigationBarTitleText": "连校园",
+            "backgroundColorTop": "#ffffff"
+          },
+          "permission": {
+            "scope.userLocation": {
+              "desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
+            }
+          }
+        },
     {
       "path": "pages/tabbel/home/home",
       "style": {
@@ -110,13 +121,13 @@
 	    "text": "校园",
 	    "pagePath": "pages/tabbel/campus/campus",
 	    "iconPath": "/static/images/campus.png",
-	    "selectedIconPath": "/static/images/campus_actived.png"
+	    "selectedIconPath": "/static/images/campus_active.png"
 	  },
 	  {
 	    "text": "校圈",
 	    "pagePath": "pages/tabbel/schoolCircle/schoolCircle",
-	    "iconPath": "/static/images/campus.png",
-	    "selectedIconPath": "/static/images/campus_actived.png"
+	    "iconPath": "/static/images/schoolCircle.png",
+	    "selectedIconPath": "/static/images/schoolCircle_active.png"
 	  },
       {
         "text": "消息",

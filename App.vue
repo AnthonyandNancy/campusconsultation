@@ -28,7 +28,11 @@
                     }
                 })
                 let {errcode, sign} = json.data;
-
+                if(json.data.schoolName != null){
+                    uni.switchTab({
+                        url:'/pages/tabbel/home/home'
+                    })
+                }
                 if (errcode == 200) {
                     uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
@@ -112,7 +116,7 @@
                         }
                     });
                     constant.setUserSign(json.data.sign);
-                    constant.setUserInfo(json.data);
+                    constant.setUserLogin(json.data);
                     uni.onSocketClose((res) => {
                             let interval = setInterval(() => {
                                 uni.connectSocket({

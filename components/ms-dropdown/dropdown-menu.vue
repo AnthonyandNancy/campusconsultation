@@ -28,6 +28,9 @@
 		display: flex;
 		/*overflow: auto;*/
 		white-space: nowrap;
+		justify-content: center;
+		align-items: center;
+		border-bottom: 1rpx solid rgba(0,0,0,0.2);
 	}
 	dropdown-item {
 		flex: 1;

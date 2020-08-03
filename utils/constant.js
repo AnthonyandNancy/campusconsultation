@@ -4,6 +4,7 @@ export const USER_TOKEN = 'userToken'
 
 // 管理账号信息(缓存的数据命名)
 const USER_SIGN = '';
+const USER_LOGIN = '';
 const USER_INFO = '';
 const SCHOOL_INFO = '';
 const IS_AUTHOR = '';
@@ -19,6 +20,15 @@ const IS_PREVIEW = '';
 const getUserSign = ()=>{
 	let ret = '';
 	ret = uni.getStorageSync('USER_SIGN');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
+
+const getUserLogin = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('USER_LOGIN');
 	if (!ret) {
 		ret = '';
 	}
@@ -68,6 +78,9 @@ const getAudioIsAuthor = ()=>{
 const setUserSign = (res)=>{
 	uni.setStorageSync('USER_SIGN', res);
 }
+const setUserLogin = (res)=>{
+	uni.setStorageSync('USER_LOGIN', res);
+}
 const setUserInfo = (res)=>{
 	uni.setStorageSync('USER_INFO', res);
 }
@@ -87,12 +100,14 @@ const setAudioIsAuthor= (res)=>{
 
 export default {
     getUserSign,
+	getUserLogin,
 	getUserInfo,
 	getSchoolInfo,
 	getIsAuthor,
 	getAudioIsAuthor,
 
     setUserSign,
+	setUserLogin,
 	setUserInfo,
 	setSchoolInfo,
 	setIsAuthor,

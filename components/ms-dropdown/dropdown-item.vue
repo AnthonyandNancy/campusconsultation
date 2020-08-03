@@ -6,11 +6,14 @@
 			<slot name="title" v-if="$slots.title"></slot>
 			<block v-else>
 				<view class="selected__name">{{title ? title : selectItem.text}}</view>
-				<view :class="showClass === 'show'? 'up' : 'down'"
+				
+				<image src="https://i.loli.net/2020/07/15/QsHxlr1gbSImvWt.png" mode="" class="icon-triangle" v-if="showClass === 'show'"></image>
+								<image src="https://i.loli.net/2020/07/15/xjVSvzWcH9NO7al.png" mode="" class="icon-triangle" v-else></image>
+				<!-- <view :class="showClass === 'show'? 'up' : 'down'"
 					  class="selected__icon"
 				>
 					<span class="iconfont">&#xe851;</span>
-				</view>
+				</view> -->
 			</block>
 		</view>
 
@@ -180,6 +183,11 @@
 				font-size: 32rpx;
 				text-align: center;
 			}
+			.icon-triangle {
+							width: 16rpx;
+							height: 16rpx;
+							margin-left: 10rpx;
+						}
 			.selected__icon {
 				margin-left: 20rpx;
 				&.down {

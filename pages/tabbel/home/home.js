@@ -25,6 +25,10 @@ export default {
     },
     data() {
         return {
+            bannerImg:['/static/images/b1.jpg','/static/images/b2.jpg','/static/images/b3.jpg'],
+
+
+
             getMineSchoolName: "",
             hideTop: false,
             showPopup: false,
@@ -540,7 +544,6 @@ export default {
         getSchool(schoolItem) {
             this.updateSchool(schoolItem)
         },
-
         async updateSchool(schoolItem) {
             if (schoolItem == this.getMineSchoolName) {
                 return;

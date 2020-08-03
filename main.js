@@ -28,7 +28,7 @@ Vue.prototype.toLogin = () => {
                 let {errcode} = json.data;
                 if (errcode == 200) {
                     constant.setUserSign(json.data.sign);
-                    constant.setUserInfo(json.data);
+                    constant.setUserLogin(json.data);
                 }
             }
         }
