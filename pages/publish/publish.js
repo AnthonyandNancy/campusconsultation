@@ -37,8 +37,16 @@ export default {
             commentType:0,
             showTag:false,
             showSchoolList:false,
+            showCreatSchool:false,
             roomList:[],
-            chooseSchool:null
+            chooseSchool:null,
+            groupChatAvatar:'../../static/images/upload.png',
+            groupChatName:'',
+            groupChatDescribe:'',
+            groupChatText:'邀请他人加入',
+            showgroupChatText:false,
+            creatSchoolGrounpName:'',
+            showBtn:false
         }
     },
     onLoad(option) {
@@ -382,7 +390,10 @@ export default {
           })
           if (res.data.errcode ==200){
               this.roomList=res.data.roomList
-              this.showSchoolList=true
+              this.showBtn=true
+              //测试
+              // this.showSchoolList=true
+              // this.showCreatSchool=true
               console.log(res.data)
           }
 
@@ -447,12 +458,100 @@ export default {
         },
         /**群聊选择
          * */
-        radioGroupChange(val){
-            console.log('radioGroupChange>>>',val)
-        },
+        // radioGroupChange(val){
+        //     console.log('radioGroupChange>>>',val)
+        // },
         radioChange(val){
-            console.log('radioChange>>>',val)
-            this.chooseRoomId=val
+            console.log('radioChange>>>',val[0])
+            for (let i=0;i<=this.roomList.length;i++){
+                if (i==val[0]){
+                    console.log(this.roomList[i])
+                    this.chooseRoomId=this.roomList[i].roomSign
+                    this.creatSchoolGrounpName=this.roomList[i].roomName
+                    this.showgroupChatText=true
+                }
+            }
+            // this.chooseRoomId=val
+            // this.roomList.map(e=>{
+            //     if (e.roomSign==val){
+            //         console.log(e.roomName)
+            //         this.creatSchoolGrounpName=e.roomName
+            //         this.showgroupChatText=true
+            //     }
+            // })
+            this.showSchoolList=false
+
         },
+        /*创建群聊*/
+        //取消创建
+        canelCreatSchoolGrounp(){
+            this.showCreatSchool=false
+        },
+        //选择头像
+        chooseAvater(){
+            uni.chooseImage({
+                count: 1, //默认9
+                sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album'], //从相册选择
+                success:(res)=> {
+                    console.log(res.tempFilePaths[0]);
+                    this.groupChatAvatar=res.tempFilePaths[0]
+                }
+            });
+        },
+        //btn创建群聊
+       async creatSchoolGrounp(){
+            //上传头像
+            this.upLoadAvatar(this.groupChatAvatar)
+            // let res= await api.
+        },
+        //上传头像
+        async upLoadAvatar(val){
+            let resImg = await api.uploadImages({
+                query: {
+                    data: {sign: this.userSign},
+                    filePath: val,
+                    key: 'img'
+                }
+            })
+            // console.log(JSON.parse(resImg.data))
+            const status = JSON.parse(resImg.data).errcode
+            const avatar = JSON.parse(resImg.data).img
+            if (status ==200){
+                this.creatGronp(avatar)
+            }else {
+
+            }
+
+        },
+        //创建群聊
+        async  creatGronp(val){
+            let res=await api.applyNewChatRoom({
+                query:{
+                    sign:this.userSign,
+                    roomName:this.groupChatName,
+                    describe:this.groupChatDescribe,
+                    pic:val
+                }
+            })
+         this.creatSchoolGrounpName=this.groupChatName
+            this.showgroupChatText=true
+            console.log('申请群聊',res.data)
+            this.showCreatSchool=false
+        },
+        closeGroupTag(){
+            this.chooseRoomId=null
+            this.showgroupChatText=false
+        },
+        /*选择群聊该功能*/
+        btnCreatGroupChat(){
+            this.showBtn=false
+            this.showCreatSchool=true
+        },
+        btnChooseGroupChat(){
+            this.showBtn=false
+            this.showSchoolList=true
+        },
+
     }
 }
