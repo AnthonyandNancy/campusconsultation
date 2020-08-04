@@ -32,9 +32,9 @@ export default {
                 '个人杂物',
                 '校园爱情'
             ],
-            chooseTab:0,
+            chooseTab:null,
             tabsText:null,
-            commentType:0,
+            commentType:null,
             showTag:false,
             showSchoolList:false,
             showCreatSchool:false,
@@ -46,7 +46,8 @@ export default {
             groupChatText:'邀请他人加入',
             showgroupChatText:false,
             creatSchoolGrounpName:'',
-            showBtn:false
+            showBtn:false,
+            chooseActiveTab:false
         }
     },
     onLoad(option) {
@@ -376,21 +377,23 @@ export default {
         },
         /*创建群聊*/
       async  creatQun(){
+          let userInfo = constant.getUserLogin();
           //已经加入的群聊
-          //   let res= await api.getGroupChatList({
-          //       query:{
-          //           sign:that.userSign
-          //       }
-          //   })
-          let res= await api.getSchoolChatRoom({
+            let res01= await api.getGroupChatList({
+                query:{
+                    sign:that.userSign
+                }
+            })
+          let res02= await api.getSchoolChatRoom({
               query:{
                   sign:that.userSign,
-                  schoolName:'中山大学'
+                  schoolName:userInfo.schoolName
               }
           })
-          if (res.data.errcode ==200){
-              this.roomList=res.data.roomList
-              this.showBtn=true
+          if (res01.data.errcode ==200 || res02.data.errcode ==200){
+              this.roomList.push(res01.data.roomList)
+              this.roomList.push(res02.data.roomList)
+              // this.showBtn=true
               //测试
               // this.showSchoolList=true
               // this.showCreatSchool=true
@@ -399,6 +402,9 @@ export default {
 
         },
         /*标签的选择*/
+        chooseHuaTi(){
+            this.chooseActiveTab=true
+        },
         activeTab(val){
          console.log(val)
             switch(val) {
@@ -407,42 +413,49 @@ export default {
                     this.chooseTab=0
                     this.commentType=0
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 case 1:
                  this.tabsText='以书会友'
                     this.chooseTab=1
                        this.commentType=1
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 case 2:
                   this.tabsText='百团大战'
                     this.chooseTab=2
                        this.commentType=2
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 case 3:
                    this.tabsText='约起开黑'
                     this.chooseTab=3
                        this.commentType=3
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 case 4:
                    this.tabsText='操场相见'
                     this.chooseTab=4
                        this.commentType=4
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 case 5:
                   this.tabsText='个人杂物'
                     this.chooseTab=5
                        this.commentType=5
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 case 6:
                  this.tabsText='校园爱情'
                     this.chooseTab=6
                        this.commentType=6
                     this.showTag=true
+                     this.chooseActiveTab=false
                     break;
                 default:
                     // 默认代码块
@@ -453,8 +466,10 @@ export default {
         },
         closeTag(){
             console.log('关闭便签')
-            this.showTag=false
             this.commentType=null
+            this.chooseTab=null
+            this.showTag=false
+            this.chooseActiveTab=false
         },
         /**群聊选择
          * */
