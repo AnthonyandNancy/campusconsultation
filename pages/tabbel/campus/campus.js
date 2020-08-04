@@ -432,7 +432,7 @@ export default {
 
             if (json.data.errcode == 200) {
                 uni.navigateTo({
-                    url: '/pages/chatRoom/chatRoom?roomSign=' + obj.roomSign + '&roomName=' + obj.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserInfo().name
+                    url: '/pages/chatRoom/chatRoom?roomSign=' + obj.roomSign + '&roomName=' + obj.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
                 })
 
             }

@@ -121,7 +121,7 @@ export default {
 
 
         //用户信息
-        this.userInfo = user.getUserInfo()
+        this.userInfo = user.getUserLogin()
         this.avatar = this.userInfo.pic
         this.userName = this.userInfo.name
         this.userInfoSign = user.getUserSign()

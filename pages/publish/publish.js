@@ -403,7 +403,7 @@ export default {
                   this.btnDis=true
               }else {
                   this.roomList=resHistory.data.roomList
-                  // this.roomList.push(res01.data.roomList)
+                  // this.roomList.push(resHistory.data.roomList)
                   // this.roomList.push(res02.data.roomList)
               }
 
@@ -411,7 +411,8 @@ export default {
               //测试
               // this.showSchoolList=true
               // this.showCreatSchool=true
-              console.log('resHistory',resHistory.data)
+              // console.log('resHistory',resHistory.data)
+              console.log('resHistory', this.roomList)
               console.log('resSchoolChat',resSchoolChat.data)
           }
 
@@ -496,8 +497,8 @@ export default {
             for (let i=0;i<=this.roomList.length;i++){
                 if (i==val[0]){
                     console.log(this.roomList[i])
-                    this.chooseRoomId=this.roomList[i].roomSign
-                    this.creatSchoolGrounpName=this.roomList[i].roomName
+                    this.chooseRoomId=this.roomList[i].room__roomSign
+                    this.creatSchoolGrounpName=this.roomList[i].room__roomName
                     this.showgroupChatText=true
                 }
             }

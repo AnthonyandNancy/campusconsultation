@@ -48,7 +48,7 @@
             <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" auto backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>
         </view>
 
-        
+
         <view class="operation">
 
             <view class="item">
@@ -88,7 +88,7 @@
                 <u-button :disabled="btnDis" @click="btnChooseGroupChat" size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">选择群聊</u-button>
             </view>
         </u-popup>
-        <u-picker :default-selector="[0]" :range="roomList"  @confirm="radioChange" mode="selector" range-key="roomName" v-model="showSchoolList"></u-picker>
+        <u-picker :default-selector="[0]" :range="roomList"  @confirm="radioChange" mode="selector" range-key="room__roomName" v-model="showSchoolList"></u-picker>
 <!--        <u-popup mode="left" v-model="showSchoolList" width="70%">-->
 <!--            <view class="">-->
 <!--                <span style="font-size: 40rpx;margin-bottom: 20rpx;color: black; ">选择群聊</span>-->
