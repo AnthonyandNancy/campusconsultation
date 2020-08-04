@@ -280,7 +280,8 @@ export default {
                     imgList: this.realImgUrlList || [],
                     video: this.realVideoUrlList || null,
                     audio: this.realAudioUrlList || null,
-                    roomId: this.chooseRoomId
+                    roomId: this.chooseRoomId,
+                    roomName: this.creatSchoolGrounpName
                 }
             })
             if (json.data.errcode == 200) {

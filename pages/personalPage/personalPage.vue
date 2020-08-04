@@ -33,7 +33,7 @@
 				<view class="commonRight"><u-input :border="false" :type="text" input-align="right" placeholder="请输入你的年龄" v-model="personalAge"/></view>
 			</view>
 			<view class="common">
-				<view class="commonLeft">喜爱的学校</view>
+				<view class="commonLeft">学校</view>
 				<view class="commonRight" >
 					<view @click="clickSchoolName" class="likeSchool">{{schoolName}}</view>
 				</view>
@@ -44,7 +44,7 @@
 					<view @click="clickRegion" class="personRegion">
 						{{chooseRegion}}
 <!--						<u-select v-model="showRegion" mode="mutil-column-auto" :list="regionList" @confirm="confirm"></u-select>-->
-						<u-picker :area-code='["11", "1101", "110101"]' @confirm="confirmRegion"  mode="region" v-model="showRegion"></u-picker>
+<!--						<u-picker :area-code='["11", "1101", "110101"]' @confirm="confirmRegion"  mode="region" v-model="showRegion"></u-picker>-->
 					</view>
 				</view>
 			</view>

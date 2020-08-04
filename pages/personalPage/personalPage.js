@@ -17,7 +17,7 @@ export default {
             userNickName:'Anthony哈哈哈',
             userSign:'',
             // personalSignature:'清华人清华魂，来世还做清华人',
-            personalName:'彭于晏',
+            personalName:null,
             sex:[
                 {
                     value:'男',
@@ -30,7 +30,7 @@ export default {
             ],
             showSex:false,
             chooseSex:'男',
-            personalAge:'26',
+            personalAge:null,
             showPopup:false,
             showCell: false,
             showSelect: false,
@@ -46,7 +46,11 @@ export default {
             schoolTotal:'',
             showRegion:false,
             // regionList:
-            chooseRegion:''
+            chooseRegion:'',
+            chooseSexNum:null,
+            province:'',
+            city:'',
+            country: '',
         };
     },
     onLoad(option){
@@ -61,7 +65,7 @@ export default {
                 let data=res.data
                 this.schoolName=data.schoolName
                 this.userAvater=data.pic
-                this.userNickName=data.name
+                this.personalName=data.name
                 this.userSign=data.sign
             }
         });
@@ -70,7 +74,20 @@ export default {
             success:  (res) =>{
                 console.log('USER_INFO',res.data);
                 this.chooseRegion=res.data.province+'  '+res.data.city
-
+                this.province=res.data.province
+                this.city=res.data.city
+                this.country=res.data.country
+                this.userNickName=res.data.nickName
+                let sex=res.data.gender
+                if(sex ==1){
+                    this.chooseSex='男'
+                    this.chooseSexNum=1
+                }else if(sex ==2) {
+                    this.chooseSex='女'
+                    this.chooseSexNum=2
+                }else {
+                    console.log('他是胡一菲')
+                }
             }
         });
     },
@@ -87,8 +104,10 @@ export default {
             console.log(val[0])
             if (val[0] ==0){
                 this.chooseSex='男'
+                this.chooseSexNum=1
             }else {
                 this.chooseSex='女'
+                this.chooseSexNum=2
             }
         },
         cancelSex(){
@@ -215,14 +234,14 @@ export default {
 
                 if (json.data.errcode == 200) {
                     this.showPopup = false;
-                    this.toLogin();
+                    // this.toLogin();
                     uni.reLaunch({
                         url: '/pages/tabbel/home/home'
                     })
                 }
             } else {
                 if (this.schoolName == null) {
-                    that.hideTop = false;
+                    this.hideTop = false;
                 }
 
                 let json = await api.searchSchool({
@@ -263,9 +282,9 @@ export default {
 
                         this.dynamicList = []
                         this.currPage = 1;
-                        this.toLogin();
-                        that.getDynamicList(this.currPage)
-                        that.getChatRoom();
+                        // this.toLogin();
+                        // this.getDynamicList(this.currPage)
+                        // this.getChatRoom();
                     }
                 }
             }
@@ -286,7 +305,19 @@ export default {
 
         },
         //保存信息
-        save(){
+      async  save(){
+            const res=await api.updateUserInfo({
+                query:{
+                    sign:this.userSign,
+                    name:this.personalName,
+                    pic:this.userAvater,
+                    gender:this.chooseSexNum,
+                    country: this.country,
+                    province: this.province,
+                    city:this.city,
+                    age:this.personalAge
+                }
+            })
             this.updateSchool(this.schoolTotal)
             uni.navigateBack();
         }
