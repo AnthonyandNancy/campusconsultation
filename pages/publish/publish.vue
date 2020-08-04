@@ -2,13 +2,17 @@
     <view class="main">
         <view>
             <textarea class="inputText" cols="30" id="" name="" placeholder="来吧，尽情发挥吧..." rows="10" v-model="inputText"></textarea>
-            <view v-if="showTag ==true">您选择的标签:
-                <u-tag :closeable="true" :show="showTag" :text="tabsText" @close="closeTag" class="uTag" mode="plain"/>
+            <view v-if="showTag ==true">
+                <span style="color: #2B83FF">您选择的标签:</span>
+<!--                <u-tag :closeable="true" :show="showTag" :text="tabsText" @close="closeTag" class="uTag" mode="plain" type="info"/>-->
+                <u-tag  :show="showTag" :text="tabsText"  class="uTag" mode="plain" type="info"/>
+                <span  @click="closeTag" style="color:red;margin-left: 5%;">    取消</span>
             </view>
 
             <view v-if="showgroupChatText==true">
-                <u-tag :closeable="true" :show="showgroupChatText" :text="groupChatText" @close="closeGroupTag" class="uTag" mode="plain"/>
-                {{creatSchoolGrounpName}}
+<!--                <u-tag :closeable="true" :show="showgroupChatText" :text="groupChatText" @close="closeGroupTag" class="uTag" mode="plain"/>-->
+               <span style="color: #2B83FF">邀请他人加入:</span>
+                {{creatSchoolGrounpName}}  <span  @click="closeGroupTag" style="color:red;margin-left: 5%;">    取消</span>
             </view>
         </view>
 
@@ -34,9 +38,16 @@
             </view>
         </view>
 
-        <view class="tabs">
-            <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>
+        <view @click="chooseHuaTi" class="tabs">
+            #话题
         </view>
+        <view @click="creatQun" class="tabs">
+            @群聊
+        </view>
+        <view class="" v-if="chooseActiveTab==true">
+            <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" auto backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>
+        </view>
+
         <view class="operation">
 
             <view class="item">
@@ -49,9 +60,9 @@
                 <view @longpress.prevent="longToTouch"  @touchend.prevent="endRecord" @touchstart="startRecord"  class="img_video_express">
                     <view class="operationIcon"><image class="auto-img" src="/static/images/audio.png"></image></view>
                 </view>
-                <view @click="creatQun" class="img_video_express">
-                    <view class="operationIcon"><image class="auto-img" src="/static/images/qunliao.png"></image></view>
-                </view>
+<!--                <view @click="creatQun" class="img_video_express">-->
+<!--                    <view class="operationIcon"><image class="auto-img" src="/static/images/qunliao.png"></image></view>-->
+<!--                </view>-->
                 <view @click="uploadEmoji" class="img_video_express" v-if="false">
                     <text class="picture">&#xe62f;</text>
                 </view>
@@ -67,11 +78,11 @@
 <!--                <u-button type="primary"  @click="btnCreatGroupChat">创建群聊</u-button>-->
 <!--                <u-button type="primary"  @click="btnChooseGroupChat">选择群聊</u-button>-->
 <!--            </view>-->
-            <view @click="btnCreatGroupChat"  style="width: 100%;height: 11vh; border-bottom: #AAAAAA dashed 2rpx; margin-top: 2vh;">
+            <view   style="width: 100%;height: 11vh; border-bottom: #AAAAAA dashed 2rpx; margin-top: 2vh;">
                 <image src="../../static/images/creatGroup.png" style="margin-left: 40rpx;width: 8vh;height: 8vh;"></image>
-                <u-button @click="btnCreatGroupChat" size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">创建群聊</u-button>
+                <u-button @click="btnCreatGroupChat" size="medium" style="margin-left: 4%;margin-top: -1rpx;" type="primary">创建群聊</u-button>
             </view>
-            <view @click="btnChooseGroupChat"  style="width: 100%;height: 11vh; border-bottom: #AAAAAA dashed 2rpx; margin-top: 2vh;">
+            <view   style="width: 100%;height: 11vh; border-bottom: #AAAAAA dashed 2rpx; margin-top: 2vh;">
                 <image src="../../static/images/chooseGroup.png" style="margin-left: 40rpx;width: 8vh;height: 8vh;"></image>
                 <u-button @click="btnChooseGroupChat" size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">选择群聊</u-button>
             </view>
@@ -93,7 +104,7 @@
 <!--            </view>-->
 <!--        </u-popup>-->
 
-        <u-popup height="50%" mode="center" v-model="showCreatSchool" width="80%">
+        <u-popup height="36%" mode="center" v-model="showCreatSchool" width="80%">
             <view class="">
                 <span style="font-size: 40rpx;margin-bottom: 40rpx;color: black; width: 100%;">创建群聊</span>
                 <u-row class="creatSchoolBox" gutter="16" justify="space-between">
@@ -135,7 +146,7 @@
                     <u-line border-style="dashed" color="#eeeeef" length="100%"/>
                 </view>
                 <view style="width: 100%;">
-                    <u-button @click="canelCreatSchoolGrounp" size="medium" style="margin-left: 50rpx;" type="warning">返回</u-button>
+                    <u-button @click="canelCreatSchoolGrounp" size="medium" style="margin-left: 18%;" type="warning">返回</u-button>
                     <u-button @click="creatSchoolGrounp" size="medium" style="margin-left: 20rpx;" type="primary">创建</u-button>
                 </view>
             </view>
