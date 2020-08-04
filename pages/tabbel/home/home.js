@@ -25,10 +25,16 @@ export default {
     },
     data() {
         return {
-            bannerImg:['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483569&di=0af236d21540744bb56589db045f18ac&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304611_1468760700828_mthumb.jpg',
+            bannerImg: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483569&di=0af236d21540744bb56589db045f18ac&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304611_1468760700828_mthumb.jpg',
                 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483567&di=b551eabe87c4bdb34e34b410544ce54d&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc39%2F24304707_1468760741305.jpg',
                 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483566&di=34b799251aaeae974982d631889d088f&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304608_1468760682148_mthumb.jpg'],
-            cartTypeList:[{name:'热门动态',bgColor:'#ACB2FD'},{name:'以书会友',bgColor:'#ACB2FD'},{name:'校园爱情',bgColor:'#89D4B5'},{name:'百团大战',bgColor:'#89D4B5'},{name:'约起开黑',bgColor:'#D5A5FD'},{name:'操场相见',bgColor:'#D5A5FD'}],
+            cartTypeList: [{name: '热门动态', bgColor: '#ACB2FD'}, {name: '以书会友', bgColor: '#ACB2FD'}, {
+                name: '校园爱情',
+                bgColor: '#89D4B5'
+            }, {name: '百团大战', bgColor: '#89D4B5'}, {name: '约起开黑', bgColor: '#D5A5FD'}, {
+                name: '操场相见',
+                bgColor: '#D5A5FD'
+            }],
 
             getMineSchoolName: "",
             hideTop: false,
@@ -125,7 +131,10 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
-
+    onReady() {
+        that = this;
+        this.isAuthor = constant.getIsAuthor();
+    },
     // onLoad() {
     //     //获取系统高度
     //     uni.getSystemInfo({
@@ -273,13 +282,58 @@ export default {
     //     }
     // },
     methods: {
-        toHotDynamicPage(index){
-            constant.setSelectType(index+1)
+        toHotDynamicPage(index) {
+            constant.setSelectType(index + 1)
 
             uni.switchTab({
-                url:'/pages/tabbel/schoolCircle/schoolCircle'
+                url: '/pages/tabbel/schoolCircle/schoolCircle'
             })
         },
+        toAuthor(){
+            uni.getUserInfo({
+                provider: 'weixin',
+                lang:'zh_CN',
+                success: async function (infoRes) {
+                    constant.setIsAuthor(true);
+                    that.isAuthor = true;
+
+                    if (infoRes.errMsg == "getUserInfo:ok") {
+                        console.log('获取到的用户信息',infoRes)
+                        constant.setUserInfo(infoRes.userInfo)
+
+
+                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
+                        let json = await api.updateUserInfo({
+                            query: {
+                                sign: that.userSign,
+                                name: nickName,
+                                pic: avatarUrl,
+                                gender: gender,
+                                country: country,
+                                province: province,
+                                city: city
+                            }
+                        })
+                        console.log('更新用户信息=====>',json)
+                        if (json.data.errcode == 200) {
+
+                            uni.showToast({
+                                title: '授权成功',
+                                mask: true,
+                                icon: 'none'
+                            });
+                            that.toLogin();
+                        }
+                    }
+                },
+                fail(res) {
+                    constant.setIsAuthor(false)
+                    that.isAuthor = false;
+                }
+            });
+        },
+
+
         //悬浮按钮事件
         //点击悬浮按钮事件
         trigger(val) {
@@ -308,44 +362,8 @@ export default {
                 this.audioPlay = false;
             }
         },
-        toAuthor(res) {
-            uni.getUserInfo({
-                provider: 'weixin',
-                success: async function (infoRes) {
-                    constant.setIsAuthor(true)
-                    that.isAuthor = true;
-                    if (infoRes.errMsg == "getUserInfo:ok") {
-                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
-                        let json = await api.updateUserInfo({
-                            query: {
-                                sign: that.userSign,
-                                name: nickName,
-                                pic: avatarUrl,
-                                gender: gender,
-                                country: country,
-                                province: province,
-                                city: city
-                            }
-                        })
-                        if (json.data.errcode == 200) {
-                            uni.showToast({
-                                title: '授权成功',
-                                mask: true,
-                                icon: 'none'
-                            });
-                            if (that.getMineSchoolName == null) {
-                                that.showPopup = true;
-                            }
-                            that.toLogin();
-                        }
-                    }
-                },
-                fail(res) {
-                    constant.setIsAuthor(false)
-                    that.isAuthor = false;
-                }
-            });
-        },
+
+
         toApply() {
             uni.setStorageSync('IS_PREVIEW', false);
             this.showApplyPanel = true;
@@ -398,9 +416,7 @@ export default {
                 uni.navigateTo({
                     url: '/pages/chatRoom/chatRoom?roomSign=' + roomSign + '&roomName=' + roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
                 })
-
             }
-
 
             if (chatType == 1) {
                 uni.setStorage({
@@ -870,7 +886,7 @@ export default {
 
         //点赞
         async support(dynamicSign) {
-            console.log('dynamicSign',dynamicSign)
+            console.log('dynamicSign', dynamicSign)
             let json = await api.addSupport({
                 query: {
                     dynamicSign: dynamicSign,
@@ -888,11 +904,11 @@ export default {
                 this.totalDynamicList.forEach(res => {
 
                     if (res.dynamicSign == dynamicSign) {
-                        this.$set(res,'isMySupport',true)
+                        this.$set(res, 'isMySupport', true)
 
                     }
                 })
-                console.log('11111111111111111111111',this.totalDynamicList)
+                console.log('11111111111111111111111', this.totalDynamicList)
             }
         },
 
@@ -910,9 +926,9 @@ export default {
                 console.log(' 我点赞的列表', supportList)
 
                 for (let i = 0; i < this.totalDynamicList.length; i++) {
-                    for(let j = 0;j<supportList.length;j++){
+                    for (let j = 0; j < supportList.length; j++) {
                         if (this.totalDynamicList[i].dynamicSign == supportList[j].dynamicSign) {
-                            this.$set(this.totalDynamicList[i],'isMySupport',true)
+                            this.$set(this.totalDynamicList[i], 'isMySupport', true)
                         }
                     }
                 }

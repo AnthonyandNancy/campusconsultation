@@ -30,7 +30,7 @@ export default {
     },
     onLoad(){
         that = this;
-        this.userInfo = constant.getUserInfo();
+        this.userInfo = constant.getUserLogin();
         uni.getSystemInfo({
             success: (res) => {
                 this.pageHeight = res.windowHeight;
@@ -44,7 +44,8 @@ export default {
             this.getDynamicList(this.currPage);
         }
 
-        this.userInfo = constant.getUserInfo();
+        this.userInfo = constant.getUserLogin();
+        console.log(this.userInfo,'111111111111111')
     },
     onReady(){
         // this.avatarBgImgUrl ='data:image/jpg;base64,'+ wx.getFileSystemManager().readFileSync(this.userInfo.pic, "base64");
