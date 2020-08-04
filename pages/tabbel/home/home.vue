@@ -10,9 +10,14 @@
 
         <view class="home_cart">
             <view class="cart">
-                <view class="cartItem"   v-for="(cartItem,index) in cartTypeList" :key="index" :style="{backgroundColor:cartItem.bgColor}" @click="toHotDynamicPage(index)">
-                    <view></view>
-                    <view class="cart_text">{{cartItem.name}}</view>
+
+                <view class="cartItem"   v-for="(cartItem,index) in cartTypeList" :key="index" :style="{backgroundColor:cartItem.bgColor}">
+                    <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
+                    <view class="cartBox" @click="toHotDynamicPage(index)">
+                        <view></view>
+                        <view class="cart_text">{{cartItem.name}}</view>
+                    </view>
+
                 </view>
             </view>
         </view>
