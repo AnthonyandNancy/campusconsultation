@@ -24,13 +24,35 @@ export default {
             audioPlay: false,
             audioIsAuthor:Boolean,
             list: [
-                '随便写写',
-                '以书会友',
-                '百团大战',
-                '约起开黑',
-                '操场相见',
-                '个人杂物',
-                '校园爱情'
+
+                {
+                  value:'随便写写',
+                    id:0
+                },
+                {
+                    value:'以书会友',
+                    id:1
+                },
+                {
+                    value:'百团大战',
+                    id:2
+                },
+                {
+                    value:'约起开黑',
+                    id:3
+                },
+                {
+                    value:'操场相见',
+                    id:4
+                },
+                {
+                    value:'个人杂物',
+                    id:5
+                },
+                {
+                    value:'校园爱情',
+                    id:6
+                },
             ],
             chooseTab:null,
             tabsText:null,
@@ -52,6 +74,7 @@ export default {
         }
     },
     onLoad(option) {
+        console.log(option)
         this.publishType = option.publishType;
         this.dynamicSign = option.dynamicSign;
         //动态修改顶部导航

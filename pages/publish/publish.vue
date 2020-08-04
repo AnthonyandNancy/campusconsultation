@@ -5,7 +5,8 @@
             <view v-if="showTag ==true">
                 <span style="color: #2B83FF">您选择的标签:</span>
 <!--                <u-tag :closeable="true" :show="showTag" :text="tabsText" @close="closeTag" class="uTag" mode="plain" type="info"/>-->
-                <u-tag  :show="showTag" :text="tabsText"  class="uTag" mode="plain" type="info"/>
+<!--                <u-tag  :show="showTag" :text="tabsText"  class="uTag" mode="plain" type="info"/>-->
+                {{tabsText}}
                 <span  @click="closeTag" style="color:red;margin-left: 5%;">    取消</span>
             </view>
 
@@ -38,14 +39,19 @@
             </view>
         </view>
 
-        <view @click="chooseHuaTi" class="tabs">
+        <view @click="chooseHuaTi" class="tabs" v-if="publishType=='publishDynamic'">
             #话题
         </view>
-        <view @click="creatQun" class="tabs">
+        <view @click="creatQun" class="tabs" v-if="publishType=='publishDynamic'">
             @群聊
         </view>
-        <view class="" v-if="chooseActiveTab==true">
-            <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" auto backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>
+        <view class="tab" v-if="chooseActiveTab==true">
+            <view style="width: 800%;">
+                <view   @click="activeTab(index)" class="tabss" v-for="(item,index) in list ">{{item.value}}</view>
+            </view>
+<!--            <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" auto backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>-->
+
+
         </view>
 
 
