@@ -50,7 +50,7 @@
                 <view class="item">
                     <button class="hideShareBtn" open-type="share">分享</button>
                     <u-button :custom-style="customStyle" class="shareBtn" shape="circle" size="mini">
-                        <u-icon color="#2979ff" name="weixin-circle-fill" size="28"></u-icon>
+                        <u-icon color="#fff" name="weixin-circle-fill" size="28"></u-icon>
                         分享
                     </u-button>
                 </view>

@@ -144,53 +144,10 @@
     .auto-img {
         width: 100%;
         height: 100%;
-        border-radius: 20 rpx;
-    }
-
-    @font-face {
-        font-family: 'iconfont';  /* project id 1495177 */
-        src: url('//at.alicdn.com/t/font_1495177_mbqiyb3fyq.eot');
-        src: url('//at.alicdn.com/t/font_1495177_mbqiyb3fyq.eot?#iefix') format('embedded-opentype'),
-        url('//at.alicdn.com/t/font_1495177_mbqiyb3fyq.woff2') format('woff2'),
-        url('//at.alicdn.com/t/font_1495177_mbqiyb3fyq.woff') format('woff'),
-        url('//at.alicdn.com/t/font_1495177_mbqiyb3fyq.ttf') format('truetype'),
-        url('//at.alicdn.com/t/font_1495177_mbqiyb3fyq.svg#iconfont') format('svg');
+        /*border-radius: 20rpx;*/
     }
 
 
-    .arrow-right {
-        font-size: 16px;
-        color: #000;
-        text-align: center;
-        font-family: iconfont;
-    }
-
-    .noticeIcon {
-        font-size: 28px;
-        text-align: center;
-        font-family: iconfont;
-        background: linear-gradient(90deg, rgba(250, 252, 255, 1) 0%, rgba(23, 224, 228, 1) 35%, rgba(106, 245, 246, 0.8547794117647058) 100%);
-        -webkit-background-clip: text;
-        color: transparent;
-    }
-
-    .setIcon {
-        font-size: 25px;
-        text-align: center;
-        font-family: iconfont;
-        background: linear-gradient(90deg, rgba(250, 252, 255, 1) 0%, rgba(23, 224, 228, 1) 35%, rgba(106, 245, 246, 0.8547794117647058) 100%);
-        -webkit-background-clip: text;
-        color: transparent;
-    }
-
-    .historyIcon {
-        font-size: 25px;
-        text-align: center;
-        font-family: iconfont;
-        background: linear-gradient(90deg, rgba(250, 252, 255, 1) 0%, rgba(23, 224, 228, 1) 35%, rgba(106, 245, 246, 0.8547794117647058) 100%);
-        -webkit-background-clip: text;
-        color: transparent;
-    }
 
     @import "uview-ui/index.scss";
 </style>

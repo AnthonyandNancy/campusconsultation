@@ -1,7 +1,7 @@
 <template>
     <view class="hotDynamic_content">
-
-        <v-tabs padding="10px 20px" v-model="tab" auto :tabs="Tabs" @change="changeTab"></v-tabs>
+        <!--padding="10px 20px"-->
+        <v-tabs  v-model="tab" auto :tabs="Tabs" @change="changeTab"></v-tabs>
         <view>
             <swiper class="navTab" :current="currentSwiper" @change="changeSwiper"
                     :style="{height:swiperViewHeight + 'px'}">
@@ -22,8 +22,7 @@
                             <dynamicCard  v-for="(item1,index1) in item.dynamicList" :key="index1"
                                          :dynamic-obj="item1"
                                          :currentIndex="index1" :currentPageType="item.id== 37?'chat':''" @shareEvent="toShare" @commentEvent="toComment"
-                                         @supportEvent="toSupport" @showAllEvent="showAll" @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>
-                            <view>
+                                         @supportEvent="toSupport" @showAllEvent="showAll" @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>                            <view>
                                 <!--<view class="dynamicItem" v-for="(item1,index1) in hotDynamicList" :key="index1">-->
                                 <!--                                &lt;!&ndash;头部样式&ndash;&gt;-->
                                 <!--                                <view class="dynamInfo">-->

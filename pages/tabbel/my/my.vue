@@ -35,8 +35,8 @@
         </view>
         <view>
             <u-cell-group>
-                <u-cell-item @click="toMySupport" icon="thumb-up" title="我赞过的" :arrow="true" arrow-direction="right"></u-cell-item>
-                <u-cell-item @click="toMyFollow" icon="heart" title="我的关注" :arrow="true" arrow-direction="right"></u-cell-item>
+                <u-cell-item @click="toMySupport" icon="heart" title="我赞过的" :arrow="true" arrow-direction="right"></u-cell-item>
+                <u-cell-item @click="toMyFollow" icon="star" title="我的关注" :arrow="true" arrow-direction="right"></u-cell-item>
             </u-cell-group>
         </view>
         <view class="operationBox" v-if="false">

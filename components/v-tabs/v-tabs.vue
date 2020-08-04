@@ -171,8 +171,11 @@ export default {
           .select('.v-tabs__item.active')
           .boundingClientRect(data => {
             const ol = offsetLeft ? offsetLeft : width
+            console.log('11122222222111111===',ol)
             if (data) {
+              // 少了8
               this.lineLeft = ol + (data.width * (1 - this.lineScale)) / 2
+              console.log('11111111111111=====>>',this.lineLeft)
               this.lineWidth = data.width * this.lineScale
               this.scrollLeft = ol - (this.width - data.width) / 2
             }

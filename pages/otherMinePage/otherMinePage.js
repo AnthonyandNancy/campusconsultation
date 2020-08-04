@@ -201,6 +201,11 @@ export default {
                         }
                     })
                     if(json.data.errcode == 200 ){
+                        uni.showToast({
+                            title: '已关注',
+                            icon:'none',
+                            mask:true
+                        })
                        this.isFollow = true;
                     }
                     console.log('点击关注',json);
@@ -220,6 +225,11 @@ export default {
             })
 
             if(cancelJson.data.errcode == 200){
+                uni.showToast({
+                    title: '关注已取消',
+                    icon:'none',
+                    mask:true
+                })
                 this.isFollow = false;
             }
             console.log('取消关注',cancelJson);
