@@ -69,11 +69,11 @@
 <!--            </view>-->
             <view @click="btnCreatGroupChat"  style="width: 100%;height: 11vh; border-bottom: #AAAAAA dashed 2rpx; margin-top: 2vh;">
                 <image src="../../static/images/creatGroup.png" style="margin-left: 40rpx;width: 8vh;height: 8vh;"></image>
-                <u-button size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">创建群聊</u-button>
+                <u-button @click="btnCreatGroupChat" size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">创建群聊</u-button>
             </view>
             <view @click="btnChooseGroupChat"  style="width: 100%;height: 11vh; border-bottom: #AAAAAA dashed 2rpx; margin-top: 2vh;">
                 <image src="../../static/images/chooseGroup.png" style="margin-left: 40rpx;width: 8vh;height: 8vh;"></image>
-                <u-button size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">选择群聊</u-button>
+                <u-button @click="btnChooseGroupChat" size="medium" style="margin-left: 20rpx;margin-top: -1rpx;" type="primary">选择群聊</u-button>
             </view>
         </u-popup>
         <u-picker :default-selector="[0]" :range="roomList"  @confirm="radioChange" mode="selector" range-key="roomName" v-model="showSchoolList"></u-picker>
