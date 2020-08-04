@@ -1,15 +1,17 @@
 <template>
     <view class="dyCartContent">
+        <!--u-skeleton(必须)，该类名用于页面的最外层元素，供骨架屏组件查询和定位出绘制骨架的位置和尺寸-->
         <view class="dynamicItem">
 
             <!--头部样式-->
             <view class="dynamInfo">
                 <view class="dynamInfoItem PublisherAvatar">
-                    <view class="avatar">
+                <!--u-skeleton-circle(可选)，该类名用于页面的圆形元素，供骨架组件描绘出圆形的骨架块-->
+                    <view class="avatar u-skeleton-circle">
                         <image :src="dynamicObj.pic" class="auto-img" mode="aspectFill"></image>
                     </view>
                 </view>
-
+                <!--u-skeleton-rect(可选)，该类名用于页面的矩形元素，供骨架组件描绘出矩形的骨架块-->
                 <view class="dynamInfoItem Publishertime">
                     <view class="Publisher">{{dynamicObj.name}}
                         <text v-if="false" class="point" @click="dynamicDetail(dynamicObj)">
@@ -40,18 +42,16 @@
                     </view>
                 </view>
 
-
                 <view class="resources">
-                    <!--https://game.xunyi.online/static/SchoolLian/uploadFiles/7ed1cdf466d7ab9930bce2d07c88075e.png-->
                     <view class="item image" v-for="(imgItem,index) in dynamicObj.imgList"
                           @click='preViewImg(index,dynamicObj.imgList)' :key="index">
                         <image :src="imgItem" class="auto-img" lazy-load
                                mode="aspectFill"></image>
                     </view>
 
-                    <view class="video">
+                    <view class="video" v-show="false">
                         <video id="dynamicVideo" object-fit="cover" controls class="auto-img"
-                               src="https://game.xunyi.online/static/SchoolLian/uploadFiles/16c1becf9ba8f4adc4e6e1d48beea951.mp4"></video>
+                               :src="dynamicObj.video"></video>
                     <!--dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"-->
                     </view>
                 </view>
@@ -101,6 +101,7 @@
 
 <script>
     import luchAudio from '../components/luch-audio/luch-audio';
+    let that;
     export default {
         props:{
             dynamicObj:{
@@ -121,8 +122,11 @@
         },
         data(){
             return{
-                audioPlay:false
+                audioPlay:false,
             }
+        },
+        onReady(){
+            that = this;
         },
         onShareAppMessage:(res)=>{
             return{
@@ -139,7 +143,6 @@
                     urls: imgList
                 });
             },
-
             dynamicDetail(){
                 if(this.currentPageType == 'mine' ){
                     uni.navigateTo({

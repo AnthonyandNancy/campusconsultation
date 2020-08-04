@@ -25,7 +25,9 @@ export default {
     },
     data() {
         return {
-            bannerImg:['/static/images/b1.jpg','/static/images/b2.jpg','/static/images/b3.jpg'],
+            bannerImg:['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483569&di=0af236d21540744bb56589db045f18ac&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304611_1468760700828_mthumb.jpg',
+                'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483567&di=b551eabe87c4bdb34e34b410544ce54d&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc39%2F24304707_1468760741305.jpg',
+                'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483566&di=34b799251aaeae974982d631889d088f&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304608_1468760682148_mthumb.jpg'],
             cartTypeList:[{name:'热门动态',bgColor:'#ACB2FD'},{name:'以书会友',bgColor:'#ACB2FD'},{name:'校园爱情',bgColor:'#89D4B5'},{name:'百团大战',bgColor:'#89D4B5'},{name:'约起开黑',bgColor:'#D5A5FD'},{name:'操场相见',bgColor:'#D5A5FD'}],
 
             getMineSchoolName: "",

@@ -9,7 +9,7 @@ const USER_INFO = '';
 const SCHOOL_INFO = '';
 const IS_AUTHOR = '';
 const AUDIO_IS_AUTHOR = '';
-const IS_PREVIEW = '';
+const IS_PUBLISH = '';
 const SELECT_TYPE = '';
 
 /**
@@ -77,6 +77,14 @@ const getSelectType = ()=>{
 	}
 	return ret;
 }
+const getIsPublish = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('IS_PUBLISH');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
 
 
 
@@ -109,6 +117,10 @@ const setSelectType= (res)=>{
 	uni.setStorageSync('SELECT_TYPE', res);
 }
 
+const setIsPublish = (res)=>{
+	uni.setStorageSync('IS_PUBLISH', res);
+}
+
 
 export default {
     getUserSign,
@@ -118,6 +130,7 @@ export default {
 	getIsAuthor,
 	getAudioIsAuthor,
 	getSelectType,
+	getIsPublish,
 
     setUserSign,
 	setUserLogin,
@@ -125,5 +138,6 @@ export default {
 	setSchoolInfo,
 	setIsAuthor,
 	setAudioIsAuthor,
-	setSelectType
+	setSelectType,
+	setIsPublish
 }
