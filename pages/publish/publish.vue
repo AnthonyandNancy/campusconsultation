@@ -48,6 +48,7 @@
             <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" auto backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>
         </view>
 
+        
         <view class="operation">
 
             <view class="item">
