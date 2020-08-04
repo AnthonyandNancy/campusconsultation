@@ -22,6 +22,7 @@ export default {
         }
     },
     onLoad(option) {
+        console.log('11111===>',option)
         this.userSign = constant.getUserSign();
         //获取动态详情
         this.dynamicObj = JSON.parse(option.dynamicObj);
@@ -132,7 +133,7 @@ export default {
                      if(res.dynamicSign == this.dynamicObj.dynamicSign){
                          this.isMySupport = true;
                          console.log('11111111111',res);
-                         this.dynamicObj= res
+                         this.dynamicObj= {...this.dynamicObj,...res}
                      }
                  })
             }

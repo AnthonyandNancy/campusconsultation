@@ -21,11 +21,8 @@
 
                             <dynamicCard  v-for="(item1,index1) in item.dynamicList" :key="index1"
                                          :dynamic-obj="item1"
-                                         :currentIndex="index1" @shareEvent="toShare" @commentEvent="toComment"
-                                         @supportEvent="toSupport" @showAllEvent="showAll"></dynamicCard>
-
-
-
+                                         :currentIndex="index1" :currentPageType="item.id== 37?'chat':''" @shareEvent="toShare" @commentEvent="toComment"
+                                         @supportEvent="toSupport" @showAllEvent="showAll" @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>
                             <view>
                                 <!--<view class="dynamicItem" v-for="(item1,index1) in hotDynamicList" :key="index1">-->
                                 <!--                                &lt;!&ndash;头部样式&ndash;&gt;-->
@@ -130,25 +127,6 @@
 
                         </view>
                     </load-refresh>
-
-<!--                    <load-refresh ref="hideLoading"-->
-<!--                                  :isRefresh="true"-->
-<!--                                  :refreshTime="800"-->
-<!--                                  :heightReduce="loadRefreshHeight"-->
-<!--                                  :backgroundCover="'#fff'"-->
-<!--                                  :pageNo="currPage"-->
-<!--                                  :totalPageNo="totalPage"-->
-<!--                                  @loadMore="loadMore"-->
-<!--                                  @refresh="refresh"-->
-<!--                                  v-if="currentSwiper == 1">-->
-<!--                        <view slot="content-list">-->
-<!--                            <dynamicCard v-for="(item2,index2) in getDiffDynamicList.hotDynamicList" :key="index2"-->
-<!--                                         :dynamic-obj="item2"-->
-<!--                                         :currentIndex="index2" @shareEvent="toShare" @commentEvent="toComment"-->
-<!--                                         @supportEvent="toSupport" @showAllEvent="showAll"></dynamicCard>-->
-<!--                        </view>-->
-<!--                    </load-refresh>-->
-
                 </swiper-item>
             </swiper>
         </view>
@@ -163,6 +141,51 @@
                     @trigger="trigger"
             ></uni-fab>
         </view>
+
+        <!--创建群聊房间-->
+        <u-popup v-model="showApplyPanel" border-radius="14" mode="center" width="80%" height="70%"
+                 :mask-close-able="true"
+                 closeable="true" close-icon-pos="top-left">
+            <view>
+                <view class="applyPanelTip">
+                    创建群聊
+                </view>
+                <view>
+                    <u-form :model="applyObj" ref="uForm">
+                        <view class="applyContent">
+                            <u-form-item label="名称">
+                                <u-input v-model="applyObj.roomName" placeholder="请输入名称"/>
+                            </u-form-item>
+                        </view>
+                        <view class="applyContent">
+                            <u-form-item label="描述">
+                                <u-input v-model="applyObj.describe" placeholder="请输入描述"/>
+                            </u-form-item>
+                        </view>
+                        <view class="applyContent">
+                            <u-form-item label="图片">
+                                <view style="width: 150rpx; height: 150rpx;position: relative;"
+                                      v-if="applyObj.pic != ''">
+                                    <image class="auto-img" :src="applyObj.pic"></image>
+                                    <view class="deleteBox" @click="del">
+                                        <text class="delete">&#xe625;</text>
+                                    </view>
+                                </view>
+                                <u-button v-if="applyObj.pic == ''" :custom-style="customStyle" size="mini"
+                                          @click="onUploaded">
+                                    <text class="addIcon">&#xe641;</text>
+                                    选择图片
+                                </u-button>
+                            </u-form-item>
+                        </view>
+                    </u-form>
+                </view>
+                <view style="width: 300rpx;margin: 40rpx auto 0; ">
+                    <u-button @click="submitApply" style="margin:0 auto !important; ">提交</u-button>
+                </view>
+            </view>
+        </u-popup>
+
     </view>
 </template>
 

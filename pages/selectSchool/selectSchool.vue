@@ -20,7 +20,7 @@
                         <view class='moreText' style="margin-left: 20rpx">更多</view>
                         <view class="avatarBox">
                             <view class="moreIcon">
-                                <image src="/static/images/more.png" class="auto-img"></image>
+                                <image src="/static/images/moreIcon.png" class="auto-img"></image>
                             </view>
                         </view>
                     </view>

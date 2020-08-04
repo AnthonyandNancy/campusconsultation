@@ -1,5 +1,9 @@
 <template>
     <view class="main">
+        <view class="noNotice" v-if="noticeList.length == 0">
+            暂无通知消息
+        </view>
+
         <view :key="index" v-for="(item,index) in noticeList">
             <u-card :sub-title="item.examineType" :thumb="'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + item.campus + '.png'" :title="item.campus">
                 <view class="" slot="body">

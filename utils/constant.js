@@ -11,6 +11,7 @@ const IS_AUTHOR = '';
 const AUDIO_IS_AUTHOR = '';
 const IS_PUBLISH = '';
 const SELECT_TYPE = '';
+const SWITCH_TYPE = '';
 
 /**
  * get****  获取缓存的函数
@@ -85,6 +86,14 @@ const getIsPublish = ()=>{
 	}
 	return ret;
 }
+const getSwitchType = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('SWITCH_TYPE');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
 
 
 
@@ -121,6 +130,11 @@ const setIsPublish = (res)=>{
 	uni.setStorageSync('IS_PUBLISH', res);
 }
 
+const setSwitchType = (res)=>{
+	uni.setStorageSync('SWITCH_TYPE', res);
+}
+
+
 
 export default {
     getUserSign,
@@ -131,6 +145,7 @@ export default {
 	getAudioIsAuthor,
 	getSelectType,
 	getIsPublish,
+	getSwitchType,
 
     setUserSign,
 	setUserLogin,
@@ -139,5 +154,6 @@ export default {
 	setIsAuthor,
 	setAudioIsAuthor,
 	setSelectType,
-	setIsPublish
+	setIsPublish,
+	setSwitchType
 }

@@ -6,8 +6,6 @@ export default {
         return {
             userSing:'',
             noticeList:[],
-
-
             title: '素胚勾勒出青花，笔锋浓转淡',
             subTitle: '',
             thumb: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg',

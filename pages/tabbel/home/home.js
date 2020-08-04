@@ -125,6 +125,7 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
+
     // onLoad() {
     //     //获取系统高度
     //     uni.getSystemInfo({
@@ -436,6 +437,7 @@ export default {
                 this.showApplyPanel = false;
             }
         },
+
         //进入动态详情页面
         dynamicDetail(obj) {
             uni.navigateTo({
