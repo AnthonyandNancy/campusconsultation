@@ -391,8 +391,9 @@ export default {
               }
           })
           if (res01.data.errcode ==200 || res02.data.errcode ==200){
-              this.roomList.push(res01.data.roomList)
-              this.roomList.push(res02.data.roomList)
+              this.roomList=res01.data.roomList
+              // this.roomList.push(res01.data.roomList)
+              // this.roomList.push(res02.data.roomList)
               // this.showBtn=true
               //测试
               // this.showSchoolList=true
