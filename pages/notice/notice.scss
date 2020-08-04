@@ -1,3 +1,13 @@
+.noNotice{
+  text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30rpx;
+  font-family: "Microsoft YaHei UI";
+  font-weight: 600;
+  color: #ddd;
+}
 .u-card-wrap {
   background-color: $u-bg-color;
   padding: 1px;

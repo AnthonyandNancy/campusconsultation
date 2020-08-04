@@ -1,7 +1,7 @@
 <template>
     <view class="dyCartContent">
         <!--u-skeleton(必须)，该类名用于页面的最外层元素，供骨架屏组件查询和定位出绘制骨架的位置和尺寸-->
-        <view class="dynamicItem">
+        <view class="dynamicItem" v-if="currentPageType != 'chat'">
 
             <!--头部样式-->
             <view class="dynamInfo">
@@ -12,19 +12,19 @@
                     </view>
                 </view>
                 <!--u-skeleton-rect(可选)，该类名用于页面的矩形元素，供骨架组件描绘出矩形的骨架块-->
-                <view class="dynamInfoItem Publishertime">
+                <view class="dynamInfoItem Publishertime" @click="toDetail(dynamicObj)">
                     <view class="Publisher">{{dynamicObj.name}}
                         <text v-if="false" class="point" @click="dynamicDetail(dynamicObj)">
                             &#xe608;
                         </text>
                     </view>
-                    <view class="time" @click="dynamicDetail(dynamicObj)">
+                    <view class="time" @click="toDetail(dynamicObj)">
                         {{dynamicObj.addTime}}&nbsp;&nbsp;{{dynamicObj.schoolName}}
                     </view>
                 </view>
 
-                <view class="dynamInfoItem" @click="showVideo">
-                    <view class="videoIcon" v-if="dynamicObj.video != null" >
+                <view class="dynamInfoItem" @click="showVideo" >
+                    <view class="videoIcon" v-if="dynamicObj.video != null && currentPageType != 'detail'" >
                         <image src="/static/images/videoIcon.png" class="auto-img"></image>
                     </view>
                 </view>
@@ -32,10 +32,10 @@
 
             <!--动态内容-->
             <view class="showSourse">
-                <view>
+                <view >
                     <view :class="!dynamicObj.isShowAllContent?'showAllContent':'hideSectionContent'"
-                          @click="dynamicDetail(dynamicObj)">
-                        {{dynamicObj.content}}
+                          @click="toDetail(dynamicObj)">
+                        {{dynamicObj.schoolName}}{{dynamicObj.content}}
                     </view>
                     <view class="fullText" v-if="dynamicObj.content.length >= 39"
                           @click="showAllContent(index1)">{{!dynamicObj.isShowAllContent?'全文':'收起'}}
@@ -49,7 +49,7 @@
                                mode="aspectFill"></image>
                     </view>
 
-                    <view class="video" v-show="false">
+                    <view class="video" v-show="currentPageType == 'detail'">
                         <video id="dynamicVideo" object-fit="cover" controls class="auto-img"
                                :src="dynamicObj.video"></video>
                     <!--dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"-->
@@ -64,7 +64,7 @@
             </view>
 
 
-            <view class="support">
+            <view class="support" v-if="currentPageType != 'detail'">
                 <view class="Item publishTime" v-if="false">{{dynamicObj.addTime}}</view>
 
                 <view class="Item support_comment">
@@ -93,6 +93,19 @@
                         </view>
                         <view class="tip">{{dynamicObj.likeTimes}}</view>
                     </view>
+                </view>
+            </view>
+        </view>
+
+        <!--群聊列表-->
+        <view v-if="currentPageType == 'chat'">
+            <view class="chatBox" @click="toChatRoom">
+                <view class="chatItem">
+                    <view class="chatAvatar"></view>
+                </view>
+                <view class="chatItem">
+                    <view>{{dynamicObj.roomName}}</view>
+                    <view>{{dynamicObj.describe}}</view>
                 </view>
             </view>
         </view>
@@ -172,6 +185,12 @@
             showVideo(){
                 let playVideo = uni.createVideoContext('dynamicVideo');
                 playVideo.requestFullScreen();
+            },
+            toDetail(){
+                this.$emit('toDetailEvent',this.dynamicObj)
+            },
+            toChatRoom(){
+                this.$emit('toChatRoomEvent',this.dynamicObj)
             }
         }
     }
@@ -284,8 +303,9 @@
                 }
 
                 .video {
-                    width: 50%;
-                    height: 200rpx;
+                    width: 98%;
+                    height: 300rpx;
+                    margin-top: 20rpx;
                     margin-bottom: 20rpx;
                     padding-left: 5px;
                 }

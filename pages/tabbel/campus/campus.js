@@ -19,69 +19,69 @@ export default {
         return {
             userSign: '',
             tab: 0,
-            Tabs:['所有动态','热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
+            Tabs:['所有动态','热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
             tabsList: [
                 {
                     id: 0,
                     name: '所有动态',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 1,
                     name: '热门动态',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 31,
                     name: '以书会友',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 36,
                     name: '校园爱情',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 32,
                     name: '百团大战',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 33,
                     name: '约起开黑',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 34,
                     name: '操场相见',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id:35,
                     name: '个人杂物',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
                 {
                     id: 37,
-                    name: '热门校园',
+                    name: '该校群聊',
                     dynamicList: [],
-                    currentpPge: 1,
+                    currentPage: 1,
                     totalPage: 0
                 },
             ],
@@ -100,6 +100,12 @@ export default {
                     selectedIconPath: '/static/images/pinglun.png',
                     text: '发布动态',
                     active: false
+                },
+                {
+                    iconPath: '/static/images/peoples.png',
+                    selectedIconPath: '/static/images/peoples.png',
+                    text: '创建群聊',
+                    active: false
                 }
             ],
             horizontal: 'right',
@@ -117,6 +123,25 @@ export default {
             hotDynamicList: [], //热门动态列表,
             audioPlay: false,
             animationData: {},
+
+            //创建聊天房间 start
+            applyObj: {
+                roomName: '',
+                describe: '',
+                pic: ''
+            },
+            showApplyPanel:false,
+            customStyle: {
+                backgroundColor: "#fff",
+                border: '1px solid #ddd'
+            },
+            realImgUrlList:'',
+            form: {
+                name: '',
+                intro: '',
+                sex: ''
+            },
+            //创建聊天房间 end
         }
     },
     onLoad() {
@@ -132,8 +157,6 @@ export default {
     },
     onShow() {
         if (constant.getIsPublish()) {
-            this.currPage = 1
-            this.hotDynamicList = [];
             this.getSupportList();
         }
     },
@@ -148,7 +171,6 @@ export default {
 
         this.tabsList.forEach((res,index)=>{
             this.getAllDynamicList(index)
-
         })
 
     },
@@ -169,16 +191,19 @@ export default {
                 uni.navigateTo({
                     url: "/pages/publish/publish?publishType=publishDynamic"
                 })
+            }else if (index == 1) {
+                this.showApplyPanel = true;
             }
         },
         refresh() {
-            this.hotDynamicList = [];
-            this.currPage = 1;
-            this.getAllDynamicList(this.currPage)
+            this.tabsList[this.currentSwiper].dynamicList=[];
+            this.tabsList[this.currentSwiper].currentPage=1;
+
+            this.getAllDynamicList(this.currentSwiper)
         },
         loadMore() {
-            this.currPage++;
-            this.getAllDynamicList(this.currPage)
+            this.tabsList[this.currentSwiper].currentPage++
+            this.getAllDynamicList(this.currentSwiper)
         },
         //展示全文
         showAll(index) {
@@ -204,16 +229,97 @@ export default {
             }
         },
 
+        onUploaded() {
+
+            uni.authorize({
+                scope: "scope.camera",
+                success: () => {
+
+                    uni.chooseImage({
+                        count: 1,
+                        sizeType: ['compressed'],
+                        sourceType: ['album', 'camera'],
+                        success: async (chooseImageRes) => {
+                            uni.showLoading({
+                                title:'图片上传中',
+                                mask:true
+                            })
+                            if (chooseImageRes.errMsg == 'chooseImage:ok') {
+
+                                this.applyObj.pic = chooseImageRes.tempFilePaths[0];
+
+                                //线上路径
+                                let json = await api.uploadImages({
+                                    query: {
+                                        filePath: this.applyObj.pic,
+                                        data: {sign: that.userSign},
+                                        key: 'img'
+                                    }
+                                })
+                                let jsonData = JSON.parse(json.data);
+                                if (jsonData.errcode == 200) {
+                                    uni.hideLoading();
+                                    that.realImgUrlList = jsonData.img;
+                                }
+                            }
+                        }
+                    });
+                }
+            })
+
+        },
+        del() {
+            this.applyObj.pic = '';
+            this.applyRealImageUrl = '';
+        },
+        async submitApply() {
+            let json = await api.applyNewChatRoom({
+                query: {
+                    sign: this.userSign,
+                    roomName: this.applyObj.roomName,
+                    describe: this.applyObj.describe,
+                    pic: this.realImgUrlList
+                }
+            })
+            if (json.data.errcode == 200) {
+                this.applyObj = {
+                    roomName: '',
+                    describe: '',
+                    pic: ''
+                }
+                uni.showToast({
+                    title: json.data.info,
+                    mask: true,
+                    icon: 'none'
+                })
+                this.showApplyPanel = false;
+            }
+        },
         //所有动态
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
             console.log(schoolName)
             uni.showLoading();
 
+            if(this.tabsList[index].id == 37){
+                const chatGroupJson = await api.getSchoolChatRoom({
+                    query:{
+                        sign:this.userSign,
+                        schoolName:constant.getUserLogin().schoolName
+                    }
+                })
+                if(chatGroupJson.data.errcode == 200){
+                    uni.hideLoading();
+                    this.tabsList[index].dynamicList = chatGroupJson.data.roomList
+                }
+                console.log('111222聊天房间',chatGroupJson);
+                return;
+            }
+
             let json = await api.getDynamicList({
                 query: {
                     sign: this.userSign,
-                    page: this.tabsList[index].currentpPge,
+                    page: this.tabsList[index].currentPage,
                     school:schoolName,
                     type: this.tabsList[index].id
                 }
@@ -226,13 +332,16 @@ export default {
                     res['isShowAllContent'] = false
                 })
 
-                for(let i = 0;i<json.data.dynamicList.length;i++){
-                    if(json.data.dynamicList[i].schoolName == schoolName){
-                        that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
-                    }
-                }
+                that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
+
             }
             console.log('tabsList======>',this.tabsList);
+        },
+        //进入动态详情页面
+        dynamicDetail(obj) {
+            uni.navigateTo({
+                url: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(obj)
+            })
         },
 
         //发布动态
@@ -281,9 +390,9 @@ export default {
             })
 
             if (json.data.errcode == 200) {
-                console.log('----->点赞成功', json)
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
+                        res.likeTimes++;
                         this.$set(res, 'isMySupport', true)
                     }
                 })
@@ -302,7 +411,6 @@ export default {
             if (json.data.errcode == 200) {
                 let supportList = json.data.dynamicList;
                 console.log(' 我点赞的列表', supportList)
-
                 for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
                     for (let j = 0; j < supportList.length; j++) {
                         if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
@@ -313,5 +421,33 @@ export default {
             }
         },
 
+        //进入聊天房间
+       async toChat(obj){
+            let json = await api.joinGroupChat({
+                query: {
+                    sign: this.userSign,
+                    roomSign: obj.roomSign
+                }
+            })
+
+            if (json.data.errcode == 200) {
+                uni.navigateTo({
+                    url: '/pages/chatRoom/chatRoom?roomSign=' + obj.roomSign + '&roomName=' + obj.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserInfo().name
+                })
+
+            }
+
+
+            // if (obj.chatType == 1) {
+            //     uni.setStorage({
+            //         key: 'privateChatSign',
+            //         data: obj.roomSign
+            //     });
+            //     uni.setStorage({
+            //         key: 'privateChatName',
+            //         data: obj.roomName
+            //     });
+            // }
+        }
     }
 }

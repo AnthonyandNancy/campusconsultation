@@ -285,8 +285,11 @@ export default {
             })
             if (json.data.errcode == 200) {
                 uni.hideLoading();
-                uni.navigateBack({
-                    delta: 1
+                // uni.navigateBack({
+                //     delta: 1
+                // });
+                uni.reLaunch({
+                    url:'/pages/tabbel/campus/campus'
                 });
             }
         },

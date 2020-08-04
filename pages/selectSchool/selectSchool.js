@@ -187,7 +187,7 @@ export default {
         //选择学校之后跳转到该学校的详情
         getschoolVal(val) {
             let schoolTotal = this.schoolList[val].total;
-            this.updateSchool(schoolTotal);
+            this.updateSchool(schoolTotal[0]);
             this.schoolValue = val;
         },
         async updateSchool(nameVal){
@@ -199,6 +199,9 @@ export default {
             })
             if(json.data.errcode == 200){
                 this.toLogin();
+                uni.switchTab({
+                    url:'/pages/tabbel/home/home'
+                })
             }
         },
 

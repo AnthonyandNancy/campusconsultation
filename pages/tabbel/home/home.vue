@@ -351,6 +351,7 @@
 <!--                </view>-->
 <!--            </view>-->
 <!--        </u-popup>-->
+
 <!--        <view>-->
 <!--            <button class="uniFabgetInFo" open-type="getUserInfo" v-if="!isAuthor"-->
 <!--                    @getuserinfo="toAuthor"></button>-->
