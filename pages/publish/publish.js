@@ -47,7 +47,8 @@ export default {
             showgroupChatText:false,
             creatSchoolGrounpName:'',
             showBtn:false,
-            chooseActiveTab:false
+            chooseActiveTab:false,
+            btnDis:false
         }
     },
     onLoad(option) {
@@ -379,26 +380,36 @@ export default {
       async  creatQun(){
           let userInfo = constant.getUserLogin();
           //已经加入的群聊
-            let res01= await api.getGroupChatList({
+            let resHistory= await api.getGroupChatList({
                 query:{
                     sign:that.userSign
                 }
             })
-          let res02= await api.getSchoolChatRoom({
+          let resSchoolChat= await api.getSchoolChatRoom({
               query:{
                   sign:that.userSign,
                   schoolName:userInfo.schoolName
               }
           })
-          if (res01.data.errcode ==200 || res02.data.errcode ==200){
-              this.roomList=res01.data.roomList
-              // this.roomList.push(res01.data.roomList)
-              // this.roomList.push(res02.data.roomList)
+          if (resHistory.data.errcode ==200 || resSchoolChat.data.errcode ==200){
+
+              // if (resHistory.data.roomList.length ==0 &&resSchoolChat.data.roomList.length==0){
+              //     this.btnDis=true
+              // }
+              if (resHistory.data.roomList.length ==0){
+                  this.btnDis=true
+              }else {
+                  this.roomList=resHistory.data.roomList
+                  // this.roomList.push(res01.data.roomList)
+                  // this.roomList.push(res02.data.roomList)
+              }
+
               this.showBtn=true
               //测试
               // this.showSchoolList=true
               // this.showCreatSchool=true
-              console.log(res.data)
+              console.log('resHistory',resHistory.data)
+              console.log('resSchoolChat',resSchoolChat.data)
           }
 
         },
