@@ -428,7 +428,6 @@ export default {
                     data: roomName
                 });
             }
-
         },
         async submitApply() {
             let json = await api.applyNewChatRoom({

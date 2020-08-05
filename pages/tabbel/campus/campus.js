@@ -393,7 +393,7 @@ export default {
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
                         res.likeTimes++;
-                        this.$set(res, 'isMySupport', true)
+                        this.$set(res, 'like', true)
                     }
                 })
             }
@@ -420,7 +420,6 @@ export default {
                 }
             }
         },
-
         //进入聊天房间
        async toChat(obj){
             let json = await api.joinGroupChat({
@@ -448,6 +447,7 @@ export default {
             //         data: obj.roomName
             //     });
             // }
-        }
+        },
+
     }
 }

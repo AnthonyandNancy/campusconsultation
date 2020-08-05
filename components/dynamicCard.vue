@@ -7,7 +7,7 @@
             <view class="dynamInfo">
                 <view class="dynamInfoItem PublisherAvatar">
                 <!--u-skeleton-circle(可选)，该类名用于页面的圆形元素，供骨架组件描绘出圆形的骨架块-->
-                    <view class="avatar u-skeleton-circle">
+                    <view class="avatar u-skeleton-circle" @click="toOtherMineInfoPage">
                         <image :src="dynamicObj.pic" class="auto-img" mode="aspectFill"></image>
                     </view>
                 </view>
@@ -35,7 +35,7 @@
                 <view >
                     <view :class="!dynamicObj.isShowAllContent?'showAllContent':'hideSectionContent'"
                           @click="toDetail(dynamicObj)">
-                        {{dynamicObj.schoolName}}{{dynamicObj.content}}
+                        {{dynamicObj.content}}
                     </view>
                     <view class="fullText" v-if="dynamicObj.content.length >= 39"
                           @click="showAllContent(index1)">{{!dynamicObj.isShowAllContent?'全文':'收起'}}
@@ -49,7 +49,7 @@
                                mode="aspectFill"></image>
                     </view>
 
-                    <view class="video" v-show="currentPageType == 'detail'">
+                    <view class="video" v-show="currentPageType == 'detail'&&dynamicObj.video!=null">
                         <video id="dynamicVideo" object-fit="cover" controls class="auto-img"
                                :src="dynamicObj.video"></video>
                     <!--dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"-->
@@ -63,9 +63,11 @@
                 </view>
             </view>
 
-
             <view class="support" v-if="currentPageType != 'detail'">
                 <view class="Item publishTime" v-if="false">{{dynamicObj.addTime}}</view>
+                <view class="Item publishTime" v-if="dynamicObj.roomId != null">
+                    <u-button size="mini" @click="toAddChatRoom">加入群聊</u-button>
+                </view>
 
                 <view class="Item support_comment">
 
@@ -88,13 +90,14 @@
 
                     <view class="supportIcon" @click="support(dynamicObj.dynamicSign)">
                         <view class="icon">
-                            <image :src="dynamicObj.isMySupport?'/static/images/support_active.png':'/static/images/support.png'"
+                            <image :src="dynamicObj.like?'/static/images/support_active.png':'/static/images/support.png'"
                                    class="auto-img"></image>
                         </view>
                         <view class="tip">{{dynamicObj.likeTimes}}</view>
                     </view>
                 </view>
             </view>
+
         </view>
 
         <!--群聊列表-->
@@ -114,6 +117,7 @@
 
 <script>
     import luchAudio from '../components/luch-audio/luch-audio';
+    import constant from "../utils/constant";
     let that;
     export default {
         props:{
@@ -191,6 +195,24 @@
             },
             toChatRoom(){
                 this.$emit('toChatRoomEvent',this.dynamicObj)
+            },
+            //点击头像进入个人页面
+            toOtherMineInfoPage(){
+                let data = this.dynamicObj
+
+                if (this.userSign == data.sign) {
+                    return;
+                }
+
+                uni.navigateTo({
+                    url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
+                })
+            },
+            toAddChatRoom(){
+                let chatObj = this.dynamicObj
+                uni.navigateTo({
+                    url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
+                })
             }
         }
     }

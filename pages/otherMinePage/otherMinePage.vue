@@ -23,7 +23,8 @@
 
                         <view @click="follow" class="item followBox">
                             <view class="follow">
-                                <image :src="isFollow?'/static/images/follow_active.png':'/static/images/follow.png'" class="auto-img"></image>
+                            <!--<image :src="isFollow?'/static/images/follow_active.png':'/static/images/follow.png'" class="auto-img"></image>-->
+                                <u-icon :name="isFollow?'star-fill':'star'" :color="isFollow?'#2979ff':'#b2b2b2'" size="28"></u-icon>
                             </view>
                                <view class="followIcon">关注</view>
                         </view>

@@ -134,12 +134,14 @@ export default {
         })
     },
     onShow() {
-        if (constant.getIsPublish()) {
-            this.getSupportList();
-        }
+        // if (constant.getIsPublish()) {
+        //     this.getSupportList();
+        // }
 
         this.tab = constant.getSelectType();
-        this.currentSwiper = constant.getSelectType();
+        if(constant.getSelectType().length != 0){
+            this.currentSwiper = constant.getSelectType();
+        }
     },
     onReady() {
         this.userSign = constant.getUserSign();
@@ -298,37 +300,38 @@ export default {
             })
 
             if (json.data.errcode == 200) {
+                console.log('11111111=>',this.currentSwiper)
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
                         res.likeTimes++;
-                        this.$set(res, 'isMySupport', true)
+                        this.$set(res, 'like', true)
                     }
                 })
             }
         },
 
         //获取我点赞的动态列表
-        async getSupportList() {
-            let json = await api.getSupportList({
-                query: {
-                    sign: this.userSign,
-                    page: 1
-                }
-            })
-
-            if (json.data.errcode == 200) {
-                let supportList = json.data.dynamicList;
-                console.log(' 我点赞的列表', supportList)
-
-                for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
-                    for (let j = 0; j < supportList.length; j++) {
-                        if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
-                            this.$set(this.tabsList[this.currentSwiper].dynamicList[i], 'isMySupport', true)
-                        }
-                    }
-                }
-            }
-        },
+        // async getSupportList() {
+        //     let json = await api.getSupportList({
+        //         query: {
+        //             sign: this.userSign,
+        //             page: 1
+        //         }
+        //     })
+        //
+        //     if (json.data.errcode == 200) {
+        //         let supportList = json.data.dynamicList;
+        //         console.log(' 我点赞的列表', supportList)
+        //
+        //         for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
+        //             for (let j = 0; j < supportList.length; j++) {
+        //                 if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
+        //                     this.$set(this.tabsList[this.currentSwiper].dynamicList[i], 'isMySupport', true)
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
 
     }
 }
