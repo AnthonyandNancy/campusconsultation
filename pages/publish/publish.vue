@@ -46,7 +46,7 @@
             @群聊
         </view>
         <view class="tab" v-if="chooseActiveTab==true">
-            <view style="width: 800%;">
+            <view style="width:105vh;">
                 <view   @click="activeTab(index)" class="tabss" v-for="(item,index) in list ">{{item.value}}</view>
             </view>
 <!--            <v-tabs :tabs="list" @change="activeTab" activeColor="#fff" auto backgroundColor="#007AFF" borderRadius="10rpx" lineHeight="0" v-model="chooseTab"></v-tabs>-->
