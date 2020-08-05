@@ -100,7 +100,7 @@
 
         </view>
 
-        <!--群聊列表-->
+        <!-- 群聊列表-->
         <view v-if="currentPageType == 'chat'">
             <view class="chatItemBox" @click="toChatRoom">
                 <view class="chatItem">
