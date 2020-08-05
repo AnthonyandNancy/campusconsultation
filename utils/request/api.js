@@ -83,6 +83,9 @@ const getFollowMineList = (params) => uniRequest(params,base_URL+ '/SchoolLian_w
 //分享动态
 const shareDynamic = (params) => uniRequest(params,base_URL + '/SchoolLian_wx/api/dynamicShare');
 
+//陌生人匹配
+const getRandomMatchUser = (params) => uniRequest(params,base_URL + '/SchoolLian_wx/api/getRandomMatchUser');
+
 export default {
     // requresyUrl,
     getLogin,
@@ -110,6 +113,7 @@ export default {
     checkFollow,
     getFollowList,
     getFollowMineList,
-    shareDynamic
+    shareDynamic,
+    getRandomMatchUser
 }
 

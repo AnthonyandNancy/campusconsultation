@@ -107,7 +107,11 @@
       "path": "pages/personalPage/personalPage",
       "style": {}
     }
-  ],
+      ,{
+            "path" : "pages/beckoningPage/beckoningPage",
+            "style" : {}
+        }
+    ],
   "tabBar": {
     "selectedColor": "#1B7AFF",
     "color": "#000",
