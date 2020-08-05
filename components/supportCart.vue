@@ -35,7 +35,7 @@
         methods:{
             toDynamicDetail(){
                 uni.navigateTo({
-                    url:'/pages/dynamicDetail/dynamicDetail?dynamicObj=' + dynamicObj
+                    url:'/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(this.dynamicObj)
                 })
             }
         }
@@ -50,7 +50,7 @@
         .containerItem{
             flex: 1;
             &:first-child{
-                flex-grow: 1.5;
+                flex-grow: 3.5;
             }
 
         }
@@ -70,7 +70,7 @@
         .publisher_info{
             display: flex;
             align-items: center;
-            margin: 20rpx 0;
+            margin: 15rpx 0;
             .publisher_avatar{
                 flex:  0 0 1;
                 display: inline-block;

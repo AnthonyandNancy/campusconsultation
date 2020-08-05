@@ -116,7 +116,7 @@
 		},
 		computed: {
 			contentWidth(e) {
-				return (this.content.length + 1) * 45 + 10 + 'px'
+				return (this.content.length + 1) * 48 + 10 + 'px'
 			},
 			contentWidthMin() {
 				return 45 + 'px'
@@ -409,6 +409,7 @@
 		width: 45px;
 		height: 45px;
 		opacity: 0;
+		margin-right: 5rpx;
 		transition: opacity 0.2s;
 	}
 

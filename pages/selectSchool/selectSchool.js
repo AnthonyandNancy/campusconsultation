@@ -213,6 +213,7 @@ export default {
 
             if(this.keyword == ''){
                 this.showCell = false;
+                return
             }
 
             let json = await api.searchSchool({
@@ -223,7 +224,8 @@ export default {
             })
             if (json.data.errcode == 200) {
                 this.showCell = true;
-                this.searchSchoolList = json.data.campusList
+                this.toLogin();
+                this.searchSchoolList = json.data.campusList;
             }
         },
     }

@@ -9,6 +9,14 @@
             };
         },
         onLaunch: async function () {
+            if(constant.getUserLogin().length != 0){
+                if(constant.getUserLogin().schoolName != null){
+                    uni.switchTab({
+                        url:'/pages/tabbel/home/home'
+                    })
+                }
+            }
+
             await uni.login({
                 success: res => {
                     let {errMsg, code} = res;
@@ -27,13 +35,15 @@
                         version: '1.0'
                     }
                 })
-                let {errcode, sign} = json.data;
-                if(json.data.schoolName != null){
+                let {errcode, sign,schoolName} = json.data;
+
+                if(schoolName != null){
                     uni.switchTab({
                         url:'/pages/tabbel/home/home'
                     })
                 }
-                if (errcode == 200) {	
+
+                if (errcode == 200) {
                     uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                         success: res => {
@@ -146,8 +156,6 @@
         height: 100%;
         /*border-radius: 20rpx;*/
     }
-
-
 
     @import "uview-ui/index.scss";
 </style>

@@ -408,16 +408,16 @@
                 height: 80rpx;
                 border-radius: 20rpx;
                 margin: 10rpx auto;
-                border: 1rpx solid rgba(0,0,0,0.2);
             }
             .chatRoomName{
                 font-family: "Microsoft YaHei UI";
                 margin-bottom: 10rpx;
+                font-size: 30rpx;
             }
             .chatRoomDec{
                 font-family: "Microsoft YaHei UI";
-                font-size: 20rpx;
-                color: #ddd;
+                font-size: 25rpx;
+                color: #b2b2b2;
             }
         }
     }

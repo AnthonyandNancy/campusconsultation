@@ -44,7 +44,7 @@
 
             <u-cell-group v-if="showCell">
                 <u-cell-item v-for="(item,index) in searchSchoolList" :key="index" icon="none" :title="item[0]"
-                             :arrow="false" @click="selectSchool(item)"></u-cell-item>
+                             :arrow="false" @click="selectSchool(item[0])"></u-cell-item>
             </u-cell-group>
 
 
