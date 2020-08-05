@@ -43,21 +43,24 @@
 		},
 		methods:{
 			setIntervals(){
+				//时间倒计时
 				this.time =setInterval(()=>{
 
 					this.setTime=this.setTime-1
-					this.matchingTime= setInterval( ()=>{
-						console.log('adad')
-								// this.matchingTimeFun()
-					},2000)
+
+				},1000)
+
+
+				//接口倒计时
+				this.matchingTime= setInterval( ()=>{
+					console.log('adad',this.setTime)
+					this.matchingTimeFun()
 					if (this.setTime <= 0){
 						this.showSetTime=true
-						// console.log(this.matchingTime)
-						clearInterval(this.matchingTime)
 						clearInterval(this.time)
-
+						clearInterval(this.matchingTime)
 					}
-				},1000)
+				},2000)
 			},
 
 		async	matchingTimeFun(){
@@ -73,22 +76,20 @@
 
 
 
-				// if (res.data.errcode ==200){
-				// 	this.showChat=true
-				// 	clearInterval(this.time)
-				// 	clearInterval(matchingTime)
-				// 	console.log(res.data)
-				// 	// setTimeout(()=>{
-				// 	// 	uni.redirectTo({
-				// 	// 		url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.sign + '&roomName=' + res.data.name + '&chatType=' + 0 + '&avatar=' + res.data.pic + '&matching=' + 'maching'
-				// 	// 	});
-				// 	// },1000)
-				//
-				// }else if (this.setTime <= 0){
-				// 	this.showSetTime=true
-				// 	clearInterval(matchingTime)
-				// 	clearInterval(this.time)
-				// }
+				if (res.data.errcode == 200){
+					this.showChat=true
+					clearInterval(this.time)
+					clearInterval(this.matchingTime)
+					// setTimeout(()=>{
+					// 	uni.redirectTo({
+					// 		url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.sign + '&roomName=' + res.data.name + '&chatType=' + 0 + '&avatar=' + res.data.pic + '&matching=' + 'maching'
+					// 	});
+					// },1000)
+				}else if (this.setTime <= 0){
+					this.showSetTime=true
+					clearInterval(this.time)
+					clearInterval(this.matchingTime)
+				}
 
 
 			},

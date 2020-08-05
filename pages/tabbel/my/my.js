@@ -1,13 +1,15 @@
 import api from '../../../utils/request/api';
 import constant from '../../../utils/constant';
-import dynamicCard from "../../../components/dynamicCard";
-import refresh from '../../../components/refresh';
 
+//插件 start
+import dynamicCard from "../../../components/dynamicCard";
+import loadRefresh from '../../../components/load-refresh';
+//插件 end
 let that;
 export default {
     components:{
         dynamicCard,
-        refresh
+        loadRefresh
     },
     data() {
         return {
@@ -16,15 +18,19 @@ export default {
             userSign:'',
             dynamicList:[],
             pageHeight:0,
-            myDynamicViewH:0,
+
+            //refresh start
+            myDynamicViewH:0,//视图的高度
+            loadRefreshHeight:0,//刷新的高度
+            currPage:1,//当前的页数
+            totalPage:0, //数据的总页数
+            //refresh end
             isAuthor: Boolean,
 
-            currPage:1,//当前的页数
-            totalPage:3, //数据的总页数
+
             currentType:'my',
 
             getPrivateChatObj:{},
-
 
         };
     },
@@ -45,11 +51,10 @@ export default {
         }
 
         this.userInfo = constant.getUserLogin();
-        // console.log(this.userInfo,'111111111111111')
     },
     onReady(){
         // this.avatarBgImgUrl ='data:image/jpg;base64,'+ wx.getFileSystemManager().readFileSync(this.userInfo.pic, "base64");
-        // console.log(this.avatarBgImgUrl)
+
 
         uni.setStorageSync('IS_PREVIEW',false);
         setTimeout(function () {
@@ -69,6 +74,7 @@ export default {
 
       query.select('.myDynamic').boundingClientRect(res=>{
           this.myDynamicViewH = this.pageHeight - res.top;
+          this.loadRefreshHeight = res.top;
       }).exec();
 
       this.getDynamicList(this.currPage);
@@ -82,10 +88,8 @@ export default {
                 url: '/pages/personalPage/personalPage'
             });
         },
-
-
+        //用户授权
         toAuthor(res) {
-            // console.log('>>>>>',res)
             uni.getUserInfo({
                 provider: 'weixin',
                 success: async function (infoRes) {
@@ -124,35 +128,34 @@ export default {
                 }
             });
         },
+
         toother(){
             uni.navigateTo({
                 url:"/pages/otherMinePage/otherMinePage"
             })
         },
+
         toReadNotive(){
             uni.navigateTo({
                 url:'/pages/notice/notice'
             })
         },
+
         // 刷新数据
-        dropOpen(next) { // 下拉刷新触发方法
+        refresh(next) { // 下拉刷新触发方法
             this.currPage = 1;
             this.dynamicList = [];
             this.getDynamicList(this.currPage)
-
-            setTimeout(() => { // 模拟请求
-                next(); // 请求到数据，执行next() 表示加载完毕，关闭效果
-            }, 1000);
         },
+
         //加载更多
-        pullOpen(next) { // 上拉加载触发方法
+        loadMore(next) { // 上拉加载触发方法
             this.currPage++;
             this.getDynamicList(this.currPage)
-            setTimeout(() => { // 模拟请求
-                next();
-            }, 1000);
+            that.$refs.hideLoading[1].loadOver()
         },
-        //h获取动态列表
+
+        //获取动态列表
         async getDynamicList(currentPage){
             let json = await api.getDynamicList({
                 query:{
@@ -162,13 +165,9 @@ export default {
                 }
             })
             if(json.data.errcode == 200){
-                // console.log('------',json);
-                this.dynamicList =  json.data.dynamicList
-                //     .forEach(res=>{
-                //     if(res.sign == that.userSign){
-                //         this.dynamicList.push(res);
-                //     }
-                // })
+                console.log('获取所有动态列表===>',json)
+                this.totalPage = json.data.totalPage;
+                this.dynamicList = [...this.dynamicList,...json.data.dynamicList];
             }
         },
         toPrivateChat(){
