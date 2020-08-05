@@ -116,6 +116,7 @@
 
             },
 
+            
 
             reStart() {
                 this.setTime = 10
