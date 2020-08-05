@@ -71,13 +71,14 @@
 
 
 		<!--选择学校弹出层-->
-		<u-popup height="100%" mode="center" v-model="showPopup" width="100%">
+		<u-popup height="50%" mode="center" v-model="showPopup" width="100%" closeable="true">
 
 			<view class="popupClose">
-				<view @click="hidePopup" style="margin-bottom: 20rpx">
-<!--					<u-icon name="arrow-left" color="#000" size="48"></u-icon>-->
-					返回
-				</view>
+<!--				<view @click="hidePopup" style="margin-bottom: 20rpx">-->
+<!--&lt;!&ndash;					<u-icon name="arrow-left" color="#000" size="48"></u-icon>&ndash;&gt;-->
+<!--					返回-->
+<!--				</view>-->
+				<view style="height: 8vh;width: 100%"></view>
 				<view class="item">
 					<u-search :animation="true" :show-action="false" @blur="toBlus" @change="handelSearch"
 							  @clear="clearText" @custom="search" @focus="getFocus" @search="search" input-align="left"

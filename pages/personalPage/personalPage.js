@@ -63,10 +63,18 @@ export default {
             success:  (res) =>{
                 console.log('USER_LOGIN>>>>>>>>',res.data);
                 let data=res.data
-                this.schoolName=data.schoolName
+                // this.schoolName=data.schoolName
                 this.userAvater=data.pic
                 this.personalName=data.name
                 this.userSign=data.sign
+            }
+        });
+        uni.getStorage({
+            key: 'SCHOOL_INFO',
+            success:  (res) =>{
+                console.log('SCHOOL_INFO>>>>>>>>',res.data);
+                let data=res.data
+                this.schoolName=data.schoolName
             }
         });
         uni.getStorage({
