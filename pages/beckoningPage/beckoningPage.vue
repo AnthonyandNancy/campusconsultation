@@ -11,7 +11,7 @@
 <!--			<view @click="goChat" class="reStart" v-if="matchType ==0">重新来过吧~</view>-->
 		</u-popup>
 		<u-popup height="100vh" mode="center" v-model="showChat" width="80%">
-
+			<view style="width: 100%;height: 100%;font-size: 40rpx;text-align: center;font-family: 'Microsoft YaHei';line-height: 87rpx;">缘分悄咪咪来了~</view>
 		</u-popup>
 	</view>
 </template>
@@ -39,7 +39,7 @@
 		},
 		onUnload(){
 			clearInterval(this.time)
-			// clearInterval(this.matchingTime)
+			clearInterval(this.matchingTime)
 		},
 		methods:{
 			setIntervals(){
@@ -56,6 +56,7 @@
 					console.log('adad',this.setTime)
 					this.matchingTimeFun()
 					if (this.setTime <= 0){
+						// this.showChat=true
 						this.showSetTime=true
 						clearInterval(this.time)
 						clearInterval(this.matchingTime)
