@@ -1,4 +1,4 @@
-import vTabs from '../../../components/v-tabs/v-tabs';
+import WucTab from '../../../components/wuc-tab/wuc-tab';
 import loadRefresh from '../../../components/load-refresh';
 import uniFab from '../../../components/uni-fab/uni-fab'
 import api from "../../../utils/request/api";
@@ -10,7 +10,7 @@ import dynamicCard from "../../../components/dynamicCard";
 let that;
 export default {
     components: {
-        vTabs,
+        WucTab,
         loadRefresh,
         uniFab,
         dynamicCard

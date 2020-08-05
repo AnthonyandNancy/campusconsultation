@@ -102,13 +102,15 @@
 
         <!--群聊列表-->
         <view v-if="currentPageType == 'chat'">
-            <view class="chatBox" @click="toChatRoom">
+            <view class="chatItemBox" @click="toChatRoom">
                 <view class="chatItem">
-                    <view class="chatAvatar"></view>
+                    <view class="chatAvatar">
+                        <image :src="dynamicObj.pic" class="auto-img" style="border-radius: 20rpx" mode="aspectFit"></image>
+                    </view>
                 </view>
                 <view class="chatItem">
-                    <view>{{dynamicObj.roomName}}</view>
-                    <view>{{dynamicObj.describe}}</view>
+                    <view class="chatRoomName">{{dynamicObj.roomName}}</view>
+                    <view class="chatRoomDec">{{dynamicObj.describe}}</view>
                 </view>
             </view>
         </view>
@@ -392,6 +394,32 @@
         }
 
     }
-
+    .chatItemBox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .chatItem{
+            flex: 1;
+            &:last-child{
+                flex-grow: 4.5;
+            }
+            .chatAvatar{
+                width: 80rpx;
+                height: 80rpx;
+                border-radius: 20rpx;
+                margin: 10rpx auto;
+                border: 1rpx solid rgba(0,0,0,0.2);
+            }
+            .chatRoomName{
+                font-family: "Microsoft YaHei UI";
+                margin-bottom: 10rpx;
+            }
+            .chatRoomDec{
+                font-family: "Microsoft YaHei UI";
+                font-size: 20rpx;
+                color: #ddd;
+            }
+        }
+    }
 }
 </style>

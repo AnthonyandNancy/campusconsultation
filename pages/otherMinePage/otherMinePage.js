@@ -211,9 +211,6 @@ export default {
                     console.log('点击关注',json);
                 }
             }
-
-
-
         },
 
         async cancelFollow(){

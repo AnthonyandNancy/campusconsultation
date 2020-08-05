@@ -33,7 +33,7 @@
                         url:'/pages/tabbel/home/home'
                     })
                 }
-                if (errcode == 200) {
+                if (errcode == 200) {	
                     uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                         success: res => {

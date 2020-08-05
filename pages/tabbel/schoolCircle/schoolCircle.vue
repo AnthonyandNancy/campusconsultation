@@ -1,6 +1,6 @@
 <template>
 	<view class="schoolCircle_content">
-		<v-tabs padding="10px 20px" v-model="tab" auto :tabs="Tabs" @change="changeTab"></v-tabs>
+		<wuc-tab :tab-list="tabsList" :tabCur.sync="tab" @change="changeTab"></wuc-tab>
 		<view>
 			<swiper class="navTab" :current="currentSwiper" @change="changeSwiper"
 					:style="{height:swiperViewHeight + 'px'}">

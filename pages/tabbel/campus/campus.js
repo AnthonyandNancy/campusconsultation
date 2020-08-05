@@ -1,19 +1,18 @@
-import vTabs from '../../../components/v-tabs/v-tabs';
 import loadRefresh from '../../../components/load-refresh';
 import uniFab from '../../../components/uni-fab/uni-fab'
 import api from "../../../utils/request/api";
 import constant from "../../../utils/constant";
 
-
 import dynamicCard from "../../../components/dynamicCard";
+import WucTab from '../../../components/wuc-tab/wuc-tab';
 
 let that;
 export default {
     components: {
-        vTabs,
         loadRefresh,
         uniFab,
-        dynamicCard
+        dynamicCard,
+        WucTab
     },
     data() {
         return {
