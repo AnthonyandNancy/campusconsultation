@@ -1,32 +1,19 @@
-import msDropdownMenu from '../../../components/ms-dropdown/dropdown-menu';
-import msDropdownItem from '../../../components/ms-dropdown/dropdown-item';
-import universityChoose from '../../../utils/universityChoose';
-import navTab from '../../../components/navTab';
-import loadRefresh from '../../../components/load-refresh';
+//插件 start
+import mosoweSwiper from '../../../components/mosowe-swiper/mosowe-swiper';
+//插件 end
 import constant from "../../../utils/constant";
 import api from '../../../utils/request/api';
-import uniFab from '../../../components/uni-fab/uni-fab'
-
-import luchAudio from '../../../components/luch-audio/luch-audio';
-
-import navTab_loadRefresh from "../../../components/navTab_loadRefresh";
 
 let that;
 
 export default {
     components: {
-        msDropdownMenu,
-        msDropdownItem,
-        navTab,
-        loadRefresh,
-        navTab_loadRefresh,
-        luchAudio,
-        uniFab
+        mosoweSwiper
     },
     data() {
         return {
             bannerImg: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483569&di=0af236d21540744bb56589db045f18ac&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304611_1468760700828_mthumb.jpg',
-                'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483567&di=b551eabe87c4bdb34e34b410544ce54d&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc39%2F24304707_1468760741305.jpg',
+               'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483567&di=b551eabe87c4bdb34e34b410544ce54d&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc39%2F24304707_1468760741305.jpg',
                 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596525483566&di=34b799251aaeae974982d631889d088f&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1607%2F17%2Fc38%2F24304608_1468760682148_mthumb.jpg'],
             cartTypeList: [{name: '热门动态', bgColor: '#ACB2FD'}, {name: '以书会友', bgColor: '#ACB2FD'}, {
                 name: '校园爱情',
@@ -460,15 +447,12 @@ export default {
             })
         },
         toPublisher(data) {
-            console.log('>>>>>>>>>>>', data)
             if (this.userSign == data.sign) {
                 return;
             }
             uni.navigateTo({
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
             })
-
-
         },
 
         // 用户不是新用户，但缓存中没有学校的信息数据

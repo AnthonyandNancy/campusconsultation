@@ -13,11 +13,12 @@
         </view>
         <view class="containerItem">
             <view class="picture">
-                <image :src="dynamicObj.imgList[0]" class="auto-img"></image>
+                <image :src="dynamicObj.imgList[0]" class="auto-img" style="border-radius: 10rpx"></image>
             </view>
         </view>
     </view>
 </template>
+
 
 <script>
     export default {
