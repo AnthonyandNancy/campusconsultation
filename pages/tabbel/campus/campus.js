@@ -101,7 +101,7 @@ export default {
                     active: false
                 },
                 {
-                    iconPath: '/static/images/peoples.png',
+                    iconPath: '/static/images/qunliao.png',
                     selectedIconPath: '/static/images/peoples.png',
                     text: '创建群聊',
                     active: false

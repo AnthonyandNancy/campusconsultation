@@ -45,7 +45,7 @@ export default {
         }
 
         this.userInfo = constant.getUserLogin();
-        console.log(this.userInfo,'111111111111111')
+        // console.log(this.userInfo,'111111111111111')
     },
     onReady(){
         // this.avatarBgImgUrl ='data:image/jpg;base64,'+ wx.getFileSystemManager().readFileSync(this.userInfo.pic, "base64");
@@ -85,7 +85,7 @@ export default {
 
 
         toAuthor(res) {
-            console.log('>>>>>',res)
+            // console.log('>>>>>',res)
             uni.getUserInfo({
                 provider: 'weixin',
                 success: async function (infoRes) {
@@ -162,7 +162,7 @@ export default {
                 }
             })
             if(json.data.errcode == 200){
-                console.log('------',json);
+                // console.log('------',json);
                 this.dynamicList =  json.data.dynamicList
                 //     .forEach(res=>{
                 //     if(res.sign == that.userSign){
