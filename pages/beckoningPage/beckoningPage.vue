@@ -39,48 +39,61 @@
 		},
 		onUnload(){
 			clearInterval(this.time)
-			clearInterval(this.matchingTime)
+			// clearInterval(this.matchingTime)
 		},
 		methods:{
 			setIntervals(){
-
 				this.time =setInterval(()=>{
+
 					this.setTime=this.setTime-1
-					const sign =constant.getUserSign()
-					let matchingTime= setInterval(async ()=>{
-						let res=await api.getRandomMatchUser({
+					this.matchingTime= setInterval( ()=>{
+						console.log('adad')
+								// this.matchingTimeFun()
+					},2000)
+					if (this.setTime <= 0){
+						this.showSetTime=true
+						// console.log(this.matchingTime)
+						clearInterval(this.matchingTime)
+						clearInterval(this.time)
+
+					}
+				},1000)
+			},
+
+		async	matchingTimeFun(){
+				const sign =constant.getUserSign()
+
+						var res= await api.getRandomMatchUser({
 							query:{
 								sign:sign
 							}
 						})
-						// if (this.setTime <= 0){
-						// 	this.showSetTime=true
-						// 	clearInterval(matchingTime)
-						// 	clearInterval(this.time)
-						//
-						// 	}
-						console.log(res.data)
-						if (res.data.errcode ==200){
-							this.showChat=true
-							clearInterval(this.time)
-							clearInterval(matchingTime)
-							console.log(res.data)
-							// setTimeout(()=>{
-							// 	uni.redirectTo({
-							// 		url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.sign + '&roomName=' + res.data.name + '&chatType=' + 0 + '&avatar=' + res.data.pic + '&matching=' + 'maching'
-							// 	});
-							// },1000)
+					console.log(res.data)
 
-						}else if (this.setTime <= 0){
-							this.showSetTime=true
-							clearInterval(matchingTime)
-							clearInterval(this.time)
-						}
 
-					},1000)
 
-				},1000)
+
+				// if (res.data.errcode ==200){
+				// 	this.showChat=true
+				// 	clearInterval(this.time)
+				// 	clearInterval(matchingTime)
+				// 	console.log(res.data)
+				// 	// setTimeout(()=>{
+				// 	// 	uni.redirectTo({
+				// 	// 		url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.sign + '&roomName=' + res.data.name + '&chatType=' + 0 + '&avatar=' + res.data.pic + '&matching=' + 'maching'
+				// 	// 	});
+				// 	// },1000)
+				//
+				// }else if (this.setTime <= 0){
+				// 	this.showSetTime=true
+				// 	clearInterval(matchingTime)
+				// 	clearInterval(this.time)
+				// }
+
+
 			},
+
+
 
 			reStart(){
 				this.setTime=10
