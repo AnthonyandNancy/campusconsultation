@@ -95,7 +95,8 @@
 
                 if (res.data.errcode == 200) {
                     this.aiXinSrc = '../../static/images/staticXin.png'
-                    this.matchingNum = Math.round(Math.random()) * 100
+                    var num=Math.random();
+                    this.matchingNum =(num.toFixed(2))*100;
                     let userInfo = constant.getUserLogin()
                     this.leftsrc = userInfo.pic
                     this.Rightsrc = res.data.matchUser.pic
