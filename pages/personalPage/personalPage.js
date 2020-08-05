@@ -43,7 +43,7 @@ export default {
             provinceList: [{text: "请选择省", value: 0}],
             cityList: [{text: "请选择市", value: 0}],
             schoolList: [{text: "请选学校", value: 0}],
-            schoolTotal:'',
+            schoolTotal:[],
             showRegion:false,
             // regionList:
             chooseRegion:'',
@@ -61,26 +61,26 @@ export default {
         uni.getStorage({
             key: 'USER_LOGIN',
             success:  (res) =>{
-                console.log('USER_LOGIN>>>>>>>>',res.data);
+                // console.log('USER_LOGIN>>>>>>>>',res.data);
                 let data=res.data
-                // this.schoolName=data.schoolName
+                this.schoolName=data.schoolName
                 this.userAvater=data.pic
                 this.personalName=data.name
                 this.userSign=data.sign
             }
         });
-        uni.getStorage({
-            key: 'SCHOOL_INFO',
-            success:  (res) =>{
-                console.log('SCHOOL_INFO>>>>>>>>',res.data);
-                let data=res.data
-                this.schoolName=data.schoolName
-            }
-        });
+        // uni.getStorage({
+        //     key: 'SCHOOL_INFO',
+        //     success:  (res) =>{
+        //         // console.log('SCHOOL_INFO>>>>>>>>',res.data);
+        //         let data=res.data
+        //         this.schoolName=data.schoolName
+        //     }
+        // });
         uni.getStorage({
             key: 'USER_INFO',
             success:  (res) =>{
-                console.log('USER_INFO',res.data);
+                // console.log('USER_INFO',res.data);
                 this.chooseRegion=res.data.province+'  '+res.data.city
                 this.province=res.data.province
                 this.city=res.data.city
@@ -109,7 +109,7 @@ export default {
             this.showSex=true
         },
         confirmSex(val){
-            console.log(val[0])
+            // console.log(val[0])
             if (val[0] ==0){
                 this.chooseSex='男'
                 this.chooseSexNum=1
@@ -210,7 +210,7 @@ export default {
         getschoolVal(val) {
             let schoolTotal = this.schoolList[val].total;
             this.schoolTotal=this.schoolList[val].total;
-            console.log('>>>>>>>>>>>',schoolTotal)
+            // console.log('>>>>>>>>>>>',schoolTotal)
             this.schoolName=schoolTotal[0]
             //确定按钮
             // this.updateSchool(schoolTotal);
@@ -218,9 +218,11 @@ export default {
             this.showPopup=false
         },
         async updateSchool(schoolItem) {
-            if (schoolItem == this.schoolName) {
-                return;
-            }
+            // if (schoolItem[0] == this.schoolName) {
+            //     console.log('>>>>>>>>>>>',schoolItem)
+            //     console.log('>>>>>>>>>',this.schoolName)
+            //     return;
+            // }
             //缓存学校信息
             if (Object.prototype.toString.call(schoolItem) == '[object Array]') {
                 let schoolInfo = {
@@ -236,12 +238,15 @@ export default {
                 let json = await api.updateUserSchool({
                     query: {
                         sign: this.userSign,
-                        schoolName: schoolInfo.schoolName
+                        schoolName: this.schoolName
                     }
                 })
-
+                console.log('15616545',json)
                 if (json.data.errcode == 200) {
                     this.showPopup = false;
+                    let userInfo=constant.getUserLogin()
+                    userInfo.schoolName=this.schoolName
+                    constant.setUserLogin(userInfo)
                     // this.toLogin();
                     uni.reLaunch({
                         url: '/pages/tabbel/home/home'
@@ -269,7 +274,8 @@ export default {
                     }
 
                     this.schoolInfo = schoolInfo;
-                    this.schoolName = schoolItem;
+                    // this.schoolName = schoolItem[0];
+                    // console.log('>>>>>>>>>>',schoolItem)
                     this.avatarImgUrl = 'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + this.schoolName + '.png';
                     constant.setSchoolInfo(schoolInfo);
 
@@ -277,11 +283,14 @@ export default {
                     let updateJson = await api.updateUserSchool({
                         query: {
                             sign: this.userSign,
-                            schoolName: schoolItem
+                            schoolName: this.schoolName
                         }
                     })
-
+                        console.log('>>>>>>>>>>>',updateJson)
                     if (updateJson.data.errcode == 200) {
+                        let userInfo=constant.getUserLogin()
+                        userInfo.schoolName=this.schoolName
+                        constant.setUserLogin(userInfo)
                         uni.showToast({
                             title: "已切换至：" + this.schoolName,
                             mask: true,
@@ -304,10 +313,10 @@ export default {
         confirmRegion(val){
             // console.log('地区？》》》》',val)
             if (val.city.label == "市辖区"){
-                console.log('市辖区？》》》》',val)
+                // console.log('市辖区？》》》》',val)
                 this.chooseRegion=val.province.label+'  '+val.area.label
             }else{
-                console.log('不是市辖区？》》》》',val)
+                // console.log('不是市辖区？》》》》',val)
                 this.chooseRegion=val.province.label+'  '+val.city.label
             }
 
@@ -326,8 +335,9 @@ export default {
                     age:this.personalAge
                 }
             })
+             // console.log('>>>',this.schoolTotal)
             this.updateSchool(this.schoolTotal)
-            uni.navigateBack();
+            // uni.navigateBack();
         }
     }
 }
