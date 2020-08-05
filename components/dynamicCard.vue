@@ -105,7 +105,7 @@
             <view class="chatItemBox" @click="toChatRoom">
                 <view class="chatItem">
                     <view class="chatAvatar">
-                        <image :src="dynamicObj.pic" class="auto-img" style="border-radius: 20rpx" mode="aspectFit"></image>
+                        <image :src="dynamicObj.pic" class="auto-img" style="border-radius: 20rpx"></image>
                     </view>
                 </view>
                 <view class="chatItem">

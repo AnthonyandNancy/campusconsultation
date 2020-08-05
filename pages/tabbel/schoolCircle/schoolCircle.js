@@ -175,6 +175,11 @@ export default {
                 uni.navigateTo({
                     url: "/pages/publish/publish?publishType=publishDynamic"
                 })
+            }else if (index == 1) {
+                // this.showApplyPanel = true;
+                uni.navigateTo({
+                    url: "/pages/beckoningPage/beckoningPage"
+                })
             }
         },
         refresh() {
