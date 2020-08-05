@@ -8,7 +8,7 @@
 
 
         <u-popup height="40vh" mode="center" v-model="showSetTime" width="80%">
-            <view @click="reStart" class="reStart" v-if="matchType ==1">重新来过吧~</view>
+            <view @click="reStart" class="reStart" v-if="matchType ==1">有缘人还在等你哦~</view>
             <!--			<view @click="goChat" class="reStart" v-if="matchType ==0">重新来过吧~</view>-->
         </u-popup>
 
@@ -139,10 +139,10 @@
         width: 100%;
         height: 100%;
         text-align: center;
-        font-size: 40 rpx;
+        font-size: 53rpx;
         line-height: 10vh;
         font-family: "Microsoft YaHei";
-        background-color: #2979ff;
+
     }
 
     .leftsrc {
