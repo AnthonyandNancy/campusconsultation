@@ -78,14 +78,15 @@
 
 
 				if (res.data.errcode == 200){
+					this.aiXinSrc='../../static/images/staticXin.png'
 					this.showChat=true
 					clearInterval(this.time)
 					clearInterval(this.matchingTime)
-					// setTimeout(()=>{
-					// 	uni.redirectTo({
-					// 		url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.sign + '&roomName=' + res.data.name + '&chatType=' + 0 + '&avatar=' + res.data.pic + '&matching=' + 'maching'
-					// 	});
-					// },1000)
+					setTimeout(()=>{
+						uni.redirectTo({
+							url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'maching'
+						});
+					},1000)
 				}else if (this.setTime <= 0){
 					this.showSetTime=true
 					clearInterval(this.time)
