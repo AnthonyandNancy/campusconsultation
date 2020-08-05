@@ -102,8 +102,14 @@ export default {
                 },
                 {
                     iconPath: '/static/images/qunliao.png',
-                    selectedIconPath: '/static/images/peoples.png',
+                    selectedIconPath: '/static/images/qunliao.png',
                     text: '创建群聊',
+                    active: false
+                },
+                {
+                    iconPath: '/static/images/love.png',
+                    selectedIconPath: '/static/images/love.png',
+                    text: '怦然心动',
                     active: false
                 }
             ],
@@ -192,6 +198,11 @@ export default {
                 })
             }else if (index == 1) {
                 this.showApplyPanel = true;
+            }else if (index == 2) {
+                // this.showApplyPanel = true;
+                uni.navigateTo({
+                    url: "/pages/beckoningPage/beckoningPage"
+                })
             }
         },
         refresh() {

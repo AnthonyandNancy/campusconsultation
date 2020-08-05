@@ -354,34 +354,43 @@ export default {
             this.shareType = 0
             console.log('私聊的option.chatType', option.chatType)
             this.roomType = 1
+            //路人随机匹配
+            if (option.matching !=undefined ||option.matching !=null ){
+                console.log('路人随机匹配')
+            }
             this.roomId = option.roomSign
-            uni.getStorage({
-                key: 'privateChatSign',
-                success: (res) => {
-                    this.roomId = res.data
-                    this.roomSign = res.data
-                    console.log('监听到事件来自 privateChatSign', res.data);
-                    this.getMsgList(res.data);
-                },
-                fail: (res) => {
-                    this.roomId = option.roomSign
-                    this.roomSign = option.roomSign
-                }
+            this.roomSign = option.roomSign
+            uni.setNavigationBarTitle({
+                title: option.roomName
             });
-            uni.getStorage({
-                key: 'privateChatName',
-                success: (res) => {
-                    this.priName = res.data
-                    uni.setNavigationBarTitle({
-                        title: this.priName
-                    });
-                },
-                fail: (res) => {
-                    uni.setNavigationBarTitle({
-                        title: option.roomName
-                    });
-                }
-            });
+            // uni.getStorage({
+            //     key: 'privateChatSign',
+            //     success: (res) => {
+            //         this.roomId = res.data
+            //         this.roomSign = res.data
+            //         console.log('监听到事件来自 privateChatSign', res.data);
+            //         this.getMsgList(res.data);
+            //     },
+            //     fail: (res) => {
+            //         this.roomId = option.roomSign
+            //         this.roomSign = option.roomSign
+            //     }
+            // });
+            // uni.getStorage({
+            //     key: 'privateChatName',
+            //     success: (res) => {
+            //         this.priName = res.data
+            //         uni.setNavigationBarTitle({
+            //             title: this.priName
+            //         });
+            //     },
+            //     fail: (res) => {
+            //         uni.setNavigationBarTitle({
+            //             title: option.roomName
+            //         });
+            //     }
+            // });
+
 
 
             uni.onSocketMessage((res) => {

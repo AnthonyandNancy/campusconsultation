@@ -100,6 +100,12 @@ export default {
                     selectedIconPath: '/static/images/pinglun.png',
                     text: '发布动态',
                     active: false
+                },
+                {
+                    iconPath: '/static/images/love.png',
+                    selectedIconPath: '/static/images/love.png',
+                    text: '怦然心动',
+                    active: false
                 }
             ],
             horizontal: 'right',
