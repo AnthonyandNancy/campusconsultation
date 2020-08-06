@@ -215,7 +215,7 @@
     .aixin{
         /*background-image: url("../../static/images/starrysky.jpg");*/
         background: url("https://cdn4game.xunyi.online/static/SchoolLian/uploadFiles/137ffbd21dcea52f5abfe7793e43eaa4.png") no-repeat fixed center;
-        height: 99vh;
+        height: 100vh;
     }
     .time {
         margin-top: 39%;

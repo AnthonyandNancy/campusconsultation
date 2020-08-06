@@ -482,7 +482,25 @@ export default {
             })
         },
 
-        toPersionalChat(personalObj){
+       async toPersionalChat(personalObj){
+
+            const res = await api.addNewFriend({
+                query: {
+
+                    sign: this.userSign,
+                    friendSign: personalObj.sign
+
+                }
+            })
+            const resFri = await api.addNewFriend({
+                query: {
+                    sign: personalObj.sign,
+                    friendSign: this.userSign
+
+                }
+            })
+            console.log('添加好友',  res,resFri)
+
 
 
             uni.navigateTo({
