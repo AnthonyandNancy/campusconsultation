@@ -24,7 +24,6 @@ export default {
             audioPlay: false,
             audioIsAuthor:Boolean,
             list: [
-
                 {
                   value:'随便写写',
                     id:0
@@ -446,8 +445,7 @@ export default {
             this.chooseActiveTab=true
         },
         activeTab(val){
-         console.log(val)
-            switch(val) {
+            switch(val[0]) {
                 case 0:
                     this.tabsText='随便写写'
                     this.chooseTab=0

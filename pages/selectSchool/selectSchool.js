@@ -33,6 +33,13 @@ export default {
         }
     },
     onLoad() {
+
+        if(constant.getUserLogin().schoolName != null){
+            uni.switchTab({
+                url:'/pages/tabbel/home/home'
+            })
+        }
+
         that = this;
         qqMapWX = new tenxunMap({
             key: 'GA7BZ-CJ4WJ-O65F3-KYEJZ-ROAU5-2FBTY'

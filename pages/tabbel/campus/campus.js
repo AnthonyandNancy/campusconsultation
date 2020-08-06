@@ -18,7 +18,7 @@ export default {
         return {
             userSign: '',
             tab: 0,
-            Tabs:['所有动态','热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
+            Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
             tabsList: [
                 {
                     id: 0,
@@ -30,6 +30,13 @@ export default {
                 {
                     id: 1,
                     name: '热门动态',
+                    dynamicList: [],
+                    currentPage: 1,
+                    totalPage: 0
+                },
+                {
+                    id: 37,
+                    name: '该校群聊',
                     dynamicList: [],
                     currentPage: 1,
                     totalPage: 0
@@ -70,19 +77,13 @@ export default {
                     totalPage: 0
                 },
                 {
-                    id:35,
+                    id: 35,
                     name: '个人杂物',
                     dynamicList: [],
                     currentPage: 1,
                     totalPage: 0
-                },
-                {
-                    id: 37,
-                    name: '该校群聊',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
+                }
+
             ],
             currentSwiper: 0,
             systemInfo: {},
@@ -135,18 +136,20 @@ export default {
                 describe: '',
                 pic: ''
             },
-            showApplyPanel:false,
+            showApplyPanel: false,
             customStyle: {
                 backgroundColor: "#fff",
                 border: '1px solid #ddd'
             },
-            realImgUrlList:'',
+            realImgUrlList: '',
             form: {
                 name: '',
                 intro: '',
                 sex: ''
             },
             //创建聊天房间 end
+
+            videoContext:{}
         }
     },
     onLoad() {
@@ -157,13 +160,11 @@ export default {
                 this.systemInfo = data;
             }
         })
-
-
     },
     onShow() {
-        if (constant.getIsPublish()) {
-            this.getSupportList();
-        }
+        // if (constant.getIsPublish()) {
+        //     this.getSupportList();
+        // }
     },
     onReady() {
         this.userSign = constant.getUserSign();
@@ -173,20 +174,44 @@ export default {
             this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
         }).exec();
 
-
         this.tabsList.forEach((res,index)=>{
             this.getAllDynamicList(index)
         })
 
+
     },
     methods: {
+        showVideo(id){
+            this.videoContext = wx.createVideoContext(id,this);
 
+            this.videoContext.requestFullScreen();
+            console.log('playVi deoplayVideo',this.videoContext)
+        },
+        screenChange(){
+            this.videoContext.play();
+        },
+        //点击头像进入个人页面
+        toOtherMineInfoPage(item){
+            let data = item
+
+            if (this.userSign == data.sign) {
+                return;
+            }
+
+            uni.navigateTo({
+                url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
+            })
+        },
         changeTab(index) {
+            console.log('点击changeTab', index)
             this.currentSwiper = index;
+            this.tab = index;
         },
         changeSwiper(e) {
+            console.log('滑动 changeSwiper', e)
             let index = e.detail.current;
             this.tab = index;
+            this.currentSwiper = index;
         },
         trigger(val) {
             constant.setIsPublish(true);
@@ -196,9 +221,9 @@ export default {
                 uni.navigateTo({
                     url: "/pages/publish/publish?publishType=publishDynamic"
                 })
-            }else if (index == 1) {
+            } else if (index == 1) {
                 this.showApplyPanel = true;
-            }else if (index == 2) {
+            } else if (index == 2) {
                 // this.showApplyPanel = true;
                 uni.navigateTo({
                     url: "/pages/beckoningPage/beckoningPage"
@@ -206,9 +231,8 @@ export default {
             }
         },
         refresh() {
-            this.tabsList[this.currentSwiper].dynamicList=[];
-            this.tabsList[this.currentSwiper].currentPage=1;
-
+            this.tabsList[this.currentSwiper].dynamicList = [];
+            this.tabsList[this.currentSwiper].currentPage = 1;
             this.getAllDynamicList(this.currentSwiper)
         },
         loadMore() {
@@ -251,8 +275,8 @@ export default {
                         sourceType: ['album', 'camera'],
                         success: async (chooseImageRes) => {
                             uni.showLoading({
-                                title:'图片上传中',
-                                mask:true
+                                title: '图片上传中',
+                                mask: true
                             })
                             if (chooseImageRes.errMsg == 'chooseImage:ok') {
 
@@ -343,9 +367,8 @@ export default {
                 })
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
-
             }
-            console.log('tabsList======>',this.tabsList);
+            console.log('tabsList======>', this.tabsList);
         },
         //进入动态详情页面
         dynamicDetail(obj) {
@@ -398,7 +421,6 @@ export default {
                 mask: true,
                 icon: 'none'
             })
-
             if (json.data.errcode == 200) {
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
@@ -408,30 +430,35 @@ export default {
                 })
             }
         },
-
-        //获取我点赞的动态列表
-        async getSupportList() {
-            let json = await api.getSupportList({
-                query: {
-                    sign: this.userSign,
-                    page: 1
-                }
+        // //获取我点赞的动态列表
+        // async getSupportList() {
+        //     let json = await api.getSupportList({
+        //         query: {
+        //             sign: this.userSign,
+        //             page: 1
+        //         }
+        //     })
+        //
+        //     if (json.data.errcode == 200) {
+        //         let supportList = json.data.dynamicList;
+        //         console.log(' 我点赞的列表', supportList)
+        //         for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
+        //             for (let j = 0; j < supportList.length; j++) {
+        //                 if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
+        //                     this.$set(this.tabsList[this.currentSwiper].dynamicList[i], 'isMySupport', true)
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
+        toAddChatRoom(dynamicObj){
+            let chatObj = dynamicObj
+            uni.navigateTo({
+                url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
             })
-
-            if (json.data.errcode == 200) {
-                let supportList = json.data.dynamicList;
-                console.log(' 我点赞的列表', supportList)
-                for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
-                    for (let j = 0; j < supportList.length; j++) {
-                        if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
-                            this.$set(this.tabsList[this.currentSwiper].dynamicList[i], 'isMySupport', true)
-                        }
-                    }
-                }
-            }
         },
         //进入聊天房间
-       async toChat(obj){
+        async toChat(obj) {
             let json = await api.joinGroupChat({
                 query: {
                     sign: this.userSign,

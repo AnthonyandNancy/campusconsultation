@@ -1,11 +1,6 @@
 <template>
     <view class="home_content">
         <view class="home_swiper">
-<!--            <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="5000" :duration="500" :loop="true">-->
-<!--                <swiper-item v-for="(item,index) in bannerImg" :key="index">-->
-<!--                        <image :src="item" class="auto-img"></image>-->
-<!--                </swiper-item>-->
-<!--            </swiper>-->
             <mosowe-swiper
                     :lists="bannerImg"
                     :touchable="false"
@@ -13,19 +8,19 @@
                     :imageKey="image"
                     previewImage
                     pyramid
-                    pyramidMargin="90rpx"
-            />
-
+                    pyramidMargin="90rpx"/>
         </view>
-
-
 
         <view class="home_cart">
             <view class="cart">
                 <view class="cartItem"   v-for="(cartItem,index) in cartTypeList" :key="index" :style="{backgroundColor:cartItem.bgColor}">
                     <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
                     <view class="cartBox" @click="toHotDynamicPage(index)">
-                        <view></view>
+                        <view class="picture">
+                            <view class="imgBox">
+                                <image :src="'/static/images/h'+ (index+1) +'.png'" class="auto-img"></image>
+                            </view>
+                        </view>
                         <view class="cart_text">{{cartItem.name}}</view>
                     </view>
 

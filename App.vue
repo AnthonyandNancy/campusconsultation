@@ -63,7 +63,7 @@
                                             uni.$emit('getGroupChat', resDataMsg)
                                             let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
                                             uni.showTabBarRedDot({
-                                                index: 1,
+                                                index: 3,
                                             })
 
 

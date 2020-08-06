@@ -19,7 +19,7 @@ export default {
         return {
             userSign: '',
             tab: 0,
-            Tabs:['所有动态','热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
+            Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
             tabsList: [
                 {
                     id: 0,
@@ -71,7 +71,7 @@ export default {
                     totalPage: 0
                 },
                 {
-                    id:35,
+                    id: 35,
                     name: '个人杂物',
                     dynamicList: [],
                     currentPage: 1,
@@ -123,6 +123,7 @@ export default {
             hotDynamicList: [], //热门动态列表,
             audioPlay: false,
             animationData: {},
+            videoContext:{}
         }
     },
     onLoad() {
@@ -134,20 +135,14 @@ export default {
             }
         })
         this.userSign = constant.getUserSign();
-
-        this.tabsList.forEach((res,index)=>{
-            this.getAllDynamicList(index)
-        })
     },
     onShow() {
-        // if (constant.getIsPublish()) {
-        //     this.getSupportList();
-        // }
-
         this.tab = constant.getSelectType();
-        if(constant.getSelectType().length != 0){
+
+        if (constant.getSelectType().length != 0) {
             this.currentSwiper = constant.getSelectType();
         }
+
     },
     onReady() {
         this.userSign = constant.getUserSign();
@@ -157,15 +152,33 @@ export default {
             this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
         }).exec();
 
+        this.tabsList.forEach((res, index) => {
+            this.getAllDynamicList(index)
+        })
+
+
     },
     methods: {
+        //点击头像进入个人页面
+        toOtherMineInfoPage(item) {
+            let data = item
 
+            if (this.userSign == data.sign) {
+                return;
+            }
+
+            uni.navigateTo({
+                url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
+            })
+        },
         changeTab(index) {
             this.currentSwiper = index;
+            this.tab = index;
         },
         changeSwiper(e) {
             let index = e.detail.current;
             this.tab = index;
+            this.currentSwiper = index;
         },
         trigger(val) {
             constant.setIsPublish(true);
@@ -175,7 +188,7 @@ export default {
                 uni.navigateTo({
                     url: "/pages/publish/publish?publishType=publishDynamic"
                 })
-            }else if (index == 1) {
+            } else if (index == 1) {
                 // this.showApplyPanel = true;
                 uni.navigateTo({
                     url: "/pages/beckoningPage/beckoningPage"
@@ -183,15 +196,15 @@ export default {
             }
         },
         refresh() {
-            this.tabsList[this.currentSwiper].dynamicList=[];
-            this.tabsList[this.currentSwiper].currentPage=1;
-
+            this.tabsList[this.currentSwiper].dynamicList = [];
+            this.tabsList[this.currentSwiper].currentPage = 1;
             this.getAllDynamicList(this.currentSwiper)
         },
         loadMore() {
             this.tabsList[this.currentSwiper].currentPage++
             this.getAllDynamicList(this.currentSwiper)
         },
+
         //展示全文
         showAll(index) {
             if (!this.tabsList[this.currentSwiper].dynamicList[index].isShowAllContent) {
@@ -200,6 +213,7 @@ export default {
                 this.tabsList[this.currentSwiper].dynamicList[index].isShowAllContent = false
             }
         },
+
         //图片预览
         preViewImg(index, imgList) {
             constant.setIsPublish(false);
@@ -215,25 +229,38 @@ export default {
                 this.audioPlay = false;
             }
         },
+        showVideo(id){
+            this.videoContext = uni.createVideoContext(id,this);
 
+            this.videoContext.requestFullScreen();
+        },
+        screenChange(){
+            this.videoContext.play();
+        },
+        toAddChatRoom(dynamicObj){
+            let chatObj = dynamicObj
+            uni.navigateTo({
+                url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
+            })
+        },
         //所有动态
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
             console.log(schoolName)
             uni.showLoading();
 
-            if(this.tabsList[index].id == 37){
+            if (this.tabsList[index].id == 37) {
                 const chatGroupJson = await api.getGroupChatList({
-                    query:{
-                        sign:this.userSign,
-                        schoolName:constant.getUserLogin().schoolName
+                    query: {
+                        sign: this.userSign,
+                        schoolName: constant.getUserLogin().schoolName
                     }
                 })
-                if(chatGroupJson.data.errcode == 200){
+                if (chatGroupJson.data.errcode == 200) {
                     uni.hideLoading();
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
                 }
-                console.log('111222聊天房间',chatGroupJson);
+                console.log('111222聊天房间', chatGroupJson);
                 return;
             }
 
@@ -245,6 +272,7 @@ export default {
                 }
             })
 
+
             if (json.data.errcode == 200) {
                 uni.hideLoading();
                 this.tabsList[index].totalPage = json.data.totalPage
@@ -252,10 +280,10 @@ export default {
                     res['isShowAllContent'] = false
                 })
 
-                that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
 
+                that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
             }
-            console.log('tabsList======>',this.tabsList);
+            console.log('tabsList======>', this.tabsList);
         },
 
         //进入动态详情页面
@@ -271,6 +299,7 @@ export default {
                 url: "/pages/publish/publish?publishType=publishDynamic"
             })
         },
+
         //分享
         async toShare(dynSign) {
             let json = await api.shareDynamic({
@@ -286,7 +315,6 @@ export default {
                     mask: true,
                     icon: 'none'
                 })
-                console.log('----->分享成功', json)
             }
         },
         // 评论
@@ -311,7 +339,7 @@ export default {
             })
 
             if (json.data.errcode == 200) {
-                console.log('11111111=>',this.currentSwiper)
+                console.log('11111111=>', this.currentSwiper)
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
                         res.likeTimes++;
@@ -319,30 +347,7 @@ export default {
                     }
                 })
             }
-        },
-
-        //获取我点赞的动态列表
-        // async getSupportList() {
-        //     let json = await api.getSupportList({
-        //         query: {
-        //             sign: this.userSign,
-        //             page: 1
-        //         }
-        //     })
-        //
-        //     if (json.data.errcode == 200) {
-        //         let supportList = json.data.dynamicList;
-        //         console.log(' 我点赞的列表', supportList)
-        //
-        //         for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
-        //             for (let j = 0; j < supportList.length; j++) {
-        //                 if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
-        //                     this.$set(this.tabsList[this.currentSwiper].dynamicList[i], 'isMySupport', true)
-        //                 }
-        //             }
-        //         }
-        //     }
-        // },
+        }
 
     }
 }

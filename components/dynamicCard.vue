@@ -1,17 +1,14 @@
 <template>
     <view class="dyCartContent">
-        <!--u-skeleton(必须)，该类名用于页面的最外层元素，供骨架屏组件查询和定位出绘制骨架的位置和尺寸-->
-        <view class="dynamicItem" v-if="currentPageType != 'chat'">
 
+        <view class="dynamicItem" v-if="currentPageType != 'chat'">
             <!--头部样式-->
             <view class="dynamInfo">
                 <view class="dynamInfoItem PublisherAvatar">
-                <!--u-skeleton-circle(可选)，该类名用于页面的圆形元素，供骨架组件描绘出圆形的骨架块-->
                     <view class="avatar u-skeleton-circle" @click="toOtherMineInfoPage">
                         <image :src="dynamicObj.pic" class="auto-img" mode="aspectFill"></image>
                     </view>
                 </view>
-                <!--u-skeleton-rect(可选)，该类名用于页面的矩形元素，供骨架组件描绘出矩形的骨架块-->
                 <view class="dynamInfoItem Publishertime" @click="toDetail(dynamicObj)">
                     <view class="Publisher">{{dynamicObj.name}}
                         <text v-if="false" class="point" @click="dynamicDetail(dynamicObj)">
@@ -398,6 +395,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 10rpx 0;
         .chatItem{
             flex: 1;
             &:last-child{
