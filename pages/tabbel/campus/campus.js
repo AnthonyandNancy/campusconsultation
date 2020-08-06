@@ -480,6 +480,13 @@ export default {
                 url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
             })
         },
+
+        toPersionalChat(personalObj){
+            uni.navigateTo({
+                url: '/pages/chatRoom/chatRoom?roomSign=' + constant.getUserLogin().sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&userName=' + constant.getUserLogin().name
+            })
+        },
+
         //进入聊天房间
         async toChat(obj) {
             let json = await api.joinGroupChat({

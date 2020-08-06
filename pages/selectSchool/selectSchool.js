@@ -100,19 +100,23 @@ export default {
         getCurLocation() {
             // 选择位置信息 uni.chooseLocation({})
             //自动获取当前的位置信息 只获取经纬度
+
             uni.getLocation({
                 type: 'wgs84',
                 geocode: true,
                 success: function (res) {
+                    console.log('获取到的经纬度信息======>',res);
                     let long = res.longitude;//经度
                     let lat = res.latitude;//维度
                     //获取详细定位，中文地址
+
                     qqMapWX.reverseGeocoder({
                         location: {
                             longitude: long,
                             latitude: lat
                         },
                         success: async (res) => {
+                            console.log('获取到的定位信息======>',res);
                             that.userSign = constant.getUserSign();
                             let province = res.result.ad_info.province;
                             let city = res.result.ad_info.city;
