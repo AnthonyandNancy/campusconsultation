@@ -14,7 +14,7 @@ export default {
             //个人信息
             schoolName:'',
             userAvater:'',
-            userNickName:'Anthony哈哈哈',
+            userNickName:'',
             userSign:'',
             // personalSignature:'清华人清华魂，来世还做清华人',
             personalName:null,
