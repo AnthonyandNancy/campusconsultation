@@ -62,7 +62,6 @@ export default {
                         that.isAuthor = true;
 
                         if (infoRes.errMsg == "getUserInfo:ok") {
-                            console.log('获取到的用户信息',infoRes)
                             constant.setUserInfo(infoRes.userInfo)
 
 
@@ -78,7 +77,6 @@ export default {
                                     city: city
                                 }
                             })
-                            console.log('更新用户信息=====>',json)
                             if (json.data.errcode == 200) {
 
                                 uni.showToast({

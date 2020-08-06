@@ -247,7 +247,7 @@
 
 	.uni-fab--rightBottom {
 		right: 5px;
-		bottom: 20px;
+		bottom: 40px;
 		/* #ifdef H5 */
 		bottom: calc(20px + var(--window-bottom));
 		/* #endif */
@@ -295,7 +295,7 @@
 
 	.uni-fab__circle--rightBottom {
 		right: 15px;
-		bottom: 30px;
+		bottom: 50px;
 		/* #ifdef H5 */
 		bottom: calc(30px + var(--window-bottom));
 		/* #endif */

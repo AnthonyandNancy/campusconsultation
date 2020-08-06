@@ -167,31 +167,28 @@ export default {
             }
         })
 
+        //获取导标签 对应的动态
         this.tabsList = constant.getUserLogin().header[0].title
-        console.log('this.tabsListthis.tabsList',this.tabsList)
         this.content=this.createContent;
-    },
-    onShow() {
-        // if (constant.getIsPublish()) {
-        //     this.getSupportList();
-        // }
     },
     onReady() {
         this.userSign = constant.getUserSign();
-        let query = uni.createSelectorQuery().in(this);
-        query.select('.navTab').boundingClientRect(res => {
-            this.loadRefreshHeight = res.top;
-            this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
-        }).exec();
+
+        new Promise((resolve, reject) => {
+            resolve(this.tabsList);
+        }).then(res=>{
+            let query = uni.createSelectorQuery().in(this);
+            query.select('.navTab').boundingClientRect(res => {
+                this.loadRefreshHeight = res.top;
+                this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+            }).exec();
+        })
+
 
         //遍历获取所有动态
-
-
-        //获取导标签 对应的动态
         this.tabsList.forEach((res, index) => {
             this.getAllDynamicList(index)
         })
-
 
     },
     methods: {
@@ -217,13 +214,11 @@ export default {
             })
         },
         changeTab(index,e) {
-            console.log('点击changeTab  e', e)
             this.currentSwiper = index;
             this.tab = index;
 
         },
         changeSwiper(e) {
-            console.log('滑动 changeSwiper', e)
             let index = e.detail.current;
             this.tab = index;
             this.currentSwiper = index;
