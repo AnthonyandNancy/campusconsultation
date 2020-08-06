@@ -453,56 +453,56 @@ export default {
                     this.commentType=0
                     this.dynamicType=0
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 case 1:
-                 this.tabsText='以书会友'
+                    this.tabsText='以书会友'
                     this.chooseTab=1
-                       this.commentType=1
+                    this.commentType=1
                     this.dynamicType=0
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 case 2:
-                  this.tabsText='百团大战'
+                    this.tabsText='百团大战'
                     this.chooseTab=2
-                       this.commentType=2
+                    this.commentType=2
                     this.dynamicType=0
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 case 3:
-                   this.tabsText='约起开黑'
+                    this.tabsText='约起开黑'
                     this.chooseTab=3
-                       this.commentType=3
+                    this.commentType=3
                     this.dynamicType=0
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 case 4:
-                   this.tabsText='操场相见'
+                    this.tabsText='操场相见'
                     this.chooseTab=4
-                       this.commentType=4
+                    this.commentType=4
                     this.dynamicType=0
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 case 5:
-                  this.tabsText='个人杂物'
+                    this.tabsText='个人杂物'
                     this.chooseTab=5
-                       this.commentType=5
+                    this.commentType=5
                     this.dynamicType=0
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 case 6:
-                 this.tabsText='校园爱情'
+                    this.tabsText='校园爱情'
                     this.chooseTab=6
-                       this.commentType=6
+                    this.commentType=6
                     this.dynamicType=1
                     this.chooseRoomId=this.userSign
                     this.showTag=true
-                     this.chooseActiveTab=false
+                    this.chooseActiveTab=false
                     break;
                 default:
                     // 默认代码块
