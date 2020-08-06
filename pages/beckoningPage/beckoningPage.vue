@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="aixin">
-            <view style="font-size: 24rpx;margin-top: 1%;margin-left: 15%;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
+            <view style="font-size: 24rpx;margin-top: 1%;margin-left: 15%;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
 <!--            <image :src="aiXinSrc" style="margin: 0 auto;"></image>-->
             <view style="height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%;margin: 10rpx auto;"></view>
             <view style="height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: -75% auto"></view>
