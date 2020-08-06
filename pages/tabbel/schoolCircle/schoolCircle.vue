@@ -1,8 +1,9 @@
 <template>
     <view class="schoolCircle_content">
+
         <wuc-tab :tab-list="tabsList" :tabCur.sync="tab" @change="changeTab"></wuc-tab>
+
         <view>
-        <!---->
             <swiper class="navTab" :style="{height:swiperViewHeight + 'px'}" :current="currentSwiper" @change="changeSwiper">
 
                 <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :key="index">
@@ -14,8 +15,7 @@
                                   :pageNo="currPage"
                                   :totalPageNo="totalPage"
                                   @loadMore="loadMore"
-                                  @refresh="refresh"
-                    >
+                                  @refresh="refresh">
                         <view slot="content-list">
                                 <view class="dynamicItem"  v-for="(item1,index1) in item.dynamicList" :key="index1">
                                     <!--头部样式-->
@@ -80,7 +80,7 @@
                                     <view class="support">
                                         <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
                                         <view class="Item publishTime" v-if="item1.roomId != null">
-                                            <u-button size="mini" @click="toAddChatRoom(item1)">加入群聊</u-button>
+                                            <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
                                         </view>
 
                                         <view class="Item support_comment">

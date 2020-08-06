@@ -20,70 +20,69 @@ export default {
             tab: 0,
             Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
             tabsList: [
-                {
-                    id: 0,
-                    name: '所有动态',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 1,
-                    name: '热门动态',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 37,
-                    name: '该校群聊',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 31,
-                    name: '以书会友',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 36,
-                    name: '校园爱情',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 32,
-                    name: '百团大战',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 33,
-                    name: '约起开黑',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 34,
-                    name: '操场相见',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 35,
-                    name: '个人杂物',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                }
-
+                // {
+                //     id: 0,
+                //     title: '所有动态',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 1,
+                //     title: '热门动态',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 37,
+                //     title: '该校群聊',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 31,
+                //     title: '以书会友',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 36,
+                //     title: '校园爱情',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 32,
+                //     title: '百团大战',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 33,
+                //     title: '约起开黑',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 34,
+                //     title: '操场相见',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 35,
+                //     title: '个人杂物',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // }
             ],
             currentSwiper: 0,
             systemInfo: {},
@@ -94,7 +93,8 @@ export default {
                 selectedColor: '#007AFF',
                 buttonColor: '#007AFF'
             },
-            content: [
+            content:[],
+            createContent: [
                 {
                     iconPath: '/static/images/pinglun.png',
                     selectedIconPath: '/static/images/pinglun.png',
@@ -114,6 +114,12 @@ export default {
                     active: false
                 }
             ],
+            loveContent:[{
+                iconPath: '/static/images/love.png',
+                selectedIconPath: '/static/images/love.png',
+                text: '怦然心动',
+                active: false
+            }],
             horizontal: 'right',
             vertical: 'bottom',
             direction: 'horizontal',
@@ -149,7 +155,7 @@ export default {
             },
             //创建聊天房间 end
 
-            videoContext:{}
+            videoContext: {}
         }
     },
     onLoad() {
@@ -160,6 +166,9 @@ export default {
                 this.systemInfo = data;
             }
         })
+
+        this.tabsList = constant.getUserLogin().header[1].title
+        this.content=this.createContent;
     },
     onShow() {
         // if (constant.getIsPublish()) {
@@ -174,24 +183,28 @@ export default {
             this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
         }).exec();
 
-        this.tabsList.forEach((res,index)=>{
+        //遍历获取所有动态
+
+
+        //获取导标签 对应的动态
+        this.tabsList.forEach((res, index) => {
             this.getAllDynamicList(index)
         })
 
 
     },
     methods: {
-        showVideo(id){
-            this.videoContext = wx.createVideoContext(id,this);
+        showVideo(id) {
+            this.videoContext = wx.createVideoContext(id, this);
 
             this.videoContext.requestFullScreen();
-            console.log('playVi deoplayVideo',this.videoContext)
+            console.log('playVi deoplayVideo', this.videoContext)
         },
-        screenChange(){
+        screenChange() {
             this.videoContext.play();
         },
         //点击头像进入个人页面
-        toOtherMineInfoPage(item){
+        toOtherMineInfoPage(item) {
             let data = item
 
             if (this.userSign == data.sign) {
@@ -202,16 +215,23 @@ export default {
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
             })
         },
-        changeTab(index) {
-            console.log('点击changeTab', index)
+        changeTab(index,e) {
+            console.log('点击changeTab  e', e)
             this.currentSwiper = index;
             this.tab = index;
+
         },
         changeSwiper(e) {
             console.log('滑动 changeSwiper', e)
             let index = e.detail.current;
             this.tab = index;
             this.currentSwiper = index;
+
+            if(index == 3){
+                this.content = this.loveContent;
+            }else {
+                this.content = this.createContent;
+            }
         },
         trigger(val) {
             constant.setIsPublish(true);
@@ -249,6 +269,9 @@ export default {
         },
         //图片预览
         preViewImg(index, imgList) {
+            this.tabsList[this.currentSwiper]
+            console.log('index', index);
+            console.log('imgList', imgList)
             constant.setIsPublish(false);
             uni.previewImage({
                 current: index,
@@ -335,18 +358,18 @@ export default {
             console.log(schoolName)
             uni.showLoading();
 
-            if(this.tabsList[index].id == 37){
+            if (this.tabsList[index].id == 37) {
                 const chatGroupJson = await api.getSchoolChatRoom({
-                    query:{
-                        sign:this.userSign,
-                        schoolName:constant.getUserLogin().schoolName
+                    query: {
+                        sign: this.userSign,
+                        schoolName: constant.getUserLogin().schoolName
                     }
                 })
-                if(chatGroupJson.data.errcode == 200){
+                if (chatGroupJson.data.errcode == 200) {
                     uni.hideLoading();
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
                 }
-                console.log('111222聊天房间',chatGroupJson);
+                console.log('111222聊天房间', chatGroupJson);
                 return;
             }
 
@@ -354,7 +377,7 @@ export default {
                 query: {
                     sign: this.userSign,
                     page: this.tabsList[index].currentPage,
-                    school:schoolName,
+                    school: schoolName,
                     type: this.tabsList[index].id
                 }
             })
@@ -451,7 +474,7 @@ export default {
         //         }
         //     }
         // },
-        toAddChatRoom(dynamicObj){
+        toAddChatRoom(dynamicObj) {
             let chatObj = dynamicObj
             uni.navigateTo({
                 url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name

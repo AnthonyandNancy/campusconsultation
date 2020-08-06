@@ -21,69 +21,69 @@ export default {
             tab: 0,
             Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
             tabsList: [
-                {
-                    id: 0,
-                    name: '所有动态',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 1,
-                    name: '热门动态',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 31,
-                    name: '以书会友',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 36,
-                    name: '校园爱情',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 32,
-                    name: '百团大战',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 33,
-                    name: '约起开黑',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 34,
-                    name: '操场相见',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 35,
-                    name: '个人杂物',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
-                {
-                    id: 35,
-                    name: '热门校园',
-                    dynamicList: [],
-                    currentPage: 1,
-                    totalPage: 0
-                },
+                // {
+                //     id: 0,
+                //     title: '所有动态',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 1,
+                //     title: '热门动态',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 31,
+                //     title: '以书会友',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 36,
+                //     title: '校园爱情',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 32,
+                //     title: '百团大战',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 33,
+                //     title: '约起开黑',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 34,
+                //     title: '操场相见',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 35,
+                //     title: '个人杂物',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
+                // {
+                //     id: 35,
+                //     title: '热门校园',
+                //     dynamicList: [],
+                //     currentPage: 1,
+                //     totalPage: 0
+                // },
             ],
             currentSwiper: 0,
             systemInfo: {},
@@ -94,13 +94,22 @@ export default {
                 selectedColor: '#007AFF',
                 buttonColor: '#007AFF'
             },
-            content: [
+            content:[],
+            createContent: [
                 {
                     iconPath: '/static/images/pinglun.png',
                     selectedIconPath: '/static/images/pinglun.png',
                     text: '发布动态',
                     active: false
                 },
+                {
+                    iconPath: '/static/images/love.png',
+                    selectedIconPath: '/static/images/love.png',
+                    text: '怦然心动',
+                    active: false
+                }
+            ],
+            loveContent: [
                 {
                     iconPath: '/static/images/love.png',
                     selectedIconPath: '/static/images/love.png',
@@ -135,6 +144,8 @@ export default {
             }
         })
         this.userSign = constant.getUserSign();
+        this.tabsList = constant.getUserLogin().header[0].title;
+        this.content = this.createContent   ;
     },
     onShow() {
         this.tab = constant.getSelectType();
@@ -179,6 +190,12 @@ export default {
             let index = e.detail.current;
             this.tab = index;
             this.currentSwiper = index;
+
+            if(index == 3){
+                this.content = this.loveContent;
+            }else {
+                this.content = this.createContent;
+            }
         },
         trigger(val) {
             constant.setIsPublish(true);

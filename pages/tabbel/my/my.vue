@@ -5,11 +5,10 @@
                 <view class="notice" @click="toReadNotive">
                     <view class="notice_box">
                         <view class="noticeIcon">
-                            <image src="/static/images/notice.png" class="auto-img"></image>
+                            <image src="/static/images/notice.png" class="auto-img" style="border-radius: 100%"></image>
                         </view>
                         <text class="pointIcon" v-if="false">&#xe608;</text>
                     </view>
-
                 </view>
                 <view class="avatar_nickName">
                     <view class="item avatarItem" @click="toEditDetail(userInfo)">

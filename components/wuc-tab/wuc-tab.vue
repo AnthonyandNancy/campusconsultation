@@ -1,16 +1,16 @@
 <template>
   <scroll-view class="wuc-tab" :class="tabClass" :style="tabStyle" scroll-with-animation scroll-x :scroll-left="scrollLeft">
     <div v-if="!textFlex">
-      <div class="wuc-tab-item" :class="[index === tabCur ? selectClass + ' cur':'']" v-for="(item,index) in tabList" :key="index" :id="index" @tap="tabSelect(index,$event)">
+      <div class="wuc-tab-item" :class="[index === tabCur ? selectClass + ' cur':'']" v-for="(item,index) in tabList" :key="index" :data-typeId="item.type" :id="index" @tap="tabSelect(index,$event)">
         <text :class="item.icon"></text>
-        <span>{{item.name}}</span>
+        <span>{{item.title}}</span>
       </div>
     </div>
 
     <div class="flex text-center" v-if="textFlex">
-      <div class="wuc-tab-item flex-sub" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList" :key="index" :id="index" @tap="tabSelect(index,$event)">
+      <div class="wuc-tab-item flex-sub" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList" :data-typeId="item.type" :key="index" :id="index" @tap="tabSelect(index,$event)">
         <text :class="item.icon"></text>
-        <span>{{item.name}}</span>
+        <span>{{item.title}}</span>
       </div>
     </div>
   </scroll-view>
@@ -63,7 +63,7 @@ export default {
         tabSelect(index, e) {
             if (this.currentTab === index) return false;
             this.$emit('update:tabCur', index);
-            this.$emit('change', index);
+            this.$emit('change', index,e);
         }
     },
     computed: {

@@ -4,6 +4,7 @@ import constant from "../../utils/constant";
 
 import msDropdownMenu from '../../components/ms-dropdown/dropdown-menu';
 import msDropdownItem from '../../components/ms-dropdown/dropdown-item';
+import uniSearchBar from '../../components/uni-search-bar/uni-search-bar.vue'
 
 import universityChoose from '../../utils/universityChoose';
 
@@ -12,6 +13,7 @@ export default {
     components:{
         msDropdownMenu,
         msDropdownItem,
+        uniSearchBar
     },
     data() {
         return {
@@ -29,7 +31,6 @@ export default {
             provinceValue: 0,
             cityValue: 0,
             schoolValue: 0,
-
         }
     },
     onLoad() {
@@ -211,11 +212,17 @@ export default {
                 })
             }
         },
-
-        onSelected(res){
-            console.log(res)
+        getFocus(){
+            this.showSelect = true;
         },
-        async handelSearch() {
+        toBlus(){
+            if(this.keyword != ''){
+                return
+            }
+            this.showSelect = false;
+        },
+        async handelSearch(obj) {
+            this.keyword = obj.value;
             setTimeout((res)=>{},1000)
 
             if(this.keyword == ''){

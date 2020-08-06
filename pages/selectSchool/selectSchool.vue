@@ -37,8 +37,11 @@
                 </view>
                 <view class="item">
                     <!--@change="handelSearch" @focus="getFocus" @search="search" @custom="search" @clear="clearText" @blur="toBlus"-->
-                    <u-search placeholder="请输入你喜欢的院校" @change="handelSearch" v-model="keyword"  :show-action="false"
-                                 input-align="left" :animation="true"></u-search>
+<!--                    <u-search placeholder="请输入你喜欢的院校"  @focus="getFocus" @search="search" @blur="toBlus" @custom="custom" @clear="clearText" @change="handelSearch" v-model="keyword"  :show-action="false"-->
+<!--                                 input-align="left" :animation="true"></u-search>-->
+
+                    <uni-search-bar placeholder="请输入你喜欢的院校" @focus="getFocus" @blur="toBlus" @input="handelSearch" v-model="keyword" :radius="100" ></uni-search-bar>
+
             </view>
             </view>
 

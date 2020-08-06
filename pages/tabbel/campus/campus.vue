@@ -4,7 +4,7 @@
         <view>
             <swiper class="navTab" :current="currentSwiper" @change="changeSwiper"
                     :style="{height:swiperViewHeight + 'px'}">
-                <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :key="index">
+                <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :data-typeId="item.type" :key="index">
 
                     <load-refresh ref="hideLoading"
                                   :isRefresh="true"
@@ -14,8 +14,8 @@
                                   :pageNo="currPage"
                                   :totalPageNo="totalPage"
                                   @loadMore="loadMore"
-                                  @refresh="refresh"
-                    >
+                                  @refresh="refresh">
+
                         <view slot="content-list">
                             <dynamicCard v-if="item.id == 37" v-for="(item1,index1) in item.dynamicList" :key="index1"
                                          :dynamic-obj="item1"
@@ -62,8 +62,8 @@
                                     </view>
 
                                     <view class="resources">
-                                        <view class="item image" v-for="(imgItem,index) in item1.imgList"
-                                              @click='preViewImg(index,item1.imgList)' :key="index">
+                                        <view class="item image" v-for="(imgItem,imgIndex) in item1.imgList"
+                                              @click='preViewImg(imgIndex,item1.imgList)' :key="imgIndex">
                                             <image :src="imgItem" class="auto-img" lazy-load
                                                    mode="aspectFill"></image>
                                         </view>
@@ -87,7 +87,7 @@
                                 <view class="support">
                                     <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
                                     <view class="Item publishTime" v-if="item1.roomId != null">
-                                        <u-button size="mini" @click="toAddChatRoom(item1)">加入群聊</u-button>
+                                        <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
                                     </view>
 
                                     <view class="Item support_comment">
