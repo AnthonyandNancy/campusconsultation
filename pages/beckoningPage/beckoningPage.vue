@@ -2,7 +2,43 @@
     <view>
         <view class="aixin">
             <view style="font-size: 24rpx;margin-top: 1%;margin-left: 15%;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
-            <image :src="aiXinSrc" style="margin-left: 10%;"></image>
+<!--            <image :src="aiXinSrc" style="margin: 0 auto;"></image>-->
+            <view style="height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%;margin: 10rpx auto;"></view>
+            <view style="height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: -75% auto"></view>
+            <view style="height: 30vh;width: 30vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: 18% auto"></view>
+            <view style="height: 20vh;width: 20vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: -59%auto"></view>
+
+
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 20%;left: 6%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 6%;left: 43%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 12%;left: 58%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 25%;left: 75%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 39%;left: 54%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 18%;left: 5%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 8%;left: 20%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 50%;left: 25%;border-radius: 50%;" v-if="showOnce ==0"></image>
+
+
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 20%;left: 6%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 6%;left: 43%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 12%;left: 58%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 25%;left: 75%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 39%;left: 54%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 18%;left: 5%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 8%;left: 20%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 50%;left: 25%;border-radius: 50%;" v-if="showOnce ==1"></image>
+
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 20%;left: 6%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 6%;left: 43%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 12%;left: 58%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 25%;left: 75%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 39%;left: 54%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 18%;left: 5%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 8%;left: 20%;border-radius: 50%;" v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 50%;left: 25%;border-radius: 50%;" v-if="showOnce ==2"></image>
+
+
+
             <view class="time">{{setTime}}</view>
         </view>
 
@@ -46,7 +82,8 @@
                 showChat: false,
                 leftsrc: '../../static/images/peoples.png',
                 Rightsrc: '../../static/images/peoples.png',
-                matchingNum: 10
+                matchingNum: 10,
+                showOnce:0
             };
         },
         onLoad() {
@@ -75,7 +112,7 @@
                     this.matchingTimeFun()
                     if (this.setTime <= 0) {
                         // this.showChat=true
-                        this.showSetTime = true
+                        // this.showSetTime = true
                         clearInterval(this.time)
                         clearInterval(this.matchingTime)
                     }
@@ -109,7 +146,7 @@
                         });
                     }, 5000)
                 } else if (this.setTime <= 0) {
-                    this.showSetTime = true
+                    // this.showSetTime = true
                     clearInterval(this.time)
                     clearInterval(this.matchingTime)
                 }
@@ -130,11 +167,16 @@
 </script>
 
 <style lang="scss" scoped>
+    .aixin{
+        /*background-image: url("../../static/images/starrysky.jpg");*/
+        background: url("https://w.wallhaven.cc/full/13/wallhaven-13dqr9.jpg") no-repeat fixed center;
+        height: 99vh;
+    }
     .time {
-        width: 100%;
-        margin-top: 1%;
-        font-size: 100 rpx;
+        margin-top: 39%;
+        font-size: 50rpx;
         text-align: center;
+
     }
 
     .reStart {
