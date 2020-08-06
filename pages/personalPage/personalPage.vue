@@ -38,16 +38,16 @@
 					<view @click="clickSchoolName" class="likeSchool">{{schoolName}}</view>
 				</view>
 			</view>
-			<view class="common">
-				<view class="commonLeft">地区</view>
-				<view class="commonRight" >
-					<view @click="clickRegion" class="personRegion">
-						{{chooseRegion}}
-<!--						<u-select v-model="showRegion" mode="mutil-column-auto" :list="regionList" @confirm="confirm"></u-select>-->
-<!--						<u-picker :area-code='["11", "1101", "110101"]' @confirm="confirmRegion"  mode="region" v-model="showRegion"></u-picker>-->
-					</view>
-				</view>
-			</view>
+<!--			<view class="common">-->
+<!--				<view class="commonLeft">地区</view>-->
+<!--				<view class="commonRight" >-->
+<!--					<view @click="clickRegion" class="personRegion">-->
+<!--						{{chooseRegion}}-->
+<!--&lt;!&ndash;						<u-select v-model="showRegion" mode="mutil-column-auto" :list="regionList" @confirm="confirm"></u-select>&ndash;&gt;-->
+<!--&lt;!&ndash;						<u-picker :area-code='["11", "1101", "110101"]' @confirm="confirmRegion"  mode="region" v-model="showRegion"></u-picker>&ndash;&gt;-->
+<!--					</view>-->
+<!--				</view>-->
+<!--			</view>-->
 
 				<u-button type="success" @click="save" class="uBTnSave">保存信息</u-button>
 
