@@ -41,9 +41,9 @@
 
         <u-cell-group v-if="publishType=='publishDynamic'">
             <!--话题的选择-->
-            <u-cell-item icon="file-text" title="@话题" @click="chooseHuaTi"  :value="tabsText"></u-cell-item>
+            <u-cell-item icon="file-text" title="#话题" @click="chooseHuaTi"  :value="tabsText"></u-cell-item>
             <!--群聊的选择-->
-            <u-cell-item icon="chat" title="@群聊" @click="creatQun"  :value="creatSchoolGrounpName"></u-cell-item>
+            <u-cell-item icon="chat" title="@群聊" @click="creatQun"  :value="creatSchoolGrounpName" v-if="dynamicType ==0"></u-cell-item>
 
         </u-cell-group>
 

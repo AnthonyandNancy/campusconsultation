@@ -69,7 +69,8 @@ export default {
             creatSchoolGrounpName:'',
             showBtn:false,
             chooseActiveTab:false,
-            btnDis:false
+            btnDis:false,
+            dynamicType:0
         }
     },
     onLoad(option) {
@@ -450,6 +451,7 @@ export default {
                     this.tabsText='随便写写'
                     this.chooseTab=0
                     this.commentType=0
+                    this.dynamicType=0
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
@@ -457,6 +459,7 @@ export default {
                  this.tabsText='以书会友'
                     this.chooseTab=1
                        this.commentType=1
+                    this.dynamicType=0
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
@@ -464,6 +467,7 @@ export default {
                   this.tabsText='百团大战'
                     this.chooseTab=2
                        this.commentType=2
+                    this.dynamicType=0
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
@@ -471,6 +475,7 @@ export default {
                    this.tabsText='约起开黑'
                     this.chooseTab=3
                        this.commentType=3
+                    this.dynamicType=0
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
@@ -478,6 +483,7 @@ export default {
                    this.tabsText='操场相见'
                     this.chooseTab=4
                        this.commentType=4
+                    this.dynamicType=0
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
@@ -485,6 +491,7 @@ export default {
                   this.tabsText='个人杂物'
                     this.chooseTab=5
                        this.commentType=5
+                    this.dynamicType=0
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
@@ -492,6 +499,8 @@ export default {
                  this.tabsText='校园爱情'
                     this.chooseTab=6
                        this.commentType=6
+                    this.dynamicType=1
+                    this.chooseRoomId=this.userSign
                     this.showTag=true
                      this.chooseActiveTab=false
                     break;
