@@ -17,13 +17,13 @@
                                   @refresh="refresh">
 
                         <view slot="content-list">
-                            <dynamicCard v-if="item.id == 37" v-for="(item1,index1) in item.dynamicList" :key="index1"
+                            <dynamicCard v-if="item.type == 37" v-for="(item1,index1) in item.dynamicList" :key="index1"
                                          :dynamic-obj="item1"
-                                         :currentIndex="index1" :currentPageType="item.id== 37?'chat':''"
+                                         :currentIndex="index1" :currentPageType="item.type== 37?'chat':''"
                                          @shareEvent="toShare" @commentEvent="toComment"
                                          @supportEvent="toSupport" @showAllEvent="showAll" @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>
 
-                            <view class="dynamicItem" v-if="item.id != 37" v-for="(item1,index1) in item.dynamicList" :key="index1">
+                            <view class="dynamicItem" v-if="item.type != 37" v-for="(item1,index1) in item.dynamicList" :key="index1">
                                 <!--头部样式-->
                                 <view class="dynamInfo">
                                     <view class="dynamInfoItem PublisherAvatar">

@@ -144,7 +144,7 @@ export default {
             }
         })
         this.userSign = constant.getUserSign();
-        this.tabsList = constant.getUserLogin().header[0].title;
+        this.tabsList = constant.getUserLogin().header[1].title;
         this.content = this.createContent   ;
     },
     onShow() {
@@ -266,7 +266,7 @@ export default {
             console.log(schoolName)
             uni.showLoading();
 
-            if (this.tabsList[index].id == 37) {
+            if (this.tabsList[index].type == 37) {
                 const chatGroupJson = await api.getGroupChatList({
                     query: {
                         sign: this.userSign,
@@ -285,7 +285,7 @@ export default {
                 query: {
                     sign: this.userSign,
                     page: this.tabsList[index].currentPage,
-                    type: this.tabsList[index].id
+                    type: this.tabsList[index].type
                 }
             })
 

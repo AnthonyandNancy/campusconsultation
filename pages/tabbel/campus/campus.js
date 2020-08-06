@@ -167,7 +167,8 @@ export default {
             }
         })
 
-        this.tabsList = constant.getUserLogin().header[1].title
+        this.tabsList = constant.getUserLogin().header[0].title
+        console.log('this.tabsListthis.tabsList',this.tabsList)
         this.content=this.createContent;
     },
     onShow() {
@@ -358,7 +359,7 @@ export default {
             console.log(schoolName)
             uni.showLoading();
 
-            if (this.tabsList[index].id == 37) {
+            if (this.tabsList[index].type == 37) {
                 const chatGroupJson = await api.getSchoolChatRoom({
                     query: {
                         sign: this.userSign,
@@ -378,7 +379,7 @@ export default {
                     sign: this.userSign,
                     page: this.tabsList[index].currentPage,
                     school: schoolName,
-                    type: this.tabsList[index].id
+                    type: this.tabsList[index].type
                 }
             })
 
