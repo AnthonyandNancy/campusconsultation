@@ -473,6 +473,11 @@ export default {
 
                 } else if (resRoomType == 0) {
                     console.log('//在个人界面收到群聊信息');
+                    if (resMsg.type == 'system') {
+                        console.log('>>>>>>>>>>>', resMsg.type)
+                    } else {
+                        resMsg.type = 'orther'
+                    }
                     const roomId = resData.roomId
                     const userTag = 'chatList:' + roomId
                     console.log(userTag)
