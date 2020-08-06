@@ -94,7 +94,7 @@ export default {
                 selectedColor: '#007AFF',
                 buttonColor: '#007AFF'
             },
-            content:[],
+            content: [],
             createContent: [
                 {
                     iconPath: '/static/images/pinglun.png',
@@ -132,7 +132,7 @@ export default {
             hotDynamicList: [], //热门动态列表,
             audioPlay: false,
             animationData: {},
-            videoContext:{}
+            videoContext: {}
         }
     },
     onLoad() {
@@ -148,19 +148,18 @@ export default {
         this.content = this.createContent;
     },
     onShow() {
-        this.tab = constant.getSelectType();
-
         if (constant.getSelectType().length != 0) {
+            this.tab = constant.getSelectType();
             this.currentSwiper = constant.getSelectType();
+            uni.removeStorageSync('SELECT_TYPE');
         }
-
     },
     onReady() {
         this.userSign = constant.getUserSign();
 
         new Promise((resolve, reject) => {
             resolve(this.tabsList)
-        }).then(res=>{
+        }).then(res => {
             let query = uni.createSelectorQuery().in(this);
             query.select('.navTab').boundingClientRect(res => {
                 this.loadRefreshHeight = res.top;
@@ -171,8 +170,6 @@ export default {
                 this.getAllDynamicList(index)
             })
         })
-
-
 
 
     },
@@ -198,9 +195,9 @@ export default {
             this.tab = index;
             this.currentSwiper = index;
 
-            if(index == 3){
+            if (index == 3) {
                 this.content = this.loveContent;
-            }else {
+            } else {
                 this.content = this.createContent;
             }
         },
@@ -253,21 +250,21 @@ export default {
                 this.audioPlay = false;
             }
         },
-        showVideo(id){
-            this.videoContext = uni.createVideoContext(id,this);
+        showVideo(id) {
+            this.videoContext = uni.createVideoContext(id, this);
 
             this.videoContext.requestFullScreen();
         },
-        screenChange(){
+        screenChange() {
             this.videoContext.play();
         },
-        toAddChatRoom(dynamicObj){
+        toAddChatRoom(dynamicObj) {
             let chatObj = dynamicObj
             uni.navigateTo({
                 url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
             })
         },
-        async toPersionalChat(personalObj){
+        async toPersionalChat(personalObj) {
 
             const res = await api.addNewFriend({
                 query: {
@@ -284,12 +281,11 @@ export default {
 
                 }
             })
-            console.log('添加好友',  res,resFri)
-
+            console.log('添加好友', res, resFri)
 
 
             uni.navigateTo({
-                url: '/pages/chatRoom/chatRoom?roomSign=' +personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
+                url: '/pages/chatRoom/chatRoom?roomSign=' + personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
             })
         },
         //所有动态

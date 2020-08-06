@@ -43,7 +43,6 @@ export default {
     methods: {
         toHotDynamicPage(index) {
             constant.setSelectType(index + 1)
-
             uni.switchTab({
                 url: '/pages/tabbel/schoolCircle/schoolCircle'
             })

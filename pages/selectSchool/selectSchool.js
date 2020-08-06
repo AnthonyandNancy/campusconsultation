@@ -225,24 +225,30 @@ export default {
         },
         async handelSearch(obj) {
             this.keyword = obj.value;
+
             setTimeout((res)=>{},1000)
 
+            let reg = new RegExp(/[^\u4E00-\u9FA5]/g);
+            console.log(reg.test(this.keyword))
             if(this.keyword == ''){
                 this.showCell = false;
-                return
+                return;
+            }
+            if(!reg.test(this.keyword)){
+                let json = await api.searchSchool({
+                    query: {
+                        keyword: this.keyword,
+                        sign: this.userSign
+                    }
+                })
+                if (json.data.errcode == 200) {
+                    this.showCell = true;
+                    this.toLogin();
+                    this.searchSchoolList = json.data.campusList;
+                }
             }
 
-            let json = await api.searchSchool({
-                query: {
-                    keyword: this.keyword,
-                    sign: this.userSign
-                }
-            })
-            if (json.data.errcode == 200) {
-                this.showCell = true;
-                this.toLogin();
-                this.searchSchoolList = json.data.campusList;
-            }
+
         },
     }
 }
