@@ -214,7 +214,7 @@
 <style lang="scss" scoped>
     .aixin{
         /*background-image: url("../../static/images/starrysky.jpg");*/
-        background: url("https://w.wallhaven.cc/full/13/wallhaven-13dqr9.jpg") no-repeat fixed center;
+        background: url("https://cdn4game.xunyi.online/static/SchoolLian/uploadFiles/137ffbd21dcea52f5abfe7793e43eaa4.png") no-repeat fixed center;
         height: 99vh;
     }
     .time {
