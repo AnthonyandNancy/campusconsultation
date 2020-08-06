@@ -3,11 +3,13 @@ import constant from "../../utils/constant";
 import universityChoose from "../../utils/universityChoose";
 import msDropdownMenu from '../../components/ms-dropdown/dropdown-menu';
 import msDropdownItem from '../../components/ms-dropdown/dropdown-item';
+import uniSearchBar from '../../components/uni-search-bar/uni-search-bar'
 
 export default {
     components: {
         msDropdownMenu,
         msDropdownItem,
+        uniSearchBar
     },
     data() {
         return {

@@ -71,7 +71,7 @@
 
 
 		<!--选择学校弹出层-->
-		<u-popup height="50%" mode="center" v-model="showPopup" width="100%" closeable="true">
+		<u-popup height="100%" mode="center" v-model="showPopup" width="100%" closeable="true">
 
 			<view class="popupClose">
 <!--				<view @click="hidePopup" style="margin-bottom: 20rpx">-->
@@ -80,9 +80,10 @@
 <!--				</view>-->
 				<view style="height: 8vh;width: 100%"></view>
 				<view class="item">
-					<u-search :animation="true" :show-action="false" @blur="toBlus" @change="handelSearch"
-							  @clear="clearText" @custom="search" @focus="getFocus" @search="search" input-align="left"
-							  placeholder="请输入你喜欢的院校" v-model="keyword"></u-search>
+<!--					<u-search :animation="true" :show-action="false" @blur="toBlus" @change="handelSearch"-->
+<!--							  @clear="clearText" @custom="search" @focus="getFocus" @search="search" input-align="left"-->
+<!--							  placeholder="请输入你喜欢的院校" v-model="keyword"></u-search>-->
+					<uni-search-bar placeholder="请输入你喜欢的院校" @focus="getFocus" @blur="toBlus" @input="handelSearch" v-model="keyword" :radius="100" ></uni-search-bar>
 				</view>
 			</view>
 
