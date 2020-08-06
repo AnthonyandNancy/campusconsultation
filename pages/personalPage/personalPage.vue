@@ -83,7 +83,7 @@
 <!--					<u-search :animation="true" :show-action="false" @blur="toBlus" @change="handelSearch"-->
 <!--							  @clear="clearText" @custom="search" @focus="getFocus" @search="search" input-align="left"-->
 <!--							  placeholder="请输入你喜欢的院校" v-model="keyword"></u-search>-->
-					<uni-search-bar placeholder="请输入你喜欢的院校" @focus="getFocus" @blur="toBlus" @input="handelSearch" v-model="keyword" :radius="100" ></uni-search-bar>
+					<uni-search-bar placeholder="请输入你喜欢的院校" @focus="getFocus" @blur="toBlus" @input="handelSearch" v-model="keyword" :radius="100"  cancelButton="always" @cancel="cancelPop"></uni-search-bar>
 				</view>
 			</view>
 

@@ -134,20 +134,31 @@ export default {
         async handelSearch() {
             this.showCell = true;
             this.showSelect = true;
+
             if (this.keyword == '') {
                 this.showSelect = false;
-            }
-            // console.log(this.keyword)
-            let json = await api.searchSchool({
-                query: {
-                    keyword: this.keyword.value,
-                    sign: this.userSign
+            }else{
+                // let keyword=this.keyword
+                this.keyword.value = this.keyword.value.replace(/[^\u4E00-\u9FA5]/g, ''); // 清除除了中文以外的输入的字符
+                if (this.keyword.value==''||this.keyword.value ==null || this.keyword.value ==undefined){
+                    return
+                }else {
+                    // console.log(this.keyword)
+                    let json = await api.searchSchool({
+                        query: {
+                            keyword: this.keyword.value,
+                            sign: this.userSign
+                        }
+                    })
+                    console.log(json)
+                    if (json.data.errcode == 200) {
+                        this.searchSchoolList = json.data.campusList
+                    }
                 }
-            })
-            console.log(json)
-            if (json.data.errcode == 200) {
-                this.searchSchoolList = json.data.campusList
+
+
             }
+
         },
         search() {
           console.log('按了搜搜')
@@ -333,6 +344,10 @@ export default {
                 this.chooseRegion=val.province.label+'  '+val.city.label
             }
 
+        },
+        //取消
+        cancelPop(){
+            this.showPopup=false
         },
         //保存信息
       async  save(){
