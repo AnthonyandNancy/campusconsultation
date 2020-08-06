@@ -260,6 +260,31 @@ export default {
                 url: '/pages/chatRoom/chatRoom?roomSign=' + chatObj.roomId + '&roomName=' + chatObj.roomInfo.roomName + '&chatType=' + 1 + '&userName=' + constant.getUserLogin().name
             })
         },
+        async toPersionalChat(personalObj){
+
+            const res = await api.addNewFriend({
+                query: {
+
+                    sign: this.userSign,
+                    friendSign: personalObj.sign
+
+                }
+            })
+            const resFri = await api.addNewFriend({
+                query: {
+                    sign: personalObj.sign,
+                    friendSign: this.userSign
+
+                }
+            })
+            console.log('添加好友',  res,resFri)
+
+
+
+            uni.navigateTo({
+                url: '/pages/chatRoom/chatRoom?roomSign=' +personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
+            })
+        },
         //所有动态
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
