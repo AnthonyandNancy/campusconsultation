@@ -22,55 +22,55 @@ export default {
             publishType: '',
             dynamicSign: '',
             audioPlay: false,
-            audioIsAuthor:Boolean,
+            audioIsAuthor: Boolean,
             list: [
                 {
-                  value:'随便写写',
-                    id:0
+                    value: '随便写写',
+                    id: 0
                 },
                 {
-                    value:'以书会友',
-                    id:1
+                    value: '以书会友',
+                    id: 1
                 },
                 {
-                    value:'百团大战',
-                    id:2
+                    value: '百团大战',
+                    id: 2
                 },
                 {
-                    value:'约起开黑',
-                    id:3
+                    value: '约起开黑',
+                    id: 3
                 },
                 {
-                    value:'操场相见',
-                    id:4
+                    value: '操场相见',
+                    id: 4
                 },
                 {
-                    value:'个人杂物',
-                    id:5
+                    value: '个人杂物',
+                    id: 5
                 },
                 {
-                    value:'校园爱情',
-                    id:6
+                    value: '校园爱情',
+                    id: 6
                 },
             ],
-            chooseTab:null,
-            tabsText:null,
-            commentType:null,
-            showTag:false,
-            showSchoolList:false,
-            showCreatSchool:false,
-            roomList:[],
-            chooseSchool:null,
-            groupChatAvatar:'../../static/images/upload.png',
-            groupChatName:'',
-            groupChatDescribe:'',
-            groupChatText:'邀请他人加入',
-            showgroupChatText:false,
-            creatSchoolGrounpName:'',
-            showBtn:false,
-            chooseActiveTab:false,
-            btnDis:false,
-            dynamicType:0
+            chooseTab: null,
+            tabsText: null,
+            commentType: null,
+            showTag: false,
+            showSchoolList: false,
+            showCreatSchool: false,
+            roomList: [],
+            chooseSchool: null,
+            groupChatAvatar: '../../static/images/upload.png',
+            groupChatName: '',
+            groupChatDescribe: '',
+            groupChatText: '邀请他人加入',
+            showgroupChatText: false,
+            creatSchoolGrounpName: '',
+            showBtn: false,
+            chooseActiveTab: false,
+            btnDis: false,
+            dynamicType: 0
         }
     },
     onLoad(option) {
@@ -142,21 +142,21 @@ export default {
                         }
                     });
                 },
-                fail:(err)=>{
+                fail: (err) => {
 
-                    if(err.errMsg!="authorize:fail auth deny"){
+                    if (err.errMsg != "authorize:fail auth deny") {
                         uni.showModal({
-                            content:'检测到您没打开获取信息功能权限，是否去设置打开？',
+                            content: '检测到您没打开获取信息功能权限，是否去设置打开？',
                             confirmText: "确认",
-                            cancelText:'取消',
+                            cancelText: '取消',
                             success: (res) => {
-                                if(res.confirm){
+                                if (res.confirm) {
                                     uni.openSetting({
                                         success: (res) => {
-                                            console.log('拒绝授权->>>',res);
+                                            console.log('拒绝授权->>>', res);
                                         }
                                     })
-                                }else{
+                                } else {
                                     console.log('取消');
                                 }
                             }
@@ -206,19 +206,19 @@ export default {
                 },
                 fail(err) {//拒绝授权
 
-                    if(err.errMsg != "authorize:fail auth deny"){
+                    if (err.errMsg != "authorize:fail auth deny") {
                         uni.showModal({
-                            content:'检测到您没打开获取信息功能权限，是否去设置打开？',
+                            content: '检测到您没打开获取信息功能权限，是否去设置打开？',
                             confirmText: "确认",
-                            cancelText:'取消',
+                            cancelText: '取消',
                             success: (res) => {
-                                if(res.confirm){
+                                if (res.confirm) {
                                     uni.openSetting({
                                         success: (res) => {
-                                            console.log('拒绝授权->>>',res);
+                                            console.log('拒绝授权->>>', res);
                                         }
                                     })
-                                }else{
+                                } else {
                                     console.log('取消');
                                 }
                             }
@@ -232,28 +232,28 @@ export default {
         startRecord() {
             uni.authorize({
                 scope: "scope.record",
-                success:(res)=>{
+                success: (res) => {
                     this.audioIsAuthor = true
-                    constant.setAudioIsAuthor('AUDIO_IS_AUTHOR',this.audioIsAuthor)
+                    constant.setAudioIsAuthor('AUDIO_IS_AUTHOR', this.audioIsAuthor)
                     that.$recorderManager.start();
                 },
-                fail:(err)=>{
+                fail: (err) => {
                     this.audioIsAuthor = false;
-                    constant.setAudioIsAuthor('AUDIO_IS_AUTHOR',this.audioIsAuthor)
+                    constant.setAudioIsAuthor('AUDIO_IS_AUTHOR', this.audioIsAuthor)
 
-                    if(err.errMsg != "authorize:fail auth deny"){
+                    if (err.errMsg != "authorize:fail auth deny") {
                         uni.showModal({
-                            content:'检测到您没打开获取信息功能权限，是否去设置打开？',
+                            content: '检测到您没打开获取信息功能权限，是否去设置打开？',
                             confirmText: "确认",
-                            cancelText:'取消',
+                            cancelText: '取消',
                             success: (res) => {
-                                if(res.confirm){
+                                if (res.confirm) {
                                     uni.openSetting({
                                         success: (res) => {
-                                            console.log('拒绝授权->>>',res);
+                                            console.log('拒绝授权->>>', res);
                                         }
                                     })
-                                }else{
+                                } else {
                                     console.log('取消');
                                 }
                             }
@@ -270,7 +270,7 @@ export default {
         },
         //结束录音
         endRecord() {
-            if(this.audioIsAuthor){
+            if (this.audioIsAuthor) {
                 this.$recorderManager.stop();
             }
         },
@@ -299,7 +299,7 @@ export default {
                 query: {
                     sign: this.userSign,
                     content: this.inputText,
-                    type:this.commentType,
+                    type: this.commentType,
                     imgList: this.realImgUrlList || [],
                     video: this.realVideoUrlList || null,
                     audio: this.realAudioUrlList || null,
@@ -313,7 +313,7 @@ export default {
                 //     delta: 1
                 // });
                 uni.reLaunch({
-                    url:'/pages/tabbel/campus/campus'
+                    url: '/pages/tabbel/campus/campus'
                 });
             }
         },
@@ -346,11 +346,11 @@ export default {
                 })
                 return;
             }
-            sensitiveWord.forEach((res,index) => {
+            sensitiveWord.forEach((res, index) => {
 
-                let reg = new RegExp(res,'ig');
+                let reg = new RegExp(res, 'ig');
                 //判断字符串相等
-                if(that.inputText == res){
+                if (that.inputText == res) {
                     let a = ""
                     for (var i = 0; i < res.length; i++) {
                         a += "*"
@@ -404,133 +404,133 @@ export default {
             }
         },
         /*创建群聊*/
-      async  creatQun(){
-          let userInfo = constant.getUserLogin();
-          //已经加入的群聊
-            let resHistory= await api.getGroupChatList({
-                query:{
-                    sign:that.userSign
+        async creatQun() {
+            let userInfo = constant.getUserLogin();
+            //已经加入的群聊
+            let resHistory = await api.getGroupChatList({
+                query: {
+                    sign: that.userSign
                 }
             })
-          let resSchoolChat= await api.getSchoolChatRoom({
-              query:{
-                  sign:that.userSign,
-                  schoolName:userInfo.schoolName
-              }
-          })
-          if (resHistory.data.errcode ==200 || resSchoolChat.data.errcode ==200){
+            let resSchoolChat = await api.getSchoolChatRoom({
+                query: {
+                    sign: that.userSign,
+                    schoolName: userInfo.schoolName
+                }
+            })
+            if (resHistory.data.errcode == 200 || resSchoolChat.data.errcode == 200) {
 
-              // if (resHistory.data.roomList.length ==0 &&resSchoolChat.data.roomList.length==0){
-              //     this.btnDis=true
-              // }
-              if (resHistory.data.roomList.length ==0){
-                  this.btnDis=true
-              }else {
-                  this.roomList=resHistory.data.roomList
-                  // this.roomList.push(resHistory.data.roomList)
-                  // this.roomList.push(res02.data.roomList)
-              }
+                // if (resHistory.data.roomList.length ==0 &&resSchoolChat.data.roomList.length==0){
+                //     this.btnDis=true
+                // }
+                if (resHistory.data.roomList.length == 0) {
+                    this.btnDis = true
+                } else {
+                    this.roomList = resHistory.data.roomList
+                    // this.roomList.push(resHistory.data.roomList)
+                    // this.roomList.push(res02.data.roomList)
+                }
 
-              this.showBtn=true
-              //测试
-              // this.showSchoolList=true
-              // this.showCreatSchool=true
-              // console.log('resHistory',resHistory.data)
-              console.log('resHistory', this.roomList)
-              console.log('resSchoolChat',resSchoolChat.data)
-          }
+                this.showBtn = true
+                //测试
+                // this.showSchoolList=true
+                // this.showCreatSchool=true
+                // console.log('resHistory',resHistory.data)
+                console.log('resHistory', this.roomList)
+                console.log('resSchoolChat', resSchoolChat.data)
+            }
 
         },
         /*标签的选择*/
-        chooseHuaTi(){
-            this.chooseActiveTab=true
+        chooseHuaTi() {
+            this.chooseActiveTab = true
         },
-        activeTab(val){
-            switch(val[0]) {
+        activeTab(val) {
+            switch (val[0]) {
                 case 0:
-                    this.tabsText='随便写写'
-                    this.chooseTab=0
-                    this.commentType=0
-                    this.dynamicType=0
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '随便写写'
+                    this.chooseTab = 0
+                    this.commentType = 0
+                    this.dynamicType = 0
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 case 1:
-                    this.tabsText='以书会友'
-                    this.chooseTab=1
-                    this.commentType=1
-                    this.dynamicType=0
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '以书会友'
+                    this.chooseTab = 1
+                    this.commentType = 1
+                    this.dynamicType = 0
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 case 2:
-                    this.tabsText='百团大战'
-                    this.chooseTab=2
-                    this.commentType=2
-                    this.dynamicType=0
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '百团大战'
+                    this.chooseTab = 2
+                    this.commentType = 2
+                    this.dynamicType = 0
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 case 3:
-                    this.tabsText='约起开黑'
-                    this.chooseTab=3
-                    this.commentType=3
-                    this.dynamicType=0
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '约起开黑'
+                    this.chooseTab = 3
+                    this.commentType = 3
+                    this.dynamicType = 0
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 case 4:
-                    this.tabsText='操场相见'
-                    this.chooseTab=4
-                    this.commentType=4
-                    this.dynamicType=0
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '操场相见'
+                    this.chooseTab = 4
+                    this.commentType = 4
+                    this.dynamicType = 0
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 case 5:
-                    this.tabsText='个人杂物'
-                    this.chooseTab=5
-                    this.commentType=5
-                    this.dynamicType=0
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '个人杂物'
+                    this.chooseTab = 5
+                    this.commentType = 5
+                    this.dynamicType = 0
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 case 6:
-                    this.tabsText='校园爱情'
-                    this.chooseTab=6
-                    this.commentType=6
-                    this.dynamicType=1
-                    this.chooseRoomId=this.userSign
-                    this.showTag=true
-                    this.chooseActiveTab=false
+                    this.tabsText = '校园爱情'
+                    this.chooseTab = 6
+                    this.commentType = 6
+                    this.dynamicType = 1
+                    this.chooseRoomId = this.userSign
+                    this.showTag = true
+                    this.chooseActiveTab = false
                     break;
                 default:
                     // 默认代码块
-                   // this.switchTabs(0)
-                   //  this.chooseTab=0
+                    // this.switchTabs(0)
+                    //  this.chooseTab=0
                     console.log('tabs栏炸了')
             }
         },
-        closeTag(){
+        closeTag() {
             console.log('关闭便签')
-            this.commentType=null
-            this.chooseTab=null
-            this.showTag=false
-            this.chooseActiveTab=false
+            this.commentType = null
+            this.chooseTab = null
+            this.showTag = false
+            this.chooseActiveTab = false
         },
         /**群聊选择
          * */
         // radioGroupChange(val){
         //     console.log('radioGroupChange>>>',val)
         // },
-        radioChange(val){
-            console.log('radioChange>>>',val[0])
-            for (let i=0;i<=this.roomList.length;i++){
-                if (i==val[0]){
+        radioChange(val) {
+            console.log('radioChange>>>', val[0])
+            for (let i = 0; i <= this.roomList.length; i++) {
+                if (i == val[0]) {
                     console.log(this.roomList[i])
-                    this.chooseRoomId=this.roomList[i].room__roomSign
-                    this.creatSchoolGrounpName=this.roomList[i].room__roomName
-                    this.showgroupChatText=true
+                    this.chooseRoomId = this.roomList[i].room__roomSign
+                    this.creatSchoolGrounpName = this.roomList[i].room__roomName
+                    this.showgroupChatText = true
                 }
             }
             // this.chooseRoomId=val
@@ -541,34 +541,34 @@ export default {
             //         this.showgroupChatText=true
             //     }
             // })
-            this.showSchoolList=false
+            this.showSchoolList = false
 
         },
         /*创建群聊*/
         //取消创建
-        canelCreatSchoolGrounp(){
-            this.showCreatSchool=false
+        canelCreatSchoolGrounp() {
+            this.showCreatSchool = false
         },
         //选择头像
-        chooseAvater(){
+        chooseAvater() {
             uni.chooseImage({
                 count: 1, //默认9
                 sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['album'], //从相册选择
-                success:(res)=> {
+                success: (res) => {
                     console.log(res.tempFilePaths[0]);
-                    this.groupChatAvatar=res.tempFilePaths[0]
+                    this.groupChatAvatar = res.tempFilePaths[0]
                 }
             });
         },
         //btn创建群聊
-       async creatSchoolGrounp(){
+        async creatSchoolGrounp() {
             //上传头像
             this.upLoadAvatar(this.groupChatAvatar)
             // let res= await api.
         },
         //上传头像
-        async upLoadAvatar(val){
+        async upLoadAvatar(val) {
             let resImg = await api.uploadImages({
                 query: {
                     data: {sign: this.userSign},
@@ -579,40 +579,40 @@ export default {
             // console.log(JSON.parse(resImg.data))
             const status = JSON.parse(resImg.data).errcode
             const avatar = JSON.parse(resImg.data).img
-            if (status ==200){
+            if (status == 200) {
                 this.creatGronp(avatar)
-            }else {
+            } else {
 
             }
 
         },
         //创建群聊
-        async  creatGronp(val){
-            let res=await api.applyNewChatRoom({
-                query:{
-                    sign:this.userSign,
-                    roomName:this.groupChatName,
-                    describe:this.groupChatDescribe,
-                    pic:val
+        async creatGronp(val) {
+            let res = await api.applyNewChatRoom({
+                query: {
+                    sign: this.userSign,
+                    roomName: this.groupChatName,
+                    describe: this.groupChatDescribe,
+                    pic: val
                 }
             })
-         this.creatSchoolGrounpName=this.groupChatName
-            this.showgroupChatText=true
-            console.log('申请群聊',res.data)
-            this.showCreatSchool=false
+            this.creatSchoolGrounpName = this.groupChatName
+            this.showgroupChatText = true
+            console.log('申请群聊', res.data)
+            this.showCreatSchool = false
         },
-        closeGroupTag(){
-            this.chooseRoomId=null
-            this.showgroupChatText=false
+        closeGroupTag() {
+            this.chooseRoomId = null
+            this.showgroupChatText = false
         },
         /*选择群聊该功能*/
-        btnCreatGroupChat(){
-            this.showBtn=false
-            this.showCreatSchool=true
+        btnCreatGroupChat() {
+            this.showBtn = false
+            this.showCreatSchool = true
         },
-        btnChooseGroupChat(){
-            this.showBtn=false
-            this.showSchoolList=true
+        btnChooseGroupChat() {
+            this.showBtn = false
+            this.showSchoolList = true
         },
 
     }
