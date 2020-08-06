@@ -145,7 +145,7 @@ export default {
         })
         this.userSign = constant.getUserSign();
         this.tabsList = constant.getUserLogin().header[1].title;
-        this.content = this.createContent   ;
+        this.content = this.createContent;
     },
     onShow() {
         this.tab = constant.getSelectType();
@@ -157,15 +157,22 @@ export default {
     },
     onReady() {
         this.userSign = constant.getUserSign();
-        let query = uni.createSelectorQuery().in(this);
-        query.select('.navTab').boundingClientRect(res => {
-            this.loadRefreshHeight = res.top;
-            this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
-        }).exec();
 
-        this.tabsList.forEach((res, index) => {
-            this.getAllDynamicList(index)
+        new Promise((resolve, reject) => {
+            resolve(this.tabsList)
+        }).then(res=>{
+            let query = uni.createSelectorQuery().in(this);
+            query.select('.navTab').boundingClientRect(res => {
+                this.loadRefreshHeight = res.top;
+                this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+            }).exec();
+
+            this.tabsList.forEach((res, index) => {
+                this.getAllDynamicList(index)
+            })
         })
+
+
 
 
     },
