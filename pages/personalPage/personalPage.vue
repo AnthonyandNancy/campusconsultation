@@ -30,7 +30,7 @@
 			</view>
 			<view class="common">
 				<view class="commonLeft">年龄</view>
-				<view class="commonRight"><u-input :border="false" :type="text" input-align="right" placeholder="请输入你的年龄" v-model="personalAge" type="number" :clearable="false"/></view>
+				<view class="commonRight"><u-input :border="false" :maxlength="2" :type="text" input-align="right" placeholder="请输入你的年龄" v-model="personalAge" type="number" :clearable="false"/></view>
 			</view>
 			<view class="common">
 				<view class="commonLeft">学校</view>
@@ -54,22 +54,6 @@
 
 		</view>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		<!--选择学校弹出层-->
 		<u-popup height="100%" mode="center" v-model="showPopup" width="100%">
 
@@ -78,7 +62,7 @@
 <!--&lt;!&ndash;					<u-icon name="arrow-left" color="#000" size="48"></u-icon>&ndash;&gt;-->
 <!--					返回-->
 <!--				</view>-->
-				<view style="height: 5vh;width: 100%"></view>
+<!--				<view style="height: 5vh;width: 100%"></view>-->
 				<view class="item">
 <!--					<u-search :animation="true" :show-action="false" @blur="toBlus" @change="handelSearch"-->
 <!--							  @clear="clearText" @custom="search" @focus="getFocus" @search="search" input-align="left"-->

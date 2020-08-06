@@ -155,10 +155,7 @@ export default {
                         this.searchSchoolList = json.data.campusList
                     }
                 }
-
-
             }
-
         },
         search() {
           console.log('按了搜搜')
@@ -351,6 +348,7 @@ export default {
         },
         //保存信息
       async  save(){
+            let that = this;
             const res=await api.updateUserInfo({
                 query:{
                     sign:this.userSign,
@@ -363,10 +361,53 @@ export default {
                     age:this.personalAge
                 }
             })
+
              // console.log('>>>',this.schoolTotal)
-            this.updateSchool(this.schoolTotal)
-             this.toLogin();
-            uni.navigateBack();
+
+            if(res.data.errcode == 200){
+                uni.showToast({
+                    title:'保存成功',
+                    icon:'none',
+                    mask: true
+                })
+
+                let times = 0;
+                let timers = setInterval(function () {
+                    times++;
+
+                    uni.showToast({
+                        title:'更新中...',
+                        icon:'loading',
+                        mask:true
+                    })
+
+                    if(times==3){
+                        console.log(times)
+                        uni.showToast({
+                            title:'更新完成',
+                            mask:true,
+                            duration:4000,
+                            success:()=>{
+                                clearInterval(timers);
+                                timers = null;
+
+                                that.updateSchool(this.schoolTotal)
+                                that.toLogin();
+
+                                uni.navigateBack();
+                            }
+                        })
+
+
+                    }
+                    console.log(times)
+                },1000)
+
+
+
+            }
+
+
         }
     }
 }

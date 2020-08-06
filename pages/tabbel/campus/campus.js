@@ -93,7 +93,7 @@ export default {
                 selectedColor: '#007AFF',
                 buttonColor: '#007AFF'
             },
-            content:[],
+            content: [],
             createContent: [
                 {
                     iconPath: '/static/images/pinglun.png',
@@ -114,7 +114,7 @@ export default {
                     active: false
                 }
             ],
-            loveContent:[{
+            loveContent: [{
                 iconPath: '/static/images/love.png',
                 selectedIconPath: '/static/images/love.png',
                 text: '怦然心动',
@@ -169,14 +169,14 @@ export default {
 
         //获取导标签 对应的动态
         this.tabsList = constant.getUserLogin().header[0].title
-        this.content=this.createContent;
+        this.content = this.createContent;
     },
     onReady() {
         this.userSign = constant.getUserSign();
 
         new Promise((resolve, reject) => {
             resolve(this.tabsList);
-        }).then(res=>{
+        }).then(res => {
             let query = uni.createSelectorQuery().in(this);
             query.select('.navTab').boundingClientRect(res => {
                 this.loadRefreshHeight = res.top;
@@ -213,7 +213,7 @@ export default {
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
             })
         },
-        changeTab(index,e) {
+        changeTab(index, e) {
             this.currentSwiper = index;
             this.tab = index;
 
@@ -223,9 +223,9 @@ export default {
             this.tab = index;
             this.currentSwiper = index;
 
-            if(index == 3){
+            if (index == 4) {
                 this.content = this.loveContent;
-            }else {
+            } else {
                 this.content = this.createContent;
             }
         },
@@ -233,6 +233,7 @@ export default {
             constant.setIsPublish(true);
             console.log('点击悬浮按钮事件', val.index)
             let index = val.index
+
             if (index == 0) {
                 uni.navigateTo({
                     url: "/pages/publish/publish?publishType=publishDynamic"
@@ -245,6 +246,13 @@ export default {
                     url: "/pages/beckoningPage/beckoningPage"
                 })
             }
+
+
+        },
+        tofindLove(){
+            uni.navigateTo({
+                url: "/pages/beckoningPage/beckoningPage"
+            })
         },
         refresh() {
             this.tabsList[this.currentSwiper].dynamicList = [];
@@ -477,7 +485,7 @@ export default {
             })
         },
 
-       async toPersionalChat(personalObj){
+        async toPersionalChat(personalObj) {
 
             const res = await api.addNewFriend({
                 query: {
@@ -494,12 +502,11 @@ export default {
 
                 }
             })
-            console.log('添加好友',  res,resFri)
-
+            console.log('添加好友', res, resFri)
 
 
             uni.navigateTo({
-                url: '/pages/chatRoom/chatRoom?roomSign=' +personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
+                url: '/pages/chatRoom/chatRoom?roomSign=' + personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
             })
         },
 

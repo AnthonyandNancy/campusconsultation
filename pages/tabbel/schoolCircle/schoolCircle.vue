@@ -56,8 +56,8 @@
                                         </view>
 
                                         <view class="resources">
-                                            <view class="item image" v-for="(imgItem,index) in item1.imgList"
-                                                  @click='preViewImg(index,item1.imgList)' :key="index">
+                                            <view class="item image" v-for="(imgItem,imgIndex) in item1.imgList"
+                                                  @click='preViewImg(imgIndex,item1.imgList)' :key="index">
                                                 <image :src="imgItem" class="auto-img" lazy-load
                                                        mode="aspectFill"></image>
                                             </view>
@@ -121,7 +121,14 @@
             </swiper>
         </view>
 
-        <view class="addDynamic">
+        <view class="loveBtn" v-if="content.length==1" @click="tofindLove">
+            <view class="loveImg">
+                <image src="/static/images/loveIcon.png" class="auto-img"></image>
+            </view>
+            <view class="loveText">怦然心动</view>
+        </view>
+
+        <view class="addDynamic" v-if="content.length > 1">
             <uni-fab
                     :pattern="pattern"
                     :content="content"

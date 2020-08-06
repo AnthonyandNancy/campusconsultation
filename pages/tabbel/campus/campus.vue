@@ -128,7 +128,14 @@
             </swiper>
         </view>
 
-        <view class="addDynamic">
+        <view class="loveBtn" v-if="content.length==1" @click="tofindLove">
+            <view class="loveImg">
+                <image src="/static/images/loveIcon.png" class="auto-img"></image>
+            </view>
+            <view class="loveText">怦然心动</view>
+        </view>
+
+        <view class="addDynamic" v-if="content.length>1">
             <uni-fab
                     :pattern="pattern"
                     :content="content"

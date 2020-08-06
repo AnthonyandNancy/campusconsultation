@@ -216,6 +216,11 @@ export default {
                 })
             }
         },
+        tofindLove(){
+            uni.navigateTo({
+                url: "/pages/beckoningPage/beckoningPage"
+            })
+        },
         refresh() {
             this.tabsList[this.currentSwiper].dynamicList = [];
             this.tabsList[this.currentSwiper].currentPage = 1;
