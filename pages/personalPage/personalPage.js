@@ -69,6 +69,7 @@ export default {
                 this.userAvater=data.pic
                 this.personalName=data.name
                 this.userSign=data.sign
+                this.personalAge=data.age
             }
         });
         // uni.getStorage({
@@ -136,12 +137,14 @@ export default {
             if (this.keyword == '') {
                 this.showSelect = false;
             }
+            // console.log(this.keyword)
             let json = await api.searchSchool({
                 query: {
-                    keyword: this.keyword,
+                    keyword: this.keyword.value,
                     sign: this.userSign
                 }
             })
+            console.log(json)
             if (json.data.errcode == 200) {
                 this.searchSchoolList = json.data.campusList
             }
@@ -156,6 +159,13 @@ export default {
         toBlus() {
             this.showSelect = false;
         },
+        getSchool(val){
+            console.log(val)
+            this.schoolName=val[0]
+            this.showPopup=false
+            // this.searchSchoolList
+        },
+
         // 用户不是新用户，但缓存中没有学校的信息数据
         async getSchoolInfo() {
             let json = await api.searchSchool({
@@ -220,11 +230,12 @@ export default {
             this.showPopup=false
         },
         async updateSchool(schoolItem) {
-            // if (schoolItem[0] == this.schoolName) {
-            //     console.log('>>>>>>>>>>>',schoolItem)
-            //     console.log('>>>>>>>>>',this.schoolName)
-            //     return;
-            // }
+            let oldSchoolName=constant.getUserLogin().schoolName
+            if (oldSchoolName==this.schoolName) {
+                // console.log('>>>>>>>>>>>',schoolItem)
+                // console.log('>>>>>>>>>',this.schoolName)
+                return;
+            }
             //缓存学校信息
             if (Object.prototype.toString.call(schoolItem) == '[object Array]') {
                 let schoolInfo = {
@@ -249,10 +260,10 @@ export default {
                     let userInfo=constant.getUserLogin()
                     userInfo.schoolName=this.schoolName
                     constant.setUserLogin(userInfo)
-                    // this.toLogin();
-                    uni.reLaunch({
-                        url: '/pages/tabbel/home/home'
-                    })
+                    this.toLogin();
+                    // uni.reLaunch({
+                    //     url: '/pages/tabbel/home/home'
+                    // })
                 }
             } else {
                 if (this.schoolName == null) {
@@ -301,7 +312,7 @@ export default {
 
                         this.dynamicList = []
                         this.currPage = 1;
-                        // this.toLogin();
+                        this.toLogin();
                         // this.getDynamicList(this.currPage)
                         // this.getChatRoom();
                     }
@@ -339,7 +350,8 @@ export default {
             })
              // console.log('>>>',this.schoolTotal)
             this.updateSchool(this.schoolTotal)
-            // uni.navigateBack();
+             this.toLogin();
+            uni.navigateBack();
         }
     }
 }
