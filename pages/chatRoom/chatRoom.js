@@ -190,7 +190,7 @@ export default {
                             console.log('wss-群聊回来的数据1>1', JSON.parse(res.data))
                             console.log('wss-群聊回来的本地数据2>2', this.msgList)
                             uni.showTabBarRedDot({
-                                index: 1,
+                                index: 3,
                             })
                             let json = await api.getGroupChatList({
                                 query: {
@@ -224,7 +224,7 @@ export default {
                     } else {
                         console.log('在一个群聊中收到来自别的群聊消息')
                         uni.showTabBarRedDot({
-                            index: 1,
+                            index: 3,
                         })
                         // if ( resMsg.type == 'system'){
                         //     console.log('>>>>>>>>>>>',resMsg.type)
@@ -407,7 +407,7 @@ export default {
 
                 if (resRoomType == 1) {
                     uni.showTabBarRedDot({
-                        index: 1
+                        index: 3
                     })
 
                     console.log('私聊')
