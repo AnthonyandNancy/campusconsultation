@@ -122,11 +122,11 @@
                 },5500)
 
                 setTimeout(()=>{
-                    this.showOnce=1
+                    this.showOnce=2
                 },6500)
 
                 setTimeout(()=>{
-                    this.showOnce=2
+                    this.showOnce=0
                 },7500)
 
 
