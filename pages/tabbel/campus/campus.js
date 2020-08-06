@@ -482,8 +482,10 @@ export default {
         },
 
         toPersionalChat(personalObj){
+            
+
             uni.navigateTo({
-                url: '/pages/chatRoom/chatRoom?roomSign=' + constant.getUserLogin().sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&userName=' + constant.getUserLogin().name
+                url: '/pages/chatRoom/chatRoom?roomSign=' +personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
             })
         },
 
