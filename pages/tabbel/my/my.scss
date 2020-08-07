@@ -1,0 +1,156 @@
+.main{
+  .header{
+    position: relative;
+    width: 100%;
+    height: 300rpx;
+    border-bottom: 5px solid #eee;
+
+    .header-Info{
+      position: absolute;
+      left: 0;
+      top:0;
+      width: 100%;
+      height: 300rpx;
+      z-index: 1000;
+      color: #000;
+      font-family: "Microsoft YaHei";
+      font-weight: 600;
+    }
+    .header-bg{
+      position: absolute;
+      left: 0;
+      top:0;
+      width: 100%;
+      height: 300rpx;
+      z-index: 500;
+      //filter: blur(6rpx);//高斯模糊
+      //filter: brightness(70%);//亮度
+      //filter: contrast(50%);//对比度
+      //filter: drop-shadow(15rpx 15rpx 10rpx #999999);//给图像设置一个阴影效果
+      //filter: grayscale(60%);//灰度
+      //filter: hue-rotate(90deg);//色相
+      //filter: invert(0.8);//反相
+      //filter: opacity(20%);//透明度
+      //filter: saturate(0%);//饱和度
+      //filter: sepia(70%);//褐色
+      filter: opacity(50%)  sepia(10%);
+    }
+    .notice{
+      .notice_box{
+        position: relative;
+      }
+      .noticeIcon{
+        position: absolute;
+        right: 10rpx;
+        top: 10rpx;
+        width: 50rpx;
+        height: 50rpx;
+      }
+      .pointIcon{
+        position: absolute;
+        right: 2rpx;
+        top: 0rpx;
+        font-family: iconfont;
+        color: #ff0000;
+        font-size: 42rpx;
+      }
+    }
+
+    .avatar_nickName{
+      display: flex;
+      flex-direction: column;
+      padding-top: 50rpx;
+      justify-content: center;
+      text-align: center;
+      .avatarItem{
+        position: relative;
+
+        .getUserInfo{
+          position: absolute;
+          width: 100rpx;
+          height: 100rpx;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index:1000;
+          opacity: 0;
+        }
+      }
+      .item{
+        flex: 1;
+      }
+      .nickNameItem{
+        display: flex;
+        flex-grow: 4;
+        font-size: 16px;
+        .nickitem{
+          flex: 1;
+        }
+        .sendMessageBtn{
+          float: left;
+          margin-left: 10rpx;
+        }
+        .userInfo{
+          text-align: center;
+          //text-align: right;
+          //margin-bottom: 10rpx;
+          //padding-right: 10rpx;
+        }
+      }
+      .avatar{
+        width: 100rpx;
+        height: 100rpx;
+        margin: 0 auto;
+        //border: 1px solid #ddd;
+        border-radius:100% ;
+        overflow: hidden;
+        margin-bottom: 10rpx;
+      }
+    }
+  }
+  /*.operationBox{
+    margin: 20rpx 25rpx;
+    border: 1px solid #ddd;
+    border-radius: 10rpx;
+    padding: 0 0 20rpx;
+    .moreTip{
+      border-bottom: 1px solid #ddd;
+      padding: 10rpx 0 10rpx 10rpx;
+      margin: 0 20rpx;
+      font-family: "Microsoft YaHei";
+      font-weight: 600;
+    }
+  }*/
+  /*.OperationFun{
+    display: flex;
+    padding: 20rpx 0 0;
+
+    .funItem{
+      flex: 1;
+      text-align: center;
+      .notice{
+        position: relative;
+        width: 50rpx;
+        margin: 0 auto;
+        .pointIcon{
+          position: absolute;
+          top: -10rpx;
+          right: -3rpx;
+          font-family: iconfont;
+          color: #ff0000;
+          font-size: 36rpx;
+        }
+      }
+    }
+  }*/
+  .dynamicList{
+    //height: 1000rpx;
+  }
+  .myDynamic{
+    //padding: 0 25rpx;
+    .tip{
+      font-weight: 600;
+      font-family: "Microsoft YaHei";
+      padding: 10px 25rpx;
+    }
+  }
+}

@@ -1,0 +1,128 @@
+.selectSchoolcontain{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+
+  .contain{
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 95%;
+    height: 100%;
+    margin: 0 auto ;
+    padding: 10rpx 0;
+    overflow-y: auto;
+
+    .getUserInfo{
+      position:absolute;
+      width: 100%;
+      height: 120%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 1000;
+      opacity: 0;
+    }
+
+    .selectSchool{
+      //position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 500;
+      .selectTip{
+        font-size: 28upx;
+        font-family: "Microsoft YaHei UI";
+        margin: 15rpx 0;
+        font-weight: 600;
+      }
+      .selectTarget{
+        font-size: 28upx;
+        font-family: "Microsoft YaHei UI";
+        color: #ddd;
+      }
+      .schoolBox{
+        display: flex;
+        margin-top: 30rpx;
+        flex-wrap: wrap;
+        .schoolItem{
+          flex:0 0 calc((100%  -  (30rpx / 2))/2);
+          height: 250rpx;
+          //border: 1rpx solid rgba(0,0,0,0);
+          margin-right: 15rpx;
+          margin-bottom: 15rpx;
+          border-radius: 10rpx;
+          display: flex;
+          flex-direction: column;
+          box-shadow:0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+
+          &:nth-child(2n){
+             margin-right: 0;
+           }
+
+          .avatar{
+            float: right;
+            width: 100rpx;
+            height: 100rpx;
+            margin-right: 25rpx;
+            overflow: hidden;
+          }
+
+          .moreSchool{
+            //font-size: 30rpx;
+            //font-family: "Microsoft YaHei UI";
+            //font-weight: 600;
+            //text-align: center;
+            //line-height: 250rpx;
+          }
+          .moreIcon{
+            float: right;
+            width: 120rpx;
+            height: 120rpx;
+            border: 5px solid #fff;
+            margin-right: 25rpx;
+            //margin-top: 25rpx;
+          }
+          .moreText{
+            flex: 1;
+            line-height:50rpx;
+            font-size: 29rpx;
+             font-family: "Microsoft YaHei UI";
+            font-weight: 600;
+            color: #000000;
+            margin-left: 10rpx;
+            margin-top: 25rpx;
+          }
+          .avatarBox{
+            flex: 1;
+          }
+        }
+        .moreSchool{
+          text-align: center;
+          line-height: 250rpx;
+          font-size: 30upx;
+          font-family: "Microsoft YaHei UI";
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .popupClose{
+    display: flex;
+    align-items: center;
+    .item{
+      flex: 1;
+      &:last-child {
+        flex-grow: 15;
+        padding:10rpx 10rpx 0;
+      }
+    }
+  }
+
+}

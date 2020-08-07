@@ -1,0 +1,595 @@
+.home_content{
+
+  .home_swiper{
+    margin-bottom: 20rpx;
+  }
+  .home_cart{
+    padding:0 20rpx;
+    .cart{
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .cartItem{
+        color: #fff;
+        flex: 0 0 calc((100% - (30rpx / 2)) /2);
+        height: 300rpx;
+        background-color: #ddd;
+        margin-right: 15rpx;
+        margin-bottom: 15rpx;
+        border-radius: 10rpx;
+        position: relative;
+        .cartBox{
+          width: 100%;
+          height: 300rpx;
+        }
+        .imgBox{
+          width: 120rpx;
+          height: 100rpx;
+          margin: 30rpx auto;
+        }
+        .getUserInfo{
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width:100%;
+          height:100%;
+          z-index: 1000;
+          opacity: 0;
+        }
+        &:nth-child(2n){
+          margin-right: 0;
+        }
+        .cart_text{
+          text-align: center;
+          font-size: 36rpx;
+          font-family: "Microsoft YaHei UI";
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+//.content {
+//  .top{
+//    position:relative;
+//    width: 100%;
+//    height: 300rpx;
+//    .schoolContent{
+//      position: absolute;
+//      display: flex;
+//      top: 0;
+//      left: 0;
+//      right: 0;
+//      bottom: 0;
+//      flex-direction: column;
+//      align-items: center;
+//      justify-content: center;
+//      z-index: 1000;
+//      .schoolItem{
+//        text-align: center;
+//      }
+//      .schoolName1{
+//        font-size: 32rpx;
+//        font-family: "Microsoft YaHei";
+//        font-weight: 600;
+//        color: #000;
+//      }
+//      .describe{
+//        font-size: 24rpx;
+//        font-family: "Microsoft YaHei";
+//        font-weight: 500;
+//
+//      }
+//      .avatar{
+//        margin-top: 10rpx;
+//        width: 120rpx;
+//        height: 120rpx;
+//        border: 1px solid #fff;
+//        border-radius: 100%;
+//        overflow: hidden;
+//      }
+//
+//    }
+//    .schoolContentBg{
+//      position: absolute;
+//      left: 0;
+//      right: 0;
+//      height: 300rpx;
+//      z-index: 500;
+//      background-color:  #1A88FF;
+//      //filter: blur(6rpx);//高斯模糊
+//      //filter: brightness(70%);//亮度
+//      //filter: contrast(50%);//对比度
+//      //filter: drop-shadow(15rpx 15rpx 10rpx #999999);//给图像设置一个阴影效果
+//      //filter: grayscale(60%);//灰度
+//      //filter: hue-rotate(90deg);//色相
+//      //filter: invert(0.8);//反相
+//      filter: opacity(20%);//透明度
+//      //filter: saturate(0%);//饱和度
+//      //filter: sepia(70%);//褐色
+//      z-index: 500;
+//    }
+//  }
+//
+//
+//  .top {
+//    //padding-top: 10rpx;
+//    animation:go_out .5s;
+//  }
+//  .changeSchool {
+//    margin-left: 10rpx;
+//    margin-bottom: 30rpx;
+//    width: 150rpx;
+//    height: 60rpx;
+//    line-height: 60rpx;
+//    border: 1px solid #dddddd;
+//    text-align: center;
+//    border-radius: 20rpx;
+//
+//  }
+//
+//  .selectBox {
+//    height: 80rpx;
+//    margin: auto;
+//  }
+//
+//  .contentTop {
+//
+//    display: flex;
+//    align-items: center;
+//    padding-bottom: 20rpx;
+//
+//    .item {
+//      flex: 1;
+//    }
+//
+//    .schoolAvatar {
+//      .avatar {
+//        width: 150rpx;
+//        height: 150rpx;
+//        border: 1px solid #ddd;
+//        margin: 0 auto;
+//        border-radius: 100%;
+//        overflow: hidden;
+//      }
+//    }
+//
+//    .schoolContent {
+//      flex-grow: 3;
+//
+//      .schoolName {
+//        display: flex;
+//
+//        .childItem {
+//          flex: 1;
+//          position: relative;
+//
+//          .push {
+//            float: right;
+//            margin-right: 20rpx;
+//          }
+//
+//          .getUserInfo {
+//            position: absolute;
+//            top: 0;
+//            right: 0;
+//            width: 150rpx;
+//            height: 50rpx;
+//            z-index: 1000;
+//            opacity: 0;
+//          }
+//        }
+//
+//        .name {
+//          flex-grow: 2;
+//          font-size: 36rpx;
+//          font-weight: 600;
+//          font-family: "Microsoft YaHei UI";
+//        }
+//      }
+//
+//      .describe {
+//        padding-top: 10rpx;
+//        font-family: "Microsoft YaHei UI";
+//        font-size: 26rpx;
+//        text-align: justify;
+//        color: #b2b2b2;
+//        overflow: hidden;
+//        text-overflow: ellipsis;
+//        display: -webkit-box;
+//        -webkit-line-clamp: 2;
+//        -webkit-box-orient: vertical;
+//      }
+//    }
+//  }
+//
+//  //添加动态按钮
+//  .addBtn {
+//    position: fixed;
+//    width: 80rpx;
+//    height: 80rpx;
+//    bottom: 30rpx;
+//    right: 20rpx;
+//
+//    z-index: 1000;
+//
+//    .addFather {
+//      position: relative;
+//
+//      .getUserInfo {
+//        position: absolute;
+//        width: 80rpx;
+//        height: 80rpx;
+//        z-index: 800;
+//        border-radius: 100%;
+//        opacity: 0;
+//      }
+//
+//      .add {
+//        position: absolute;
+//        width: 80rpx;
+//        height: 80rpx;
+//        text-align: center;
+//        line-height: 80rpx;
+//        background-color: #FEAD57;
+//        -moz-box-shadow: 1px 2px 16px #FEAD57, 2px 2px 5px #333333;
+//        -webkit-box-shadow: 1px 2px 16px #FEAD57, 2px 2px 5px #333333;
+//        box-shadow: 1px 2px 16px #FEAD57, 2px 2px 5px #333333;
+//        z-index: 600;
+//        border-radius: 100%;
+//      }
+//
+//      .addIcon-Box{
+//        position: relative;
+//        top: 50%;
+//        transform:translateY(-50%);
+//        width: 50rpx;
+//        height: 50rpx;
+//        margin: 0 auto;
+//      }
+//    }
+//
+//  }
+//
+//  .addBtnIcon {
+//    font-family: iconfont;
+//    font-size: 40rpx;
+//    color: #FFFFFF;
+//    font-weight: 700;
+//  }
+//
+//  .popupClose {
+//    display: flex;
+//    margin: 10rpx 25rpx 10rpx 10rpx;
+//    align-items: center;
+//
+//    .item {
+//      flex: 1;
+//
+//      &:last-child {
+//        flex-grow: 6;
+//      }
+//    }
+//
+//    .arrowLeftIcon {
+//      font-family: iconfont;
+//      font-size: 40rpx;
+//      color: #000;
+//      font-weight: 700;
+//    }
+//  }
+//
+//  .swiper{
+//    animation: go_in .5s;
+//  }
+//
+//  .navTab {
+//    position: relative;
+//    border-top: 1px solid #eee;
+//    //border-bottom: 1px solid #eee;
+//  }
+//
+//  .dynamicItem {
+//    margin: 0 0 15rpx;
+//    background-color: #FFFFFF;
+//    padding: 0 20rpx;
+//    border-bottom: 5px solid #eee;
+//
+//    .dynamInfo {
+//      display: flex;
+//      border-bottom: 1rpx solid rgba(0,0,0,0.1);
+//
+//      .dynamInfoItem {
+//        flex: 1;
+//        margin: 15rpx 0;
+//        position: relative;
+//
+//        .avatar {
+//          width: 80rpx;
+//          height: 80rpx;
+//          border: 3px solid #fff;
+//          border-radius: 100%;
+//          margin: 0 auto;
+//          overflow: hidden;
+//          box-shadow:0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+//        }
+//
+//        .Publisher {
+//          color: #000;
+//          font-weight: 600;
+//          font-size: 28rpx;
+//          font-family: "Microsoft YaHei";
+//          margin-bottom: 5rpx;
+//        }
+//
+//        .point {
+//          font-family: iconfont;
+//          font-size: 20rpx;
+//          color: #ddd;
+//        }
+//
+//        .time {
+//          color: #B0B0B0;
+//          font-family: "Microsoft YaHei";
+//          font-size: 26rpx;
+//        }
+//      }
+//
+//      .Publishertime {
+//        flex-grow: 4;
+//
+//        .lastMsg {
+//          margin-top: 15rpx;
+//          font-size: 26rpx;
+//          color: #b2b2b2;
+//          width:98%;
+//        }
+//
+//        .groupChat {
+//          display: flex;
+//          align-items: center;
+//          padding-right: 20rpx;
+//
+//          .sender {
+//            flex: 1;
+//          }
+//
+//          .sendTime {
+//            flex: 1;
+//            text-align: right;
+//          }
+//        }
+//      }
+//    }
+//
+//    .showSourse{
+//      border-bottom: 1rpx solid rgba(0,0,0, 0.1);
+//    }
+//
+//    .support{
+//      display: flex;
+//      padding: 25rpx 0;
+//      .Item{
+//        flex: 1;
+//      }
+//      .publishTime{
+//        flex-grow: 2;
+//        font-size: 24rpx;
+//        color: #b2b2b2;
+//      }
+//      .support_comment{
+//        display: flex;
+//        justify-content:flex-end;
+//      }
+//      .supportIcon{
+//
+//        display: flex;
+//        align-items: center;
+//        font-size: 20rpx;
+//        color: #b2b2b2;
+//      }
+//      .commentIcon{
+//        display: flex;
+//        align-items: center;
+//        font-size: 20rpx;
+//        color: #b2b2b2;
+//        margin: 0 20rpx;
+//      }
+//      .icon{
+//        width: 40rpx;
+//        height: 40rpx;
+//        margin-left: 5px;
+//
+//      }
+//    }
+//    .PublishContent {
+//      text-align: justify;
+//      font-family: "Microsoft YaHei";
+//      font-size:34rpx;
+//      padding: 20rpx 10rpx;
+//      word-break: break-all;
+//
+//    }
+//
+//    .resources {
+//      display: flex;
+//      flex-wrap: wrap;
+//      margin-bottom: 20rpx;
+//
+//      .item {
+//        padding: 10rpx;
+//        width: calc(100% / 3);
+//        height: 100px;
+//      }
+//
+//      .image {
+//        //height: 100px;
+//      }
+//
+//      .video {
+//        width: 50%;
+//        height: 200rpx;
+//        margin-bottom: 20rpx;
+//        padding-left: 5px;
+//      }
+//    }
+//  }
+//
+//  .groupChatItem {
+//    width: 100%;
+//    margin: 0 0 15rpx;
+//    border-bottom: 1px solid #ddd;
+//
+//    .dynamInfo {
+//      display: flex;
+//
+//      .dynamInfoItem {
+//        flex: 1;
+//        margin: 15rpx 0;
+//
+//        .avatar {
+//          width: 80rpx;
+//          height: 80rpx;
+//          border: 1px solid #ddd;
+//          border-radius: 100%;
+//          margin: 0 auto;
+//          overflow: hidden;
+//        }
+//
+//        .Publisher {
+//          color: #576B95;
+//          font-weight: 600;
+//          font-size: 30rpx;
+//          font-family: "Microsoft YaHei";
+//          margin-bottom: 5rpx;
+//        }
+//
+//        .time {
+//          color: #B0B0B0;
+//          font-family: "Microsoft YaHei";
+//          font-size: 26rpx;
+//          margin-bottom: 20rpx;
+//        }
+//      }
+//
+//      .Publishertime {
+//        flex-grow: 4;
+//
+//        .lastMsg {
+//          margin-top: 15rpx;
+//          font-size: 26rpx;
+//          color: #b2b2b2;
+//          width: 98%;
+//          overflow : hidden;
+//          text-overflow: ellipsis;
+//          display: -webkit-box;
+//          -webkit-line-clamp: 1;
+//          -webkit-box-orient: vertical;
+//        }
+//
+//        .groupChat {
+//          display: flex;
+//          align-items: center;
+//          padding-right: 20rpx;
+//
+//          .sender {
+//            flex: 1;
+//          }
+//
+//          .sendTime {
+//            flex: 1;
+//            text-align: right;
+//          }
+//        }
+//      }
+//    }
+//
+//    .PublishContent {
+//      text-align: justify;
+//      font-family: "Microsoft YaHei";
+//      font-size: 26rpx;
+//      //padding:0 20rpx;
+//    }
+//
+//  }
+//
+//  .applyPanelTip {
+//    width: 100%;
+//    text-align: center;
+//    font-size: 36rpx;
+//    font-weight: 600;
+//    font-family: "Microsoft YaHei";
+//    margin: 50rpx 0;
+//  }
+//
+//  .applyContent {
+//    width: 90%;
+//    margin: 0 auto;
+//
+//    .addIcon {
+//      font-family: iconfont;
+//      color: #ddd;
+//      margin-right: 15rpx;
+//    }
+//
+//    .deleteBox {
+//      position: absolute;
+//      top: -15rpx;
+//      right: 10rpx;
+//    }
+//
+//    .delete {
+//      font-family: iconfont;
+//      color: #ff0000;
+//    }
+//  }
+//
+//  .uniFabgetInFo{
+//    position: fixed;
+//    display: -webkit-box;
+//    display: -webkit-flex;
+//    display: flex;
+//    -webkit-box-pack: center;
+//    -webkit-justify-content: center;
+//    justify-content: center;
+//    -webkit-box-align: center;
+//    -webkit-align-items: center;
+//    align-items: center;
+//    width: 55px;
+//    height: 55px;
+//    border: none;
+//    background-color:rgba(255,255,255,0.1);
+//    border-radius: 55px;
+//    z-index: 1000;
+//    right: 15px;
+//    bottom: 30px;
+//  }
+//}
+
+@keyframes go_out
+{
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transition:display linear .5s;
+  }
+}
+
+@keyframes go_in
+{
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform:translateY(0%);
+    transition:display linear .5s;
+
+  }
+}
