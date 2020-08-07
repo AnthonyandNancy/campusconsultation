@@ -13,12 +13,12 @@ export default {
     data() {
         return {
             bannerImg: [],
-            cartTypeList: [{name: '热门动态', bgColor: '#ACB2FD'}, {name: '以书会友', bgColor: '#ACB2FD'}, {
+            cartTypeList: [{name: '热门动态', bgColor: '#ABB3FE'}, {name: '以书会友', bgColor: '#ABB3FE'}, {
                 name: '校园爱情',
-                bgColor: '#89D4B5'
-            }, {name: '百团大战', bgColor: '#89D4B5'}, {name: '约起开黑', bgColor: '#D5A5FD'}, {
+                bgColor: '#89D2B7'
+            }, {name: '百团大战', bgColor: '#89D2B7'}, {name: '约起开黑', bgColor: '#ABB3FE'}, {
                 name: '操场相见',
-                bgColor: '#D5A5FD'
+                bgColor: '#ABB3FE'
             }],
             isAuthor: Boolean,
             userSign: ''

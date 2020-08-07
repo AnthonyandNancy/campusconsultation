@@ -11,6 +11,9 @@ const getLogin = (params) => uniRequest(params,base_URL + '/SchoolLian_wx/api/lo
 //更新用户信息数据
 const  updateUserInfo = (params) =>uniRequest(params,base_URL + '/SchoolLian_wx/api/updateUserMsg')
 
+//获取当前的定位
+const  getLocation = (params) =>uniRequest(params,base_URL + '/SchoolLian_wx/api/getLocation')
+
 //获取学校列表
 const getSchoolList = (params)=> uniRequest(params,base_URL + '/SchoolLian_wx/api/getSchoolList');
 
@@ -90,6 +93,7 @@ export default {
     // requresyUrl,
     getLogin,
     updateUserInfo,
+    getLocation,
     getSchoolList,
     getDynamicList,
     searchSchool,

@@ -91,6 +91,13 @@ export default {
                 url:'/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(obj)
             })
         },
+        showAll(index) {
+            if (!this.dynamicObj.isShowAllContent) {
+                this.dynamicObj.isShowAllContent = true
+            } else {
+                this.dynamicObj.isShowAllContent = false
+            }
+        },
         toComment(){
             // this.showAddCommentPnael = true
             uni.navigateTo({

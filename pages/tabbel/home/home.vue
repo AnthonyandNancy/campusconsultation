@@ -23,7 +23,6 @@
                         </view>
                         <view class="cart_text">{{cartItem.name}}</view>
                     </view>
-
                 </view>
             </view>
         </view>

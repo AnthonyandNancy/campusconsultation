@@ -93,8 +93,12 @@
                         我的动态
                     </view>
                     <view class="dynamicList">
-                        <dynamicCard v-for="(item,index) in dynamicList" :key="index" :dynamicObj="item"
-                                     :currentPageType="'mine'"></dynamicCard>
+
+                        <dynamicCard  v-for="(item1,index1) in dynamicList" :key="index1"
+                                     :dynamic-obj="item1"
+                                     :currentIndex="index1" :currentPageType="'mine'"
+                                     @shareEvent="toShare" @commentEvent="toComment"
+                                     @supportEvent="toSupport" @showAllEvent="showAll(index1)" @toDetailEvent="dynamicDetail"></dynamicCard>
                     </view>
                 </view>
             </load-refresh>
