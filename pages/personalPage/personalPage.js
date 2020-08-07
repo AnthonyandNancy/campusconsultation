@@ -400,7 +400,7 @@ export default {
 
                                 this.updateSchool(this.schoolTotal)
                                 this.toLogin();
-                                
+
                                 clearInterval(timers);
                                 timers = null;
                                 uni.navigateBack();
