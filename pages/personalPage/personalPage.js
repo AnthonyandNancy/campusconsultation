@@ -82,13 +82,15 @@ export default {
                         key: 'USER_INFO',
                         success:  (res) =>{
                             // console.log('USER_INFO',res.data);
-                            let sex=res.data.gender
-                            if(sex ==1){
+                            let sexInfo=res.data.gender
+                            if(sexInfo ==1){
                                 this.chooseSex='男'
                                 this.chooseSexNum=1
-                            }else if(sex ==2) {
+                            }else if(sexInfo ==2) {
                                 this.chooseSex = '女'
                                 this.chooseSexNum = 2
+                            }else if (sexInfo ==null){
+                                this.chooseSex='请选择性别'
                             }else {
                                 console.log('他是胡一菲')
                             }
