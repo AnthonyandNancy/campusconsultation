@@ -78,6 +78,7 @@
                                     </view>
 
                                     <view v-if="item1.audio != null">
+
                                         <luchAudio :src="item1.audio" :play.sync="audioPlay"
                                                    :name='item1.schoolName'
                                                    :author="item1.name" @click="controlAudioPlay"></luchAudio>
@@ -96,7 +97,7 @@
 
                                         <view class="shareIcon" @click="toShare(item1.dynamicSign)">
                                             <button class="shareIconBtn" open-type="share"></button>
-                                            <view class="icon">
+                                            <view class="icon" >
                                                 <image src="/static/images/share.png"
                                                        class="auto-img"></image>
                                             </view>

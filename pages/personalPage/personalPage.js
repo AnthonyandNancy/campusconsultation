@@ -77,7 +77,7 @@ export default {
                 }else if(sex ==2) {
                     this.chooseSex='女'
                     this.chooseSexNum=2
-                }else if (sex ==null){
+                }else if (sex ==null || sex == 0){
                     uni.getStorage({
                         key: 'USER_INFO',
                         success:  (res) =>{
@@ -89,7 +89,7 @@ export default {
                             }else if(sexInfo ==2) {
                                 this.chooseSex = '女'
                                 this.chooseSexNum = 2
-                            }else if (sexInfo ==null){
+                            }else if (sexInfo ==null || sexInfo == 0){
                                 this.chooseSex='请选择性别'
                             }else {
                                 console.log('他是胡一菲')

@@ -3,17 +3,17 @@
         <view class="containerItem">
             <view class="dynContent">{{dynamicObj.content}}</view>
             <view class="publisher_info">
-                <view class="publisher_avatar"><image :src="dynamicObj.pic" class="auto-img"></image></view>
+                <view class="publisher_avatar"><image :src="dynamicObj.pic" class="auto-img" style="border-radius: 100%"></image></view>
                 <view class="publisher_name">{{dynamicObj.name}}</view>
             </view>
             <view class="dynamic_Info">
-                <view class="infoItem"><u-icon color="#000" name="share" size="28" style="margin-right: 10rpx"></u-icon>{{dynamicObj.shareTimes}}</view>
+                <view class="infoItem"><u-icon color="#000" name="share" size="28" style="margin-right: 10rpx"></u-icon><view class="shareTimesTip">{{dynamicObj.shareTimes}}</view></view>
                 <view class="infoItem">{{dynamicObj.addTime}}</view>
             </view>
         </view>
         <view class="containerItem">
-            <view class="picture">
-                <image :src="dynamicObj.imgList[0]" class="auto-img" style="border-radius: 10rpx"></image>
+            <view class="picture" v-if="dynamicObj.imgList.length != 0">
+                <image :src="dynamicObj.imgList[0]" class="auto-img" style="border-radius: 10rpx" mode="aspectFit"></image>
             </view>
         </view>
     </view>
@@ -97,10 +97,16 @@
             align-items: center;
             .infoItem{
                 flex: 1;
+                &:first-child{
+                    font-size: 24rpx;
+                    font-family: "Microsoft YaHei UI";
+
+                }
                 &:last-child{
                     flex-grow: 2;
                     font-size: 24rpx;
                     text-align: right;
+                    padding-right: 15rpx;
                 }
             }
         }

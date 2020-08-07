@@ -1,7 +1,10 @@
 <template>
     <view>
-        <!--动态-->
-        <dynamicCard :currentPageType="'detail'" :dynamicObj="dynamicObj" @showAllEvent="showAll"></dynamicCard>
+        <view style="padding-bottom: 10rpx">
+            <!--动态-->
+            <dynamicCard :currentPageType="'detail'" :dynamicObj="dynamicObj" @showAllEvent="showAll"></dynamicCard>
+        </view>
+
 
         <!--评论列表-->
         <view class="commentList">

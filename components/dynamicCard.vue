@@ -227,9 +227,8 @@
 <style lang="scss" scoped>
 .dyCartContent{
     .dynamicItem {
-        margin: 0 0 15rpx;
         background-color: #FFFFFF;
-        padding: 0 20rpx;
+        padding: 20rpx 20rpx;
         border-bottom: 5px solid #eee;
 
         .dynamInfo {

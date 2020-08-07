@@ -10,11 +10,11 @@
         },
         onLaunch: async function () {
             if(constant.getUserLogin().length != 0){
-                if(constant.getUserLogin().schoolName != null){
-                    uni.switchTab({
-                        url:'/pages/tabbel/home/home'
-                    })
-                }
+                // if(constant.getUserLogin().schoolName != null){
+                //     uni.switchTab({
+                //         url:'/pages/tabbel/home/home'
+                //     })
+                // }
             }
 
             await uni.login({
@@ -38,11 +38,11 @@
                 })
                 let {errcode, sign,schoolName} = json.data;
 
-                if(schoolName != null){
-                    uni.switchTab({
-                        url:'/pages/tabbel/home/home'
-                    })
-                }
+                // if(schoolName != null){
+                //     uni.switchTab({
+                //         url:'/pages/tabbel/home/home'
+                //     })
+                // }
 
                 if (errcode == 200) {
                     uni.connectSocket({

@@ -120,6 +120,9 @@ export default {
 
         //获取学校列表
         async getCurLocation() {
+            uni.showLoading({
+                title: "加载中..."
+            })
             // 选择位置信息 uni.chooseLocation({})
             //自动获取当前的位置信息 只获取经纬度
             let json = await api.getLocation({})
@@ -142,6 +145,7 @@ export default {
 
 
                 if (schoolJson.data.errcode == 200) {
+                    uni.hideLoading();
                     let obj = {};
                     schoolJson.data.campusList.forEach((res, index) => {
                         if (index > 10) {

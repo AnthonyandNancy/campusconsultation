@@ -1,10 +1,13 @@
+// 插件 start
 import loadRefresh from '../../../components/load-refresh';
 import uniFab from '../../../components/uni-fab/uni-fab'
-import api from "../../../utils/request/api";
-import constant from "../../../utils/constant";
-
 import dynamicCard from "../../../components/dynamicCard";
 import WucTab from '../../../components/wuc-tab/wuc-tab';
+import luchAudio from '../../../components/luch-audio/luch-audio';
+// 插件 end
+
+import api from "../../../utils/request/api";
+import constant from "../../../utils/constant";
 
 let that;
 export default {
@@ -12,7 +15,8 @@ export default {
         loadRefresh,
         uniFab,
         dynamicCard,
-        WucTab
+        WucTab,
+        luchAudio
     },
     data() {
         return {

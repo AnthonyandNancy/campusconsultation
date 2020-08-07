@@ -147,6 +147,16 @@
         font-size: 20rpx;
         color: #b2b2b2;
         margin-right: 20rpx;
+        position: relative;
+      }
+      .shareIconBtn{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        opacity: 0;
       }
       .tip{
         margin-left: 5rpx;
