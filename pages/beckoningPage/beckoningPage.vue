@@ -51,15 +51,20 @@
 
         <u-popup height="100%" mode="center" v-model="showChat" width="100%">
 
-            <!--			<view style="width: 100%;height: 100%;font-size: 40rpx;text-align: center;font-family: 'Microsoft YaHei';line-height: 87rpx;">缘分悄咪咪来了~</view>-->
+            			<view style="width: 100%;height: 100%;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);">
 
-            <view style="margin-top: 44%">
-                <image :src="leftsrc" class="leftsrc" size="50vh"></image>
-                <image src="../../static/images/staticXin.png" class="middleImg"></image>
-                <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
-            </view>
-            <view style="font-size: 68rpx;margin-top: 1%;margin-left: 16%;">你们匹配度:{{matchingNum}}%</view>
-            <view style="font-size: 24rpx;margin-top: 1%;margin-left: 18%;color: #2B83FF;">马上进入聊天室....</view>
+                            <view style="margin-top: 0%">
+                                <image :src="leftsrc" class="leftsrc" size="50vh"></image>
+<!--                                <image src="../../static/images/staticXin.png" class="middleImg"></image>-->
+                                <view class="middleImg"></view>
+                                <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
+                            </view>
+                            <view style="font-size: 68rpx;margin-top: 78%;margin-left: 16%;">你们匹配度:{{matchingNum}}%</view>
+                            <view style="font-size: 34rpx;margin-top: 1%;margin-left: 18%;color: white;">Waiting....</view>
+                            <view style="font-size: 18px;margin-top: 28vh;margin-left: 31%;color: #ffff;">马上进入聊天室....</view>
+                            </view>
+
+
         </u-popup>
 
 
@@ -82,7 +87,7 @@
                 showChat: false,
                 leftsrc: '../../static/images/peoples.png',
                 Rightsrc: '../../static/images/peoples.png',
-                matchingNum: 10,
+                matchingNum: null,
                 showOnce:2
             };
         },
@@ -189,6 +194,7 @@
                         uni.redirectTo({
                             url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'maching'
                         });
+                        this.matchingNum=null
                     }, 5000)
                 } else if (this.setTime <= 0) {
                     this.showSetTime = true
@@ -237,14 +243,13 @@
     .leftsrc {
         width: 20vh;
         height: 20vh;
-        margin-left: 7%;
+        position: absolute;
+        top: 31%;
+        left: 6%;
         border-radius: 10vh;
-        /*border: #2B83FF solid;*/
-    }
 
-    .middleImg {
-        width: 10vh;
-        height: 10vh;
+
+        /*border: #2B83FF solid;*/
     }
 
     .Rightsrc {
@@ -252,5 +257,48 @@
         border-radius: 10vh;
         width: 20vh;
         height: 20vh;
+        position: absolute;
+        top: 31%;
+        left: 62%;
+
+
     }
+
+    .middleImg {
+        width: 5vh;
+        height: 5vh;
+        position: relative;
+        top: 43vh;
+        left: 46%;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        background-color: tomato;
+
+
+    }
+
+
+    .middleImg:before {
+        content: "";
+        position: absolute;
+        top: -31rpx;
+        left: 0;
+        width: 5vh;
+        height: 5vh;
+        border-radius: 50%;
+        background-color: tomato;
+
+    }
+    .middleImg:after{
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 33rpx;
+        width: 5vh;
+        height: 5vh;
+        background-color: tomato;
+        border-radius: 50%;
+
+    }
+
 </style>
