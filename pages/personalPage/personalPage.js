@@ -31,7 +31,7 @@ export default {
                 }
             ],
             showSex:false,
-            chooseSex:'男',
+            chooseSex:null,
             personalAge:null,
             showPopup:false,
             showCell: false,
@@ -70,6 +70,16 @@ export default {
                 this.personalName=data.name
                 this.userSign=data.sign
                 this.personalAge=data.age
+                let sex=data.gender
+                if(sex ==1){
+                    this.chooseSex='男'
+                    this.chooseSexNum=1
+                }else if(sex ==2) {
+                    this.chooseSex='女'
+                    this.chooseSexNum=2
+                }else {
+                    console.log('他是胡一菲')
+                }
             }
         });
         // uni.getStorage({
@@ -89,16 +99,6 @@ export default {
                 this.city=res.data.city
                 this.country=res.data.country
                 this.userNickName=res.data.nickName
-                let sex=res.data.gender
-                if(sex ==1){
-                    this.chooseSex='男'
-                    this.chooseSexNum=1
-                }else if(sex ==2) {
-                    this.chooseSex='女'
-                    this.chooseSexNum=2
-                }else {
-                    console.log('他是胡一菲')
-                }
             }
         });
     },
@@ -249,7 +249,7 @@ export default {
         async updateSchool(schoolItem) {
             let oldSchoolName=constant.getUserLogin().schoolName
             if (oldSchoolName==this.schoolName) {
-                // console.log('>>>>>>>>>>>',schoolItem)
+                console.log('>>>>>>>>>>>',schoolItem)
                 // console.log('>>>>>>>>>',this.schoolName)
                 return;
             }
@@ -272,6 +272,7 @@ export default {
                 })
                 console.log('15616545',json)
                 if (json.data.errcode == 200) {
+                    console.log('第一个200',schoolItem)
                     this.showPopup = false;
                     let userInfo=constant.getUserLogin()
                     userInfo.schoolName=this.schoolName
@@ -304,7 +305,7 @@ export default {
 
                     this.schoolInfo = schoolInfo;
                     // this.schoolName = schoolItem[0];
-                    // console.log('>>>>>>>>>>',schoolItem)
+                    console.log('第二个200',schoolItem)
                     this.avatarImgUrl = 'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + this.schoolName + '.png';
                     constant.setSchoolInfo(schoolInfo);
 
@@ -317,6 +318,7 @@ export default {
                     })
                         console.log('>>>>>>>>>>>',updateJson)
                     if (updateJson.data.errcode == 200) {
+                        console.log('第三个200',schoolItem)
                         let userInfo=constant.getUserLogin()
                         userInfo.schoolName=this.schoolName
                         constant.setUserLogin(userInfo)
@@ -378,7 +380,7 @@ export default {
                 })
 
                 let times = 0;
-                let timers = setInterval(function () {
+                let timers = setInterval( () =>{
                     times++;
 
                     uni.showToast({
@@ -394,19 +396,21 @@ export default {
                             mask:true,
                             duration:4000,
                             success:()=>{
+
+                                this.updateSchool(this.schoolTotal)
+                                this.toLogin();
+
                                 clearInterval(timers);
                                 timers = null;
-
-                                that.updateSchool(this.schoolTotal)
-                                that.toLogin();
-
                                 uni.navigateBack();
                             }
                         })
 
 
+
+
                     }
-                    console.log(times)
+                    // console.log(times)
                 },1000)
 
 
