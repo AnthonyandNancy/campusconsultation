@@ -46,10 +46,13 @@ export default {
             key: 'GA7BZ-CJ4WJ-O65F3-KYEJZ-ROAU5-2FBTY'
         })
     },
-    onReady() {
+    async onReady() {
         this.getCurLocation()
         this.isAuthor = constant.getIsAuthor();
         this.provinceList = universityChoose
+
+
+
     },
     methods: {
         //授权
@@ -94,62 +97,48 @@ export default {
                     }
                 });
         },
+
         //获取学校列表
-        getCurLocation() {
+        async getCurLocation() {
             // 选择位置信息 uni.chooseLocation({})
             //自动获取当前的位置信息 只获取经纬度
+            let json = await  api.getLocation({})
 
-            uni.getLocation({
-                type: 'wgs84',
-                geocode: true,
-                success: function (res) {
-                    console.log('获取到的经纬度信息======>',res);
-                    let long = res.longitude;//经度
-                    let lat = res.latitude;//维度
-                    //获取详细定位，中文地址
+            console.log('获取当前的定位',json);
+            if(json.data.errcode == 200){
 
-                    qqMapWX.reverseGeocoder({
-                        location: {
-                            longitude: long,
-                            latitude: lat
-                        },
-                        success: async (res) => {
-                            console.log('获取到的定位信息======>',res);
-                            that.userSign = constant.getUserSign();
-                            let province = res.result.ad_info.province;
-                            let city = res.result.ad_info.city;
-                            //获取该地址的学校信息
-                            let schoolJson = await api.getSchoolList({
-                                query: {
-                                    sign: that.userSign,
-                                    province: province,
-                                    city: city
-                                }
-                            })
+                that.userSign = constant.getUserSign();
 
-                            if (schoolJson.data.errcode == 200) {
-                                let obj = {};
-                                schoolJson.data.campusList.forEach((res, index) => {
-                                    if (index > 10){
-                                        return;
-                                    }
-                                    obj = {
-                                        schoolName: res[0],
-                                        schoolPic: 'https://game.xunyi.online/static/SchoolLian/Badges/' + res[0] + '.png'
-                                    }
-                                    if(res[0] != '广东技术师范大学天河学院'){
-                                        that.getSchoolList.push(obj)
-                                    }
+                let province = json.data.msg.subdivisions || null;
+                let city = json.data.msg.city || null;
+                //获取该地址的学校信息
+                let schoolJson = await api.getSchoolList({
+                    query: {
+                        sign: that.userSign,
+                        province: province ,
+                        city: city
+                    }
+                })
 
-                                })
-                            }
-                        },
-                        fail: (err) => {
-                            console.log('获取详细的地址 fail', err)
+                if (schoolJson.data.errcode == 200) {
+                    let obj = {};
+                    schoolJson.data.campusList.forEach((res, index) => {
+                        if (index > 10){
+                            return;
                         }
+                        obj = {
+                            schoolName: res[0],
+                            schoolPic: 'https://game.xunyi.online/static/SchoolLian/Badges/' + res[0] + '.png'
+                        }
+                        if(res[0] != '广东技术师范大学天河学院'){
+                            that.getSchoolList.push(obj)
+                        }
+
                     })
                 }
-            });
+            }
+
+
         },
         //查看更多学校
         showMoreSchool(){

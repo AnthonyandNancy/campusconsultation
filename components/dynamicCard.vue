@@ -20,8 +20,8 @@
                     </view>
                 </view>
 
-                <view class="dynamInfoItem" @click="showVideo" >
-                    <view class="videoIcon" v-if="dynamicObj.video != null && currentPageType != 'detail'" >
+                <view class="dynamInfoItem" @click="showVideo()">
+                    <view class="videoIcon" @fullscreenchange="screenChange" v-if="dynamicObj.video != null && currentPageType != 'detail'" >
                         <image src="/static/images/videoIcon.png" class="auto-img"></image>
                     </view>
                 </view>
@@ -35,7 +35,7 @@
                         {{dynamicObj.content}}
                     </view>
                     <view class="fullText" v-if="dynamicObj.content.length >= 39"
-                          @click="showAllContent(index1)">{{!dynamicObj.isShowAllContent?'全文':'收起'}}
+                          @click="showAllContent()">{{!dynamicObj.isShowAllContent?'全文':'收起'}}
                     </view>
                 </view>
 
@@ -61,8 +61,9 @@
             </view>
 
             <view class="support" v-if="currentPageType != 'detail'">
+
                 <view class="Item publishTime" v-if="false">{{dynamicObj.addTime}}</view>
-                <view class="Item publishTime" v-if="dynamicObj.roomId != null">
+                <view class="Item publishTime" v-if="dynamicObj.roomId != null && dynamicObj.type != 6">
                     <u-button size="mini" @click="toAddChatRoom">加入群聊</u-button>
                 </view>
 
@@ -139,6 +140,7 @@
         data(){
             return{
                 audioPlay:false,
+                videoContext:{}
             }
         },
         onReady(){
@@ -183,12 +185,16 @@
                 this.$emit('supportEvent',dySign)
             },
             showAllContent(){
-                this.$emit('showAllEvent',this.currentIndex)
+                this.$emit('showAllEvent')
             },
-            showVideo(){
-                let playVideo = uni.createVideoContext('dynamicVideo');
-                playVideo.requestFullScreen();
+            showVideo() {
+                this.videoContext = wx.createVideoContext('dynamicVideo', this);
+                this.videoContext.requestFullScreen();
             },
+            screenChange() {
+                this.videoContext.play();
+            },
+
             toDetail(){
                 this.$emit('toDetailEvent',this.dynamicObj)
             },

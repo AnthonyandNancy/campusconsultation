@@ -1,7 +1,15 @@
 <template>
     <view>
+        <div class="stars-wrapper">
+            <view class="stars">
+                <view :class="'star' + (index+1)" style="" v-for="(item,index) in 150" :key="index"></view>
+            </view>
+            <view class="stars">
+                <view :class="'star' + (index+1)" style="" v-for="(item,index) in 150" :key="index"></view>
+            </view>
+        </div>
         <view class="aixin">
-            <view style="font-size: 24rpx;margin-top: 1%;margin-left: 15%;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
+            <view style="font-size: 24rpx; text-align: center; margin:40rpx 0;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
 <!--            <image :src="aiXinSrc" style="margin: 0 auto;"></image>-->
             <view style="height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%;margin: 10rpx auto;"></view>
             <view style="height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: -75% auto"></view>
@@ -40,13 +48,18 @@
 
 
             <view class="time">{{setTime}}</view>
+            <view>
+                <button class="continue" @click="reStart" v-if="showSetTime">继续等待~</button>
+            </view>
         </view>
 
 
-        <u-popup height="40vh" mode="center" v-model="showSetTime" width="80%">
-            <view @click="reStart" class="reStart" v-if="matchType ==1">有缘人还在等你哦~</view>
-            <!--			<view @click="goChat" class="reStart" v-if="matchType ==0">重新来过吧~</view>-->
-        </u-popup>
+<!--        <u-popup height="40vh" mode="center" v-model="showSetTime" width="80%">-->
+<!--            <view @click="reStart" class="reStart" v-if="matchType ==1">有缘人还在等你哦~</view>-->
+<!--            &lt;!&ndash;			<view @click="goChat" class="reStart" v-if="matchType ==0">重新来过吧~</view>&ndash;&gt;-->
+<!--        </u-popup>-->
+
+
 
 
         <u-popup height="100%" mode="center" v-model="showChat" width="100%">
@@ -97,6 +110,7 @@
             })
             this.setIntervals()
             this.setImage()
+
         },
         onUnload() {
             clearInterval(this.time)
@@ -159,12 +173,29 @@
                 this.matchingTime = setInterval(() => {
                     console.log('adad', this.setTime)
                     this.matchingTimeFun()
-                    if (this.setTime <= 0) {
-                        // this.showChat=true
+
+                    if(this.setTime <= 0){
                         this.showSetTime = true
                         clearInterval(this.time)
-                        clearInterval(this.matchingTime)
                     }
+                    let timesLeave = this.setTime;
+                    new  Promise((resolve, reject) => {
+                        if(this.setTime == 0){
+                            --timesLeave;
+                            resolve(timesLeave)
+                            console.log('this.setTime == 0======>', timesLeave)
+                        }
+                    }).then(res=>{
+                        if (res > -2) {
+                            console.log('atimesLeave == -2dad======>', timesLeave)
+                            // this.showChat=true
+                            clearInterval(this.matchingTime)
+                        }
+                    })
+
+
+
+
                 }, 2000)
             },
 
@@ -187,8 +218,8 @@
                     this.leftsrc = userInfo.pic
                     this.Rightsrc = res.data.matchUser.pic
                     this.showChat = true
-                    clearInterval(this.time)
-                    clearInterval(this.matchingTime)
+                    // clearInterval(this.time)
+                    // clearInterval(this.matchingTime)
                     setTimeout(() => {
                         uni.redirectTo({
                             url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'maching'
@@ -196,9 +227,9 @@
                         this.matchingNum=null
                     }, 5000)
                 } else if (this.setTime <= 0) {
-                    this.showSetTime = true
-                    clearInterval(this.time)
-                    clearInterval(this.matchingTime)
+                    // this.showSetTime = true
+                    // clearInterval(this.time)
+                    // clearInterval(this.matchingTime)
                 }
 
 
@@ -207,7 +238,7 @@
 
 
             reStart() {
-                this.setTime = 10
+                this.setTime = 30
                 this.showSetTime = false
                 this.setIntervals()
                 this.setImage()
@@ -217,26 +248,71 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '../../static/style.css';
     .aixin{
+        position: fixed;
         /*background-image: url("../../static/images/starrysky.jpg");*/
-        background: url("https://cdn4game.xunyi.online/static/SchoolLian/uploadFiles/137ffbd21dcea52f5abfe7793e43eaa4.png") no-repeat fixed center;
+        /*background: url("https://game.xunyi.online/static/SchoolLian/bannerImg/1.jpg") no-repeat fixed center;*/
         height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
     }
     .time {
         margin-top: 39%;
         font-size: 50rpx;
         text-align: center;
-
+        color: rgba(213 ,165, 253,0.9);
+        font-weight: 600;
     }
 
-    .reStart {
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        font-size: 53rpx;
-        line-height: 10vh;
-        font-family: "Microsoft YaHei";
+    .stars{
+        @for $i from 1 to 150 {
+            $myWidth:floor(3 + random() *(7-3)) + 'rpx !important';
+            .star#{$i} {
+                width:#{$myWidth};
+                height: #{$myWidth};
+                transform: translate(#{floor(1 + random()  * (600 - 1)) + 'px'},#{floor(1 + random()  * (200 - 1)) + 'px'});
+                background-color: #FFFFFF;
+                border-radius: 100% !important;
+            }
 
+            .star#{$i}:nth-child(3n) {
+                opacity: 0.8;
+            }
+            .star#{$i}:nth-child(7n) {
+                opacity: 0.6;
+            }
+            .star#{$i}:nth-child(13n) {
+                opacity: 0.4;
+            }
+            .star#{$i}:nth-child(19n) {
+                opacity: 0.2;
+            }
+        }
+    }
+
+
+
+    /*.reStart {*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*    text-align: center;*/
+    /*    font-size: 53rpx;*/
+    /*    line-height: 10vh;*/
+    /*    font-family: "Microsoft YaHei";*/
+    /*}*/
+
+    .continue{
+        width: 440rpx;
+        height: 100rpx;
+        margin: 0 auto;
+        background-color: rgba(213 ,165, 253,0.9);
+        text-align: center;
+        margin-top: 60%;
+        color:#FFFFFF;
+        line-height: 100rpx;
     }
 
     .leftsrc {

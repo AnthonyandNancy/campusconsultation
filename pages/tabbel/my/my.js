@@ -167,9 +167,13 @@ export default {
             if(json.data.errcode == 200){
                 console.log('获取所有动态列表===>',json)
                 this.totalPage = json.data.totalPage;
+                json.data.dynamicList.forEach((res) => {
+                    res['isShowAllContent'] = false
+                })
                 this.dynamicList = [...this.dynamicList,...json.data.dynamicList];
             }
         },
+
         toPrivateChat(){
             uni.redirectTo({
                 url: '/pages/chatRoom/chatRoom'
@@ -180,10 +184,79 @@ export default {
                 url:"/pages/mySupport/mySupport"
             })
         },
+
+        //进入动态详情页面
+        dynamicDetail(obj) {
+            uni.navigateTo({
+                url: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(obj)
+            })
+        },
+
+        //展示全文
+        showAll(index) {
+            console.log('11111111111111111',this.dynamicList)
+
+            if (!this.dynamicList[index].isShowAllContent) {
+                this.dynamicList[index].isShowAllContent = true
+            } else {
+                this.dynamicList[index].isShowAllContent = false
+            }
+        },
+
         toMyFollow(){
             uni.navigateTo({
                 url:"/pages/myFollow/myFollow"
             })
-        }
+        },
+        //分享
+        async toShare(dynSign) {
+            let json = await api.shareDynamic({
+                query: {
+                    dynamicSign: dynSign,
+                    sign: this.userSign
+                }
+            })
+
+            if (json.data.errcode == 200) {
+                uni.showToast({
+                    title: json.data.info,
+                    mask: true,
+                    icon: 'none'
+                })
+                console.log('----->分享成功', json)
+            }
+        },
+
+        // 评论
+        toComment(dynSign) {
+            uni.navigateTo({
+                url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
+            })
+        },
+        //点赞
+        async toSupport(dynSign) {
+            let json = await api.addSupport({
+                query: {
+                    dynamicSign: dynSign,
+                    sign: this.userSign
+                }
+            })
+
+            uni.showToast({
+                title: json.data.info,
+                mask: true,
+                icon: 'none'
+            })
+            if (json.data.errcode == 200) {
+
+                this.dynamicList.forEach(res => {
+                    if (res.dynamicSign == dynSign) {
+                        res.likeTimes++;
+                        this.$set(res, 'like', true)
+                    }
+                })
+
+            }
+        },
     }
 }
