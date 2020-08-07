@@ -110,12 +110,6 @@
             })
             this.setIntervals()
             this.setImage()
-            setTimeout(()=>{
-                this.setImage()
-            },10000)
-            setTimeout(()=>{
-                this.setImage()
-            },20000)
 
         },
         onUnload() {
@@ -162,8 +156,6 @@
                 setTimeout(()=>{
                     this.showOnce=0
                 },9500)
-
-
 
 
             },
@@ -250,13 +242,6 @@
                 this.showSetTime = false
                 this.setIntervals()
                 this.setImage()
-
-                setTimeout(()=>{
-                    this.setImage()
-                },10000)
-                setTimeout(()=>{
-                    this.setImage()
-                },20000)
             },
         }
     }
