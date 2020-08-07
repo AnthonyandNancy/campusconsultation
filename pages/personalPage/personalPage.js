@@ -264,7 +264,6 @@ export default {
                 }
 
                 constant.setSchoolInfo(schoolInfo);
-
                 let json = await api.updateUserSchool({
                     query: {
                         sign: this.userSign,
