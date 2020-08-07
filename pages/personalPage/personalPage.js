@@ -77,6 +77,23 @@ export default {
                 }else if(sex ==2) {
                     this.chooseSex='女'
                     this.chooseSexNum=2
+                }else if (sex ==null){
+                    uni.getStorage({
+                        key: 'USER_INFO',
+                        success:  (res) =>{
+                            // console.log('USER_INFO',res.data);
+                            let sex=res.data.gender
+                            if(sex ==1){
+                                this.chooseSex='男'
+                                this.chooseSexNum=1
+                            }else if(sex ==2) {
+                                this.chooseSex = '女'
+                                this.chooseSexNum = 2
+                            }else {
+                                console.log('他是胡一菲')
+                            }
+                        }
+                    });
                 }else {
                     console.log('他是胡一菲')
                 }
