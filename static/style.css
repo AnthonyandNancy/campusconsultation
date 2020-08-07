@@ -1,0 +1,133 @@
+*{margin:0;padding:0;}
+
+:root {
+  --twinkle-duration: 4s;
+}
+
+.stars-wrapper {
+  position: relative;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  background: -webkit-gradient(linear, left top, left bottom, from(#16161d), color-stop(#1f1f3a), to(#3b2f4a));
+  background: linear-gradient(#16161d, #1f1f3a, #3b2f4a);
+  overflow: hidden;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-animation: twinkle var(--twinkle-duration) ease-in-out infinite;
+          animation: twinkle var(--twinkle-duration) ease-in-out infinite;
+}
+.stars:nth-child(2) {
+  -webkit-animation-delay: calc(var(--twinkle-duration) * -0.33);
+          animation-delay: calc(var(--twinkle-duration) * -0.33);
+}
+.stars:nth-child(3) {
+  -webkit-animation-delay: calc(var(--twinkle-duration) * -0.66);
+          animation-delay: calc(var(--twinkle-duration) * -0.66);
+}
+@-webkit-keyframes twinkle {
+  25% {
+    opacity: 0;
+  }
+}
+@keyframes twinkle {
+  25% {
+    opacity: 0;
+  }
+}
+.star1 {
+  background-color: #fff;
+  border-radius: 100%;
+}
+
+/*.star2 {*/
+/*  width: 6rpx !important;*/
+/*  height: 6rpx !important;*/
+/*  background-color: #fff;*/
+/*  border-radius: 100%;*/
+/*  transform: translate(0.46rpx,1.24rpx);*/
+/*}*/
+/*.star3 {*/
+/*  width: 6rpx !important;*/
+/*  height: 6rpx !important;*/
+/*  background-color: #fff;*/
+/*  border-radius: 100%;*/
+/*  transform: translate(76.34rpx,12.19rpx);*/
+/*}*/
+/*.star4 {*/
+/*   width: 6rpx !important;*/
+/*   height: 6rpx !important;*/
+/*   background-color: #fff;*/
+/*   border-radius: 100%;*/
+/*   transform: translate(58.03rpx,10.94rpx);*/
+/* }*/
+
+
+.star:nth-child(3n) {
+  opacity: 0.8;
+}
+.star:nth-child(7n) {
+  opacity: 0.6;
+}
+.star:nth-child(13n) {
+  opacity: 0.4;
+}
+.star:nth-child(19n) {
+  opacity: 0.2;
+}
+
+.comet {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-animation: comet 10s linear infinite;
+          animation: comet 10s linear infinite;
+}
+@-webkit-keyframes comet {
+  0%,
+		40% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60%,
+		100% {
+    -webkit-transform: translateX(-100vmax);
+            transform: translateX(-100vmax);
+    opacity: 0;
+  }
+}
+@keyframes comet {
+  0%,
+		40% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60%,
+		100% {
+    -webkit-transform: translateX(-100vmax);
+            transform: translateX(-100vmax);
+    opacity: 0;
+  }
+}
+.comet-b {
+  -webkit-animation-delay: -3.3s;
+          animation-delay: -3.3s;
+}
+
+.comet-c {
+  -webkit-animation-delay: -5s;
+          animation-delay: -5s;
+}

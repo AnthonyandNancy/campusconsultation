@@ -12,6 +12,7 @@ const AUDIO_IS_AUTHOR = '';
 const IS_PUBLISH = '';
 const SELECT_TYPE = '';
 const SWITCH_TYPE = '';
+const STARS_STYLES = '';
 
 /**
  * get****  获取缓存的函数
@@ -94,6 +95,14 @@ const getSwitchType = ()=>{
 	}
 	return ret;
 }
+const getStarStyle = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('STARS_STYLES');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
 
 
 
@@ -134,6 +143,10 @@ const setSwitchType = (res)=>{
 	uni.setStorageSync('SWITCH_TYPE', res);
 }
 
+const setStarStyle = (res)=>{
+	uni.setStorageSync('STARS_STYLES', res);
+}
+
 
 
 export default {
@@ -146,6 +159,7 @@ export default {
 	getSelectType,
 	getIsPublish,
 	getSwitchType,
+	getStarStyle,
 
     setUserSign,
 	setUserLogin,
@@ -155,5 +169,6 @@ export default {
 	setAudioIsAuthor,
 	setSelectType,
 	setIsPublish,
-	setSwitchType
+	setSwitchType,
+	setStarStyle
 }

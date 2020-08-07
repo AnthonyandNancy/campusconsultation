@@ -362,8 +362,6 @@ export default {
                 }
             })
 
-             // console.log('>>>',this.schoolTotal)
-
             if(res.data.errcode == 200){
                 uni.showToast({
                     title:'保存成功',
