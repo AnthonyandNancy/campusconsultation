@@ -92,7 +92,7 @@
         data() {
             return {
                 aiXinSrc: '../../static/images/Beckoning.gif',
-                setTime: 10,
+                setTime: 30,
                 time: null,
                 matchingTime: null,
                 showSetTime: false,
@@ -110,6 +110,12 @@
             })
             this.setIntervals()
             this.setImage()
+            setTimeout(()=>{
+                this.setImage()
+            },10000)
+            setTimeout(()=>{
+                this.setImage()
+            },20000)
 
         },
         onUnload() {
@@ -156,6 +162,8 @@
                 setTimeout(()=>{
                     this.showOnce=0
                 },9500)
+
+
 
 
             },
@@ -242,6 +250,13 @@
                 this.showSetTime = false
                 this.setIntervals()
                 this.setImage()
+
+                setTimeout(()=>{
+                    this.setImage()
+                },10000)
+                setTimeout(()=>{
+                    this.setImage()
+                },20000)
             },
         }
     }
