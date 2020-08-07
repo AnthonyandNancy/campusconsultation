@@ -146,7 +146,6 @@
 
             },
 
-
             setIntervals() {
                 //时间倒计时
                 this.time = setInterval(() => {
