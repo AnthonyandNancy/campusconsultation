@@ -62,20 +62,29 @@
 
 
 
-        <u-popup height="100%" mode="center" v-model="showChat" width="100%">
+        <u-popup height="100vh" mode="center" v-model="showChat" width="100%">
 
-            			<view style="width: 100%;height: 100%;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);">
+            			<view style="width: 100%;height: 100vh;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);margin: 0;padding: 0;">
 
-                            <view style="margin-top: 0%">
-                                <image :src="leftsrc" class="leftsrc" size="50vh"></image>
+
+                                <view class="popLeft">
+                                    <image :src="leftsrc" class="leftsrc" size="50vh"></image>
+                                    <view>{{userName}}</view>
+                                </view>
+
+                                <view class="popRight">
+                                    <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
+                                    <view>{{matchingName}}</view>
+                                </view>
+
 <!--                                <image src="../../static/images/staticXin.png" class="middleImg"></image>-->
-                                <view class="middleImg"></view>
-                                <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
+<!--                                <view class="middleImg"></view>-->
+
                             </view>
-                            <view style="font-size: 68rpx;margin-top: 78%;margin-left: 16%;">你们匹配度:{{matchingNum}}%</view>
-                            <view style="font-size: 34rpx;margin-top: 1%;margin-left: 18%;color: white;">Waiting....</view>
-                            <view style="font-size: 18px;margin-top: 28vh;margin-left: 31%;color: #ffff;">马上进入聊天室....</view>
-                            </view>
+<!--                            <view style="font-size: 68rpx;margin-top: 78%;margin-left: 16%;">你们匹配度:{{matchingNum}}%</view>-->
+<!--                            <view style="font-size: 34rpx;margin-top: 1%;margin-left: 18%;color: white;">Waiting....</view>-->
+                            <view style="font-size: 18px;color: #ffff;position: relative;top: -47vh;left: 15vh;">还有{{lastTime}}秒马上进入聊天室....</view>
+
 
 
         </u-popup>
@@ -95,13 +104,19 @@
                 setTime: 30,
                 time: null,
                 matchingTime: null,
+                matchingTimeInterval:null,
                 showSetTime: false,
                 matchType: 1,
                 showChat: false,
                 leftsrc: '../../static/images/peoples.png',
                 Rightsrc: '../../static/images/peoples.png',
                 matchingNum: null,
-                showOnce:2
+                showOnce:2,
+
+
+                matchingName:'郭建林',
+                userName:'郭建林',
+                lastTime:3
             };
         },
         onLoad() {
@@ -111,10 +126,18 @@
             this.setIntervals()
             this.setImage()
 
+            setTimeout(()=>{
+                this.setImage()
+            },10000)
+            setTimeout(()=>{
+                this.setImage()
+            },20000)
+
         },
         onUnload() {
             clearInterval(this.time)
             clearInterval(this.matchingTime)
+            // clearInterval(this.matchingTimeInterval)
         },
         methods: {
             /*头像闪烁*/
@@ -175,6 +198,9 @@
                     this.matchingTimeFun()
 
                     if(this.setTime <= 0){
+                        //测试
+                        // this.matchingTimeGetFun()
+                        // this.showChat = true
                         this.showSetTime = true
                         clearInterval(this.time)
                     }
@@ -215,23 +241,43 @@
                     var num=Math.random();
                     this.matchingNum =(num.toFixed(2))*100;
                     let userInfo = constant.getUserLogin()
+                    this.userName=userInfo.name
+                    this.matchingName=res.data.matchUser.name
                     this.leftsrc = userInfo.pic
                     this.Rightsrc = res.data.matchUser.pic
                     this.showChat = true
-                    // clearInterval(this.time)
-                    // clearInterval(this.matchingTime)
+                    this.matchingTimeGetFun()
+                    clearInterval(this.time)
+                    clearInterval(this.matchingTime)
                     setTimeout(() => {
                         uni.redirectTo({
                             url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'maching'
                         });
                         this.matchingNum=null
-                    }, 5000)
+                    }, 3000)
                 } else if (this.setTime <= 0) {
-                    // this.showSetTime = true
-                    // clearInterval(this.time)
-                    // clearInterval(this.matchingTime)
+                    this.showSetTime = true
+                    clearInterval(this.time)
+                    clearInterval(this.matchingTime)
                 }
 
+
+            },
+
+            matchingTimeGetFun(){
+                console.log('匹配到时间倒计时')
+                //匹配到时间倒计时
+                let matchingTimeInterval = setInterval(() => {
+                    if (this.lastTime <=0){
+                        console.log('清理匹配到时间倒计时')
+                        clearInterval(matchingTimeInterval)
+                    }else {
+                        this.lastTime = this.lastTime - 1
+                    }
+
+
+
+                }, 1000)
 
             },
 
@@ -240,8 +286,15 @@
             reStart() {
                 this.setTime = 30
                 this.showSetTime = false
+
                 this.setIntervals()
                 this.setImage()
+                setTimeout(()=>{
+                    this.setImage()
+                },10000)
+                setTimeout(()=>{
+                    this.setImage()
+                },20000)
             },
         }
     }
@@ -315,28 +368,43 @@
         line-height: 100rpx;
     }
 
-    .leftsrc {
+
+    .popLeft{
+        /*margin-top:31%;*/
+        /*margin-left: 11%;*/
+        position: relative;
+        top: 7%;
+        left: 11%;
         width: 20vh;
         height: 20vh;
-        position: absolute;
-        top: 31%;
-        left: 6%;
         border-radius: 10vh;
-
-
-        /*border: #2B83FF solid;*/
+        text-align: center;
+        color: #ffff;
+        .leftsrc {
+            width: 20vh;
+            height: 20vh;
+            border-radius: 10vh;
+            /*border: #2B83FF solid;*/
+        }
     }
 
+    .popRight{
+        border-radius: 10vh;
+        width: 20vh;
+        height: 20vh;
+        /*position: absolute;*/
+        /*top: 31%;*/
+        /*left: 56%;*/
+        margin-top:-22%;
+        margin-left: 56%;
+        text-align: center;
+        color: #ffff;
+    }
     .Rightsrc {
         /*border: #2B83FF solid;*/
         border-radius: 10vh;
         width: 20vh;
         height: 20vh;
-        position: absolute;
-        top: 31%;
-        left: 62%;
-
-
     }
 
     .middleImg {
