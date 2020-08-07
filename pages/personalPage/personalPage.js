@@ -109,6 +109,8 @@ export default {
         //         this.schoolName=data.schoolName
         //     }
         // });
+
+        
         uni.getStorage({
             key: 'USER_INFO',
             success:  (res) =>{
