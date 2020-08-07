@@ -1,4 +1,3 @@
-import tenxunMap from '../../utils/mapSDK/qqmap-wx-jssdk';
 import api from "../../utils/request/api";
 import constant from "../../utils/constant";
 
@@ -8,9 +7,9 @@ import uniSearchBar from '../../components/uni-search-bar/uni-search-bar.vue'
 
 import universityChoose from '../../utils/universityChoose';
 
-let qqMapWX, that;
+let that;
 export default {
-    components:{
+    components: {
         msDropdownMenu,
         msDropdownItem,
         uniSearchBar
@@ -19,11 +18,11 @@ export default {
         return {
             userSign: '',
             getSchoolList: [],
-            isAuthor:Boolean,
+            isAuthor: Boolean,
             showPopup: false,//显示弹窗
-            keyword:'',
-            searchSchoolList:[],//搜索出来的学校列表
-            showCell:false,
+            keyword: '',
+            searchSchoolList: [],//搜索出来的学校列表
+            showCell: false,
             provinceList: [{text: "请选择省", value: 0}],
             cityList: [{text: "请选择市", value: 0}],
             schoolList: [{text: "请选学校", value: 0}],
@@ -35,77 +34,98 @@ export default {
     },
     onLoad() {
 
-        if(constant.getUserLogin().schoolName != null){
+        if (constant.getUserLogin().schoolName != null) {
             uni.switchTab({
-                url:'/pages/tabbel/home/home'
+                url: '/pages/tabbel/home/home'
             })
         }
 
         that = this;
-        qqMapWX = new tenxunMap({
-            key: 'GA7BZ-CJ4WJ-O65F3-KYEJZ-ROAU5-2FBTY'
-        })
     },
     async onReady() {
-        this.getCurLocation()
         this.isAuthor = constant.getIsAuthor();
-        this.provinceList = universityChoose
+        this.provinceList = universityChoose;
+        if (constant.getUserSign().length == 0) {
+            new Promise((resolve, reject) => {
+                uni.login({
+                    success: async res => {
+                        let {errMsg, code} = res;
+                        if (errMsg == "login:ok") {
+                            let json = await api.getLogin({
+                                query: {
+                                    code: code,
+                                    version: '1.0'
+                                }
+                            })
+                            constant.setUserSign(json.data.sign);
+                            constant.setUserLogin(json.data);
+                            resolve(json.data.sign)
+                        }
+                    }
+                })
+            }).then((res) => {
+                that.userSign = res;
+                that.getCurLocation()
+            })
+        } else {
 
+            this.getCurLocation()
 
+        }
 
     },
     methods: {
         //授权
-        toAuthor(){
-                uni.getUserInfo({
-                    provider: 'weixin',
-                    lang:'zh_CN',
-                    success: async function (infoRes) {
-                        constant.setIsAuthor(true);
-                        that.isAuthor = true;
+        toAuthor() {
+            uni.getUserInfo({
+                provider: 'weixin',
+                lang: 'zh_CN',
+                success: async function (infoRes) {
+                    constant.setIsAuthor(true);
+                    that.isAuthor = true;
 
-                        if (infoRes.errMsg == "getUserInfo:ok") {
-                            constant.setUserInfo(infoRes.userInfo)
+                    if (infoRes.errMsg == "getUserInfo:ok") {
+                        constant.setUserInfo(infoRes.userInfo)
 
 
-                            let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
-                            let json = await api.updateUserInfo({
-                                query: {
-                                    sign: that.userSign,
-                                    name: nickName,
-                                    pic: avatarUrl,
-                                    gender: gender,
-                                    country: country,
-                                    province: province,
-                                    city: city
-                                }
-                            })
-                            if (json.data.errcode == 200) {
-
-                                uni.showToast({
-                                    title: '授权成功',
-                                    mask: true,
-                                    icon: 'none'
-                                });
-                                that.toLogin();
+                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
+                        let json = await api.updateUserInfo({
+                            query: {
+                                sign: that.userSign,
+                                name: nickName,
+                                pic: avatarUrl,
+                                gender: gender,
+                                country: country,
+                                province: province,
+                                city: city
                             }
+                        })
+                        if (json.data.errcode == 200) {
+
+                            uni.showToast({
+                                title: '授权成功',
+                                mask: true,
+                                icon: 'none'
+                            });
+                            that.toLogin();
                         }
-                    },
-                    fail(res) {
-                        constant.setIsAuthor(false)
-                        that.isAuthor = false;
                     }
-                });
+                },
+                fail(res) {
+                    constant.setIsAuthor(false)
+                    that.isAuthor = false;
+                }
+            });
         },
 
         //获取学校列表
         async getCurLocation() {
             // 选择位置信息 uni.chooseLocation({})
             //自动获取当前的位置信息 只获取经纬度
-            let json = await  api.getLocation({})
+            let json = await api.getLocation({})
 
-            console.log('获取当前的定位',json);
-            if(json.data.errcode == 200){
+            console.log('获取当前的定位', json);
+            if (json.data.errcode == 200) {
 
                 that.userSign = constant.getUserSign();
 
@@ -115,22 +135,23 @@ export default {
                 let schoolJson = await api.getSchoolList({
                     query: {
                         sign: that.userSign,
-                        province: province ,
+                        province: province,
                         city: city
                     }
                 })
 
+
                 if (schoolJson.data.errcode == 200) {
                     let obj = {};
                     schoolJson.data.campusList.forEach((res, index) => {
-                        if (index > 10){
+                        if (index > 10) {
                             return;
                         }
                         obj = {
                             schoolName: res[0],
                             schoolPic: 'https://game.xunyi.online/static/SchoolLian/Badges/' + res[0] + '.png'
                         }
-                        if(res[0] != '广东技术师范大学天河学院'){
+                        if (res[0] != '广东技术师范大学天河学院') {
                             that.getSchoolList.push(obj)
                         }
 
@@ -141,15 +162,15 @@ export default {
 
         },
         //查看更多学校
-        showMoreSchool(){
+        showMoreSchool() {
             this.showPopup = true;
         },
         //选择学校后直接跳回首页
-        selectSchool(schoolName){
+        selectSchool(schoolName) {
             this.updateSchool(schoolName);
 
             uni.switchTab({
-                url:'/pages/tabbel/home/home'
+                url: '/pages/tabbel/home/home'
             })
         },
         //选择省份后
@@ -189,25 +210,25 @@ export default {
             this.updateSchool(schoolTotal[0]);
             this.schoolValue = val;
         },
-        async updateSchool(nameVal){
+        async updateSchool(nameVal) {
             let json = await api.updateUserSchool({
-                query:{
+                query: {
                     sign: this.userSign,
                     schoolName: nameVal
                 }
             })
-            if(json.data.errcode == 200){
+            if (json.data.errcode == 200) {
                 this.toLogin();
                 uni.switchTab({
-                    url:'/pages/tabbel/home/home'
+                    url: '/pages/tabbel/home/home'
                 })
             }
         },
-        getFocus(){
+        getFocus() {
             this.showSelect = true;
         },
-        toBlus(){
-            if(this.keyword != ''){
+        toBlus() {
+            if (this.keyword != '') {
                 return
             }
             this.showSelect = false;
@@ -215,15 +236,16 @@ export default {
         async handelSearch(obj) {
             this.keyword = obj.value;
 
-            setTimeout((res)=>{},1000)
+            setTimeout((res) => {
+            }, 1000)
 
             let reg = new RegExp(/[^\u4E00-\u9FA5]/g);
             console.log(reg.test(this.keyword))
-            if(this.keyword == ''){
+            if (this.keyword == '') {
                 this.showCell = false;
                 return;
             }
-            if(!reg.test(this.keyword)){
+            if (!reg.test(this.keyword)) {
                 let json = await api.searchSchool({
                     query: {
                         keyword: this.keyword,

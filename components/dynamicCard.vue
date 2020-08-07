@@ -140,11 +140,13 @@
         data(){
             return{
                 audioPlay:false,
-                videoContext:{}
+                videoContext:{},
+                userSign:''
             }
         },
         onReady(){
             that = this;
+            this.userSign = constant.getUserSign();
         },
         onShareAppMessage:(res)=>{
             return{
@@ -194,7 +196,6 @@
             screenChange() {
                 this.videoContext.play();
             },
-
             toDetail(){
                 this.$emit('toDetailEvent',this.dynamicObj)
             },
@@ -203,12 +204,12 @@
             },
             //点击头像进入个人页面
             toOtherMineInfoPage(){
+
                 let data = this.dynamicObj
 
                 if (this.userSign == data.sign) {
                     return;
                 }
-
                 uni.navigateTo({
                     url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
                 })

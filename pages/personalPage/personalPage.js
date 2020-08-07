@@ -132,6 +132,11 @@ export default {
             this.showPopup = false;
         },
         async handelSearch() {
+            if(this.keyword.value == ''){
+                this.showCell = false;
+                this.showSelect = false;
+            }
+
             this.showCell = true;
             this.showSelect = true;
 
@@ -165,6 +170,10 @@ export default {
             this.showSelect = true;
         },
         toBlus() {
+            if(this.keyword.value != ''){
+                return
+            }
+            this.showCell = false
             this.showSelect = false;
         },
         getSchool(val){

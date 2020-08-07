@@ -31,6 +31,9 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
+    onLoad(){
+        this.toLogin();
+    },
     onReady() {
         that = this;
         this.isAuthor = constant.getIsAuthor();
