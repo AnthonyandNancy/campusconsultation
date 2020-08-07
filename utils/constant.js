@@ -13,6 +13,7 @@ const IS_PUBLISH = '';
 const SELECT_TYPE = '';
 const SWITCH_TYPE = '';
 const STARS_STYLES = '';
+const IS_UPDATE_SAVE_DATA = '';
 
 /**
  * get****  获取缓存的函数
@@ -103,7 +104,14 @@ const getStarStyle = ()=>{
 	}
 	return ret;
 }
-
+const getIsUpdateData = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('IS_UPDATE_SAVE_DATA');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
 
 
 /**
@@ -147,6 +155,9 @@ const setStarStyle = (res)=>{
 	uni.setStorageSync('STARS_STYLES', res);
 }
 
+const setIsUpdateData= (res)=>{
+	uni.setStorageSync('IS_UPDATE_SAVE_DATA', res);
+}
 
 
 export default {
@@ -160,6 +171,7 @@ export default {
 	getIsPublish,
 	getSwitchType,
 	getStarStyle,
+	getIsUpdateData,
 
     setUserSign,
 	setUserLogin,
@@ -170,5 +182,6 @@ export default {
 	setSelectType,
 	setIsPublish,
 	setSwitchType,
-	setStarStyle
+	setStarStyle,
+	setIsUpdateData
 }

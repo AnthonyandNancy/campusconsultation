@@ -180,6 +180,7 @@ export default {
             console.log(val)
             this.schoolName=val[0]
             this.showPopup=false
+            constant.setIsUpdateData(true)
             // this.searchSchoolList
         },
 
@@ -309,7 +310,6 @@ export default {
                     this.avatarImgUrl = 'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + this.schoolName + '.png';
                     constant.setSchoolInfo(schoolInfo);
 
-
                     let updateJson = await api.updateUserSchool({
                         query: {
                             sign: this.userSign,
@@ -331,6 +331,7 @@ export default {
                         this.dynamicList = []
                         this.currPage = 1;
                         this.toLogin();
+                        constant.setIsUpdateData(true)
                         // this.getDynamicList(this.currPage)
                         // this.getChatRoom();
                     }

@@ -171,6 +171,21 @@ export default {
         this.tabsList = constant.getUserLogin().header[0].title
         this.content = this.createContent;
     },
+    onShow(){
+        this.userSign = constant.getUserSign();
+
+
+        if(constant.getIsUpdateData()){
+            console.log('111111111111111111111111111111111111111111111111111111111111111111111')
+            //遍历获取所有动态
+            this.tabsList.forEach((res, index) => {
+                this.getAllDynamicList(index)
+            })
+
+            constant.setIsUpdateData(false)
+        }
+
+    },
     onReady() {
         this.userSign = constant.getUserSign();
 
