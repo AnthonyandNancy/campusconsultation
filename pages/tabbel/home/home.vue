@@ -18,7 +18,7 @@
                     <view class="cartBox" @click="toHotDynamicPage(index)">
                         <view class="picture">
                             <view class="imgBox">
-                                <image :src="'/static/images/h'+ (index+1) +'.png'" class="auto-img"></image>
+                                <image :src="'/static/images/h'+ (index+1) +'.png'" class="auto-img" mode="aspectFit"></image>
                             </view>
                         </view>
                         <view class="cart_text">{{cartItem.name}}</view>
