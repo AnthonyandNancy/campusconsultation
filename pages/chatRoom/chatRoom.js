@@ -87,10 +87,10 @@ export default {
 
             setTimeout(() => {
                 try {
-                    const value = uni.getStorageSync('USER_INFO');
+                    const value = uni.getStorageSync('USER_SIGN');
                     if (value) {
-                        console.log('异步拿到userInfo》', value);
-                        this.userInfoSign = value.sign
+                        console.log('异步拿到USER_SIGN》', value);
+                        this.userInfoSign = value
                     }
                 } catch (e) {
                     // error
@@ -116,7 +116,7 @@ export default {
 
         this.roomName = option.roomName;
         uni.hideTabBarRedDot({
-            index: 1,
+            index: 3,
         })
 
 

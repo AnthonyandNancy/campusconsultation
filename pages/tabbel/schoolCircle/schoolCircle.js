@@ -141,6 +141,22 @@ export default {
             videoContext: {}
         }
     },
+    onShareAppMessage() {
+        console.log({
+            title: "传播校园文化,助力高考报考",
+            path: 'pages/tabbel/schoolCircle/schoolCircle',
+            imageUrl: "/static/images/poster.png"
+        })
+
+        return {
+            title: "传播校园文化,助力高考报考",
+            path: 'pages/tabbel/home/home',
+            imageUrl: "/static/images/poster.png"
+        }
+
+
+
+    },
     onLoad() {
         that = this;
         constant.setIsPublish(false);
