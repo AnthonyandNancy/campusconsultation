@@ -11,9 +11,9 @@
                 <view class="infoItem">{{dynamicObj.addTime}}</view>
             </view>
         </view>
-        <view class="containerItem">
-            <view class="picture" v-if="dynamicObj.imgList.length != 0">
-                <image :src="dynamicObj.imgList[0]" class="auto-img" style="border-radius: 10rpx" mode="aspectFit"></image>
+        <view class="containerItem" v-if="dynamicObj.imgList.length != 0">
+            <view class="picture" >
+                <image :src="dynamicObj.imgList[0]" class="auto-img" style="border-radius: 10rpx" mode="aspectFill"></image>
             </view>
         </view>
     </view>
@@ -44,6 +44,7 @@
 </script>
 
 <style lang="scss" scoped>
+
     .container{
         display: flex;
         padding: 20rpx 0;
@@ -107,6 +108,10 @@
                     font-size: 24rpx;
                     text-align: right;
                     padding-right: 15rpx;
+                }
+                .shareTimesTip{
+                    display: inline-block;
+
                 }
             }
         }

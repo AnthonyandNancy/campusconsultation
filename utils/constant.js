@@ -14,6 +14,7 @@ const SELECT_TYPE = '';
 const SWITCH_TYPE = '';
 const STARS_STYLES = '';
 const IS_UPDATE_SAVE_DATA = '';
+const IS_COMMENT = '';
 
 /**
  * get****  获取缓存的函数
@@ -113,6 +114,15 @@ const getIsUpdateData = ()=>{
 	return ret;
 }
 
+const getIsComment = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('IS_COMMENT');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
+
 
 /**
  * set****  增加缓存的函数
@@ -159,6 +169,10 @@ const setIsUpdateData= (res)=>{
 	uni.setStorageSync('IS_UPDATE_SAVE_DATA', res);
 }
 
+const setIsComment= (res)=>{
+	uni.setStorageSync('IS_COMMENT', res);
+}
+
 
 export default {
     getUserSign,
@@ -172,6 +186,7 @@ export default {
 	getSwitchType,
 	getStarStyle,
 	getIsUpdateData,
+	getIsComment,
 
     setUserSign,
 	setUserLogin,
@@ -183,5 +198,6 @@ export default {
 	setIsPublish,
 	setSwitchType,
 	setStarStyle,
-	setIsUpdateData
+	setIsUpdateData,
+	setIsComment
 }

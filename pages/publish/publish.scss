@@ -19,13 +19,15 @@
 
       .delete{
         position: absolute;
-        top:10rpx;
-        right: 10rpx;
+        top: -15rpx;
+        right: -10rpx;
         font-size: 30rpx;
         font-family: iconfont;
         color: #ff0000;
         z-index: 1000;
-        padding:0 0 10rpx 10rpx;
+        background-color: rgba(255,255,255,0.8);
+        border-radius: 100%;
+
       }
       .audioIcon{
         position: absolute;

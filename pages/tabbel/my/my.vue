@@ -5,7 +5,7 @@
                 <view class="notice" @click="toReadNotive">
                     <view class="notice_box">
                         <view class="noticeIcon">
-                            <image src="/static/images/notice.png" class="auto-img" style="border-radius: 100%"></image>
+                            <image src="/static/images/notice.png" class="auto-img" ></image>
                         </view>
                         <text class="pointIcon" v-if="false">&#xe608;</text>
                     </view>
@@ -16,7 +16,7 @@
                                 @getuserinfo="toAuthor"></button>
                         <view class="avatar">
                             <image :src="userInfo.pic?userInfo.pic:'../../../static/images/avatar.png'"
-                                   style="width: 100%;height: 100%;" mode="aspectFit"></image>
+                                   style="width: 100%;height: 100%;border-radius: 100% !important;" mode="aspectFit"></image>
                         </view>
                     </view>
                     <view class="item nickNameItem">

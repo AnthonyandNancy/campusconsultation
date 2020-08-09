@@ -4,7 +4,8 @@
         <view>
             <swiper class="navTab" :current="currentSwiper" @change="changeSwiper"
                     :style="{height:swiperViewHeight + 'px'}">
-                <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :data-typeId="item.type" :key="index">
+                <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :data-typeId="item.type"
+                             :key="index">
 
                     <load-refresh ref="hideLoading"
                                   :isRefresh="true"
@@ -21,9 +22,11 @@
                                          :dynamic-obj="item1"
                                          :currentIndex="index1" :currentPageType="item.type== 37?'chat':''"
                                          @shareEvent="toShare" @commentEvent="toComment"
-                                         @supportEvent="toSupport" @showAllEvent="showAll" @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>
+                                         @supportEvent="toSupport" @showAllEvent="showAll"
+                                         @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>
 
-                            <view class="dynamicItem" v-if="item.type != 37" v-for="(item1,index1) in item.dynamicList" :key="index1">
+                            <view class="dynamicItem" v-if="item.type != 37" v-for="(item1,index1) in item.dynamicList"
+                                  :key="index1">
                                 <!--头部样式-->
                                 <view class="dynamInfo">
                                     <view class="dynamInfoItem PublisherAvatar">
@@ -42,8 +45,9 @@
                                         </view>
                                     </view>
 
-                                    <view class="dynamInfoItem" @click="showVideo('dynamicVideo'+index)" >
-                                        <view class="videoIcon" v-if="item1.video != null" >
+                                    <view class="dynamInfoItem" @click="showVideo(item1.video)">
+<!--                                    <view class="dynamInfoItem" @click="showVideo('dynamicVideo'+index)">-->
+                                        <view class="videoIcon" v-if="item1.video != null">
                                             <image src="/static/images/videoIcon.png" class="auto-img"></image>
                                         </view>
                                     </view>
@@ -51,7 +55,7 @@
 
                                 <!--动态内容-->
                                 <view class="showSourse">
-                                    <view >
+                                    <view>
                                         <view :class="!item1.isShowAllContent?'showAllContent':'hideSectionContent'"
                                               @click="dynamicDetail(item1)">
                                             {{item1.content}}
@@ -67,13 +71,15 @@
                                             <image :src="imgItem" class="auto-img" lazy-load
                                                    mode="aspectFill"></image>
                                         </view>
-                                    <view  v-if="item1.video != null">
-                                        <view class="video" style="display: none">
-                                            <video  :id="'dynamicVideo'+index"  object-fit="cover" autoplay controls class="auto-img"
-                                                   :src="item1.video" @fullscreenchange="screenChange"></video>
-                                            <!--dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"-->
-                                        </view>
-                                    </view>
+
+<!--                                        <view v-if="item1.video != null">-->
+<!--                                            &lt;!&ndash;style="display: none"  ios   style="display: inline !important;"&ndash;&gt;-->
+<!--                                            <view>-->
+<!--                                                <video style="height: 0 !important;width: 0 !important;display: inline;" :id="'dynamicVideo'+index" object-fit="cover" controls-->
+<!--                                                       :src="item1.video" @fullscreenchange="screenChange"></video>-->
+<!--                                                &lt;!&ndash;dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"&ndash;&gt;-->
+<!--                                            </view>-->
+<!--                                        </view>-->
 
                                     </view>
 
@@ -87,7 +93,8 @@
 
                                 <view class="support">
                                     <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
-                                    <view class="Item publishTime" v-if="item.type != 36 && item1.roomId != null && item1.type != 6">
+                                    <view class="Item publishTime"
+                                          v-if="item.type != 36 && item1.roomId != null && item1.type != 6">
                                         <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
                                     </view>
                                     <view class="Item publishTime" v-if="item.type == 36 && userSign != item1.sign">
@@ -97,7 +104,7 @@
 
                                         <view class="shareIcon" @click="toShare(item1.dynamicSign)">
                                             <button class="shareIconBtn" open-type="share"></button>
-                                            <view class="icon" >
+                                            <view class="icon">
                                                 <image src="/static/images/share.png"
                                                        class="auto-img"></image>
                                             </view>
@@ -106,8 +113,7 @@
 
                                         <view class="commentIcon" @click="toComment(item1.dynamicSign)">
                                             <view class="icon">
-                                                <image src="/static/images/comment.png"
-                                                       class="auto-img"></image>
+                                                <image src="/static/images/comment.png" class="auto-img"></image>
                                             </view>
                                             <view class="tip">{{item1.commentTimes}}</view>
                                         </view>
@@ -128,6 +134,10 @@
                 </swiper-item>
             </swiper>
         </view>
+
+        <!--视频-->
+        <video id="videoId"  style="display: block !important; width: 0 !important; height: 0 !important;" :src="videoUrl" class="video" controls @fullscreenchange="screenChange"></video>
+
 
         <view class="loveBtn" v-if="content.length==1" @click="tofindLove">
             <view class="loveImg">
@@ -190,6 +200,7 @@
                 </view>
             </view>
         </u-popup>
+
 
     </view>
 </template>

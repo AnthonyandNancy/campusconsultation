@@ -1,5 +1,6 @@
 //插件 start
 import mosoweSwiper from '../../../components/mosowe-swiper/mosowe-swiper';
+import carousel from '@/components/vear-carousel/vear-carousel';
 //插件 end
 import constant from "../../../utils/constant";
 import api from '../../../utils/request/api';
@@ -8,7 +9,8 @@ let that;
 
 export default {
     components: {
-        mosoweSwiper
+        mosoweSwiper,
+        carousel
     },
     data() {
         return {
@@ -35,12 +37,19 @@ export default {
         this.toLogin();
     },
     onReady() {
+        uni.showLoading({
+            title:'加载中...'
+        })
         that = this;
         this.isAuthor = constant.getIsAuthor();
         let banner = constant.getUserLogin().banner;
-        banner.forEach(res=>{
-            this.bannerImg.push(res.pic);
-        })
+        // banner.forEach(res=>{
+        //     this.bannerImg.push(res.pic);
+        // })
+        this.bannerImg = banner;
+
+
+        uni.hideLoading();
     },
 
     methods: {

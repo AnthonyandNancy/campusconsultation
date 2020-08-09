@@ -138,7 +138,10 @@ export default {
             hotDynamicList: [], //热门动态列表,
             audioPlay: false,
             animationData: {},
-            videoContext: {}
+            videoContext: {},
+
+            videoUrl:'',
+            commentDySign:''
         }
     },
     onLoad() {
@@ -154,6 +157,22 @@ export default {
         this.content = this.createContent;
     },
     onShow() {
+
+        if(constant.getIsComment()){
+            // this.tabsList.forEach((res, index) => {
+            //     this.tabsList[index].dynamicList = [];
+            //     this.getAllDynamicList(index)
+            // })
+            this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
+                if(res.dynamicSign == this.commentDySign){
+                    res.commentTimes++;
+                }
+            })
+
+            constant.setIsComment(false)
+        }
+
+
         if (constant.getSelectType().length != 0) {
             this.tab = constant.getSelectType();
             this.currentSwiper = constant.getSelectType();
@@ -261,13 +280,17 @@ export default {
                 this.audioPlay = false;
             }
         },
-        showVideo(id) {
-            this.videoContext = uni.createVideoContext(id, this);
+        showVideo(url) {
+            this.videoUrl = url;
 
-            this.videoContext.requestFullScreen();
+            this.videoContext = uni.createVideoContext('videoId', this);
+
+            this.videoContext.requestFullScreen({direction:0});
         },
-        screenChange() {
-            this.videoContext.play();
+        screenChange(e) {
+            if(e.detail.fullScreen){
+                this.videoContext.play();
+            }
         },
         toAddChatRoom(dynamicObj) {
             let chatObj = dynamicObj
@@ -366,6 +389,12 @@ export default {
             })
 
             if (json.data.errcode == 200) {
+                this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
+                    if(res.dynamicSign == dynSign){
+                        res.shareTimes++;
+                    }
+                })
+
                 uni.showToast({
                     title: json.data.info,
                     mask: true,
@@ -375,6 +404,7 @@ export default {
         },
         // 评论
         toComment(dynSign) {
+            this.commentDySign = dynSign;
             uni.navigateTo({
                 url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
             })

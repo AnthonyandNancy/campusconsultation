@@ -159,7 +159,9 @@ export default {
             },
             //创建聊天房间 end
 
-            videoContext: {}
+            videoContext: {},
+            videoUrl:'',
+            commentDySign:''
         }
     },
     onLoad() {
@@ -178,20 +180,38 @@ export default {
     onShow(){
         this.userSign = constant.getUserSign();
 
-
-        if(constant.getIsUpdateData()){
-            console.log('111111111111111111111111111111111111111111111111111111111111111111111')
-            //遍历获取所有动态
-            this.tabsList.forEach((res, index) => {
-                this.getAllDynamicList(index)
+        if(constant.getIsComment()){
+            // this.tabsList.forEach((res, index) => {
+            //     this.tabsList[index].dynamicList = [];
+            //     this.getAllDynamicList(index)
+            // })
+            this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
+                if(res.dynamicSign == this.commentDySign){
+                    res.commentTimes++;
+                }
             })
 
+            constant.setIsComment(false)
+        }
+
+        if(constant.getIsUpdateData()){
+            //遍历获取所有动态
+
+            this.tabsList.forEach((res, index) => {
+                this.tabsList[index].dynamicList = [];
+                this.getAllDynamicList(index)
+            })
             constant.setIsUpdateData(false)
         }
+
 
     },
     onReady() {
         this.userSign = constant.getUserSign();
+
+        uni.showLoading({
+            title:'加载中...'
+        })
 
         new Promise((resolve, reject) => {
             resolve(this.tabsList);
@@ -211,14 +231,19 @@ export default {
 
     },
     methods: {
-        showVideo(id) {
-            this.videoContext = wx.createVideoContext(id, this);
+        showVideo(url) {
+            this.videoUrl = url;
 
-            this.videoContext.requestFullScreen();
-            console.log('playVi deoplayVideo', this.videoContext)
+            this.videoContext = wx.createVideoContext('videoId',this);
+
+            this.videoContext.requestFullScreen({direction:0});
+
         },
-        screenChange() {
-            this.videoContext.play();
+        screenChange(e){
+
+            if(e.detail.fullScreen){
+                this.videoContext.play();
+            }
         },
         //点击头像进入个人页面
         toOtherMineInfoPage(item) {
@@ -377,10 +402,11 @@ export default {
         },
         //所有动态
         async getAllDynamicList(index) {
-            let schoolName = constant.getUserLogin().schoolName;
-            console.log(schoolName)
             uni.showLoading();
 
+            let schoolName = constant.getUserLogin().schoolName;
+
+            //获取群聊
             if (this.tabsList[index].type == 37) {
                 const chatGroupJson = await api.getSchoolChatRoom({
                     query: {
@@ -389,10 +415,8 @@ export default {
                     }
                 })
                 if (chatGroupJson.data.errcode == 200) {
-                    uni.hideLoading();
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
                 }
-                console.log('111222聊天房间', chatGroupJson);
                 return;
             }
 
@@ -406,15 +430,16 @@ export default {
             })
 
             if (json.data.errcode == 200) {
-                uni.hideLoading();
+
                 this.tabsList[index].totalPage = json.data.totalPage
                 json.data.dynamicList.forEach((res) => {
                     res['isShowAllContent'] = false
                 })
 
+                uni.hideLoading();
+
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
             }
-            console.log('tabsList======>', this.tabsList);
         },
         //进入动态详情页面
         dynamicDetail(obj) {
@@ -439,6 +464,11 @@ export default {
             })
 
             if (json.data.errcode == 200) {
+                this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
+                    if(res.dynamicSign == dynSign){
+                        res.shareTimes++;
+                    }
+                })
                 uni.showToast({
                     title: json.data.info,
                     mask: true,
@@ -449,6 +479,7 @@ export default {
         },
         // 评论
         toComment(dynSign) {
+            this.commentDySign = dynSign;
             uni.navigateTo({
                 url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
             })
