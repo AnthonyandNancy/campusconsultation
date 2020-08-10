@@ -160,25 +160,16 @@ export default {
             //创建聊天房间 end
 
             videoContext: {},
-            videoUrl:'',
-            commentDySign:''
+            videoUrl: '',
+            commentDySign: ''
         }
     },
     onShareAppMessage() {
-        console.log({
+        return {
             title: "传播校园文化,助力高考报考",
-            path: 'pages/tabbel/campus/campus',
+            path: '/pages/selectSchool/selectSchool',
             imageUrl: "/static/images/poster.png"
-        })
-
-            return {
-                title: "传播校园文化,助力高考报考",
-                path: 'pages/tabbel/home/home',
-                imageUrl: "/static/images/poster.png"
-            }
-
-
-
+        }
     },
     onLoad() {
         that = this;
@@ -193,16 +184,16 @@ export default {
         this.tabsList = constant.getUserLogin().header[0].title
         this.content = this.createContent;
     },
-    onShow(){
+    onShow() {
         this.userSign = constant.getUserSign();
 
-        if(constant.getIsComment()){
+        if (constant.getIsComment()) {
             // this.tabsList.forEach((res, index) => {
             //     this.tabsList[index].dynamicList = [];
             //     this.getAllDynamicList(index)
             // })
-            this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
-                if(res.dynamicSign == this.commentDySign){
+            this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
+                if (res.dynamicSign == this.commentDySign) {
                     res.commentTimes++;
                 }
             })
@@ -210,7 +201,7 @@ export default {
             constant.setIsComment(false)
         }
 
-        if(constant.getIsUpdateData()){
+        if (constant.getIsUpdateData()) {
             //遍历获取所有动态
 
             this.tabsList.forEach((res, index) => {
@@ -226,7 +217,7 @@ export default {
         this.userSign = constant.getUserSign();
 
         uni.showLoading({
-            title:'加载中...'
+            title: '加载中...'
         })
 
         new Promise((resolve, reject) => {
@@ -249,22 +240,28 @@ export default {
     methods: {
         showVideo(url) {
             this.videoUrl = url;
+            console.log('------------->', url);
 
-            this.videoContext = wx.createVideoContext('videoId',this);
+            this.videoContext = wx.createVideoContext('videoId', this);
 
-            this.videoContext.requestFullScreen({direction:0});
+            this.videoContext.requestFullScreen({direction: 0});
 
         },
-        screenChange(e){
+        screenChange(e) {
+            if (e.detail.fullScreen) {
+                setTimeout(res => {
+                    this.videoContext.play();
+                }, 500)
 
-            if(e.detail.fullScreen){
-                this.videoContext.play();
+            } else {
+                this.videoUrl = '';
+                console.log('空了===>', this.videoUrl);
+                this.videoContext.stop()
             }
         },
         //点击头像进入个人页面
         toOtherMineInfoPage(item) {
             let data = item
-
             if (this.userSign == data.sign) {
                 return;
             }
@@ -276,7 +273,6 @@ export default {
         changeTab(index, e) {
             this.currentSwiper = index;
             this.tab = index;
-
         },
         changeSwiper(e) {
             let index = e.detail.current;
@@ -309,7 +305,7 @@ export default {
 
 
         },
-        tofindLove(){
+        tofindLove() {
             uni.navigateTo({
                 url: "/pages/beckoningPage/beckoningPage"
             })
@@ -480,8 +476,8 @@ export default {
             })
 
             if (json.data.errcode == 200) {
-                this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
-                    if(res.dynamicSign == dynSign){
+                this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
+                    if (res.dynamicSign == dynSign) {
                         res.shareTimes++;
                     }
                 })

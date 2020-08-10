@@ -1,5 +1,4 @@
 //插件 start
-import mosoweSwiper from '../../../components/mosowe-swiper/mosowe-swiper';
 import carousel from '@/components/vear-carousel/vear-carousel';
 //插件 end
 import constant from "../../../utils/constant";
@@ -9,7 +8,6 @@ let that;
 
 export default {
     components: {
-        mosoweSwiper,
         carousel
     },
     data() {
@@ -43,6 +41,7 @@ export default {
         that = this;
         this.isAuthor = constant.getIsAuthor();
         let banner = constant.getUserLogin().banner;
+        this.userSign= constant.getUserSign();
         // banner.forEach(res=>{
         //     this.bannerImg.push(res.pic);
         // })

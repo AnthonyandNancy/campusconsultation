@@ -559,11 +559,6 @@ export default {
 
     },
     onShareAppMessage() {
-        console.log({
-            title: "传播校园文化,助力高考报考",
-            path: '/pages/chatRoom/chatRoom?roomSign=' + this.roomSign + '&roomName=' + this.roomName + '&chatType=' + 1 + '&userName=' + this.userName + '&pathType=' + 'share' + '&schoolName=' + this.schoolName,
-            imageUrl: "/static/images/poster.png"
-        })
         if (this.shareType == 1) {
             return {
                 title: "传播校园文化,助力高考报考",
@@ -576,10 +571,7 @@ export default {
                 path: '/pages/tabbel/home/home',
                 imageUrl: "/static/images/poster.png"
             }
-
         }
-
-
     },
     methods: {
         //时间处理

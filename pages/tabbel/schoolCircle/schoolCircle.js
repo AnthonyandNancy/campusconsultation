@@ -145,15 +145,9 @@ export default {
         }
     },
     onShareAppMessage() {
-        console.log({
-            title: "传播校园文化,助力高考报考",
-            path: 'pages/tabbel/schoolCircle/schoolCircle',
-            imageUrl: "/static/images/poster.png"
-        })
-
         return {
             title: "传播校园文化,助力高考报考",
-            path: 'pages/tabbel/home/home',
+            path: '/pages/selectSchool/selectSchool',
             imageUrl: "/static/images/poster.png"
         }
 
@@ -215,6 +209,29 @@ export default {
 
     },
     methods: {
+        showVideo(url) {
+            this.videoUrl = url;
+
+            this.videoContext = uni.createVideoContext('videoId', this);
+
+            this.videoContext.requestFullScreen({direction:0});
+        },
+        screenChange(e) {
+
+            if(e.detail.fullScreen){
+                console.log('校圈全屏触发啦,开始播放')
+                setTimeout(res=>{
+                    this.videoContext.play();
+                },500)
+
+            }else{
+                this.videoUrl = '';
+                console.log('校圈全屏触发啦,暂停播放')
+                console.log('空了===>',this.videoUrl)
+
+                this.videoContext.stop()
+            }
+        },
         //点击头像进入个人页面
         toOtherMineInfoPage(item) {
             let data = item
@@ -296,18 +313,7 @@ export default {
                 this.audioPlay = false;
             }
         },
-        showVideo(url) {
-            this.videoUrl = url;
 
-            this.videoContext = uni.createVideoContext('videoId', this);
-
-            this.videoContext.requestFullScreen({direction:0});
-        },
-        screenChange(e) {
-            if(e.detail.fullScreen){
-                this.videoContext.play();
-            }
-        },
         toAddChatRoom(dynamicObj) {
             let chatObj = dynamicObj
             uni.navigateTo({

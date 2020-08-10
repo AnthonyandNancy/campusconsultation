@@ -46,7 +46,7 @@
                                     </view>
 
                                     <view class="dynamInfoItem" @click="showVideo(item1.video)">
-<!--                                    <view class="dynamInfoItem" @click="showVideo('dynamicVideo'+index)">-->
+<!--                                    <view class="dynamInfoItem" @click="showVideo('videoId'+index,item1.video)">-->
                                         <view class="videoIcon" v-if="item1.video != null">
                                             <image src="/static/images/videoIcon.png" class="auto-img"></image>
                                         </view>
@@ -71,7 +71,6 @@
                                             <image :src="imgItem" class="auto-img" lazy-load
                                                    mode="aspectFill"></image>
                                         </view>
-
 <!--                                        <view v-if="item1.video != null">-->
 <!--                                            &lt;!&ndash;style="display: none"  ios   style="display: inline !important;"&ndash;&gt;-->
 <!--                                            <view>-->
@@ -79,6 +78,8 @@
 <!--                                                       :src="item1.video" @fullscreenchange="screenChange"></video>-->
 <!--                                                &lt;!&ndash;dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"&ndash;&gt;-->
 <!--                                            </view>-->
+<!--                                        </view>-->
+<!--                                        <view v-if="item1.video != null">-->
 <!--                                        </view>-->
 
                                     </view>
