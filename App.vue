@@ -128,6 +128,7 @@
                     });
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
+					const sign=constant.getUserSign
                     uni.onSocketClose((res) => {
                             let interval = setInterval(() => {
                                 uni.connectSocket({
