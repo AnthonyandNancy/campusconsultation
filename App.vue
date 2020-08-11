@@ -72,7 +72,7 @@
                         success: res => {
                             console.log('wss连接成功')
                             this.getMsgWss()
-                          
+
                         },
                         fail: err => {
                             console.log('wss链接失败', err)
@@ -172,7 +172,15 @@
                                 groupChat.push(resDataMsg)
                                 uni.setStorage({
                                     key: userTag,
-                                    data: groupChat
+                                    data: groupChat,
+                                    success: function () {
+                                        console.log('群聊success');
+
+                                    },
+                                    fail: err => {
+                                        console.log(err)
+
+                                    }
                                 });
                             }
                         });
@@ -208,7 +216,15 @@
                                 // 缓存新的聊天历史记录
                                 uni.setStorage({
                                     key: userTag,
-                                    data: privateChat
+                                    data: privateChat,
+                                    success: function () {
+                                        console.log('私聊success');
+
+                                    },
+                                    fail: err => {
+                                        console.log(err)
+
+                                    }
                                 });
                             },
                             fail: (err) => {
