@@ -1,11 +1,8 @@
 <template>
     <view class="containerBox">
-        <!--        <web-view  src="http://www.jq22.com/demo/jQueryBg201705120055/"></web-view>-->
-
         <view class="container">
             <!--展示星星的画布-->
             <canvas canvas-id="canvasId" id="canvasId" :style="{width: canvasW + 'px',height: canvasH + 'px'}"></canvas>
-
         </view>
     </view>
 
@@ -58,12 +55,10 @@
             //     // context.fill()
             // }
 
-            // context.draw();
 
-            for (var i = 0; i < maxStars; i++) {
-                new this.Star();
-            }
-
+            // for (var i = 0; i < maxStars; i++) {
+            //     new this.Star();
+            // }
             this.animation();
 
         },
@@ -74,6 +69,7 @@
                     max = min;
                     min = 0;
                 }
+
                 if (min > max) {
                     var hold = max;
                     max = min;
@@ -134,9 +130,8 @@
                 }
 
                 count++;
-                stars[count] = this;
 
-
+                stars[count - 1] = this;
             },
 
             //封装requestAnimationFrame函数
@@ -155,12 +150,16 @@
 
                 context.globalCompositeOperation = 'source-over';
                 context.globalAlpha = 0.5; //旋转时星星的尾巴
+
                 // context.fillStyle = '#b2b2b2';
                 // context.fillRect(0, 0, that.canvasW, that.canvasW)
-                //
                 // context.globalCompositeOperation = 'lighter';
-                for (var i = 1, l = stars.length; i < l; i++) {
-                    stars[i].draw();
+
+                // for (var i = 1, l = stars.length; i < l; i++) {
+                //     stars[i].__proto__.draw();
+                //
+                for(var i= 1; i<maxStars ; i++ ){
+                    new that.Star().__proto__.draw();
                 }
 
                 that.doAnimationFrame(that.animation);
