@@ -3,12 +3,7 @@
     "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
   },
   "pages": [
-    {
-      "path": "pages/beckoningPage/test",
-      "style": {
-        "navigationBarTitleText": "测试星空"
-      }
-    },
+
     {
       "path": "pages/selectSchool/selectSchool",
       "style": {
