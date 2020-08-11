@@ -111,6 +111,8 @@ export default {
                     friend.time = res.time;
                 }
             })
+            
+            this.getPrivateChatList()
         })
 
         // uni.$on('getGroupChat',(res)=>{
