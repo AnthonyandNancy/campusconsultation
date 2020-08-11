@@ -5,27 +5,25 @@
   top: 0;
   bottom: 0;
 
-
   .contain{
     position: relative;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    width: 95%;
+    width: 100%;
     height: 100%;
     margin: 0 auto ;
-    padding: 10rpx 0;
+    padding: 10rpx 2.5%;
     overflow-y: auto;
 
     .getUserInfo{
       position:absolute;
       width: 100%;
-      height: 120%;
+      height: calc((250rpx + 15rpx + 35rpx) * 5);
       left: 0;
       right: 0;
       top: 0;
-      bottom: 0;
       z-index: 1000;
       opacity: 0;
     }

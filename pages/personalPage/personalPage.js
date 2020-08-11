@@ -79,7 +79,7 @@ export default {
                     this.chooseSexNum=2
                 }else if (sex ==null || sex == 0){
                     uni.getStorage({
-                        key: 'USER_INFO',
+                        key: 'USER_LOGIN',
                         success:  (res) =>{
                             // console.log('USER_INFO',res.data);
                             let sexInfo=res.data.gender

@@ -230,6 +230,8 @@ export default {
 
         //开始录音
         startRecord() {
+
+
             uni.authorize({
                 scope: "scope.record",
                 success: (res) => {
@@ -266,11 +268,22 @@ export default {
         },
         //长按录音
         longToTouch(e) {
+            uni.showLoading({
+                title:'正在录音...',
+                icon:'none',
+                mask:true
+            })
             console.log('longToTouch')
         },
         //结束录音
         endRecord() {
+            uni.hideLoading({
+                title:'录音结束',
+                icon:'none',
+                mask:true
+            })
             if (this.audioIsAuthor) {
+
                 this.$recorderManager.stop();
             }
         },
@@ -332,11 +345,13 @@ export default {
             })
             if (json.data.errcode == 200) {
                 uni.hideLoading();
+                constant.setIsComment(true)
                 uni.navigateBack({
                     delta: 1
                 });
             }
         },
+
         async publish() {
             if (this.inputText == '') {
                 uni.showToast({

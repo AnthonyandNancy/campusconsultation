@@ -279,6 +279,10 @@
                     font-size: 24rpx;
                     padding: 9rpx 0;
                     font-family: "Microsoft YaHei";
+                    width: 500rpx;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
                 }
                 .describe{
                     margin-top: 15rpx;

@@ -138,19 +138,16 @@ export default {
             hotDynamicList: [], //热门动态列表,
             audioPlay: false,
             animationData: {},
-            videoContext: {}
+            videoContext: {},
+
+            videoUrl:'',
+            commentDySign:''
         }
     },
     onShareAppMessage() {
-        console.log({
-            title: "传播校园文化,助力高考报考",
-            path: 'pages/tabbel/schoolCircle/schoolCircle',
-            imageUrl: "/static/images/poster.png"
-        })
-
         return {
             title: "传播校园文化,助力高考报考",
-            path: 'pages/tabbel/home/home',
+            path: '/pages/selectSchool/selectSchool',
             imageUrl: "/static/images/poster.png"
         }
 
@@ -170,6 +167,22 @@ export default {
         this.content = this.createContent;
     },
     onShow() {
+
+        if(constant.getIsComment()){
+            // this.tabsList.forEach((res, index) => {
+            //     this.tabsList[index].dynamicList = [];
+            //     this.getAllDynamicList(index)
+            // })
+            this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
+                if(res.dynamicSign == this.commentDySign){
+                    res.commentTimes++;
+                }
+            })
+
+            constant.setIsComment(false)
+        }
+
+
         if (constant.getSelectType().length != 0) {
             this.tab = constant.getSelectType();
             this.currentSwiper = constant.getSelectType();
@@ -180,9 +193,13 @@ export default {
         this.userSign = constant.getUserSign();
 
         new Promise((resolve, reject) => {
+
             resolve(this.tabsList)
+
         }).then(res => {
+
             let query = uni.createSelectorQuery().in(this);
+
             query.select('.navTab').boundingClientRect(res => {
                 this.loadRefreshHeight = res.top;
                 this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
@@ -191,11 +208,33 @@ export default {
             this.tabsList.forEach((res, index) => {
                 this.getAllDynamicList(index)
             })
+
         })
-
-
     },
     methods: {
+        showVideo(url) {
+            this.videoUrl = url;
+
+            this.videoContext = uni.createVideoContext('videoId', this);
+
+            this.videoContext.requestFullScreen({direction:0});
+        },
+        screenChange(e) {
+
+            if(e.detail.fullScreen){
+                console.log('校圈全屏触发啦,开始播放')
+                setTimeout(res=>{
+                    this.videoContext.play();
+                },200)
+
+            }else{
+                this.videoUrl = '';
+                console.log('校圈全屏触发啦,暂停播放')
+                console.log('空了===>',this.videoUrl)
+
+                this.videoContext.stop()
+            }
+        },
         //点击头像进入个人页面
         toOtherMineInfoPage(item) {
             let data = item
@@ -277,14 +316,7 @@ export default {
                 this.audioPlay = false;
             }
         },
-        showVideo(id) {
-            this.videoContext = uni.createVideoContext(id, this);
 
-            this.videoContext.requestFullScreen();
-        },
-        screenChange() {
-            this.videoContext.play();
-        },
         toAddChatRoom(dynamicObj) {
             let chatObj = dynamicObj
             uni.navigateTo({
@@ -382,6 +414,12 @@ export default {
             })
 
             if (json.data.errcode == 200) {
+                this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
+                    if(res.dynamicSign == dynSign){
+                        res.shareTimes++;
+                    }
+                })
+
                 uni.showToast({
                     title: json.data.info,
                     mask: true,
@@ -391,6 +429,7 @@ export default {
         },
         // 评论
         toComment(dynSign) {
+            this.commentDySign = dynSign;
             uni.navigateTo({
                 url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
             })

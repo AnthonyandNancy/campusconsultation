@@ -36,7 +36,7 @@
                                             </view>
                                         </view>
 
-                                        <view class="dynamInfoItem" @click="showVideo('dynamicVideo' + index)" >
+                                        <view class="dynamInfoItem" @click="showVideo(item1.video)" >
                                             <view class="videoIcon" v-if="item1.video != null" >
                                                 <image src="/static/images/videoIcon.png" class="auto-img"></image>
                                             </view>
@@ -61,12 +61,12 @@
                                                 <image :src="imgItem" class="auto-img" lazy-load
                                                        mode="aspectFill"></image>
                                             </view>
-                                            <view v-if="item1.video != null">
-                                                <view class="video" v-show="false">
-                                                    <video :id="'dynamicVideo' + index" object-fit="cover" autoplay controls class="auto-img"
-                                                           :src="item1.video" @fullscreenchange="screenChange"></video>
-                                                </view>
-                                            </view>
+<!--                                            <view v-if="item1.video != null">-->
+<!--                                                <view class="video" v-show="false">-->
+<!--                                                    <video :id="'dynamicVideo' + index" object-fit="cover" controls class="auto-img"-->
+<!--                                                           :src="item1.video" @fullscreenchange="screenChange"></video>-->
+<!--                                                </view>-->
+<!--                                            </view>-->
 
                                         </view>
 
@@ -120,6 +120,9 @@
                 </swiper-item>
             </swiper>
         </view>
+
+        <!--视频-->
+        <video id="videoId"  style="display: block !important; width: 0 !important; height: 0 !important;" :src="videoUrl" class="video" controls @fullscreenchange="screenChange"></video>
 
         <view class="loveBtn" v-if="content.length==1" @click="tofindLove">
             <view class="loveImg">

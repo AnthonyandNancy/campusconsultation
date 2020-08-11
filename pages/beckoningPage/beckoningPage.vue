@@ -11,10 +11,10 @@
         <view class="aixin">
             <view style="font-size: 24rpx; text-align: center; margin:40rpx 0;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
 <!--            <image :src="aiXinSrc" style="margin: 0 auto;"></image>-->
-            <view style="height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%;margin: 33% auto;"></view>
-            <view style="height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: -106% auto"></view>
-            <view style="height: 30vh;width: 30vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: 48% auto"></view>
-            <view style="height: 20vh;width: 20vh;border: #AAAAAA solid 1rpx;border-radius: 50%;margin: -88% auto"></view>
+            <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%); height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%; "></view>
+            <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
+            <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 30vh;width: 30vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
+            <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 20vh;width: 20vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
 
 
             <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 41%;left: 6%;border-radius: 50%;" v-if="showOnce ==0"></image>
@@ -316,7 +316,10 @@
         z-index: 1000;
     }
     .time {
-        margin-top: 66%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
         font-size: 50rpx;
         text-align: center;
         color: rgba(213 ,165, 253,0.9);
@@ -361,12 +364,14 @@
     /*}*/
 
     .continue{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10%;
         width: 440rpx;
         height: 100rpx;
-        margin: 0 auto;
         background-color: rgba(213 ,165, 253,0.9);
         text-align: center;
-        margin-top: 60%;
         color:#FFFFFF;
         line-height: 100rpx;
     }

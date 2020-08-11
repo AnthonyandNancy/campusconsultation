@@ -6,7 +6,7 @@
                 <view class="selectTip">选择你喜欢的校园</view>
                 <view class="selectTarget">我们将为您提供更多校园资讯</view>
 
-                <view class="schoolBox">
+                <view class="schoolBox" id="schoolBox">
                     <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index != 9" @click="selectSchool(item.schoolName)">
                         <view class="moreText">{{item.schoolName}}</view>
                         <view class="avatarBox">

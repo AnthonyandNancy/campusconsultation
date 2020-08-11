@@ -43,6 +43,7 @@ export default {
         that = this;
     },
     async onReady() {
+
         this.isAuthor = constant.getIsAuthor();
         this.provinceList = universityChoose;
         if (constant.getUserSign().length == 0) {
@@ -72,6 +73,11 @@ export default {
             this.getCurLocation()
 
         }
+        const query = uni.createSelectorQuery().in(this);
+
+        query.select('#schoolBox').boundingClientRect(data => {
+            data.top
+        }).exec();
 
     },
     methods: {
@@ -134,6 +140,7 @@ export default {
 
                 let province = json.data.msg.subdivisions || null;
                 let city = json.data.msg.city || null;
+
                 //获取该地址的学校信息
                 let schoolJson = await api.getSchoolList({
                     query: {
@@ -145,7 +152,7 @@ export default {
 
 
                 if (schoolJson.data.errcode == 200) {
-                    uni.hideLoading();
+
                     let obj = {};
                     schoolJson.data.campusList.forEach((res, index) => {
                         if (index > 10) {
@@ -160,6 +167,8 @@ export default {
                         }
 
                     })
+                    uni.hideLoading();
+
                 }
             }
 
