@@ -72,83 +72,7 @@
                         success: res => {
                             console.log('wss连接成功')
                             this.getMsgWss()
-                            // uni.onSocketMessage((res) => {
-                            //     const resData = JSON.parse(res.data)
-                            //     const resDataMsg = JSON.parse(res.data).message
-                            //     if (resData.roomType == 0) {
-                            //         let sign = resData.roomId
-                            //         let userTag = 'chatList:' + sign
-                            //
-                            //         uni.getStorage({
-                            //             key: userTag,
-                            //             success: async (res) => {
-                            //                 let groupChat = res.data
-                            //                 groupChat.push(resDataMsg)
-                            //                 resDataMsg['roomSign'] = sign;
-                            //                 uni.$emit('getGroupChat', resDataMsg)
-                            //
-                            //
-                            //                 // 缓存历史
-                            //                 uni.setStorage({
-                            //                     key: userTag,
-                            //                     data: groupChat
-                            //                 });
-                            //             },
-                            //             fail: (err) => {
-                            //                 let groupChat = []
-                            //                 groupChat.push(resDataMsg)
-                            //                 uni.setStorage({
-                            //                     key: userTag,
-                            //                     data: groupChat
-                            //                 });
-                            //             }
-                            //         });
-                            //     } else if (resData.roomType == 1) {
-                            //         let sign = resData.sign
-                            //         let userTag = 'chatList:' + sign
-                            //
-                            //         // 获取缓存的聊天消息
-                            //         uni.getStorage({
-                            //             key: userTag,
-                            //             success: (res) => {
-                            //                 let privateChat = res.data
-                            //                 privateChat.push(resDataMsg)
-                            //                 uni.$emit('getPrivateLastChat', resDataMsg)
-                            //
-                            //                 let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-                            //                 uni.showTabBarRedDot({
-                            //                     index: 3,
-                            //                 })
-                            //
-                            //                 console.log('chatGroupList=====>', chatGroupList);
-                            //
-                            //                 chatGroupList.forEach(chatGroup => {
-                            //                     if (resDataMsg.roomSign == chatGroup.room__roomSign) {
-                            //                         chatGroup['hasNewMsg'] = true;
-                            //                     }
-                            //                 })
-                            //
-                            //                 uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
-                            //
-                            //
-                            //                 // 缓存新的聊天历史记录
-                            //                 uni.setStorage({
-                            //                     key: userTag,
-                            //                     data: privateChat
-                            //                 });
-                            //             },
-                            //             fail: (err) => {
-                            //                 //缓存中没有历史,直接进行缓存
-                            //                 let privateChat = []
-                            //                 privateChat.push(resDataMsg)
-                            //                 uni.setStorage({
-                            //                     key: userTag,
-                            //                     data: privateChat
-                            //                 });
-                            //             }
-                            //         });
-                            //     }
-                            // });
+                          
                         },
                         fail: err => {
                             console.log('wss链接失败', err)
@@ -199,9 +123,15 @@
                     // console.log(res)
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
-                    resDataMsg.type='orther'
+                    // resDataMsg.type='orther'
                     console.log(resData)
                     if (resData.roomType == 0) {
+
+                        if (resDataMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resDataMsg.type)
+                        } else {
+                            resDataMsg.type = 'orther'
+                        }
                         let sign = resData.roomId
                         let userTag = 'chatList:' + sign
 
@@ -247,6 +177,7 @@
                             }
                         });
                     } else if (resData.roomType == 1) {
+                        resDataMsg.type='orther'
                         let sign = resData.sign
                         let userTag = 'chatList:' + sign
 
