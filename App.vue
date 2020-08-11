@@ -8,11 +8,31 @@
                 msgList: [],
             };
         },
+		onHide(){
+
+		const sign =constant.getUserLogin()
+		console.log('onHide检测链接失败',sign)
+		uni.onSocketClose(()=>{
+			let interval=setInterval(()=>{
+				uni.connectSocket({
+				    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+				    success: res => {
+						console.log('onHide检测重连接成功', res)
+				        clearInterval(interval)
+				    },
+				    fail: err => {
+				        console.log('onHide检测重连接失败', err)
+				    }
+
+				});
+			},1000)
+		})
+		},
         onLaunch: async function () {
-            if(constant.getUserLogin().length != 0){
-                if(constant.getUserLogin().schoolName != null){
+            if (constant.getUserLogin().length != 0) {
+                if (constant.getUserLogin().schoolName != null) {
                     uni.switchTab({
-                        url:'/pages/tabbel/home/home'
+                        url: '/pages/tabbel/home/home'
                     })
                 }
             }
@@ -36,11 +56,11 @@
                         version: '1.0'
                     }
                 })
-                let {errcode, sign,schoolName} = json.data;
+                let {errcode, sign, schoolName} = json.data;
 
-                if(schoolName != null){
+                if (schoolName != null) {
                     uni.switchTab({
-                        url:'/pages/tabbel/home/home'
+                        url: '/pages/tabbel/home/home'
                     })
                 }
 
@@ -124,24 +144,37 @@
                             });
                         },
                         fail: err => {
-                            console.log('wss链接失败', err)
+								console.log('wss链接失败', err)
+									console.log('链接失败',sign)
+						let interval = setInterval(()=>{
+							uni.connectSocket({
+								url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+								success: res => {
+										console.log('重连接成功', res)
+								    clearInterval(interval)
+								},
+								fail: err => {
+								    console.log('重连接失败', err)
+								}
+							})
+						},1000)
                         }
                     });
 
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
-
-
-					const sign=constant.getUserSign
+					// const sign=constant.getUserSign
+					console.log('检测链接失败',sign)
                     uni.onSocketClose((res) => {
                             let interval = setInterval(() => {
                                 uni.connectSocket({
                                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                     success: res => {
+										console.log('检测重连接成功', res)
                                         clearInterval(interval)
                                     },
                                     fail: err => {
-                                        console.log('重连接失败', err)
+                                        console.log('检测重连接失败', err)
                                     }
 
                                 });
