@@ -48,6 +48,8 @@
             //     // context.setFillStyle('rgba(255,255,255,0.3)')
             //     // context.fill()
             // }
+
+            //创建动画
             this.animation();
 
         },
@@ -144,7 +146,7 @@
                 //     stars[i].__proto__.draw();
                 //
                 for(var i= 1; i<maxStars ; i++ ){
-                    new that.Star().__proto__.draw();
+                    new that.Star().draw();
                 }
 
                 that.doAnimationFrame(that.animation);

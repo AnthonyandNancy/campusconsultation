@@ -116,8 +116,6 @@
                                                 index: 3,
                                             })
 
-                                            console.log('chatGroupList=====>', chatGroupList);
-
                                             chatGroupList.forEach(chatGroup => {
                                                 if (resDataMsg.roomSign == chatGroup.room__roomSign) {
                                                     chatGroup['hasNewMsg'] = true;
@@ -125,7 +123,6 @@
                                             })
 
                                             uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
-
 
                                             // 缓存新的聊天历史记录
                                             uni.setStorage({
@@ -148,7 +145,7 @@
                         },
                         fail: err => {
 								console.log('wss链接失败', err)
-									console.log('链接失败',sign)
+                                console.log('链接失败',sign)
 						let interval = setInterval(()=>{
 							uni.connectSocket({
 								url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
