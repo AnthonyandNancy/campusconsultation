@@ -144,7 +144,8 @@
 
                 // for (var i = 1, l = stars.length; i < l; i++) {
                 //     stars[i].__proto__.draw();
-                //
+
+
                 for(var i= 1; i<maxStars ; i++ ){
                     new that.Star().draw();
                 }
