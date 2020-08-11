@@ -14,6 +14,7 @@
         count = 0,
         maxStars = 10,//要绘制的星星数量
         that;
+
     var lastFrameTime = 0;
     var context = uni.createCanvasContext('canvasId')
 
@@ -35,13 +36,6 @@
         onReady() {
             that = this;
 
-            // var half = 100 / 2,
-            // gradient2 = context.createCircularGradient(75,  50, 20)
-            // gradient2.addColorStop(0.025, '#CCC');
-            // gradient2.addColorStop(0.1, '#fff');
-            // gradient2.addColorStop(0.25, 'transparent');
-            // gradient2.addColorStop(1, 'transparent');
-
             //绘制渐变圆点
             // for (var i = 0; i < maxStars; i++) {
             //     let orbitRadiusX = that.random(that.maxOrbit(that.canvasW, that.canvasH));
@@ -55,10 +49,7 @@
             //     // context.fill()
             // }
 
-
-            // for (var i = 0; i < maxStars; i++) {
-            //     new this.Star();
-            // }
+            //创建动画
             this.animation();
 
         },
@@ -103,8 +94,6 @@
 
                 //添加绘制原型
                 this.__proto__.draw = () => {
-                    // + this.orbitX
-                    // + this.orbitY
                     var x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX ,
                         y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
                         twinkle = that.random(10);
@@ -118,11 +107,9 @@
                     context.globalAlpha = this.alpha;
 
                     context.fillStyle = '#fff';
-                    // context.beginPath();
+                    //  context.beginPath();
                     context.arc(x - this.radius / 2 ,y - this.radius / 2,4, 0, Math.PI * 2);
-
                     context.fill();
-
                     context.draw();
 
                     this.timePassed += this.speed;
@@ -157,9 +144,10 @@
 
                 // for (var i = 1, l = stars.length; i < l; i++) {
                 //     stars[i].__proto__.draw();
-                //
+
+
                 for(var i= 1; i<maxStars ; i++ ){
-                    new that.Star().__proto__.draw();
+                    new that.Star().draw();
                 }
 
                 that.doAnimationFrame(that.animation);
