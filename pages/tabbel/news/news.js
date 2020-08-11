@@ -82,7 +82,7 @@ export default {
 
         //监听群聊
         uni.$on('getGroupChat',(res)=>{
-            console.log(';;;;;;;;;;;;;;;;',this.groupChatList)
+            // console.log(';;;;;;;;;;;;;;;;',this.groupChatList)
             this.groupChatList.forEach(chatGroup=>{
                 if(res.roomSign == chatGroup.room__roomSign){
                     chatGroup['hasNewMsg'] = true;
@@ -91,7 +91,7 @@ export default {
 
             uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
             this.getGroupChatList();
-            console.log('群聊getGroupChat============。。。。。。》》',this.groupChatList)
+            // console.log('群聊getGroupChat============。。。。。。》》',this.groupChatList)
         })
     },
     onReady(){
@@ -146,7 +146,7 @@ export default {
             this.currentTab = index;
         },
         loadMore(){
-            console.log('加载更多哦');
+            // console.log('加载更多哦');
             if(this.currentTab == 0){
                 this.currPage++;
                 this.getPrivateChatList();
@@ -163,7 +163,7 @@ export default {
                 this.groupChatList = []
                 this.getGroupChatList();
             }
-            console.log('刷新了');
+            // console.log('刷新了');
         },
         //聊天
         toChat(){
@@ -234,7 +234,7 @@ export default {
                         }
                     }
                 }
-                console.log('群聊列表',this.groupChatList)
+                // console.log('群聊列表',this.groupChatList)
             }
         },
     }
