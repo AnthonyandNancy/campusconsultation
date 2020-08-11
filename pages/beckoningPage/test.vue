@@ -107,7 +107,7 @@
                     context.globalAlpha = this.alpha;
 
                     context.fillStyle = '#fff';
-                    //  context.beginPath();
+                    //    context.beginPath();
                     context.arc(x - this.radius / 2 ,y - this.radius / 2,4, 0, Math.PI * 2);
                     context.fill();
                     context.draw();
