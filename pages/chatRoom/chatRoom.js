@@ -80,8 +80,6 @@ export default {
         };
     },
     onLoad(option) {
-		
-	
 
 
         //判断是否来自分享
@@ -117,7 +115,7 @@ export default {
 
 
         this.roomName = option.roomName;
-   
+
 
         //用户信息
         this.userInfo = user.getUserLogin()
@@ -206,7 +204,7 @@ export default {
 
                             uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
 
-                            uni.$emit('getGroupChat',{roomSign:resMsgRoomId,...resMsg})
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
                             //缓存历史
                             const userTag = 'chatList:' + this.roomSign
                             uni.setStorage({
@@ -233,7 +231,7 @@ export default {
                         const userTag = 'chatList:' + resMsgRoomId
                         uni.getStorage({
                             key: userTag,
-                            success:async (res) => {
+                            success: async (res) => {
                                 //在个人界面收到群聊信息
                                 console.log('//在一个群聊中收到来自别的群聊消息检查内存', res.data);
                                 var jshouMsg = res.data
@@ -251,7 +249,7 @@ export default {
 
                                 uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
-                                uni.$emit('getGroupChat',{roomSign:resMsgRoomId,...resMsg})
+                                uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
 
                                 uni.setStorage({
                                     key: userTag,
@@ -354,7 +352,7 @@ export default {
             console.log('私聊的option.chatType', option.chatType)
             this.roomType = 1
             //路人随机匹配
-            if (option.matching !=undefined ||option.matching !=null ){
+            if (option.matching != undefined || option.matching != null) {
                 console.log('路人随机匹配')
             }
             this.roomId = option.roomSign
@@ -389,7 +387,6 @@ export default {
             //         });
             //     }
             // });
-
 
 
             uni.onSocketMessage((res) => {
@@ -555,9 +552,9 @@ export default {
                 console.log('页面卸载success');
             }
         });
-		uni.hideTabBarRedDot({
-		    index: 3,
-		})
+        uni.hideTabBarRedDot({
+            index: 3,
+        })
 
 
     },

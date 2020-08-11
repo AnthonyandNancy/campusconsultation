@@ -82,20 +82,7 @@
                                             groupChat.push(resDataMsg)
                                             resDataMsg['roomSign'] = sign;
                                             uni.$emit('getGroupChat', resDataMsg)
-                                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-                                            uni.showTabBarRedDot({
-                                                index: 3,
-                                            })
 
-                                            console.log('chatGroupList=====>',chatGroupList);
-
-                                            chatGroupList.forEach(chatGroup => {
-                                                if (resDataMsg.roomSign == chatGroup.room__roomSign) {
-                                                    chatGroup['hasNewMsg'] = true;
-                                                }
-                                            })
-
-                                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
                                             // 缓存历史
                                             uni.setStorage({
@@ -123,6 +110,22 @@
                                             let privateChat = res.data
                                             privateChat.push(resDataMsg)
                                             uni.$emit('getPrivateLastChat', resDataMsg)
+
+                                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+                                            uni.showTabBarRedDot({
+                                                index: 3,
+                                            })
+
+                                            console.log('chatGroupList=====>', chatGroupList);
+
+                                            chatGroupList.forEach(chatGroup => {
+                                                if (resDataMsg.roomSign == chatGroup.room__roomSign) {
+                                                    chatGroup['hasNewMsg'] = true;
+                                                }
+                                            })
+
+                                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+
 
                                             // 缓存新的聊天历史记录
                                             uni.setStorage({
@@ -160,7 +163,6 @@
 						},1000)
                         }
                     });
-
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
 					// const sign=constant.getUserSign
