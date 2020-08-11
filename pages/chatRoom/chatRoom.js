@@ -80,6 +80,8 @@ export default {
         };
     },
     onLoad(option) {
+		
+	
 
 
         //判断是否来自分享
@@ -115,10 +117,7 @@ export default {
 
 
         this.roomName = option.roomName;
-        uni.hideTabBarRedDot({
-            index: 3,
-        })
-
+   
 
         //用户信息
         this.userInfo = user.getUserLogin()
@@ -556,6 +555,10 @@ export default {
                 console.log('页面卸载success');
             }
         });
+		uni.hideTabBarRedDot({
+		    index: 3,
+		})
+
 
     },
     onShareAppMessage() {
