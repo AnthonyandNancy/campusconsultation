@@ -37,56 +37,52 @@
         },
         onReady() {
             that = this;
-            var half = 100 / 2,
-            gradient2 = context.createCircularGradient(75, 50, 50)
-            gradient2.addColorStop(0.025, '#CCC');
-            gradient2.addColorStop(0.1, '#fff');
-            gradient2.addColorStop(0.25, 'transparent');
-            gradient2.addColorStop(1, 'transparent');
-            context.fillStyle = gradient2;
-            context.beginPath();
-            context.arc(half + 50, half + 100, half, 0, Math.PI * 2);
 
-            context.closePath();
+            // var half = 100 / 2,
+            // gradient2 = context.createCircularGradient(75,  50, 20)
+            // gradient2.addColorStop(0.025, '#CCC');
+            // gradient2.addColorStop(0.1, '#fff');
+            // gradient2.addColorStop(0.25, 'transparent');
+            // gradient2.addColorStop(1, 'transparent');
 
-            // context.arc(234, 250, half, 0, Math.PI * 2);
+            //绘制渐变圆点
+            // for (var i = 0; i < maxStars; i++) {
+            //     let orbitRadiusX = that.random(that.maxOrbit(that.canvasW, that.canvasH));
+            //     let orbitRadiusY = that.random(that.maxOrbit(that.canvasW, that.canvasH));
+            //     //半径
+            //     let radius = that.random(60, orbitRadiusX) / 8;
+            //
+            //     // context.beginPath()
+            //     // context.arc(orbitRadiusX , orbitRadiusY , 3, 0, 2 * Math.PI)
+            //     // context.setFillStyle('rgba(255,255,255,0.3)')
+            //     // context.fill()
+            // }
 
-            context.fill();
-            context.draw();
+            // context.draw();
 
-            context.beginPath();
-            context.arc(half + 50, half + 100, half, 0, Math.PI * 2);
+            for (var i = 0; i < maxStars; i++) {
+                new this.Star();
+            }
 
-            context.closePath();
-
-            // context.arc(234, 250, half, 0, Math.PI * 2);
-
-            context.fill();
-            context.draw();
-
-        // this.animation();
-        //
-        // for (var i = 0; i < maxStars; i++) {
-        //    new this.Star();
-        // }
+            this.animation();
 
         },
         methods: {
-            //随机绘制星星
+            //绘制星星的随机数
             random(min, max) {
                 if (arguments.length < 2) {
                     max = min;
                     min = 0;
                 }
-
                 if (min > max) {
                     var hold = max;
                     max = min;
                     min = hold;
                 }
-
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             },
+
+            //星星的移动范围
             maxOrbit(x, y) {
                 var max = Math.max(x, y),
                     diameter = Math.round(Math.sqrt(max * max + max * max));
@@ -96,19 +92,24 @@
 
             Star() {
                 this.orbitRadius = that.random(that.maxOrbit(that.canvasW, that.canvasH));
-                this.radius = that.random(60, this.orbitRadius) / 8;
+                this.radius = that.random(60, this.orbitRadius) / 10;
+
                 //星星大小
                 this.orbitX = that.canvasW / 2;
                 this.orbitY = that.canvasH / 2;
+
+                //时间
                 this.timePassed = that.random(0, maxStars);
+                //速度
                 this.speed = that.random(this.orbitRadius) / 50000;
                 //星星移动速度
                 this.alpha = that.random(2, 10) / 10;
 
                 //添加绘制原型
                 this.__proto__.draw = () => {
-
-                    var x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
+                    // + this.orbitX
+                    // + this.orbitY
+                    var x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX ,
                         y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
                         twinkle = that.random(10);
 
@@ -120,14 +121,25 @@
 
                     context.globalAlpha = this.alpha;
 
-                    context.drawImage('https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/draw-image.png?t=201859', x - this.radius / 2, y - this.radius / 2, this.radius, this.radius);
+                    context.fillStyle = '#fff';
+                    // context.beginPath();
+                    context.arc(x - this.radius / 2 ,y - this.radius / 2,4, 0, Math.PI * 2);
 
-                    console.log('111111111 this.__proto__.draw 111111')
+                    context.fill();
+
+                    context.draw();
+
                     this.timePassed += this.speed;
+
                 }
+
                 count++;
                 stars[count] = this;
+
+
             },
+
+            //封装requestAnimationFrame函数
             doAnimationFrame(callback) {
                 var currTime = new Date().getTime();
                 var timeToCall = Math.max(0, 16 - (currTime - lastFrameTime));
@@ -135,20 +147,21 @@
                     callback(currTime + timeToCall);
                 }, timeToCall);
                 lastFrameTime = currTime + timeToCall;
+
                 return id;
             },
+
             animation() {
 
                 context.globalCompositeOperation = 'source-over';
-                context.globalAlpha = 0.5; //尾巴
-                context.fillStyle = '#b2b2b2';
-                context.fillRect(0, 0, that.canvasW, that.canvasW)
-
-                context.globalCompositeOperation = 'lighter';
+                context.globalAlpha = 0.5; //旋转时星星的尾巴
+                // context.fillStyle = '#b2b2b2';
+                // context.fillRect(0, 0, that.canvasW, that.canvasW)
+                //
+                // context.globalCompositeOperation = 'lighter';
                 for (var i = 1, l = stars.length; i < l; i++) {
                     stars[i].draw();
                 }
-                ;
 
                 that.doAnimationFrame(that.animation);
             }

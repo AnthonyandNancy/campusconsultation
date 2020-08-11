@@ -193,9 +193,13 @@ export default {
         this.userSign = constant.getUserSign();
 
         new Promise((resolve, reject) => {
+
             resolve(this.tabsList)
+
         }).then(res => {
+
             let query = uni.createSelectorQuery().in(this);
+
             query.select('.navTab').boundingClientRect(res => {
                 this.loadRefreshHeight = res.top;
                 this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
@@ -204,9 +208,8 @@ export default {
             this.tabsList.forEach((res, index) => {
                 this.getAllDynamicList(index)
             })
+
         })
-
-
     },
     methods: {
         showVideo(url) {
@@ -222,7 +225,7 @@ export default {
                 console.log('校圈全屏触发啦,开始播放')
                 setTimeout(res=>{
                     this.videoContext.play();
-                },500)
+                },200)
 
             }else{
                 this.videoUrl = '';

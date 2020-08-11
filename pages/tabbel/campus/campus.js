@@ -251,7 +251,7 @@ export default {
             if (e.detail.fullScreen) {
                 setTimeout(res => {
                     this.videoContext.play();
-                }, 500)
+                }, 200)
 
             } else {
                 this.videoUrl = '';
