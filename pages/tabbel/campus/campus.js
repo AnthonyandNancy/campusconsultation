@@ -450,6 +450,7 @@ export default {
                     }
                 })
                 if (chatGroupJson.data.errcode == 200) {
+                    uni.hideLoading();
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
                 }
                 return;

@@ -86,7 +86,7 @@ export default {
                     }
                 }
             })
-        
+
         this.userSign = constant.getUserSign();
         if (constant.getUserSign().length != 0) {
             this.getGroupChatList();
