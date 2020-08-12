@@ -184,6 +184,11 @@ export default {
 
 
         if (constant.getSelectType().length != 0) {
+
+            if(constant.getSelectType() == 3){
+                this.content = this.loveContent;
+            }
+
             this.tab = constant.getSelectType();
             this.currentSwiper = constant.getSelectType();
             uni.removeStorageSync('SELECT_TYPE');

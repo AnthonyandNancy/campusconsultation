@@ -302,8 +302,6 @@ export default {
                     url: "/pages/beckoningPage/beckoningPage"
                 })
             }
-
-
         },
         tofindLove() {
             uni.navigateTo({
@@ -390,6 +388,31 @@ export default {
             this.applyRealImageUrl = '';
         },
         async submitApply() {
+            if(this.realImgUrlList == ''){
+                uni.showToast({
+                    title:'请上传图片',
+                    icon:'none',
+                    mask:true
+                })
+                return ;
+            }else if(this.applyObj.roomName == ''){
+                uni.showToast({
+                    title:'请输入群聊名称',
+                    icon:'none',
+                    mask:true
+                })
+                return ;
+
+            }else if(this.applyObj.describe == ''){
+                uni.showToast({
+                    title:'请输入群聊描述',
+                    icon:'none',
+                    mask:true
+                })
+                return ;
+            }
+
+
             let json = await api.applyNewChatRoom({
                 query: {
                     sign: this.userSign,

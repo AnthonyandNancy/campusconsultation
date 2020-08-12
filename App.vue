@@ -195,23 +195,25 @@
                             success: (res) => {
                                 let privateChat = res.data
                                 privateChat.push(resDataMsg)
+                                resDataMsg['hasPrivateNewMsg'] = true;
                                 uni.$emit('getPrivateLastChat', resDataMsg)
 
 
-                                let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+                                let PrivateLastChat = uni.getStorageSync(userTag);
+
                                 uni.showTabBarRedDot({
                                     index: 3,
                                 })
 
-                                console.log('chatGroupList=====>', chatGroupList);
+                                // console.log('chatGroupList=====>', chatGroupList);
+                                //
+                                // PrivateLastChat.forEach(chatGroup => {
+                                //     if (resDataMsg.roomSign == chatGroup.room__roomSign) {
+                                //         chatGroup['hasPrivateNewMsg'] = true;
+                                //     }
+                                // })
 
-                                chatGroupList.forEach(chatGroup => {
-                                    if (resDataMsg.roomSign == chatGroup.room__roomSign) {
-                                        chatGroup['hasNewMsg'] = true;
-                                    }
-                                })
-
-                                uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+                                // uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
                                 // 缓存新的聊天历史记录
                                 uni.setStorage({

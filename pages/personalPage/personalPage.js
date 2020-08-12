@@ -292,12 +292,14 @@ export default {
                 })
                 console.log('15616545',json)
                 if (json.data.errcode == 200) {
+                    constant.setIsUpdateData(true)
                     console.log('第一个200',schoolItem)
                     this.showPopup = false;
                     let userInfo=constant.getUserLogin()
                     userInfo.schoolName=this.schoolName
                     constant.setUserLogin(userInfo)
                     this.toLogin();
+
                     // uni.reLaunch({
                     //     url: '/pages/tabbel/home/home'
                     // })
@@ -337,6 +339,7 @@ export default {
                     })
                         console.log('>>>>>>>>>>>',updateJson)
                     if (updateJson.data.errcode == 200) {
+                        constant.setIsUpdateData(true)
                         console.log('第三个200',schoolItem)
                         let userInfo=constant.getUserLogin()
                         userInfo.schoolName=this.schoolName
@@ -350,7 +353,6 @@ export default {
                         this.dynamicList = []
                         this.currPage = 1;
                         this.toLogin();
-                        constant.setIsUpdateData(true)
                         // this.getDynamicList(this.currPage)
                         // this.getChatRoom();
                     }
@@ -419,7 +421,6 @@ export default {
 
                                 this.updateSchool(this.schoolTotal)
                                 this.toLogin();
-
                                 clearInterval(timers);
                                 timers = null;
                                 uni.navigateBack();

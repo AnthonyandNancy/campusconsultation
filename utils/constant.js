@@ -16,6 +16,7 @@ const STARS_STYLES = '';
 const IS_UPDATE_SAVE_DATA = '';
 const IS_COMMENT = '';
 
+
 /**
  * get****  获取缓存的函数
  * @type {String}
@@ -124,6 +125,7 @@ const getIsComment = ()=>{
 }
 
 
+
 /**
  * set****  增加缓存的函数
  * @type {String}
@@ -174,6 +176,7 @@ const setIsComment= (res)=>{
 }
 
 
+
 export default {
     getUserSign,
 	getUserLogin,
@@ -188,6 +191,7 @@ export default {
 	getIsUpdateData,
 	getIsComment,
 
+
     setUserSign,
 	setUserLogin,
 	setUserInfo,
@@ -199,5 +203,7 @@ export default {
 	setSwitchType,
 	setStarStyle,
 	setIsUpdateData,
-	setIsComment
+	setIsComment,
+
+
 }

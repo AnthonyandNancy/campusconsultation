@@ -79,8 +79,8 @@
 
                                     <view class="support">
                                         <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
-                                        <view class="Item publishTime" v-if="item.type != 36 && item1.roomId != null">
-                                            <u-button size="mini" @click="toPersionalChat(item1)">加入聊天</u-button>
+                                        <view class="Item publishTime" v-if="item.type != 36 && item1.roomId != null && item1.type != 6">
+                                            <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
                                         </view>
 
                                         <view class="Item publishTime" v-if="item.type == 36 && userSign != item1.sign">

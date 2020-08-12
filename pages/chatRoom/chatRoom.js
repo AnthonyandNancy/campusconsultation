@@ -102,7 +102,6 @@ export default {
             }
             uni.$on('getGroupChat', (chatMsg) => {
                 let res = chatMsg
-                // let resMsg=chatMsg.message
                 if (res.sign != this.userInfoSign) {
                     this.msgList.push(res)
                 }
@@ -128,7 +127,6 @@ export default {
 
         //option的chatType = 1是群聊
         //roomType	number  0（或者不传） 群聊；1 单聊
-        console.log('option', option)
         // chatType: "1"
         // roomName: "高考助力"
         // roomSign: "1c40e1da4b4fc766870f613240797e50"
@@ -174,11 +172,6 @@ export default {
 
 
                     if (this.roomId == resMsgRoomId) {
-                        // if ( resMsg.type == 'system'){
-                        //     console.log('>>>>>>>>>>>',resMsg.type)
-                        // } else {
-                        //     resMsg.type = 'orther'
-                        // }
                         if (this.getSign != this.userInfoSign) {
                             console.log('当前聊天群聊', this.roomSign)
                             this.msgList.push(resMsg)
@@ -204,6 +197,7 @@ export default {
 
                             uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
 
+                            //进入页面时，群聊消息界面的红点需要页面中的连接来触发
                             uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
                             //缓存历史
                             const userTag = 'chatList:' + this.roomSign
@@ -249,6 +243,7 @@ export default {
 
                                 uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
+                                //进入页面时，消息界面的红点需要页面中的连接来触发
                                 uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
 
                                 uni.setStorage({
@@ -295,6 +290,11 @@ export default {
                             console.log('//在群聊界面收到私聊信息', res.data);
                             var jshouMsg = res.data
                             jshouMsg.push(resMsg)
+                            resMsg['hasPrivateNewMsg'] = true;
+
+                            //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getPrivateLastChat', resMsg)
+
                             console.log(jshouMsg)
                             uni.setStorage({
                                 key: userTag,
@@ -319,31 +319,6 @@ export default {
                     });
                 }
 
-
-                // console.log('>>>>>',JSON.parse(res.data).roomType)
-                //
-                //     if (JSON.parse(res.data).roomType ==1){
-                //         const friend__pic=resMsg.avatar
-                //         const friend__name=resMsg.name
-                //         const friend__sign=resMsg.sign
-                //         // console.log(friend__sign,friend__name)
-                //         const fri={
-                //             friend__pic:friend__pic,
-                //             friend__name:friend__name,
-                //             friend__sign:friend__sign
-                //         }
-                //         uni.setStorage({
-                //             key: 'friList',
-                //             data:fri,
-                //             success: function () {
-                //                 console.log('存好友成功');
-                //             }
-                //         });
-                //
-                //     }
-
-                // console.log(this.getSign.length)
-
             });
 
 
@@ -364,8 +339,6 @@ export default {
             });
 
             uni.onSocketMessage((res) => {
-                // this.getMsg.push(JSON.parse(res.data))
-                // console.log(JSON.parse(res.data))
                 const resData = JSON.parse(res.data)
                 console.log(resData)
                 const resMsg = JSON.parse(res.data).message
@@ -385,6 +358,11 @@ export default {
                         this.msgList.push(resMsg)
                         const userTag = 'chatList:' + getroomId
                         console.log('wss-私聊回来的本地数据2', userTag)
+                        resMsg['hasPrivateNewMsg'] = true;
+
+                        //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getPrivateLastChat', resMsg)
+
                         uni.setStorage({
                             key: userTag,
                             data: this.msgList,
@@ -434,6 +412,11 @@ export default {
 
                     if (resMsg.chatType == 1 && resMsg != 'my' && sign == getroomId) {
                         this.msgImgList.push(resMsg.content)
+                        resMsg['hasPrivateNewMsg'] = true;
+
+                        //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getPrivateLastChat', resMsg);
+
                     }
                     const getLength = this.msgList.length
                     this.scrollTop = 1500 * getLength
@@ -442,7 +425,6 @@ export default {
 
 
                 } else if (resRoomType == 0) {
-                    console.log('//在个人界面收到群聊信息');
                     if (resMsg.type == 'system') {
                         console.log('>>>>>>>>>>>', resMsg.type)
                     } else {
@@ -486,16 +468,9 @@ export default {
 
                 }
 
-
-                // console.log(this.getSign.length)
-
             });
 
-
         }
-
-        //好友拿信息
-
 
         // 语音自然播放结束
         this.AUDIO.onEnded((res) => {
@@ -516,7 +491,6 @@ export default {
         uni.setStorageSync('IS_PREVIEW', false);
     },
     onUnload() {
-        // console.log('页面卸载； ')
         const userTag = 'chatList:' + this.roomSign
         console.log('页面卸载', userTag)
         uni.setStorage({
@@ -526,10 +500,6 @@ export default {
                 console.log('页面卸载success');
             }
         });
-        uni.hideTabBarRedDot({
-            index: 3,
-        })
-
 
     },
     onShareAppMessage() {
@@ -800,6 +770,7 @@ export default {
                     //网路请求
                     this.upLoadImg()
 
+
                 }
             })
         },
@@ -969,6 +940,26 @@ export default {
                         console.log('wss发送失败', err)
                     }
                 });
+
+
+                const sign = constant.getUserLogin()
+                console.log('onHide检测链接失败', sign)
+                uni.onSocketClose(() => {
+                    let interval = setInterval(() => {
+                        uni.connectSocket({
+                            url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                            success: res => {
+                                console.log('onHide检测重连接成功', res)
+                                clearInterval(interval)
+                            },
+                            fail: err => {
+                                console.log('onHide检测重连接失败', err)
+                            }
+
+                        });
+                    }, 1000)
+                })
+
             } else {
 
                 this.$refs.uploadFail.show({
@@ -1100,6 +1091,25 @@ export default {
                         title: '发送消息失败,请检查网络',
                         type: 'error'
                     })
+
+                    const sign = constant.getUserLogin()
+                    console.log('onHide检测链接失败', sign)
+                    uni.onSocketClose(() => {
+                        let interval = setInterval(() => {
+                            uni.connectSocket({
+                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                success: res => {
+                                    console.log('onHide检测重连接成功', res)
+                                    clearInterval(interval)
+                                },
+                                fail: err => {
+                                    console.log('onHide检测重连接失败', err)
+                                }
+
+                            });
+                        }, 1000)
+                    })
+
                     for (let i = 0; i < this.msgList.length; i++) {
                         const n = this.msgList[i].content
                         if (n == this.textMsg) {
@@ -1223,6 +1233,24 @@ export default {
         },
         // 结束录音
         voiceEnd(e) {
+            const sign = constant.getUserLogin()
+            console.log('onHide检测链接失败', sign)
+            uni.onSocketClose(() => {
+                let interval = setInterval(() => {
+                    uni.connectSocket({
+                        url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                        success: res => {
+                            console.log('onHide检测重连接成功', res)
+                            clearInterval(interval)
+                        },
+                        fail: err => {
+                            console.log('onHide检测重连接失败', err)
+                        }
+
+                    });
+                }, 1000)
+            })
+
             if (!this.recording) {
                 return;
             }

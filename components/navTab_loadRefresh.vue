@@ -30,7 +30,20 @@
                                         <view class="item">{{item1.friend__name}}</view>
                                         <view class="item privateTime">{{item1.time}}</view>
                                     </view>
-                                    <view class="lastChatMsg">{{item1.lastChatMsg}}</view>
+                                    <view class="lastChatBox">
+
+                                        <view class="lastItem lastChatMsg">
+                                            <rich-text :nodes="item1.lastChatMsg" :selectable="true"></rich-text>
+                                        </view>
+
+<!--                                        <view class="lastItem lastChatMsg">-->
+<!--                                            <rich-text :nodes="item1.lastChatMsg" :selectable="true"></rich-text>-->
+<!--                                        </view>-->
+                                        <view class="lastItem" v-if="item1.hasPrivateNewMsg">
+                                            <view class="privateRedPoint"></view>
+                                        </view>
+                                    </view>
+
                                 </view>
                             </view>
                         </view>
@@ -188,10 +201,13 @@
                     }
                 })
                 uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
-                console.log('跳转-=-=-=-=-=-======',this.groupChatList)
-                // uni.navigateTo({
-                //     url:"/pages/chatPage/chatPage?roomSign=" + roomSign + '&roomName=' + roomName
-                // })
+
+                this.privateChatList.forEach(res=>{
+                    if(res.friend__sign == roomSign){
+                        res.hasPrivateNewMsg = false;
+                    }
+                })
+                uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
 
                 uni.navigateTo({
                     url:"/pages/chatRoom/chatRoom?roomSign=" + roomSign + '&roomName=' + roomName + '&chatType=' + type + '&userName=' + constant.getUserInfo().name
@@ -267,6 +283,9 @@
                     border-radius: 100%;
                     float: right;
                 }
+
+
+
                 .privateTime{
                     text-align: center;
                     color:#AAAAAA;
@@ -274,16 +293,35 @@
                     font-family:"Microsoft YaHei";
 
                 }
-                .lastChatMsg{
-                    color: #9d9d9d;
-                    font-size: 24rpx;
-                    padding: 9rpx 0;
-                    font-family: "Microsoft YaHei";
-                    width: 500rpx;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
+                .lastChatBox{
+                    display: flex;
+                    align-items: center;
+                    .lastItem{
+                        flex: 1;
+                    }
+                    .lastChatMsg{
+                        flex-grow:5;
+                        color: #9d9d9d;
+                        font-size: 24rpx;
+                        padding: 9rpx 0;
+                        font-family: "Microsoft YaHei";
+                        width: 500rpx;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        word-break: break-all;
+                    }
+                    .privateRedPoint{
+                        float: right;
+                        width: 15rpx;
+                        height: 15rpx;
+                        background-color: red;
+                        border: 1px solid #ff0000;
+                        border-radius: 100%;
+                        margin-right: 30rpx;
+                    }
                 }
+
                 .describe{
                     margin-top: 15rpx;
                     font-size: 26rpx;

@@ -10,7 +10,6 @@
         </div>
         <view class="aixin">
             <view style="font-size: 24rpx; text-align: center; margin:40rpx 0;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
-<!--            <image :src="aiXinSrc" style="margin: 0 auto;"></image>-->
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%); height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%; "></view>
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 30vh;width: 30vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
@@ -53,15 +52,6 @@
             </view>
         </view>
 
-
-<!--        <u-popup height="40vh" mode="center" v-model="showSetTime" width="80%">-->
-<!--            <view @click="reStart" class="reStart" v-if="matchType ==1">有缘人还在等你哦~</view>-->
-<!--            &lt;!&ndash;			<view @click="goChat" class="reStart" v-if="matchType ==0">重新来过吧~</view>&ndash;&gt;-->
-<!--        </u-popup>-->
-
-
-
-
         <u-popup height="100vh" mode="center" v-model="showChat" width="100%">
 
             			<view style="width: 100%;height: 100vh;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);margin: 0;padding: 0;">
@@ -77,12 +67,7 @@
                                     <view>{{matchingName}}</view>
                                 </view>
 
-<!--                                <image src="../../static/images/staticXin.png" class="middleImg"></image>-->
-<!--                                <view class="middleImg"></view>-->
-
                             </view>
-<!--                            <view style="font-size: 68rpx;margin-top: 78%;margin-left: 16%;">你们匹配度:{{matchingNum}}%</view>-->
-<!--                            <view style="font-size: 34rpx;margin-top: 1%;margin-left: 18%;color: white;">Waiting....</view>-->
                             <view style="font-size: 18px;color: #ffff;position: relative;top: -47vh;left: 15vh;">还有{{lastTime}}秒马上进入聊天室....</view>
 
 

@@ -24,34 +24,34 @@ export default {
             audioPlay: false,
             audioIsAuthor: Boolean,
             list: [
-                {
-                    value: '随便写写',
-                    id: 0
-                },
-                {
-                    value: '以书会友',
-                    id: 1
-                },
-                {
-                    value: '百团大战',
-                    id: 2
-                },
-                {
-                    value: '约起开黑',
-                    id: 3
-                },
-                {
-                    value: '操场相见',
-                    id: 4
-                },
-                {
-                    value: '个人杂物',
-                    id: 5
-                },
-                {
-                    value: '校园爱情',
-                    id: 6
-                },
+                // {
+                //     value: '随便写写',
+                //     id: 0
+                // },
+                // {
+                //     value: '以书会友',
+                //     id: 1
+                // },
+                // {
+                //     value: '百团大战',
+                //     id: 2
+                // },
+                // {
+                //     value: '约起开黑',
+                //     id: 3
+                // },
+                // {
+                //     value: '操场相见',
+                //     id: 4
+                // },
+                // {
+                //     value: '个人杂物',
+                //     id: 5
+                // },
+                // {
+                //     value: '校园爱情',
+                //     id: 6
+                // },
             ],
             chooseTab: null,
             tabsText: null,
@@ -82,6 +82,10 @@ export default {
             title: option.publishType == 'publishDynamic' ? '发表动态' : '发表评论'
         })
 
+        this.list = constant.getUserLogin().header.find(item=>{
+            return item.titleType == 2;
+        }).title;
+        console.log('this.listthis.listthis.list',this.list)
 
     },
 
