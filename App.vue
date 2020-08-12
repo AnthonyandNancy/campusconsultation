@@ -10,9 +10,9 @@
         },
         onHide() {
 
-            const sign = constant.getUserLogin()
-            console.log('onHide检测链接失败', sign)
-            uni.onSocketClose(() => {
+            let sign = constant.getUserSign()
+            console.log('onHide检测链接', sign)
+            // uni.onSocketClose(() => {
                 let interval = setInterval(() => {
                     uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
@@ -27,7 +27,7 @@
 
                     });
                 }, 1000)
-            })
+            // })
         },
         onLaunch: async function () {
             if (constant.getUserLogin().length != 0) {
