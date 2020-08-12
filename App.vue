@@ -152,10 +152,8 @@
 
             getMsgWss() {
                 uni.onSocketMessage((res) => {
-                    // console.log(res)
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
-                    // resDataMsg.type='orther'
                     console.log(resData)
                     if (resData.roomType == 0) {
 
