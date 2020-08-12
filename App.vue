@@ -48,6 +48,58 @@
                 }
             })
 
+            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+            let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST')
+            let groupObj = {};
+            let friendObj = {};
+
+            if (chatGroupList.length != 0 || chatFriendList.length != 0) {
+                new Promise((resolve, reject) => {
+                    if (chatGroupList.length != 0) {
+                        chatGroupList.forEach(res => {
+                            if (groupObj[res.hasNewMsg] == undefined) {
+                                groupObj[res.hasNewMsg] = 1
+                            } else {
+                                groupObj[res.hasNewMsg]++;
+                            }
+                        })
+
+                        for (let key in groupObj) {
+                            if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
+                                resolve();
+                            } else {
+                                uni.showTabBarRedDot({
+                                    index: 3
+                                })
+                            }
+                        }
+                    }
+                }).then(res => {
+                    if (chatFriendList.length != 0) {
+                        chatFriendList.forEach(res => {
+                            if (friendObj[res.hasPrivateNewMsg] == undefined) {
+                                friendObj[res.hasPrivateNewMsg] = 1
+                            } else {
+                                friendObj[res.hasPrivateNewMsg]++;
+                            }
+                        })
+
+                        for (let key in friendObj) {
+                            if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
+                                uni.hideTabBarRedDot({
+                                    index: 3
+                                })
+                            } else {
+                                uni.showTabBarRedDot({
+                                    index: 3
+                                })
+                            }
+                        }
+                    }
+                })
+            }
+
+
         },
         methods: {
             async getLogin(jscode) {
@@ -94,31 +146,11 @@
                     });
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
-
-                    // const sign=constant.getUserSign
-                    // console.log('检测链接失败', sign)
-                    // uni.onSocketClose((res) => {
-                    //         let interval = setInterval(() => {
-                    //             uni.connectSocket({
-                    //                 url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                    //                 success: res => {
-                    //                     console.log('检测重连接成功', res)
-                    //                     clearInterval(interval)
-                    //                 },
-                    //                 fail: err => {
-                    //                     console.log('检测重连接失败', err)
-                    //                 }
-                    //
-                    //             });
-                    //         }, 1000)
-                    //     },
-                    // )
                 }
             },
 
 
-
-            getMsgWss(){
+            getMsgWss() {
                 uni.onSocketMessage((res) => {
                     // console.log(res)
                     const resData = JSON.parse(res.data)
@@ -185,7 +217,7 @@
                             }
                         });
                     } else if (resData.roomType == 1) {
-                        resDataMsg.type='orther'
+                        resDataMsg.type = 'orther'
                         let sign = resData.sign
                         let userTag = 'chatList:' + sign
 
