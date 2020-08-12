@@ -76,11 +76,12 @@ export default {
             sensitiveWorld: sensitiveWord,
             //路径识别
             pathType: 0,
-            shareType: 1
+            shareType: 1,
+            chatType:0 //聊天类型 0 私聊 1群聊 与接口相反
         };
     },
     onLoad(option) {
-
+        this.chatType = option.chatType;
 
         //判断是否来自分享
         if (option.pathType != undefined || option.pathType == 'share') {
@@ -209,6 +210,8 @@ export default {
                                 }
                             });
                         } else {
+                            //进入页面时，消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
                             console.log('这是自己的消息', resMsg)
                         }
 
@@ -276,6 +279,8 @@ export default {
                     }
                     if (resMsg.chatType == 1 && resMsg != 'my') {
                         this.msgImgList.push(resMsg.content)
+                        //进入页面时，消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
                     }
 
                 } else if (resRoomType == 1) {
@@ -501,7 +506,28 @@ export default {
             }
         });
 
+        console.log('页面隐藏=====》')
+        let groupList = uni.getStorageSync('CHAT_GROUP_LIST');
+        let privateList = uni.getStorageSync('CHAT_FRIEND_LIST');
+
+        if(this.chatType == 0){
+            privateList.forEach(res=>{
+                if(res.friend__sign == this.roomSign){
+                    res.hasPrivateNewMsg = false;
+                }
+            })
+            uni.setStorageSync('CHAT_FRIEND_LIST',privateList);
+        }else if(this.chatType == 1){
+            groupList.forEach(res=>{
+                if(res.room__roomSign == this.roomSign){
+                    res.hasNewMsg = false;
+                }
+            })
+            uni.setStorageSync('CHAT_GROUP_LIST',groupList);
+        }
+
     },
+
     onShareAppMessage() {
         if (this.shareType == 1) {
             return {

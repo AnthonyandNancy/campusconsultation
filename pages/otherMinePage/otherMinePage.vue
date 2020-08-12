@@ -4,7 +4,7 @@
             <view class="header-Info">
                 <view @click="toReadNotive" class="notice" v-if="false">
                     <view class="notice_box">
-                        <view class="noticeIcon"><image class="auto-img" src="/static/images/notice.png"></image></view>
+                        <view class="noticeIcon"><image style="width: 100%;height: 100%;border-radius: 100% !important;" src="/static/images/notice.png"></image></view>
                         <text class="pointIcon" v-if="false">&#xe608;</text>
                     </view>
 
@@ -13,7 +13,7 @@
                     <view class="item avatarItem">
                     <!--<button class="getUserInfo" open-type="getUserInfo"  v-if="!isAuthor && !userInfo.pic" @getuserinfo="toAuthor"></button>-->
                         <view class="avatar">
-                            <image :src="userInfo.avatar?userInfo.avatar:'../../static/images/avatar.png'" mode="aspectFit" style="width: 100%;height: 100%;"></image>
+                            <image :src="userInfo.avatar?userInfo.avatar:'../../static/images/avatar.png'" mode="aspectFit" style="width: 100%;height: 100%;border-radius: 100% !important;"></image>
                         </view>
                     </view>
                     <view class="item nickNameItem">

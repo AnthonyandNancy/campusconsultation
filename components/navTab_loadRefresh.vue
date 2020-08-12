@@ -22,7 +22,7 @@
                             <view class="dynamInfo">
                                 <view class="dynamInfoItem PublisherAvatar">
                                     <view class="avatar">
-                                        <image :src="item1.friend__pic" class="auto-img"></image>
+                                        <image :src="item1.friend__pic" style="width: 100%;height: 100%;border-radius:20rpx !important;"></image>
                                     </view>
                                 </view>
                                 <view class="dynamInfoItem Publishertime">
@@ -39,8 +39,8 @@
 <!--                                        <view class="lastItem lastChatMsg">-->
 <!--                                            <rich-text :nodes="item1.lastChatMsg" :selectable="true"></rich-text>-->
 <!--                                        </view>-->
-                                        <view class="lastItem" v-if="item1.hasPrivateNewMsg">
-                                            <view class="privateRedPoint"></view>
+                                        <view class="lastItem" >
+                                            <view class="privateRedPoint" v-if="item1.hasPrivateNewMsg"></view>
                                         </view>
                                     </view>
 
@@ -64,7 +64,7 @@
                             <view class="dynamInfo">
                                 <view class="dynamInfoItem PublisherAvatar">
                                     <view class="avatar">
-                                        <image :src="item2.room__pic" class="auto-img"></image>
+                                        <image :src="item2.room__pic" style="width: 100%;height: 100%;border-radius:20rpx !important;"></image>
                                     </view>
                                 </view>
                                 <view class="dynamInfoItem Publishertime">

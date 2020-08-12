@@ -38,55 +38,60 @@ export default {
         })
     },
     onShow() {
+        //界面显示时，遍历取消小红点
         let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
         let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST')
         let groupObj = {};
         let friendObj = {};
+        new Promise((resolve, reject) => {
+            if (chatGroupList.length != 0) {
+                chatGroupList.forEach(res => {
+                    if (groupObj[res.hasNewMsg] == undefined) {
+                        groupObj[res.hasNewMsg] = 1
+                    } else {
+                        groupObj[res.hasNewMsg]++;
+                    }
+                })
 
-            new Promise((resolve, reject) => {
-                if (chatGroupList.length != 0) {
-                    chatGroupList.forEach(res => {
-                        if (groupObj[res.hasNewMsg] == undefined) {
-                            groupObj[res.hasNewMsg] = 1
-                        } else {
-                            groupObj[res.hasNewMsg]++;
-                        }
-                    })
-
-                    for (let key in groupObj) {
-                        if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
-                            resolve();
-                        }else{
-                            uni.showTabBarRedDot({
-                                index:3
-                            })
-                        }
+                for (let key in groupObj) {
+                    console.log('groupObjgroupObj==========>',groupObj)
+                    if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
+                        resolve();
+                    }else{
+                        uni.showTabBarRedDot({
+                            index:3
+                        })
                     }
                 }
-            }).then(res=>{
-                if (chatFriendList.length != 0) {
-                    chatFriendList.forEach(res => {
-                        if (friendObj[res.hasPrivateNewMsg] == undefined) {
-                            friendObj[res.hasPrivateNewMsg] = 1
-                        } else {
-                            friendObj[res.hasPrivateNewMsg]++;
-                        }
-                    })
+            }else{
+                resolve();
+            }
+        }).then(res=>{
+            if (chatFriendList.length != 0) {
+                chatFriendList.forEach(res => {
+                    if (friendObj[res.hasPrivateNewMsg] == undefined) {
+                        friendObj[res.hasPrivateNewMsg] = 1
+                    } else {
+                        friendObj[res.hasPrivateNewMsg]++;
+                    }
+                })
 
-                    for (let key in friendObj) {
-                        if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
-                            uni.hideTabBarRedDot({
-                                index:3
-                            })
-                        }else{
-                            uni.showTabBarRedDot({
-                                index:3
-                            })
-                        }
+                for (let key in friendObj) {
+                    if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
+                        uni.hideTabBarRedDot({
+                            index:3
+                        })
+                    }else{
+                        uni.showTabBarRedDot({
+                            index:3
+                        })
                     }
                 }
-            })
+            }
+        })
 
+
+        //
         this.userSign = constant.getUserSign();
         if (constant.getUserSign().length != 0) {
             this.getGroupChatList();
@@ -190,14 +195,16 @@ export default {
                     sign: this.userSign
                 }
             })
+
             if (json.data.errcode == 200) {
-                // this.privateChatList = json.data.friendList;
 
                 if (uni.getStorageSync('CHAT_FRIEND_LIST').length == 0) {
                     this.privateChatList = json.data.friendList;
+                    uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                 } else {
 
                     if (this.privateChatList.length < json.data.friendList.length) {
+
                         let a = json.data.friendList;
                         let b = uni.getStorageSync('CHAT_FRIEND_LIST');
 
@@ -211,7 +218,22 @@ export default {
                         }
                         this.privateChatList = [...a,...b];
 
+                    }else if(this.privateChatList.length > json.data.friendList.length){
+
+                        // let a = json.data.friendList;
+                        // let b = uni.getStorageSync('CHAT_FRIEND_LIST');
+                        //
+                        // for (var i = 0; i < b.length; i++) {
+                        //     for (var j = 0; j < a.length; j++) {
+                        //         if (a[j].friend__sign == b[i].friend__sign) {
+                        //             a.splice(j, b.length);
+                        //             j = j - 1;
+                        //         }
+                        //     }
+                        // }
+                        // console.log('线上比缓存中的少的私聊数据列表',a);
                     } else {
+                        console.log('从私聊界面返回================》》》》》')
                         let chatFList = uni.getStorageSync('CHAT_FRIEND_LIST');
                         chatFList.forEach(res => {
                             let strange = uni.getStorageSync('chatList:' + res.friend__sign);
@@ -238,11 +260,27 @@ export default {
             if (json.data.errcode == 200) {
                 if (uni.getStorageSync('CHAT_GROUP_LIST').length == 0) {
                     this.groupChatList = json.data.roomList;
+                    uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
                 } else {
-                    this.groupChatList = uni.getStorageSync('CHAT_GROUP_LIST');
 
+                    if(uni.getStorageSync('CHAT_GROUP_LIST').length < json.data.roomList.length ){
+                        let a = json.data.roomList;
+                        let b = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                        for (var i = 0; i < b.length; i++) {
+                            for (var j = 0; j < a.length; j++) {
+                                if (a[j].friend__sign == b[i].friend__sign) {
+                                    a.splice(j, b.length);
+                                    j = j - 1;
+                                }
+                            }
+                        }
+                        this.groupChatList = [...a,...b];
+                    }else{
+                        this.groupChatList = uni.getStorageSync('CHAT_GROUP_LIST');
+                    }
                 }
             }
-        },
+        }
     }
 }

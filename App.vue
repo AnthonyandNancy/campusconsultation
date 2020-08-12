@@ -158,7 +158,7 @@
                     if (resData.roomType == 0) {
 
                         if (resDataMsg.type == 'system') {
-                            console.log('>>>>>>>>>>>', resDataMsg.type)
+                            console.log('>>>>>>>>>>>', resDataMsg)
                         } else {
                             resDataMsg.type = 'orther'
                         }
@@ -171,17 +171,14 @@
                             index: 3,
                         })
 
-                        console.log('chatGroupList=====>', chatGroupList);
-
-                        chatGroupList.forEach(chatGroup => {
-                            if (resDataMsg.roomSign == chatGroup.room__roomSign) {
-                                chatGroup['hasNewMsg'] = true;
-                            }
-                        })
-
-                        uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
-
-
+                        if(chatGroupList.length != 0 ){
+                            chatGroupList.forEach(res => {
+                                if (res.room__roomSign == sign ) {
+                                    res['hasNewMsg'] = true;
+                                }
+                            })
+                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+                        }
                         uni.getStorage({
                             key: userTag,
                             success: async (res) => {
@@ -229,21 +226,20 @@
                                 uni.$emit('getPrivateLastChat', resDataMsg)
 
 
-                                let PrivateLastChat = uni.getStorageSync(userTag);
+                                let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
 
                                 uni.showTabBarRedDot({
                                     index: 3,
                                 })
 
-                                // console.log('chatGroupList=====>', chatGroupList);
-                                //
-                                // PrivateLastChat.forEach(chatGroup => {
-                                //     if (resDataMsg.roomSign == chatGroup.room__roomSign) {
-                                //         chatGroup['hasPrivateNewMsg'] = true;
-                                //     }
-                                // })
-
-                                // uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+                                if(PrivateLastChat.length != 0){
+                                    PrivateLastChat.forEach(res => {
+                                        if (res.friend__sign == sign) {
+                                            res['hasPrivateNewMsg'] = true;
+                                        }
+                                    })
+                                    uni.setStorageSync('CHAT_FRIEND_LIST', PrivateLastChat);
+                                }
 
                                 // 缓存新的聊天历史记录
                                 uni.setStorage({

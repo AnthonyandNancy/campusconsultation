@@ -141,7 +141,7 @@
 				if(moveDistance >= 60 && moveDistance < 100){
 					moveDistance = 60
 				}
-				if(moveDistance > 70 && moveDistance <= 80){
+				if(moveDistance > 58 && moveDistance <= 60){
 					this.refresh = true
 					this.coverTransform = `translateY(${moveDistance}px)`
 				}

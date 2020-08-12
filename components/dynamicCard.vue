@@ -6,7 +6,7 @@
             <view class="dynamInfo">
                 <view class="dynamInfoItem PublisherAvatar">
                     <view class="avatar u-skeleton-circle" @click="toOtherMineInfoPage">
-                        <image :src="dynamicObj.pic" class="auto-img" mode="aspectFill"></image>
+                        <image :src="dynamicObj.pic" style="width: 100%;height: 100%;border-radius: 100% !important;" mode="aspectFill"></image>
                     </view>
                 </view>
                 <view class="dynamInfoItem Publishertime" @click="toDetail(dynamicObj)">
