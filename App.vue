@@ -30,6 +30,12 @@
             // })
         },
         onLoad() {
+
+        },
+        async onLaunch () {
+
+
+            console.log('onLaunch')
             //断网重连
             let interval = setInterval(() => {
                 let sign = constant.getUserSign()
@@ -52,8 +58,14 @@
                 })
 
             }, 1000)
-        },
-        onLaunch: async function () {
+
+
+
+
+
+
+
+
             if (constant.getUserLogin().length != 0) {
                 if (constant.getUserLogin().schoolName != null) {
                     uni.switchTab({
