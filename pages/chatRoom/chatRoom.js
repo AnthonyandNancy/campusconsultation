@@ -81,6 +81,69 @@ export default {
         };
     },
     onLoad(option) {
+
+        //断网重连
+        let interval = setInterval(() => {
+            let sign = constant.getUserSign()
+            console.log('onLaunch检测链接', sign)
+            uni.onSocketClose(() => {
+
+                uni.connectSocket({
+                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                    success: res => {
+                        console.log('onLaunch检测重连接成功', res)
+                        this.getMsgWss()
+                        // clearInterval(interval)
+                    },
+                    fail: err => {
+                        console.log('onLaunch检测重连接失败', err)
+                    }
+
+                });
+
+            })
+
+
+            uni.onSocketError( (res) =>{
+                console.log('WebSocket连接打开失败，请检查！');
+                uni.connectSocket({
+                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                    success: res => {
+                        console.log('onLaunch检测重连接成功', res)
+                        this.getMsgWss()
+                        // clearInterval(interval)
+                    },
+                    fail: err => {
+                        console.log('onLaunch检测重连接失败', err)
+                    }
+
+                });
+            });
+
+        }, 2000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         this.chatType = option.chatType;
 
         //判断是否来自分享
