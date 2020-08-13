@@ -13,20 +13,20 @@
             let sign = constant.getUserSign()
             console.log('onHide检测链接', sign)
             // uni.onSocketClose(() => {
-                let interval = setInterval(() => {
-                    uni.connectSocket({
-                        url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                        success: res => {
-                            console.log('onHide检测重连接成功', res)
-                            this.getMsgWss()
-                            clearInterval(interval)
-                        },
-                        fail: err => {
-                            console.log('onHide检测重连接失败', err)
-                        }
+            let interval = setInterval(() => {
+                uni.connectSocket({
+                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                    success: res => {
+                        console.log('onHide检测重连接成功', res)
+                        this.getMsgWss()
+                        clearInterval(interval)
+                    },
+                    fail: err => {
+                        console.log('onHide检测重连接失败', err)
+                    }
 
-                    });
-                }, 1000)
+                });
+            }, 1000)
             // })
         },
         onLaunch: async function () {
@@ -100,28 +100,28 @@
             }
 
 
+            //断网重连
+            let interval = setInterval(() => {
+                let sign = constant.getUserSign()
+                console.log('onLaunch检测链接', sign)
+                uni.onSocketClose(() => {
 
-			//断网重连
-			let sign = constant.getUserSign()
-			console.log('onLaunch检测链接', sign)
-			uni.onSocketClose(() => {
-			    let interval = setInterval(() => {
-			        uni.connectSocket({
-			            url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-			            success: res => {
-			                console.log('onLaunch检测重连接成功', res)
-			                this.getMsgWss()
-			                // clearInterval(interval)
-			            },
-			            fail: err => {
-			                console.log('onLaunch检测重连接失败', err)
-			            }
-			
-			        });
-			    }, 1000)
-			})
-			
+                    uni.connectSocket({
+                        url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                        success: res => {
+                            console.log('onLaunch检测重连接成功', res)
+                            this.getMsgWss()
+                            // clearInterval(interval)
+                        },
+                        fail: err => {
+                            console.log('onLaunch检测重连接失败', err)
+                        }
 
+                    });
+
+                })
+
+            }, 1000)
         },
         methods: {
             async getLogin(jscode) {
@@ -193,9 +193,9 @@
                             index: 3,
                         })
 
-                        if(chatGroupList.length != 0 ){
+                        if (chatGroupList.length != 0) {
                             chatGroupList.forEach(res => {
-                                if (res.room__roomSign == sign ) {
+                                if (res.room__roomSign == sign) {
                                     res['hasNewMsg'] = true;
                                 }
                             })
@@ -254,7 +254,7 @@
                                     index: 3,
                                 })
 
-                                if(PrivateLastChat.length != 0){
+                                if (PrivateLastChat.length != 0) {
                                     PrivateLastChat.forEach(res => {
                                         if (res.friend__sign == sign) {
                                             res['hasPrivateNewMsg'] = true;
