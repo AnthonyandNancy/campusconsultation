@@ -38,32 +38,48 @@
             //断网重连
             let interval = setInterval(() => {
                 let sign = constant.getUserSign()
-                // let wss= uni.connectSocket({
-                //     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                //     success: res => {
+                // console.log(this.wssType)
+                // if ([2, 3].includes(this.wssType.readyState)) {
+                //     uni.connectSocket({
+                //         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                //         success: res => {
+                //             console.log('重连成功', res)
+                //             this.getMsgWss()
                 //
-                //         this.getMsgWss()
-                //
-                //     },
-                //     fail: err => {
-                //         console.log('wss链接失败', err)
-                //         console.log('链接失败', sign)
-                //     }
-                // });
-                console.log(this.wssType)
-                if ([2, 3].includes(this.wssType.readyState)) {
-                    uni.connectSocket({
-                        url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                        success: res => {
-                            console.log('重连成功', res)
-                            this.getMsgWss()
+                //         },
+                //         fail: err => {
+                //             console.log('重连成功失败', err)
+                //         }
+                //     });
+                // }
+                uni.getNetworkType({
+                    success: (res) => {
+                        let netType = res.networkType
+                        console.log(netType)
+                        if (netType == 'none') {
+                            console.log('1')
+                            uni.onNetworkStatusChange((res) => {
+                                console.log(res.isConnected);
+                                if (res.isConnected ==true &&res.networkType !="none"){
+                                    uni.connectSocket({
+                                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                                success: res => {
+                                                    console.log('重连成功', res)
+                                                    this.getMsgWss()
 
-                        },
-                        fail: err => {
-                            console.log('重连成功失败', err)
+                                                },
+                                                fail: err => {
+                                                    console.log('重连成功失败', err)
+                                                }
+                                            });
+                                }
+                                console.log(res.networkType);
+                            });
+                        } else {
+                            console.log('2')
                         }
-                    });
-                }
+                    }
+                });
             }, 1000)
 
 
