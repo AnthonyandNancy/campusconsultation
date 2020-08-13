@@ -224,11 +224,14 @@
                         uni.showTabBarRedDot({
                             index: 3,
                         })
-//重连后的消息判别
-//                         let option={
-//
-//                         }
-                        uni.$emit('getMsgWss')
+
+                        //重连后的消息判别
+                        let option = {
+                            roomSign:sign,
+                            roomName:resData.name,
+                            chatType:1
+                        }
+                        uni.$emit('getMsgWss',option)
 
                         if (chatGroupList.length != 0) {
                             chatGroupList.forEach(res => {
@@ -290,6 +293,13 @@
                                 uni.showTabBarRedDot({
                                     index: 3,
                                 })
+                                let option = {
+                                    roomSign:resData.sign,
+                                    roomName:resData.name,
+                                    chatType:0
+                                }
+
+                                uni.$emit('getMsgWss',option)
 
                                 if (PrivateLastChat.length != 0) {
                                     PrivateLastChat.forEach(res => {

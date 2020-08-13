@@ -83,7 +83,9 @@ export default {
 
     onLoad(option) {
         uni.$on('getMsgWss', (res)=>{
-            this.getMsgWss()
+            console.log('111111111111111111111111111111111111111111111111',res)
+            // this.getMsgWss(res)
+            this.getMsgWss(res)
         })
         //断网重连
         // let interval = setInterval(() => {
@@ -244,6 +246,7 @@ export default {
                 })
 
             }
+
             let sign = option.roomSign
             let userTag = 'chatList:' + sign
             let name = option.roomName
@@ -696,6 +699,8 @@ export default {
 
             //中间页\
             const chatType = 0
+
+            
             uni.redirectTo({
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + sign + '&roomName=' + name + '&chatType=' + chatType + '&avatar=' + avatar
             })
