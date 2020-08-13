@@ -100,6 +100,28 @@
             }
 
 
+
+			//断网重连
+			let sign = constant.getUserSign()
+			console.log('onLaunch检测链接', sign)
+			uni.onSocketClose(() => {
+			    let interval = setInterval(() => {
+			        uni.connectSocket({
+			            url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+			            success: res => {
+			                console.log('onLaunch检测重连接成功', res)
+			                this.getMsgWss()
+			                // clearInterval(interval)
+			            },
+			            fail: err => {
+			                console.log('onLaunch检测重连接失败', err)
+			            }
+			
+			        });
+			    }, 1000)
+			})
+			
+
         },
         methods: {
             async getLogin(jscode) {
