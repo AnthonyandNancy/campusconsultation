@@ -34,8 +34,9 @@
 
         },
         onShow() {
-            if ([2, 3].includes(this.wssType.readyState)) {
+
                 let interval = setInterval(() => {
+                    if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
                     // console.log(this.wssType)
 
@@ -66,8 +67,10 @@
                             }
                         }
                     });
+                    }
                 }, 1000)
-            }
+                    
+
 
         },
         async onLaunch() {
