@@ -82,7 +82,9 @@ export default {
     },
 
     onLoad(option) {
-
+        uni.$on('getMsgWss', (res)=>{
+            this.getMsgWss()
+        })
         //断网重连
         // let interval = setInterval(() => {
         //     let sign = user.getUserSign()
