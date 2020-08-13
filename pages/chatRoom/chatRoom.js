@@ -84,44 +84,44 @@ export default {
     onLoad(option) {
 
         //断网重连
-        let interval = setInterval(() => {
-            let sign = user.getUserSign()
-            console.log('onLaunch检测链接', sign)
-            uni.onSocketClose(() => {
-
-                uni.connectSocket({
-                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                    success: res => {
-                        console.log('聊天房间的onLoad检测重连接成功', res)
-                        this.getMsgWss(option)
-                        // clearInterval(interval)
-                    },
-                    fail: err => {
-                        console.log('聊天房间的onLoad检测重连接失败', err)
-                    }
-
-                });
-
-            })
-
-
-            uni.onSocketError((res) => {
-                console.log('WebSocket连接打开失败，请检查！');
-                uni.connectSocket({
-                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                    success: res => {
-                        console.log('聊天房间的onLoad检测重连接成功', res)
-                        this.getMsgWss(option)
-                        // clearInterval(interval)
-                    },
-                    fail: err => {
-                        console.log('聊天房间的onLoad检测重连接失败', err)
-                    }
-
-                });
-            });
-
-        }, 1000)
+        // let interval = setInterval(() => {
+        //     let sign = user.getUserSign()
+        //     console.log('onLaunch检测链接', sign)
+        //     uni.onSocketClose(() => {
+        //
+        //         uni.connectSocket({
+        //             url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+        //             success: res => {
+        //                 console.log('聊天房间的onLoad检测重连接成功', res)
+        //                 this.getMsgWss(option)
+        //                 // clearInterval(interval)
+        //             },
+        //             fail: err => {
+        //                 console.log('聊天房间的onLoad检测重连接失败', err)
+        //             }
+        //
+        //         });
+        //
+        //     })
+        //
+        //
+        //     uni.onSocketError((res) => {
+        //         console.log('WebSocket连接打开失败，请检查！');
+        //         uni.connectSocket({
+        //             url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+        //             success: res => {
+        //                 console.log('聊天房间的onLoad检测重连接成功', res)
+        //                 this.getMsgWss(option)
+        //                 // clearInterval(interval)
+        //             },
+        //             fail: err => {
+        //                 console.log('聊天房间的onLoad检测重连接失败', err)
+        //             }
+        //
+        //         });
+        //     });
+        //
+        // }, 1000)
         this.chatType = option.chatType;
         this.roomName = option.roomName;
 
@@ -168,11 +168,11 @@ export default {
             key: userTag,
             data: this.msgList,
             success: function () {
-                console.log('页面卸载success');
+                // console.log('页面卸载success');
             }
         });
 
-        console.log('页面隐藏=====》')
+        // console.log('页面隐藏=====》')
         let groupList = uni.getStorageSync('CHAT_GROUP_LIST');
         let privateList = uni.getStorageSync('CHAT_FRIEND_LIST');
 
@@ -212,6 +212,7 @@ export default {
     methods: {
         //聊天接受消息
         getMsgWss(option) {
+            console.log('methods>>>>>>>>>',option)
             //判断是否来自分享
             if (option.pathType != undefined || option.pathType == 'share') {
 
@@ -605,7 +606,7 @@ export default {
                 content: content,
                 chatType: 0
             }
-            console.log('私聊的id', this.roomId)
+            console.log('欢迎进入的聊天发送id', this.roomId)
             this.msgList.push(options)
             // console.log('本地缓存',this.msgList)
             const length = this.msgList.length
@@ -1130,7 +1131,7 @@ export default {
                 time: sendMsgTime,
                 name: this.userName
             }
-            console.log('私聊的id', this.roomId)
+            console.log('发送文字消息id', this.roomId)
             this.msgList.push(options)
             // console.log('本地缓存',this.msgList)
             const length = this.msgList.length
