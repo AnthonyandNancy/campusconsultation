@@ -29,6 +29,30 @@
             }, 1000)
             // })
         },
+        onLoad() {
+            //断网重连
+            let interval = setInterval(() => {
+                let sign = constant.getUserSign()
+                console.log('onLaunch检测链接', sign)
+                uni.onSocketClose(() => {
+
+                    uni.connectSocket({
+                        url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                        success: res => {
+                            console.log('onLaunch检测重连接成功', res)
+                            this.getMsgWss()
+                            // clearInterval(interval)
+                        },
+                        fail: err => {
+                            console.log('onLaunch检测重连接失败', err)
+                        }
+
+                    });
+
+                })
+
+            }, 1000)
+        },
         onLaunch: async function () {
             if (constant.getUserLogin().length != 0) {
                 if (constant.getUserLogin().schoolName != null) {
@@ -100,29 +124,8 @@
             }
 
 
-            //断网重连
-            let interval = setInterval(() => {
-                let sign = constant.getUserSign()
-                console.log('onLaunch检测链接', sign)
-                uni.onSocketClose(() => {
-
-                    uni.connectSocket({
-                        url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                        success: res => {
-                            console.log('onLaunch检测重连接成功', res)
-                            this.getMsgWss()
-                            // clearInterval(interval)
-                        },
-                        fail: err => {
-                            console.log('onLaunch检测重连接失败', err)
-                        }
-
-                    });
-
-                })
-
-            }, 1000)
         },
+
         methods: {
             async getLogin(jscode) {
                 let json = await api.getLogin({
