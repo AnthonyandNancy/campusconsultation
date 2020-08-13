@@ -92,12 +92,12 @@ export default {
                 uni.connectSocket({
                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                     success: res => {
-                        console.log('onLaunch检测重连接成功', res)
+                        console.log('聊天房间的onLoad检测重连接成功', res)
                         this.getMsgWss(option)
                         // clearInterval(interval)
                     },
                     fail: err => {
-                        console.log('onLaunch检测重连接失败', err)
+                        console.log('聊天房间的onLoad检测重连接失败', err)
                     }
 
                 });
@@ -110,18 +110,18 @@ export default {
                 uni.connectSocket({
                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                     success: res => {
-                        console.log('onLaunch检测重连接成功', res)
+                        console.log('聊天房间的onLoad检测重连接成功', res)
                         this.getMsgWss(option)
                         // clearInterval(interval)
                     },
                     fail: err => {
-                        console.log('onLaunch检测重连接失败', err)
+                        console.log('聊天房间的onLoad检测重连接失败', err)
                     }
 
                 });
             });
 
-        }, 2000)
+        }, 1000)
         this.chatType = option.chatType;
         this.roomName = option.roomName;
 
