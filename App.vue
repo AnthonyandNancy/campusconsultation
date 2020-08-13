@@ -35,7 +35,7 @@
         async onLaunch () {
 
 
-            console.log('onLaunch')
+            // console.log('onLaunch')
             //断网重连
             let interval = setInterval(() => {
                 let sign = constant.getUserSign()
