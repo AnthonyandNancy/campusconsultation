@@ -272,7 +272,7 @@
                                     data: privateChat,
                                     success: function () {
                                         console.log('私聊success');
-
+                                        uni.$emit('getPrivateLastChat', resDataMsg)
                                     },
                                     fail: err => {
                                         console.log(err)
