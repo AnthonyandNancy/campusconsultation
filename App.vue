@@ -10,7 +10,7 @@
             };
         },
         onHide() {
-
+            console.log('asdadad')
             // let sign = constant.getUserSign()
             // console.log('onHide检测链接', sign)
             // // uni.onSocketClose(() => {
@@ -33,54 +33,46 @@
         onLoad() {
 
         },
+        onShow() {
+            if ([2, 3].includes(this.wssType.readyState)) {
+                let interval = setInterval(() => {
+                    let sign = constant.getUserSign()
+                    // console.log(this.wssType)
+
+                    uni.getNetworkType({
+                        success: (res) => {
+                            let netType = res.networkType
+                            console.log(netType)
+                            if (netType == 'none') {
+                                console.log('1')
+                                uni.onNetworkStatusChange((res) => {
+                                    console.log(res.isConnected);
+                                    if (res.isConnected == true && res.networkType != "none") {
+                                        uni.connectSocket({
+                                            url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                            success: res => {
+                                                console.log('重连成功', res)
+                                                this.getMsgWss()
+                                            },
+                                            fail: err => {
+                                                console.log('重连成功失败', err)
+                                            }
+                                        });
+                                    }
+                                    console.log(res.networkType);
+                                });
+                            } else {
+                                console.log('2')
+                            }
+                        }
+                    });
+                }, 1000)
+            }
+
+        },
         async onLaunch() {
             // console.log('onLaunch')
             //断网重连
-            let interval = setInterval(() => {
-                let sign = constant.getUserSign()
-                // console.log(this.wssType)
-                // if ([2, 3].includes(this.wssType.readyState)) {
-                //     uni.connectSocket({
-                //         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                //         success: res => {
-                //             console.log('重连成功', res)
-                //             this.getMsgWss()
-                //
-                //         },
-                //         fail: err => {
-                //             console.log('重连成功失败', err)
-                //         }
-                //     });
-                // }
-                uni.getNetworkType({
-                    success: (res) => {
-                        let netType = res.networkType
-                        console.log(netType)
-                        if (netType == 'none') {
-                            console.log('1')
-                            uni.onNetworkStatusChange((res) => {
-                                console.log(res.isConnected);
-                                if (res.isConnected ==true &&res.networkType !="none"){
-                                    uni.connectSocket({
-                                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                                                success: res => {
-                                                    console.log('重连成功', res)
-                                                    this.getMsgWss()
-
-                                                },
-                                                fail: err => {
-                                                    console.log('重连成功失败', err)
-                                                }
-                                            });
-                                }
-                                console.log(res.networkType);
-                            });
-                        } else {
-                            console.log('2')
-                        }
-                    }
-                });
-            }, 1000)
 
 
             if (constant.getUserLogin().length != 0) {
@@ -222,12 +214,15 @@
                         }
                         let sign = resData.roomId
                         let userTag = 'chatList:' + sign
-
-
                         let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
                         uni.showTabBarRedDot({
                             index: 3,
                         })
+//重连后的消息判别
+//                         let option={
+//
+//                         }
+                        uni.$emit('getMsgWss')
 
                         if (chatGroupList.length != 0) {
                             chatGroupList.forEach(res => {
