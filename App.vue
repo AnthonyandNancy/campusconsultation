@@ -10,24 +10,24 @@
         },
         onHide() {
 
-            let sign = constant.getUserSign()
-            console.log('onHide检测链接', sign)
-            // uni.onSocketClose(() => {
-            let interval = setInterval(() => {
-                uni.connectSocket({
-                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                    success: res => {
-                        console.log('onHide检测重连接成功', res)
-                        this.getMsgWss()
-                        clearInterval(interval)
-                    },
-                    fail: err => {
-                        console.log('onHide检测重连接失败', err)
-                    }
-
-                });
-            }, 1000)
-            // })
+            // let sign = constant.getUserSign()
+            // console.log('onHide检测链接', sign)
+            // // uni.onSocketClose(() => {
+            // let interval = setInterval(() => {
+            //     uni.connectSocket({
+            //         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+            //         success: res => {
+            //             console.log('onHide检测重连接成功', res)
+            //             this.getMsgWss()
+            //             clearInterval(interval)
+            //         },
+            //         fail: err => {
+            //             console.log('onHide检测重连接失败', err)
+            //         }
+            //
+            //     });
+            // }, 1000)
+            // // })
         },
         onLoad() {
 
