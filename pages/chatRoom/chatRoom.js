@@ -693,18 +693,23 @@ export default {
 
         //群聊转单聊sign处理
         async toPrivateChat(sign, name, avatar) {
+            
+            if(this.chatType == 0){
+                return;
+            }
+
             console.log(sign, name)
             this.roomId = sign
             this.priName = name
 
-            //中间页\
+            //中间页
             const chatType = 0
 
-            
+
+
             uni.redirectTo({
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + sign + '&roomName=' + name + '&chatType=' + chatType + '&avatar=' + avatar
             })
-
 
             // uni.redirectTo({
             //     url: '/pages/chatRoom/chatRoom'

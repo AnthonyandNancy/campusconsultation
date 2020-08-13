@@ -223,17 +223,17 @@ export default {
                         this.privateChatList = [...a,...b];
                         uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }else if(this.privateChatList.length > json.data.friendList.length){
-                        let a = json.data.friendList;
-                        let b = uni.getStorageSync('CHAT_FRIEND_LIST');
-
-                        for (var i = 0; i < b.length; i++) {
-                            for (var j = 0; j < a.length; j++) {
-                                if (a[j].friend__sign == b[i].friend__sign) {
-                                    a.splice(j, b.length);
-                                    j = j - 1;
-                                }
-                            }
-                        }
+                        // let a = json.data.friendList;
+                        // let b = uni.getStorageSync('CHAT_FRIEND_LIST');
+                        //
+                        // for (var i = 0; i < b.length; i++) {
+                        //     for (var j = 0; j < a.length; j++) {
+                        //         if (a[j].friend__sign == b[i].friend__sign) {
+                        //             a.splice(j, b.length);
+                        //             j = j - 1;
+                        //         }
+                        //     }
+                        // }
                         console.log('好友被删除了 看缓存的数据=======>',a)
                         console.log('好友被删除了 看线上回来的数据=======>',b)
                         // this.privateChatList = [...a,...b];
