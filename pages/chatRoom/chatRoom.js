@@ -77,14 +77,14 @@ export default {
             //路径识别
             pathType: 0,
             shareType: 1,
-            chatType:0 //聊天类型 0 私聊 1群聊 与接口相反
+            chatType: 0 //聊天类型 0 私聊 1群聊 与接口相反
         };
     },
     onLoad(option) {
 
         //断网重连
         let interval = setInterval(() => {
-            let sign = constant.getUserSign()
+            let sign = user.getUserSign()
             console.log('onLaunch检测链接', sign)
             uni.onSocketClose(() => {
 
@@ -92,7 +92,7 @@ export default {
                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                     success: res => {
                         console.log('onLaunch检测重连接成功', res)
-                        this.getMsgWss()
+                        this.getMsgWss(option)
                         // clearInterval(interval)
                     },
                     fail: err => {
@@ -104,13 +104,13 @@ export default {
             })
 
 
-            uni.onSocketError( (res) =>{
+            uni.onSocketError((res) => {
                 console.log('WebSocket连接打开失败，请检查！');
                 uni.connectSocket({
                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                     success: res => {
                         console.log('onLaunch检测重连接成功', res)
-                        this.getMsgWss()
+                        this.getMsgWss(option)
                         // clearInterval(interval)
                     },
                     fail: err => {
@@ -121,62 +121,7 @@ export default {
             });
 
         }, 2000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         this.chatType = option.chatType;
-
-        //判断是否来自分享
-        if (option.pathType != undefined || option.pathType == 'share') {
-
-            setTimeout(() => {
-                try {
-                    const value = uni.getStorageSync('USER_SIGN');
-                    if (value) {
-                        console.log('异步拿到USER_SIGN》', value);
-                        this.userInfoSign = value
-                    }
-                } catch (e) {
-                    // error
-                }
-            }, 1500)
-            this.pathType = 1;
-            if (user.getIsAuthor()) {
-                this.pathType = 0;
-            }
-            uni.$on('getGroupChat', (chatMsg) => {
-                let res = chatMsg
-                if (res.sign != this.userInfoSign) {
-                    this.msgList.push(res)
-                }
-                if (res.chatType == 1 && res.type != 'my') {
-                    this.msgImgList.push(res)
-                }
-            })
-
-        }
-
-
         this.roomName = option.roomName;
 
 
@@ -187,7 +132,7 @@ export default {
         this.userInfoSign = user.getUserSign()
         this.schoolName = this.userInfo.schoolName
         console.log('用户信息', this.userInfo)
-
+        this.getMsgWss(option)
 
         //option的chatType = 1是群聊
         //roomType	number  0（或者不传） 群聊；1 单聊
@@ -195,350 +140,7 @@ export default {
         // roomName: "高考助力"
         // roomSign: "1c40e1da4b4fc766870f613240797e50"
         // userName: "Anthony"
-        let sign = option.roomSign
-        let userTag = 'chatList:' + sign
-        let name = option.roomName
-        const chatType = option.chatType
-        console.log('当前的聊天的', chatType)
 
-        if (chatType == 1) {
-            //分享的状态
-            this.shareType = 1
-            console.log('群聊的聊天的', chatType)
-            this.roomSign = option.roomSign;
-            console.log('onLoad', option)
-            this.getMsgList(this.roomSign);
-
-            uni.setNavigationBarTitle({
-                title: option.roomName
-            });
-            console.log('群聊的option.chatType', option.chatType)
-            this.roomType = 0
-            this.roomId = option.roomSign
-            //欢迎进入聊天
-            this.systemSendMessage(this.userName)
-            uni.onSocketMessage(async (res) => {
-
-                // this.getMsg.push(JSON.parse(res.data))
-                const resData = JSON.parse(res.data)
-                const resMsg = JSON.parse(res.data).message
-                this.getSign = JSON.parse(res.data).sign
-                const resMsgRoomId = JSON.parse(res.data).roomId
-                const resRoomType = JSON.parse(res.data).roomType
-
-
-                if (resRoomType == 0) {
-                    if (resMsg.type == 'system') {
-                        console.log('>>>>>>>>>>>', resMsg.type)
-                    } else {
-                        resMsg.type = 'orther'
-                    }
-
-
-                    if (this.roomId == resMsgRoomId) {
-                        if (this.getSign != this.userInfoSign) {
-                            console.log('当前聊天群聊', this.roomSign)
-                            this.msgList.push(resMsg)
-                            const getLength = this.msgList.length
-                            this.scrollTop = 1500 * getLength
-                            console.log('wss-群聊回来的数据1>1', JSON.parse(res.data))
-                            console.log('wss-群聊回来的本地数据2>2', this.msgList)
-                            uni.showTabBarRedDot({
-                                index: 3,
-                            })
-                            let json = await api.getGroupChatList({
-                                query: {
-                                    sign: user.getUserSign()
-                                }
-                            })
-
-                            json.data.roomList.forEach(chatGroup => {
-                                if (resMsgRoomId == chatGroup.room__roomSign) {
-                                    chatGroup['hasNewMsg'] = true;
-                                }
-                            })
-
-
-                            uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
-
-                            //进入页面时，群聊消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
-                            //缓存历史
-                            const userTag = 'chatList:' + this.roomSign
-                            uni.setStorage({
-                                key: userTag,
-                                data: this.msgList,
-                                success: function () {
-                                    console.log('群聊缓存success');
-                                }
-                            });
-                        } else {
-                            //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
-                            console.log('这是自己的消息', resMsg)
-                        }
-
-                    } else {
-                        console.log('在一个群聊中收到来自别的群聊消息')
-                        uni.showTabBarRedDot({
-                            index: 3,
-                        })
-                        // if ( resMsg.type == 'system'){
-                        //     console.log('>>>>>>>>>>>',resMsg.type)
-                        // } else {
-                        //     resMsg.type = 'orther'
-                        // }
-                        const userTag = 'chatList:' + resMsgRoomId
-                        uni.getStorage({
-                            key: userTag,
-                            success: async (res) => {
-                                //在个人界面收到群聊信息
-                                console.log('//在一个群聊中收到来自别的群聊消息检查内存', res.data);
-                                var jshouMsg = res.data
-                                jshouMsg.push(resMsg)
-                                console.log(jshouMsg)
-
-                                let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-
-                                chatGroupList.forEach(chatGroup => {
-                                    if (resMsgRoomId == chatGroup.room__roomSign) {
-                                        chatGroup['hasNewMsg'] = true;
-                                    }
-                                })
-
-
-                                uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
-
-                                //进入页面时，消息界面的红点需要页面中的连接来触发
-                                uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
-
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: jshouMsg,
-                                    success: function () {
-                                        console.log('在一个群聊中收到来自别的群聊消息success');
-
-                                    },
-                                    fail: err => {
-                                        console.log(err)
-
-                                    }
-                                });
-                            },
-                            fail: err => {
-                                let jshouMsg = []
-                                jshouMsg.push(resMsg)
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: jshouMsg,
-                                    success: function () {
-                                        console.log('在一个群聊中收到来自别的群聊消息检查存储success');
-                                    }
-                                });
-                            }
-                        });
-
-
-                    }
-                    if (resMsg.chatType == 1 && resMsg != 'my') {
-                        this.msgImgList.push(resMsg.content)
-                        //进入页面时，消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
-                    }
-
-                } else if (resRoomType == 1) {
-                    console.log('//在群聊界面收到私聊信息');
-                    resMsg.type = 'orther'
-                    const userTag = 'chatList:' + resData.sign
-                    console.log(userTag)
-                    uni.getStorage({
-                        key: userTag,
-                        success: (res) => {
-                            //在群聊界面收到私聊信息
-                            console.log('//在群聊界面收到私聊信息', res.data);
-                            var jshouMsg = res.data
-                            jshouMsg.push(resMsg)
-                            resMsg['hasPrivateNewMsg'] = true;
-
-                            //进入页面时，私聊消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getPrivateLastChat', resMsg)
-
-                            console.log(jshouMsg)
-                            uni.setStorage({
-                                key: userTag,
-                                data: jshouMsg,
-                                success: function () {
-                                    console.log('裙聊中存私聊缓存success');
-                                }
-                            });
-                        },
-                        fail: err => {
-                            console.log(err)
-                            let jshouMsg = []
-                            jshouMsg.push(resMsg)
-                            uni.setStorage({
-                                key: userTag,
-                                data: jshouMsg,
-                                success: function () {
-                                    console.log('裙聊中存私聊缓存success');
-                                }
-                            });
-                        }
-                    });
-                }
-
-            });
-
-
-        } else {
-            this.shareType = 0
-            console.log('私聊的option.chatType', option.chatType)
-            this.roomType = 1
-
-            //路人随机匹配
-            if (option.matching != undefined || option.matching != null) {
-                console.log('路人随机匹配')
-            }
-            this.roomId = option.roomSign
-            this.roomSign = option.roomSign
-            this.getMsgList(this.roomSign)
-            uni.setNavigationBarTitle({
-                title: option.roomName
-            });
-
-            uni.onSocketMessage((res) => {
-                const resData = JSON.parse(res.data)
-                console.log(resData)
-                const resMsg = JSON.parse(res.data).message
-                const getroomId = JSON.parse(res.data).sign
-                const resRoomType = JSON.parse(res.data).roomType
-                let length = this.msgList.length
-
-                resMsg.type = 'orther'
-
-                if (resRoomType == 1) {
-                    uni.showTabBarRedDot({
-                        index: 3
-                    })
-
-                    console.log('私聊')
-                    if (sign == getroomId) {
-                        this.msgList.push(resMsg)
-                        const userTag = 'chatList:' + getroomId
-                        console.log('wss-私聊回来的本地数据2', userTag)
-                        resMsg['hasPrivateNewMsg'] = true;
-
-                        //进入页面时，私聊消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getPrivateLastChat', resMsg)
-
-                        uni.setStorage({
-                            key: userTag,
-                            data: this.msgList,
-                            success: function () {
-                                console.log('私聊缓存success');
-                            }
-                        });
-                    } else {
-                        //缓存历史,收到其他人
-                        const userTag = 'chatList:' + getroomId
-                        console.log('wss-私聊回来的本地数据2', userTag)
-                        uni.getStorage({
-                            key: userTag,
-                            success: (res) => {
-                                //在个人界面收到群聊信息
-                                console.log('//在个人界面收到群聊信息', res.data);
-                                var jshouMsg = res.data
-                                jshouMsg.push(resMsg)
-                                console.log(jshouMsg)
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: jshouMsg,
-                                    success: function () {
-                                        console.log('私聊中其他人私聊缓存success');
-                                    },
-                                    fail: err => {
-                                        console.log(err)
-
-                                    }
-                                });
-                            },
-                            fail: err => {
-                                let list = []
-                                list.push(resMsg)
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: list,
-                                    success: function () {
-                                        console.log('私聊缓存success');
-                                    }
-                                });
-                            }
-                        });
-
-
-                    }
-
-                    if (resMsg.chatType == 1 && resMsg != 'my' && sign == getroomId) {
-                        this.msgImgList.push(resMsg.content)
-                        resMsg['hasPrivateNewMsg'] = true;
-
-                        //进入页面时，私聊消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getPrivateLastChat', resMsg);
-
-                    }
-                    const getLength = this.msgList.length
-                    this.scrollTop = 1500 * getLength
-                    console.log('wss-私聊回来的数据1>1', res.data)
-                    console.log('wss-私聊回来的本地数据2>2', this.msgList)
-
-
-                } else if (resRoomType == 0) {
-                    if (resMsg.type == 'system') {
-                        console.log('>>>>>>>>>>>', resMsg.type)
-                    } else {
-                        resMsg.type = 'orther'
-                    }
-                    const roomId = resData.roomId
-                    const userTag = 'chatList:' + roomId
-                    console.log(userTag)
-                    uni.getStorage({
-                        key: userTag,
-                        success: (res) => {
-                            //在个人界面收到群聊信息
-                            console.log('//在个人界面收到群聊信息', res.data);
-                            var jshouMsg = res.data
-                            jshouMsg.push(resMsg)
-                            console.log(jshouMsg)
-                            uni.setStorage({
-                                key: userTag,
-                                data: jshouMsg,
-                                success: function () {
-                                    console.log('私聊中存群聊缓存success');
-                                },
-                                fail: err => {
-                                    console.log(err)
-
-                                }
-                            });
-                        },
-                        fail: err => {
-                            let jshouMsg = []
-                            jshouMsg.push(resMsg)
-                            uni.setStorage({
-                                key: userTag,
-                                data: jshouMsg,
-                                success: function () {
-                                    console.log('私聊中存群聊缓存success');
-                                }
-                            });
-                        }
-                    });
-
-                }
-
-            });
-
-        }
 
         // 语音自然播放结束
         this.AUDIO.onEnded((res) => {
@@ -573,20 +175,20 @@ export default {
         let groupList = uni.getStorageSync('CHAT_GROUP_LIST');
         let privateList = uni.getStorageSync('CHAT_FRIEND_LIST');
 
-        if(this.chatType == 0){
-            privateList.forEach(res=>{
-                if(res.friend__sign == this.roomSign){
+        if (this.chatType == 0) {
+            privateList.forEach(res => {
+                if (res.friend__sign == this.roomSign) {
                     res.hasPrivateNewMsg = false;
                 }
             })
-            uni.setStorageSync('CHAT_FRIEND_LIST',privateList);
-        }else if(this.chatType == 1){
-            groupList.forEach(res=>{
-                if(res.room__roomSign == this.roomSign){
+            uni.setStorageSync('CHAT_FRIEND_LIST', privateList);
+        } else if (this.chatType == 1) {
+            groupList.forEach(res => {
+                if (res.room__roomSign == this.roomSign) {
                     res.hasNewMsg = false;
                 }
             })
-            uni.setStorageSync('CHAT_GROUP_LIST',groupList);
+            uni.setStorageSync('CHAT_GROUP_LIST', groupList);
         }
 
     },
@@ -607,6 +209,386 @@ export default {
         }
     },
     methods: {
+        getMsgWss(option) {
+            //判断是否来自分享
+            if (option.pathType != undefined || option.pathType == 'share') {
+
+                setTimeout(() => {
+                    try {
+                        const value = uni.getStorageSync('USER_SIGN');
+                        if (value) {
+                            console.log('异步拿到USER_SIGN》', value);
+                            this.userInfoSign = value
+                        }
+                    } catch (e) {
+                        // error
+                    }
+                }, 1500)
+                this.pathType = 1;
+                if (user.getIsAuthor()) {
+                    this.pathType = 0;
+                }
+                uni.$on('getGroupChat', (chatMsg) => {
+                    let res = chatMsg
+                    if (res.sign != this.userInfoSign) {
+                        this.msgList.push(res)
+                    }
+                    if (res.chatType == 1 && res.type != 'my') {
+                        this.msgImgList.push(res)
+                    }
+                })
+
+            }
+
+
+            let sign = option.roomSign
+            let userTag = 'chatList:' + sign
+            let name = option.roomName
+
+
+            const chatType = option.chatType
+            console.log('当前的聊天的', chatType)
+            if (chatType == 1) {
+                //分享的状态
+                this.shareType = 1
+                console.log('群聊的聊天的', chatType)
+                this.roomSign = option.roomSign;
+                console.log('onLoad', option)
+                this.getMsgList(this.roomSign);
+
+                uni.setNavigationBarTitle({
+                    title: option.roomName
+                });
+                console.log('群聊的option.chatType', option.chatType)
+                this.roomType = 0
+                this.roomId = option.roomSign
+                //欢迎进入聊天
+                this.systemSendMessage(this.userName)
+                uni.onSocketMessage(async (res) => {
+
+                    // this.getMsg.push(JSON.parse(res.data))
+                    const resData = JSON.parse(res.data)
+                    const resMsg = JSON.parse(res.data).message
+                    this.getSign = JSON.parse(res.data).sign
+                    const resMsgRoomId = JSON.parse(res.data).roomId
+                    const resRoomType = JSON.parse(res.data).roomType
+
+
+                    if (resRoomType == 0) {
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
+
+
+                        if (this.roomId == resMsgRoomId) {
+                            if (this.getSign != this.userInfoSign) {
+                                console.log('当前聊天群聊', this.roomSign)
+                                this.msgList.push(resMsg)
+                                const getLength = this.msgList.length
+                                this.scrollTop = 1500 * getLength
+                                console.log('wss-群聊回来的数据1>1', JSON.parse(res.data))
+                                console.log('wss-群聊回来的本地数据2>2', this.msgList)
+                                uni.showTabBarRedDot({
+                                    index: 3,
+                                })
+                                let json = await api.getGroupChatList({
+                                    query: {
+                                        sign: user.getUserSign()
+                                    }
+                                })
+
+                                json.data.roomList.forEach(chatGroup => {
+                                    if (resMsgRoomId == chatGroup.room__roomSign) {
+                                        chatGroup['hasNewMsg'] = true;
+                                    }
+                                })
+
+
+                                uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
+
+                                //进入页面时，群聊消息界面的红点需要页面中的连接来触发
+                                uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                                //缓存历史
+                                const userTag = 'chatList:' + this.roomSign
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: this.msgList,
+                                    success: function () {
+                                        console.log('群聊缓存success');
+                                    }
+                                });
+                            } else {
+                                //进入页面时，消息界面的红点需要页面中的连接来触发
+                                uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                                console.log('这是自己的消息', resMsg)
+                            }
+
+                        } else {
+                            console.log('在一个群聊中收到来自别的群聊消息')
+                            uni.showTabBarRedDot({
+                                index: 3,
+                            })
+                            // if ( resMsg.type == 'system'){
+                            //     console.log('>>>>>>>>>>>',resMsg.type)
+                            // } else {
+                            //     resMsg.type = 'orther'
+                            // }
+                            const userTag = 'chatList:' + resMsgRoomId
+                            uni.getStorage({
+                                key: userTag,
+                                success: async (res) => {
+                                    //在个人界面收到群聊信息
+                                    console.log('//在一个群聊中收到来自别的群聊消息检查内存', res.data);
+                                    var jshouMsg = res.data
+                                    jshouMsg.push(resMsg)
+                                    console.log(jshouMsg)
+
+                                    let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                                    chatGroupList.forEach(chatGroup => {
+                                        if (resMsgRoomId == chatGroup.room__roomSign) {
+                                            chatGroup['hasNewMsg'] = true;
+                                        }
+                                    })
+
+
+                                    uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+
+                                    //进入页面时，消息界面的红点需要页面中的连接来触发
+                                    uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: jshouMsg,
+                                        success: function () {
+                                            console.log('在一个群聊中收到来自别的群聊消息success');
+
+                                        },
+                                        fail: err => {
+                                            console.log(err)
+
+                                        }
+                                    });
+                                },
+                                fail: err => {
+                                    let jshouMsg = []
+                                    jshouMsg.push(resMsg)
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: jshouMsg,
+                                        success: function () {
+                                            console.log('在一个群聊中收到来自别的群聊消息检查存储success');
+                                        }
+                                    });
+                                }
+                            });
+
+
+                        }
+                        if (resMsg.chatType == 1 && resMsg != 'my') {
+                            this.msgImgList.push(resMsg.content)
+                            //进入页面时，消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                        }
+
+                    } else if (resRoomType == 1) {
+                        console.log('//在群聊界面收到私聊信息');
+                        resMsg.type = 'orther'
+                        const userTag = 'chatList:' + resData.sign
+                        console.log(userTag)
+                        uni.getStorage({
+                            key: userTag,
+                            success: (res) => {
+                                //在群聊界面收到私聊信息
+                                console.log('//在群聊界面收到私聊信息', res.data);
+                                var jshouMsg = res.data
+                                jshouMsg.push(resMsg)
+                                resMsg['hasPrivateNewMsg'] = true;
+
+                                //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                                uni.$emit('getPrivateLastChat', resMsg)
+
+                                console.log(jshouMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('裙聊中存私聊缓存success');
+                                    }
+                                });
+                            },
+                            fail: err => {
+                                console.log(err)
+                                let jshouMsg = []
+                                jshouMsg.push(resMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('裙聊中存私聊缓存success');
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                });
+
+
+            } else {
+                this.shareType = 0
+                console.log('私聊的option.chatType', option.chatType)
+                this.roomType = 1
+
+                //路人随机匹配
+                if (option.matching != undefined || option.matching != null) {
+                    console.log('路人随机匹配')
+                }
+                this.roomId = option.roomSign
+                this.roomSign = option.roomSign
+                this.getMsgList(this.roomSign)
+                uni.setNavigationBarTitle({
+                    title: option.roomName
+                });
+
+                uni.onSocketMessage((res) => {
+                    const resData = JSON.parse(res.data)
+                    console.log(resData)
+                    const resMsg = JSON.parse(res.data).message
+                    const getroomId = JSON.parse(res.data).sign
+                    const resRoomType = JSON.parse(res.data).roomType
+                    let length = this.msgList.length
+
+                    resMsg.type = 'orther'
+
+                    if (resRoomType == 1) {
+                        uni.showTabBarRedDot({
+                            index: 3
+                        })
+
+                        console.log('私聊')
+                        if (sign == getroomId) {
+                            this.msgList.push(resMsg)
+                            const userTag = 'chatList:' + getroomId
+                            console.log('wss-私聊回来的本地数据2', userTag)
+                            resMsg['hasPrivateNewMsg'] = true;
+
+                            //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getPrivateLastChat', resMsg)
+
+                            uni.setStorage({
+                                key: userTag,
+                                data: this.msgList,
+                                success: function () {
+                                    console.log('私聊缓存success');
+                                }
+                            });
+                        } else {
+                            //缓存历史,收到其他人
+                            const userTag = 'chatList:' + getroomId
+                            console.log('wss-私聊回来的本地数据2', userTag)
+                            uni.getStorage({
+                                key: userTag,
+                                success: (res) => {
+                                    //在个人界面收到群聊信息
+                                    console.log('//在个人界面收到群聊信息', res.data);
+                                    var jshouMsg = res.data
+                                    jshouMsg.push(resMsg)
+                                    console.log(jshouMsg)
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: jshouMsg,
+                                        success: function () {
+                                            console.log('私聊中其他人私聊缓存success');
+                                        },
+                                        fail: err => {
+                                            console.log(err)
+
+                                        }
+                                    });
+                                },
+                                fail: err => {
+                                    let list = []
+                                    list.push(resMsg)
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: list,
+                                        success: function () {
+                                            console.log('私聊缓存success');
+                                        }
+                                    });
+                                }
+                            });
+
+
+                        }
+
+                        if (resMsg.chatType == 1 && resMsg != 'my' && sign == getroomId) {
+                            this.msgImgList.push(resMsg.content)
+                            resMsg['hasPrivateNewMsg'] = true;
+
+                            //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getPrivateLastChat', resMsg);
+
+                        }
+                        const getLength = this.msgList.length
+                        this.scrollTop = 1500 * getLength
+                        console.log('wss-私聊回来的数据1>1', res.data)
+                        console.log('wss-私聊回来的本地数据2>2', this.msgList)
+
+
+                    } else if (resRoomType == 0) {
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
+                        const roomId = resData.roomId
+                        const userTag = 'chatList:' + roomId
+                        console.log(userTag)
+                        uni.getStorage({
+                            key: userTag,
+                            success: (res) => {
+                                //在个人界面收到群聊信息
+                                console.log('//在个人界面收到群聊信息', res.data);
+                                var jshouMsg = res.data
+                                jshouMsg.push(resMsg)
+                                console.log(jshouMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('私聊中存群聊缓存success');
+                                    },
+                                    fail: err => {
+                                        console.log(err)
+
+                                    }
+                                });
+                            },
+                            fail: err => {
+                                let jshouMsg = []
+                                jshouMsg.push(resMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('私聊中存群聊缓存success');
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+
+                });
+
+            }
+        },
+
+
         //时间处理
         replaceTime(time) {
             if (time < 10) {
@@ -699,7 +681,7 @@ export default {
                     }
                 },
                 fail(res) {
-                    constant.setIsAuthor(false)
+                    user.setIsAuthor(false)
                     user.isAuthor = false;
                 }
             });
@@ -1031,7 +1013,7 @@ export default {
                 });
 
 
-                const sign = constant.getUserLogin()
+                const sign = user.getUserLogin()
                 console.log('onHide检测链接失败', sign)
                 uni.onSocketClose(() => {
                     let interval = setInterval(() => {
@@ -1181,7 +1163,7 @@ export default {
                         type: 'error'
                     })
 
-                    const sign = constant.getUserLogin()
+                    const sign = user.getUserLogin()
                     console.log('onHide检测链接失败', sign)
                     uni.onSocketClose(() => {
                         let interval = setInterval(() => {
@@ -1322,7 +1304,7 @@ export default {
         },
         // 结束录音
         voiceEnd(e) {
-            const sign = constant.getUserLogin()
+            const sign = user.getUserLogin()
             console.log('onHide检测链接失败', sign)
             uni.onSocketClose(() => {
                 let interval = setInterval(() => {
