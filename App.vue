@@ -58,7 +58,7 @@
                 })
 
 
-                uni.onSocketError(function (res) {
+                uni.onSocketError( (res) =>{
                     console.log('WebSocket连接打开失败，请检查！');
                     uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
