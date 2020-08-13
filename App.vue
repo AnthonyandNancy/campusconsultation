@@ -101,6 +101,7 @@
                 }
             })
 
+            //针对不在消息界面的情况下，检测是否有小圆点，进行取消
             let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
             let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST')
             let groupObj = {};
@@ -126,6 +127,8 @@
                                 })
                             }
                         }
+                    }else{
+                        resolve();
                     }
                 }).then(res => {
                     if (chatFriendList.length != 0) {

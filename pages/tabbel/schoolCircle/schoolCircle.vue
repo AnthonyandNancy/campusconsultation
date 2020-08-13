@@ -87,6 +87,10 @@
                                             <u-button size="mini" @click="toPersionalChat(item1)">进入表白</u-button>
                                         </view>
 
+                                        <view class="Item publishTime" v-if="item1.type == 5 && userSign != item1.sign">
+                                            <u-button size="mini" @click="toPersionalChat(item1)">进入咨询</u-button>
+                                        </view>
+
                                         <view class="Item support_comment">
                                             <view class="shareIcon" @click="toShare(item1.dynamicSign)">
                                                 <button class="shareIconBtn" open-type="share"></button>

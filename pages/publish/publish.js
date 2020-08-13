@@ -422,6 +422,7 @@ export default {
                 }
             }
         },
+
         /*创建群聊*/
         async creatQun() {
             let userInfo = constant.getUserLogin();
@@ -510,7 +511,8 @@ export default {
                     this.tabsText = '个人杂物'
                     this.chooseTab = 5
                     this.commentType = 5
-                    this.dynamicType = 0
+                    this.dynamicType = 1
+                    this.chooseRoomId = this.userSign
                     this.showTag = true
                     this.chooseActiveTab = false
                     break;

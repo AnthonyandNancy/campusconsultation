@@ -38,7 +38,8 @@ export default {
         })
     },
     onShow() {
-        //界面显示时，遍历取消小红点
+
+        //界面显示时，遍历缓存中的数据，取消小红点
         let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
         let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST')
         let groupObj = {};
@@ -91,7 +92,7 @@ export default {
         })
 
 
-        //
+        //获取私聊和群聊数据
         this.userSign = constant.getUserSign();
         if (constant.getUserSign().length != 0) {
             this.getGroupChatList();
@@ -99,7 +100,7 @@ export default {
         }
 
 
-        //监听群聊
+        //监听群聊在全局或聊天窗口界面发来的消息，并修改hasNewMsg的状态，重新缓存
         uni.$on('getGroupChat', (res) => {
             this.groupChatList.forEach(chatGroup => {
                 if (res.roomSign == chatGroup.room__roomSign) {
@@ -109,7 +110,7 @@ export default {
             uni.setStorageSync('CHAT_GROUP_LIST', this.groupChatList);
         })
 
-        //监听私聊
+        //监听群聊在全局或聊天窗口界面发来的消息，并修改hasPrivateNewMsg的状态
         uni.$on('getPrivateLastChat', (res) => {
             this.privateChatList.forEach(friend => {
                 if (res.sign == friend.friend__sign) {
@@ -121,6 +122,7 @@ export default {
             uni.setStorageSync('CHAT_FRIEND_LIST', this.privateChatList);
         })
     },
+
     onReady() {
 
         uni.setStorageSync('IS_PREVIEW', false);
@@ -141,6 +143,7 @@ export default {
                     friend['hasPrivateNewMsg'] = res.hasPrivateNewMsg;
                 }
             })
+            this.privateChatList = uni.getStorageSync('CHAT_FRIEND_LIST');
         })
 
     },
@@ -201,6 +204,7 @@ export default {
                 if (uni.getStorageSync('CHAT_FRIEND_LIST').length == 0) {
                     this.privateChatList = json.data.friendList;
                     uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
+
                 } else {
 
                     if (this.privateChatList.length < json.data.friendList.length) {
@@ -217,28 +221,34 @@ export default {
                             }
                         }
                         this.privateChatList = [...a,...b];
-
+                        uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }else if(this.privateChatList.length > json.data.friendList.length){
+                        let a = json.data.friendList;
+                        let b = uni.getStorageSync('CHAT_FRIEND_LIST');
 
-                        // let a = json.data.friendList;
-                        // let b = uni.getStorageSync('CHAT_FRIEND_LIST');
-                        //
-                        // for (var i = 0; i < b.length; i++) {
-                        //     for (var j = 0; j < a.length; j++) {
-                        //         if (a[j].friend__sign == b[i].friend__sign) {
-                        //             a.splice(j, b.length);
-                        //             j = j - 1;
-                        //         }
-                        //     }
-                        // }
-                        // console.log('线上比缓存中的少的私聊数据列表',a);
-                    } else {
+                        for (var i = 0; i < b.length; i++) {
+                            for (var j = 0; j < a.length; j++) {
+                                if (a[j].friend__sign == b[i].friend__sign) {
+                                    a.splice(j, b.length);
+                                    j = j - 1;
+                                }
+                            }
+                        }
+                        console.log('好友被删除了 看缓存的数据=======>',a)
+                        console.log('好友被删除了 看线上回来的数据=======>',b)
+                        // this.privateChatList = [...a,...b];
+                        // uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
+                    }else {
+
                         console.log('从私聊界面返回================》》》》》')
                         let chatFList = uni.getStorageSync('CHAT_FRIEND_LIST');
+
                         chatFList.forEach(res => {
                             let strange = uni.getStorageSync('chatList:' + res.friend__sign);
+
                             if (strange.length != 0) {
-                                res['lastChatMsg'] = strange[strange.length - 1].content;
+                                let content = strange[strange.length - 1].content;
+                                res['lastChatMsg'] = content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':content;
                                 res['time'] = strange[strange.length - 1].time;
                             }
                         })
@@ -262,20 +272,26 @@ export default {
                     this.groupChatList = json.data.roomList;
                     uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
                 } else {
-
+                    //判断是否有新的好友加入
                     if(uni.getStorageSync('CHAT_GROUP_LIST').length < json.data.roomList.length ){
+
+                        console.log('有新的群聊加入========》')
+
                         let a = json.data.roomList;
                         let b = uni.getStorageSync('CHAT_GROUP_LIST');
 
                         for (var i = 0; i < b.length; i++) {
                             for (var j = 0; j < a.length; j++) {
-                                if (a[j].friend__sign == b[i].friend__sign) {
+                                if (a[j].room__roomSign == b[i].room__roomSign) {
                                     a.splice(j, b.length);
                                     j = j - 1;
                                 }
                             }
                         }
                         this.groupChatList = [...a,...b];
+                        uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
+                    }else if(uni.getStorageSync('CHAT_GROUP_LIST').length > json.data.roomList.length){
+
                     }else{
                         this.groupChatList = uni.getStorageSync('CHAT_GROUP_LIST');
                     }

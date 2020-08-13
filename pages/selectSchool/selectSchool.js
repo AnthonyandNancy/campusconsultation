@@ -30,6 +30,9 @@ export default {
             provinceValue: 0,
             cityValue: 0,
             schoolValue: 0,
+
+            locationProvince:'',
+            locationCity:''
         }
     },
     onLoad() {
@@ -69,9 +72,7 @@ export default {
                 that.getCurLocation()
             })
         } else {
-
             this.getCurLocation()
-
         }
         const query = uni.createSelectorQuery().in(this);
 
@@ -102,8 +103,8 @@ export default {
                                 pic: avatarUrl,
                                 gender: gender,
                                 country: country,
-                                province: province,
-                                city: city
+                                province: that.locationProvince,
+                                city: that.locationCity
                             }
                         })
                         if (json.data.errcode == 200) {
@@ -138,15 +139,20 @@ export default {
 
                 that.userSign = constant.getUserSign();
 
-                let province = json.data.msg.subdivisions || null;
-                let city = json.data.msg.city || null;
+                this.locationProvince = json.data.msg.subdivisions || null;
+                this.locationCity = json.data.msg.city || null;
+
+                if(this.locationProvince == null &&  this.locationCity == null){
+                    this.locationProvince = '北京市';
+                    this.locationCity = '北京市';
+                }
 
                 //获取该地址的学校信息
                 let schoolJson = await api.getSchoolList({
                     query: {
                         sign: that.userSign,
-                        province: province,
-                        city: city
+                        province: this.locationProvince,
+                        city: this.locationCity
                     }
                 })
 
