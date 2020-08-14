@@ -610,7 +610,11 @@ export default {
 
                         if (this.roomId == resMsgRoomId) {
                             if (this.getSign != this.userInfoSign) {
-
+                                if (resMsg.type == 'system') {
+                                    console.log('>>>>>>>>>>>', resMsg.type)
+                                } else {
+                                    resMsg.type = 'orther'
+                                }
                                 console.log('当前聊天群聊', this.roomSign)
                                 this.msgList.push(resMsg)
                                 const getLength = this.msgList.length
@@ -653,6 +657,11 @@ export default {
                             }
 
                         } else {
+                            if (resMsg.type == 'system') {
+                                console.log('>>>>>>>>>>>', resMsg.type)
+                            } else {
+                                resMsg.type = 'orther'
+                            }
                             console.log('在一个群聊中收到来自别的群聊消息')
                             uni.showTabBarRedDot({
                                 index: 3,
