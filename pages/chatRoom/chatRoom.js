@@ -207,7 +207,7 @@ export default {
                     console.log('>>>>', this.msgList)
 
                     if (resDataMsg.chatType == 1 && resDataMsg != 'my' && res.roomSign == this.userInfoSign) {
-                        this.msgImgList.push(resMsg.content)
+                        this.msgImgList.push(resDataMsg.content)
                         resDataMsg['hasPrivateNewMsg'] = true;
 
                         //进入页面时，私聊消息界面的红点需要页面中的连接来触发
