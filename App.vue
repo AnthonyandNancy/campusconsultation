@@ -44,11 +44,11 @@
                     uni.getNetworkType({
                         success: (res) => {
                             let netType = res.networkType
-                            console.log(netType)
+                            // console.log(netType)
                             if (netType == 'none') {
-                                console.log('1')
+                                // console.log('1')
                                 uni.onNetworkStatusChange((res) => {
-                                    console.log(res.isConnected);
+                                    // console.log(res.isConnected);
                                     if (res.isConnected == true && res.networkType != "none") {
                                         uni.connectSocket({
                                             url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
@@ -62,10 +62,10 @@
                                             }
                                         });
                                     }
-                                    console.log(res.networkType);
+                                    // console.log(res.networkType);
                                 });
                             } else {
-                                console.log("netType !== 'none'")
+                                // console.log("netType !== 'none'")
                             }
                         }
                     });

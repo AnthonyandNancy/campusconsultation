@@ -85,6 +85,11 @@ export default {
         uni.$on('getMsgWss', (res) => {
             // console.log('断网重连>>>>>>>>', res)
             const resDataMsg = res.newMSg.message
+            if (resDataMsg.type == 'system') {
+                console.log('>>>>>>>>>>>', resDataMsg.type)
+            } else {
+                resDataMsg.type = 'orther'
+            }
             console.log('断网重连',resDataMsg)
             if (res.roomSign == this.roomSign) {
                 console.log('res.roomSign == this.roomSign--------')
