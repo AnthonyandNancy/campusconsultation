@@ -6,7 +6,8 @@
         data() {
             return {
                 msgList: [],
-                wssType: {}
+                wssType: {},
+                newWssType: false
             };
         },
         onHide() {
@@ -35,8 +36,8 @@
         },
         onShow() {
 
-                let interval = setInterval(() => {
-                    if ([2, 3].includes(this.wssType.readyState)) {
+            let interval = setInterval(() => {
+                if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
                     // console.log(this.wssType)
 
@@ -53,6 +54,7 @@
                                             url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                             success: res => {
                                                 console.log('重连成功', res)
+                                                this.newWssType = true
                                                 this.getMsgWss()
                                             },
                                             fail: err => {
@@ -63,13 +65,12 @@
                                     console.log(res.networkType);
                                 });
                             } else {
-                                console.log('2')
+                                console.log("netType !== 'none'")
                             }
                         }
                     });
-                    }
-                }, 1000)
-
+                }
+            }, 1000)
 
 
         },
@@ -122,7 +123,7 @@
                                 })
                             }
                         }
-                    }else{
+                    } else {
                         resolve();
                     }
                 }).then(res => {
@@ -208,132 +209,141 @@
 
             getMsgWss() {
                 uni.onSocketMessage((res) => {
+                    //总消息处理
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
                     console.log(resData)
-                    if (resData.roomType == 0) {
 
-                        if (resDataMsg.type == 'system') {
-                            console.log('>>>>>>>>>>>', resDataMsg)
-                        } else {
-                            resDataMsg.type = 'orther'
-                        }
-                        let sign = resData.roomId
-                        let userTag = 'chatList:' + sign
-                        let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-                        uni.showTabBarRedDot({
-                            index: 3,
-                        })
 
+                    if (this.newWssType == true) {
                         //重连后的消息判别
                         let option = {
-                            roomSign:sign,
-                            roomName:resData.name,
-                            chatType:1
+                            roomSign: resData.roomId,
+                            roomName: resData.name,
+                            newMSg:resData
                         }
-                        uni.$emit('getMsgWss',option)
+                        uni.$emit('getMsgWss', option)
+                    } else {
 
-                        if (chatGroupList.length != 0) {
-                            chatGroupList.forEach(res => {
-                                if (res.room__roomSign == sign) {
-                                    res['hasNewMsg'] = true;
-                                }
+                        if (resData.roomType == 0) {
+
+                            if (resDataMsg.type == 'system') {
+                                console.log('>>>>>>>>>>>', resDataMsg)
+                            } else {
+                                resDataMsg.type = 'orther'
+                            }
+                            let sign = resData.roomId
+                            let userTag = 'chatList:' + sign
+                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+                            uni.showTabBarRedDot({
+                                index: 3,
                             })
-                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
-                        }
-                        uni.getStorage({
-                            key: userTag,
-                            success: async (res) => {
-                                let groupChat = res.data
-                                groupChat.push(resDataMsg)
-                                resDataMsg['roomSign'] = sign;
-                                uni.$emit('getGroupChat', resDataMsg)
 
 
-                                // 缓存历史
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: groupChat
-                                });
-                            },
-                            fail: (err) => {
-                                let groupChat = []
-                                groupChat.push(resDataMsg)
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: groupChat,
-                                    success: function () {
-                                        console.log('群聊success');
-
-                                    },
-                                    fail: err => {
-                                        console.log(err)
-
+                            if (chatGroupList.length != 0) {
+                                chatGroupList.forEach(res => {
+                                    if (res.room__roomSign == sign) {
+                                        res['hasNewMsg'] = true;
                                     }
-                                });
-                            }
-                        });
-                    } else if (resData.roomType == 1) {
-                        resDataMsg.type = 'orther'
-                        let sign = resData.sign
-                        let userTag = 'chatList:' + sign
-
-                        // 获取缓存的聊天消息
-                        uni.getStorage({
-                            key: userTag,
-                            success: (res) => {
-                                let privateChat = res.data
-                                privateChat.push(resDataMsg)
-                                resDataMsg['hasPrivateNewMsg'] = true;
-                                uni.$emit('getPrivateLastChat', resDataMsg)
-
-
-                                let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
-
-                                uni.showTabBarRedDot({
-                                    index: 3,
                                 })
-                                let option = {
-                                    roomSign:resData.sign,
-                                    roomName:resData.name,
-                                    chatType:0
-                                }
-
-                                uni.$emit('getMsgWss',option)
-
-                                if (PrivateLastChat.length != 0) {
-                                    PrivateLastChat.forEach(res => {
-                                        if (res.friend__sign == sign) {
-                                            res['hasPrivateNewMsg'] = true;
-                                        }
-                                    })
-                                    uni.setStorageSync('CHAT_FRIEND_LIST', PrivateLastChat);
-                                }
-
-                                // 缓存新的聊天历史记录
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: privateChat,
-                                    success: function () {
-                                        console.log('私聊success');
-                                        uni.$emit('getPrivateLastChat', resDataMsg)
-                                    },
-                                    fail: err => {
-                                        console.log(err)
-                                    }
-                                });
-                            },
-                            fail: (err) => {
-                                //缓存中没有历史,直接进行缓存
-                                let privateChat = []
-                                privateChat.push(resDataMsg)
-                                uni.setStorage({
-                                    key: userTag,
-                                    data: privateChat
-                                });
+                                uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
                             }
-                        });
+                            uni.getStorage({
+                                key: userTag,
+                                success: async (res) => {
+                                    let groupChat = res.data
+                                    groupChat.push(resDataMsg)
+                                    resDataMsg['roomSign'] = sign;
+                                    uni.$emit('getGroupChat', resDataMsg)
+
+
+                                    // 缓存历史
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: groupChat
+                                    });
+                                },
+                                fail: (err) => {
+                                    let groupChat = []
+                                    groupChat.push(resDataMsg)
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: groupChat,
+                                        success: function () {
+                                            console.log('群聊success');
+
+                                        },
+                                        fail: err => {
+                                            console.log(err)
+
+                                        }
+                                    });
+                                }
+                            });
+                        } else if (resData.roomType == 1) {
+                            resDataMsg.type = 'orther'
+                            let sign = resData.sign
+                            let userTag = 'chatList:' + sign
+
+                            // 获取缓存的聊天消息
+                            uni.getStorage({
+                                key: userTag,
+                                success: (res) => {
+                                    let privateChat = res.data
+                                    privateChat.push(resDataMsg)
+                                    resDataMsg['hasPrivateNewMsg'] = true;
+                                    uni.$emit('getPrivateLastChat', resDataMsg)
+
+
+                                    let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
+
+                                    uni.showTabBarRedDot({
+                                        index: 3,
+                                    })
+                                    let option = {
+                                        roomSign: resData.sign,
+                                        roomName: resData.name,
+                                        chatType: 0
+                                    }
+
+                                    uni.$emit('getMsgWss', option)
+
+                                    if (PrivateLastChat.length != 0) {
+                                        PrivateLastChat.forEach(res => {
+                                            if (res.friend__sign == sign) {
+                                                res['hasPrivateNewMsg'] = true;
+                                            }
+                                        })
+                                        uni.setStorageSync('CHAT_FRIEND_LIST', PrivateLastChat);
+                                    }
+
+                                    // 缓存新的聊天历史记录
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: privateChat,
+                                        success: function () {
+                                            console.log('私聊success');
+                                            uni.$emit('getPrivateLastChat', resDataMsg)
+                                        },
+                                        fail: err => {
+                                            console.log(err)
+                                        }
+                                    });
+                                },
+                                fail: (err) => {
+                                    //缓存中没有历史,直接进行缓存
+                                    let privateChat = []
+                                    privateChat.push(resDataMsg)
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: privateChat
+                                    });
+                                }
+                            });
+                        }
                     }
+
+
                 });
             }
         }

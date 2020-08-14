@@ -82,10 +82,8 @@ export default {
     },
 
     onLoad(option) {
-        uni.$on('getMsgWss', (res)=>{
-            console.log('111111111111111111111111111111111111111111111111',res)
-            // this.getMsgWss(res)
-            this.getMsgWss(res)
+        uni.$on('getMsgWss', (res) => {
+            console.log('断网重连>>>>>>>>',res)
         })
         //断网重连
         // let interval = setInterval(() => {
@@ -216,7 +214,7 @@ export default {
     methods: {
         //聊天接受消息
         getMsgWss(option) {
-            console.log('methods>>>>>>>>>',option)
+            console.log('methods>>>>>>>>>', option)
             //判断是否来自分享
             if (option.pathType != undefined || option.pathType == 'share') {
 
@@ -693,8 +691,8 @@ export default {
 
         //群聊转单聊sign处理
         async toPrivateChat(sign, name, avatar) {
-            
-            if(this.chatType == 0){
+
+            if (this.chatType == 0) {
                 return;
             }
 
@@ -704,7 +702,6 @@ export default {
 
             //中间页
             const chatType = 0
-
 
 
             uni.redirectTo({
