@@ -9,41 +9,89 @@
             </view>
         </div>
         <view class="aixin">
-            <view style="font-size: 24rpx; text-align: center; margin:40rpx 0;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~</view>
+            <view style="font-size: 24rpx; text-align: center; margin:40rpx 0;color: #ffff;">有时候爱情来自于缘分,这里可以找到你的有缘人哦~
+            </view>
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%); height: 50vh;width: 50vh;border: #AAAAAA solid  1rpx;border-radius: 50%; "></view>
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 40vh;width: 40vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 30vh;width: 30vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
             <view style="position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);height: 20vh;width: 20vh;border: #AAAAAA solid 1rpx;border-radius: 50%;"></view>
 
 
-            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 41%;left: 6%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3137788164,3047565970&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 26%;left: 43%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2176278262,3880914969&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 67%;left: 58%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1425556110,3594995578&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 35%;left: 75%;border-radius: 50%;" v-if="showOnce ==2"></image>
-            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3715266424,2105950746&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 39%;left: 54%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1408754782,2716501159&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 32%;left: 29%;border-radius: 50%;" v-if="showOnce ==2"></image>
-            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3010381143,3139585776&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 34%;left: 20%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2972292751,477878368&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 60%;left: 55%;border-radius: 50%;" v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3882965100,1215744740&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 41%;left: 6%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3137788164,3047565970&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 26%;left: 43%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2176278262,3880914969&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 67%;left: 58%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1425556110,3594995578&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 35%;left: 75%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3715266424,2105950746&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 39%;left: 54%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1408754782,2716501159&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 32%;left: 29%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
+            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3010381143,3139585776&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 34%;left: 20%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2972292751,477878368&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 60%;left: 55%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
 
 
-            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1491243003,3243338389&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 64%;left: 20%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2424276626,1818680797&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 71%;left: 43%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2877389213,2599167416&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 49%;left: 27%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3845519701,2443907131&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 32%;left: 78%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1555549871,3534027392&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 54%;left: 68%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2382918433,2255241348&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 71%;left: 46%;border-radius: 50%;" v-if="showOnce ==2"></image>
-            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=152159322,843580480&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 30%;left: 69%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2373957739,3101362962&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 57%;left: 50%;border-radius: 50%;" v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1491243003,3243338389&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 64%;left: 20%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2424276626,1818680797&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 71%;left: 43%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2877389213,2599167416&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 49%;left: 27%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3845519701,2443907131&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 32%;left: 78%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1555549871,3534027392&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 54%;left: 68%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2382918433,2255241348&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 71%;left: 46%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=152159322,843580480&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 30%;left: 69%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2373957739,3101362962&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 57%;left: 50%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
 
-            <image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1935305313,1780754080&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 50%;left: 6%;border-radius: 50%;" v-if="showOnce ==2"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=160904937,292575384&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 40%;left: 43%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3791410418,1422775378&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 38%;left: 27%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2196335857,1963202493&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 48%;left: 75%;border-radius: 50%;" v-if="showOnce ==2"></image>
-            <image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3307215210,3880575437&fm=11&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 37%;left: 78%;border-radius: 50%;" v-if="showOnce ==1"></image>
-            <image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1741910632,706818033&fm=11&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 54%;left: 30%;border-radius: 50%;" v-if="showOnce ==0"></image>
-            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2459304394,2737429761&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 30%;left: 66%;border-radius: 50%;" v-if="showOnce ==2"></image>
-            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3118284406,1254551003&fm=26&gp=0.jpg" style="width: 5vh;height: 5vh;position: absolute;top: 55%;left: 25%;border-radius: 50%;" v-if="showOnce ==2"></image>
-
+            <image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1935305313,1780754080&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 50%;left: 6%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=160904937,292575384&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 40%;left: 43%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3791410418,1422775378&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 38%;left: 27%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2196335857,1963202493&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 48%;left: 75%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
+            <image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3307215210,3880575437&fm=11&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 37%;left: 78%;border-radius: 50%;"
+                   v-if="showOnce ==1"></image>
+            <image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1741910632,706818033&fm=11&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 54%;left: 30%;border-radius: 50%;"
+                   v-if="showOnce ==0"></image>
+            <image src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2459304394,2737429761&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 30%;left: 66%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
+            <image src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3118284406,1254551003&fm=26&gp=0.jpg"
+                   style="width: 5vh;height: 5vh;position: absolute;top: 55%;left: 25%;border-radius: 50%;"
+                   v-if="showOnce ==2"></image>
 
 
             <view class="time">{{setTime}}</view>
@@ -54,22 +102,23 @@
 
         <u-popup height="100vh" mode="center" v-model="showChat" width="100%">
 
-            			<view style="width: 100%;height: 100vh;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);margin: 0;padding: 0;">
+            <view style="width: 100%;height: 100vh;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);margin: 0;padding: 0;">
 
 
-                                <view class="popLeft">
-                                    <image :src="leftsrc" class="leftsrc" size="50vh"></image>
-                                    <view>{{userName}}</view>
-                                </view>
+                <view class="popLeft">
+                    <image :src="leftsrc" class="leftsrc" size="50vh"></image>
+                    <view>{{userName}}</view>
+                </view>
 
-                                <view class="popRight">
-                                    <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
-                                    <view>{{matchingName}}</view>
-                                </view>
+                <view class="popRight">
+                    <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
+                    <view>{{matchingName}}</view>
+                </view>
 
-                            </view>
-                            <view style="font-size: 18px;color: #ffff;position: relative;top: -47vh;left: 15vh;">还有{{lastTime}}秒马上进入聊天室....</view>
-
+            </view>
+            <view style="font-size: 18px;color: #ffff;position: relative;top: -47vh;left: 15vh;">
+                还有{{lastTime}}秒马上进入聊天室....
+            </view>
 
 
         </u-popup>
@@ -89,19 +138,19 @@
                 setTime: 30,
                 time: null,
                 matchingTime: null,
-                matchingTimeInterval:null,
+                matchingTimeInterval: null,
                 showSetTime: false,
                 matchType: 1,
                 showChat: false,
                 leftsrc: '../../static/images/peoples.png',
                 Rightsrc: '../../static/images/peoples.png',
                 matchingNum: null,
-                showOnce:0,
+                showOnce: 0,
 
 
-                matchingName:'郭建林',
-                userName:'郭建林',
-                lastTime:3
+                matchingName: '郭建林',
+                userName: '郭建林',
+                lastTime: 3
             };
         },
         onLoad() {
@@ -112,12 +161,12 @@
 
             this.setImage()
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.setImage()
-            },10000)
-            setTimeout(()=>{
+            }, 10000)
+            setTimeout(() => {
                 this.setImage()
-            },20000)
+            }, 20000)
 
         },
         onUnload() {
@@ -127,44 +176,44 @@
         },
         methods: {
             /*头像闪烁*/
-            setImage(){
+            setImage() {
                 //第一次
-                setTimeout(()=>{
-                    this.showOnce=1
-                },1500)
+                setTimeout(() => {
+                    this.showOnce = 1
+                }, 1500)
 
-                setTimeout(()=>{
-                    this.showOnce=2
-                },2500)
+                setTimeout(() => {
+                    this.showOnce = 2
+                }, 2500)
 
-                setTimeout(()=>{
-                    this.showOnce=0
-                },3500)
+                setTimeout(() => {
+                    this.showOnce = 0
+                }, 3500)
 
-                setTimeout(()=>{
-                    this.showOnce=1
-                },4500)
+                setTimeout(() => {
+                    this.showOnce = 1
+                }, 4500)
 
-                setTimeout(()=>{
-                    this.showOnce=0
-                },5500)
+                setTimeout(() => {
+                    this.showOnce = 0
+                }, 5500)
 
-                setTimeout(()=>{
-                    this.showOnce=2
-                },6500)
+                setTimeout(() => {
+                    this.showOnce = 2
+                }, 6500)
 
-                setTimeout(()=>{
-                    this.showOnce=0
-                },7500)
+                setTimeout(() => {
+                    this.showOnce = 0
+                }, 7500)
 
 
-                setTimeout(()=>{
-                    this.showOnce=1
-                },8500)
+                setTimeout(() => {
+                    this.showOnce = 1
+                }, 8500)
 
-                setTimeout(()=>{
-                    this.showOnce=0
-                },9500)
+                setTimeout(() => {
+                    this.showOnce = 0
+                }, 9500)
 
 
             },
@@ -178,13 +227,12 @@
                 }, 1000)
 
 
-
                 //接口倒计时
                 this.matchingTime = setInterval(() => {
                     console.log('adad', this.setTime)
                     this.matchingTimeFun()
 
-                    if(this.setTime <= 0){
+                    if (this.setTime <= 0) {
                         //测试1
                         // this.matchingTimeGetFun()
                         // this.showChat = true
@@ -193,21 +241,19 @@
                         clearInterval(this.time)
                     }
                     let timesLeave = this.setTime;
-                    new  Promise((resolve, reject) => {
-                        if(this.setTime == 0){
+                    new Promise((resolve, reject) => {
+                        if (this.setTime == 0) {
                             --timesLeave;
                             resolve(timesLeave)
                             console.log('this.setTime == 0======>', timesLeave)
                         }
-                    }).then(res=>{
+                    }).then(res => {
                         if (res > -2) {
                             console.log('atimesLeave == -2dad======>', timesLeave)
                             // this.showChat=true
                             clearInterval(this.matchingTime)
                         }
                     })
-
-
 
 
                 }, 2000)
@@ -226,11 +272,11 @@
 
                 if (res.data.errcode == 200) {
                     this.aiXinSrc = '../../static/images/staticXin.png'
-                    var num=Math.random();
-                    this.matchingNum =(num.toFixed(2))*100;
+                    var num = Math.random();
+                    this.matchingNum = (num.toFixed(2)) * 100;
                     let userInfo = constant.getUserLogin()
-                    this.userName=userInfo.name
-                    this.matchingName=res.data.matchUser.name
+                    this.userName = userInfo.name
+                    this.matchingName = res.data.matchUser.name
                     this.leftsrc = userInfo.pic
                     this.Rightsrc = res.data.matchUser.pic
                     this.showChat = true
@@ -241,7 +287,7 @@
                         uni.redirectTo({
                             url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'matching'
                         });
-                        this.matchingNum=null
+                        this.matchingNum = null
                     }, 3000)
                 } else if (this.setTime <= 0) {
                     this.showSetTime = true
@@ -252,23 +298,21 @@
 
             },
 
-            matchingTimeGetFun(){
+            matchingTimeGetFun() {
                 console.log('匹配到时间倒计时')
                 //匹配到时间倒计时
                 let matchingTimeInterval = setInterval(() => {
-                    if (this.lastTime <=0){
+                    if (this.lastTime <= 0) {
                         console.log('清理匹配到时间倒计时')
                         clearInterval(matchingTimeInterval)
-                    }else {
+                    } else {
                         this.lastTime = this.lastTime - 1
                     }
-
 
 
                 }, 1000)
 
             },
-
 
 
             reStart() {
@@ -277,12 +321,12 @@
 
                 this.setIntervals()
                 this.setImage()
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.setImage()
-                },10000)
-                setTimeout(()=>{
+                }, 10000)
+                setTimeout(() => {
                     this.setImage()
-                },20000)
+                }, 20000)
             },
         }
     }
@@ -290,7 +334,8 @@
 
 <style lang="scss" scoped>
     @import '../../static/style.css';
-    .aixin{
+
+    .aixin {
         position: fixed;
         /*background-image: url("../../static/images/starrysky.jpg");*/
         /*background: url("https://game.xunyi.online/static/SchoolLian/bannerImg/1.jpg") no-repeat fixed center;*/
@@ -300,24 +345,25 @@
         right: 0;
         z-index: 1000;
     }
+
     .time {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
-        font-size: 50rpx;
+        transform: translate(-50%, -50%);
+        font-size: 50 rpx;
         text-align: center;
-        color: rgba(213 ,165, 253,0.9);
+        color: rgba(213, 165, 253, 0.9);
         font-weight: 600;
     }
 
-    .stars{
+    .stars {
         @for $i from 1 to 150 {
-            $myWidth:floor(3 + random() *(7-3)) + 'rpx !important';
+            $myWidth: floor(3 + random() *(7-3)) + 'rpx !important';
             .star#{$i} {
-                width:#{$myWidth};
+                width: #{$myWidth};
                 height: #{$myWidth};
-                transform: translate(#{floor(1 + random()  * (600 - 1)) + 'px'},#{floor(1 + random()  * (200 - 1)) + 'px'});
+                transform: translate(#{floor(1 + random()  * (600 - 1)) + 'px'}, #{floor(1 + random()  * (200 - 1)) + 'px'});
                 background-color: #FFFFFF;
                 border-radius: 100% !important;
             }
@@ -338,7 +384,6 @@
     }
 
 
-
     /*.reStart {*/
     /*    width: 100%;*/
     /*    height: 100%;*/
@@ -348,21 +393,21 @@
     /*    font-family: "Microsoft YaHei";*/
     /*}*/
 
-    .continue{
+    .continue {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         bottom: 10%;
-        width: 440rpx;
-        height: 100rpx;
-        background-color: rgba(213 ,165, 253,0.9);
+        width: 440 rpx;
+        height: 100 rpx;
+        background-color: rgba(213, 165, 253, 0.9);
         text-align: center;
-        color:#FFFFFF;
-        line-height: 100rpx;
+        color: #FFFFFF;
+        line-height: 100 rpx;
     }
 
 
-    .popLeft{
+    .popLeft {
         /*margin-top:31%;*/
         /*margin-left: 11%;*/
         position: relative;
@@ -373,6 +418,7 @@
         border-radius: 10vh;
         text-align: center;
         color: #ffff;
+
         .leftsrc {
             width: 20vh;
             height: 20vh;
@@ -381,18 +427,19 @@
         }
     }
 
-    .popRight{
+    .popRight {
         border-radius: 10vh;
         width: 20vh;
         height: 20vh;
         /*position: absolute;*/
         /*top: 31%;*/
         /*left: 56%;*/
-        margin-top:-22%;
+        margin-top: -22%;
         margin-left: 56%;
         text-align: center;
         color: #ffff;
     }
+
     .Rightsrc {
         /*border: #2B83FF solid;*/
         border-radius: 10vh;
@@ -425,11 +472,12 @@
         background-color: tomato;
 
     }
-    .middleImg:after{
+
+    .middleImg:after {
         content: "";
         position: absolute;
         top: 0px;
-        left: 33rpx;
+        left: 33 rpx;
         width: 5vh;
         height: 5vh;
         background-color: tomato;
