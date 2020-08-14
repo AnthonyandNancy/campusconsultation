@@ -77,6 +77,10 @@
         async onLaunch() {
             // console.log('onLaunch')
             //断网重连
+            uni.$on('closeAPPVueNewWssType',()=>{
+               this.newWssType=false
+                console.log('关闭了  //closeAPPVueNewWssType')
+            })
 
 
             if (constant.getUserLogin().length != 0) {
@@ -220,6 +224,7 @@
                         let option = {
                             roomSign: resData.roomId,
                             roomName: resData.name,
+                            roomType: resData.roomType,
                             newMSg:resData
                         }
                         uni.$emit('getMsgWss', option)

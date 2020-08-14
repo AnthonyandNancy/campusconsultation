@@ -90,63 +90,125 @@ export default {
             } else {
                 resDataMsg.type = 'orther'
             }
-            console.log('断网重连',resDataMsg)
-            if (res.roomSign == this.roomSign) {
-                console.log('res.roomSign == this.roomSign--------')
-                this.msgList.push(resDataMsg)
-                console.log('>>>>',this.msgList)
+            console.log('断网重连', resDataMsg)
+            if (res.roomType == 0) {
+                console.log('重连群聊')
+                if (res.roomSign == this.roomSign) {
+                    console.log('res.roomSign == this.roomSign--------')
+                    this.msgList.push(resDataMsg)
+                    console.log('>>>>', this.msgList)
+                } else {
+                    const userTag = 'chatList:' + res.roomSign
+                    console.log('重连后非本房间的roomSign', userTag)
+                    uni.getStorage({
+                        key: userTag,
+                        success: async (res) => {
+                            //重连后非本房间的
+                            console.log('重连后非本房间的历史消息', res.data);
+                            var jshouMsg = res.data
+                            jshouMsg.push(resDataMsg)
+                            console.log(jshouMsg)
+
+                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                            chatGroupList.forEach(chatGroup => {
+                                if (res.roomSign == chatGroup.room__roomSign) {
+                                    chatGroup['hasNewMsg'] = true;
+                                }
+                            })
+
+
+                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+
+                            //进入页面时，消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+
+                            uni.setStorage({
+                                key: userTag,
+                                data: jshouMsg,
+                                success: function () {
+                                    console.log('重连后非本房间的历史消息success');
+
+                                },
+                                fail: err => {
+                                    console.log(err)
+
+                                }
+                            });
+                        },
+                        fail: err => {
+                            let jshouMsg = []
+                            jshouMsg.push(resDataMsg)
+                            uni.setStorage({
+                                key: userTag,
+                                data: jshouMsg,
+                                success: function () {
+                                    console.log('重连后非本房间的历史消息success');
+                                }
+                            });
+                        }
+                    });
+                }
             } else {
-                const userTag = 'chatList:' + res.roomSign
-                console.log('重连后非本房间的roomSign', userTag)
-                uni.getStorage({
-                    key: userTag,
-                    success: async (res) => {
-                        //重连后非本房间的
-                        console.log('重连后非本房间的历史消息', res.data);
-                        var jshouMsg = res.data
-                        jshouMsg.push(resDataMsg)
-                        console.log(jshouMsg)
+                console.log('重连单聊')
+                if (res.roomSign == this.userInfoSign) {
+                    console.log('res.roomSign == this.roomSign--------')
+                    this.msgList.push(resDataMsg)
+                    console.log('>>>>', this.msgList)
+                } else {
+                    const userTag = 'chatList:' + res.roomSign
+                    console.log('重连后非本房间的roomSign', userTag)
+                    uni.getStorage({
+                        key: userTag,
+                        success: async (res) => {
+                            //重连后非本房间的
+                            console.log('重连后非本房间的历史消息', res.data);
+                            var jshouMsg = res.data
+                            jshouMsg.push(resDataMsg)
+                            console.log(jshouMsg)
 
-                        let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
 
-                        chatGroupList.forEach(chatGroup => {
-                            if (res.roomSign == chatGroup.room__roomSign) {
-                                chatGroup['hasNewMsg'] = true;
-                            }
-                        })
+                            chatGroupList.forEach(chatGroup => {
+                                if (res.roomSign == chatGroup.room__roomSign) {
+                                    chatGroup['hasNewMsg'] = true;
+                                }
+                            })
 
 
-                        uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
-                        //进入页面时，消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                            //进入页面时，消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
 
-                        uni.setStorage({
-                            key: userTag,
-                            data: jshouMsg,
-                            success: function () {
-                                console.log('重连后非本房间的历史消息success');
+                            uni.setStorage({
+                                key: userTag,
+                                data: jshouMsg,
+                                success: function () {
+                                    console.log('重连后非本房间的历史消息success');
 
-                            },
-                            fail: err => {
-                                console.log(err)
+                                },
+                                fail: err => {
+                                    console.log(err)
 
-                            }
-                        });
-                    },
-                    fail: err => {
-                        let jshouMsg = []
-                        jshouMsg.push(resDataMsg)
-                        uni.setStorage({
-                            key: userTag,
-                            data: jshouMsg,
-                            success: function () {
-                                console.log('重连后非本房间的历史消息success');
-                            }
-                        });
-                    }
-                });
+                                }
+                            });
+                        },
+                        fail: err => {
+                            let jshouMsg = []
+                            jshouMsg.push(resDataMsg)
+                            uni.setStorage({
+                                key: userTag,
+                                data: jshouMsg,
+                                success: function () {
+                                    console.log('重连后非本房间的历史消息success');
+                                }
+                            });
+                        }
+                    });
+                }
             }
+
         })
         //断网重连
         // let interval = setInterval(() => {
@@ -227,6 +289,10 @@ export default {
         uni.setStorageSync('IS_PREVIEW', false);
     },
     onUnload() {
+        //关闭app。vue的状态
+        uni.$emit('closeAPPVueNewWssType')
+
+
         const userTag = 'chatList:' + this.roomSign
         console.log('页面卸载', userTag)
         uni.setStorage({
