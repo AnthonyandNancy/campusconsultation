@@ -737,7 +737,7 @@ export default {
                 type: "system",
                 content: content,
                 chatType: 0,
-                sign:this.roomSign
+                sign: this.roomId
             }
             console.log('欢迎进入的聊天发送id', this.roomId)
             this.msgList.push(options)
