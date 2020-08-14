@@ -245,7 +245,10 @@
                             roomType: resData.roomType,
                             newMSg: resData
                         }
-                        uni.$emit('getMsgWss', option)
+                        setTimeout(()=>{
+                            uni.$emit('getMsgWss', option)
+                        },100)
+
 
                     } else {
                         console.log('走了(this.newWssType == falees)')
