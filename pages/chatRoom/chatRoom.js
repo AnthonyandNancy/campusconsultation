@@ -83,14 +83,7 @@ export default {
 
     onLoad(option) {
         uni.$on('getMsgWss', async (res) => {
-            // console.log('断网重连>>>>>>>>', res)
-            const resDataMsg = res.newMSg.message
-            if (resDataMsg.type == 'system') {
-                console.log('>>>>>>>>>>>', resDataMsg.type)
-            } else {
-                resDataMsg.type = 'orther'
-            }
-            console.log('断网重连', resDataMsg)
+            console.log('断网重连', res)
             const chatType = option.chatType
             //判断是否来自分享
             if (option.pathType != undefined || option.pathType == 'share') {
@@ -133,6 +126,11 @@ export default {
                 let getSign = resData.sign
                 const resMsgRoomId = resData.roomId
                 const resRoomType = resData.roomType
+                if (resMsg.type == 'system') {
+                    console.log('>>>>>>>>>>>', resMsg.type)
+                } else {
+                    resMsg.type = 'orther'
+                }
                 if (resRoomType == 0) {
                     if (resMsg.type == 'system') {
                         console.log('>>>>>>>>>>>', resMsg.type)
@@ -145,7 +143,7 @@ export default {
                             this.msgList.push(resMsg)
                             const getLength = this.msgList.length
                             this.scrollTop = 1500 * getLength
-                            console.log('wss-重连后群聊回来的数据1>1', JSON.parse(res.data))
+                            console.log('wss-重连后群聊回来的数据1>1', resData)
                             console.log('wss-重连后群聊回来的本地数据2>2', this.msgList)
                             uni.showTabBarRedDot({
                                 index: 3,
@@ -183,6 +181,11 @@ export default {
                         }
 
                     } else {
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
                         console.log('重连后在一个群聊中收到来自别的群聊消息')
                         uni.showTabBarRedDot({
                             index: 3,
@@ -322,6 +325,11 @@ export default {
                             }
                         });
                     } else {
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
                         //缓存历史,收到其他人
                         const userTag = 'chatList:' + getroomId
                         console.log('wss-重连后私聊回来的本地数据2', userTag)
