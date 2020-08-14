@@ -91,7 +91,8 @@ export default {
                 resDataMsg.type = 'orther'
             }
             console.log('断网重连', resDataMsg)
-            if (res.roomType == 0) {
+            const chatType = option.chatType
+            if (chatType == 1) {
                 console.log('重连群聊')
                 if (res.roomSign == this.roomSign) {
                     if (resDataMsg.sign != this.userInfoSign) {
@@ -109,7 +110,7 @@ export default {
                         })
 
                         json.data.roomList.forEach(chatGroup => {
-                            if (res.roomSign== chatGroup.room__roomSign) {
+                            if (res.roomSign == chatGroup.room__roomSign) {
                                 chatGroup['hasNewMsg'] = true;
                             }
                         })
