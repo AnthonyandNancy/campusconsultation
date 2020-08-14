@@ -107,7 +107,7 @@ export default {
                             console.log('重连后非本房间的历史消息', res.data);
                             var jshouMsg = res.data
                             jshouMsg.push(resDataMsg)
-                            console.log(jshouMsg)
+                            // console.log(jshouMsg)
 
                             let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
 
@@ -121,7 +121,7 @@ export default {
                             uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
                             //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resMsg})
 
                             uni.setStorage({
                                 key: userTag,
@@ -179,7 +179,7 @@ export default {
                             uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
                             //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resMsg})
 
                             uni.setStorage({
                                 key: userTag,
