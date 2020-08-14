@@ -38,9 +38,6 @@
         onShow() {
 
 
-
-
-
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
@@ -83,11 +80,7 @@
 
         },
         async onLaunch() {
-            //监听关闭
-            uni.$on('closeAPPVueNewWssType',()=>{
-                console.log('监听到关闭状态')
-               this.newWssType=false
-            })
+
 
             // console.log('onLaunch')
             //断网重连
@@ -236,11 +229,11 @@
                     if (this.newWssType == true) {
                         if (resData.roomType == 0) {
                             this.roomId = resData.roomId
-							if (resDataMsg.type == 'system') {
-							    console.log('APP.Vue>>>>>>>>>>>', resDataMsg.type)
-							} else {
-							    resDataMsg.type = 'orther'
-							}
+                            if (resDataMsg.type == 'system') {
+                                console.log('APP.Vue>>>>>>>>>>>', resDataMsg.type)
+                            } else {
+                                resDataMsg.type = 'orther'
+                            }
                         } else {
                             this.roomId = resDataMsg.sign
                         }
