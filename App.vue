@@ -7,7 +7,8 @@
             return {
                 msgList: [],
                 wssType: {},
-                newWssType: false
+                newWssType: false,
+                roomId:''
             };
         },
         onHide() {
@@ -223,14 +224,20 @@
 
 
                     if (this.newWssType == true) {
+                        if (resData.roomType ==0){
+                            this.roomId=  resData.roomId
+                        }else {
+                           this.roomId=  resDataMsg.sign
+                        }
                         //重连后的消息判别
                         let option = {
-                            roomSign: resData.roomId,
+                            roomSign: this.roomId,
                             roomName: resData.name,
                             roomType: resData.roomType,
                             newMSg:resData
                         }
                         uni.$emit('getMsgWss', option)
+
                     } else {
 
                         if (resData.roomType == 0) {
