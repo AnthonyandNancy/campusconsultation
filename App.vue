@@ -48,8 +48,10 @@
                             if (netType == 'none') {
                                 // console.log('1')
                                 uni.onNetworkStatusChange((res) => {
-                                    // console.log(res.isConnected);
+
                                     if (res.isConnected == true && res.networkType != "none") {
+                                        console.log('是否重连联网1>1',res.isConnected);
+                                        console.log('是否重连联网2>2',res.networkType);
                                         uni.connectSocket({
                                             url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                             success: res => {
@@ -62,7 +64,7 @@
                                             }
                                         });
                                     }
-                                    // console.log(res.networkType);
+
                                 });
                             } else {
                                 // console.log("netType !== 'none'")
