@@ -37,6 +37,10 @@
         },
         onShow() {
 
+
+
+
+
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
@@ -79,6 +83,12 @@
 
         },
         async onLaunch() {
+            //监听关闭
+            uni.$on('closeAPPVueNewWssType',()=>{
+                console.log('监听到关闭状态')
+               this.newWssType=false
+            })
+
             // console.log('onLaunch')
             //断网重连
             uni.$on('closeAPPVueNewWssType', () => {
