@@ -78,7 +78,7 @@ export default {
             pathType: 0,
             shareType: 1,
             chatType: 0, //聊天类型 0 私聊 1群聊 与接口相反
-            iSmatching:''
+            iSmatching: ''
         };
     },
 
