@@ -89,6 +89,7 @@ export default {
             if (res.roomSign == this.roomSign) {
                 console.log('res.roomSign == this.roomSign--------')
                 this.msgList.push(resDataMsg)
+                console.log('>>>>',this.msgList)
             } else {
                 const userTag = 'chatList:' + res.roomSign
                 console.log('重连后非本房间的roomSign', userTag)
