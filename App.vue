@@ -227,6 +227,7 @@
 
 
                     if (this.newWssType == true) {
+                        console.log('走了(this.newWssType == true)')
                         if (resData.roomType == 0) {
                             this.roomId = resData.roomId
                             if (resDataMsg.type == 'system') {
@@ -247,7 +248,7 @@
                         uni.$emit('getMsgWss', option)
 
                     } else {
-
+                        console.log('走了(this.newWssType == falees)')
                         if (resData.roomType == 0) {
 
                             if (resDataMsg.type == 'system') {
