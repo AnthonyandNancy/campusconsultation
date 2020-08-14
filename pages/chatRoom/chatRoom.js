@@ -83,7 +83,62 @@ export default {
 
     onLoad(option) {
         uni.$on('getMsgWss', (res) => {
-            console.log('断网重连>>>>>>>>',res)
+            console.log('断网重连>>>>>>>>', res)
+            const resDataMsg = res.newMSg.message
+            if (res.roomSign == this.roomSign) {
+                this.msgList.push(resDataMsg)
+            } else {
+                const userTag = 'chatList:' + res.roomSign
+                console.log('重连后非本房间的roomSign', userTag)
+                uni.getStorage({
+                    key: userTag,
+                    success: async (res) => {
+                        //重连后非本房间的
+                        console.log('重连后非本房间的历史消息', res.data);
+                        var jshouMsg = res.data
+                        jshouMsg.push(resDataMsg)
+                        console.log(jshouMsg)
+
+                        let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                        chatGroupList.forEach(chatGroup => {
+                            if (res.roomSign == chatGroup.room__roomSign) {
+                                chatGroup['hasNewMsg'] = true;
+                            }
+                        })
+
+
+                        uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+
+                        //进入页面时，消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+
+                        uni.setStorage({
+                            key: userTag,
+                            data: jshouMsg,
+                            success: function () {
+                                console.log('重连后非本房间的历史消息success');
+
+                            },
+                            fail: err => {
+                                console.log(err)
+
+                            }
+                        });
+                    },
+                    fail: err => {
+                        let jshouMsg = []
+                        jshouMsg.push(resDataMsg)
+                        uni.setStorage({
+                            key: userTag,
+                            data: jshouMsg,
+                            success: function () {
+                                console.log('重连后非本房间的历史消息success');
+                            }
+                        });
+                    }
+                });
+            }
         })
         //断网重连
         // let interval = setInterval(() => {
