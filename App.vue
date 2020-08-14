@@ -8,7 +8,7 @@
                 msgList: [],
                 wssType: {},
                 newWssType: false,
-                roomId:''
+                roomId: ''
             };
         },
         onHide() {
@@ -49,11 +49,11 @@
                             if (netType == 'none') {
                                 // console.log('1')
                                 uni.onNetworkStatusChange((res) => {
-                                    console.log('是否重连联网1>1',res.isConnected);
-                                    console.log('是否重连联网2>2',res.networkType);
+                                    console.log('是否重连联网1>1', res.isConnected);
+                                    console.log('是否重连联网2>2', res.networkType);
                                     if (res.isConnected == true && res.networkType != "none") {
-                                        console.log('是否重连联网1>1>1',res.isConnected);
-                                        console.log('是否重连联网2>2>2',res.networkType);
+                                        console.log('是否重连联网1>1>1', res.isConnected);
+                                        console.log('是否重连联网2>2>2', res.networkType);
                                         uni.connectSocket({
                                             url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                             success: res => {
@@ -81,8 +81,8 @@
         async onLaunch() {
             // console.log('onLaunch')
             //断网重连
-            uni.$on('closeAPPVueNewWssType',()=>{
-               this.newWssType=false
+            uni.$on('closeAPPVueNewWssType', () => {
+                this.newWssType = false
                 console.log('关闭了  //closeAPPVueNewWssType')
             })
 
@@ -224,17 +224,17 @@
 
 
                     if (this.newWssType == true) {
-                        if (resData.roomType ==0){
-                            this.roomId=  resData.roomId
-                        }else {
-                           this.roomId=  resDataMsg.sign
+                        if (resData.roomType == 0) {
+                            this.roomId = resData.roomId
+                        } else {
+                            this.roomId = resDataMsg.sign
                         }
                         //重连后的消息判别
                         let option = {
                             roomSign: this.roomId,
                             roomName: resData.name,
                             roomType: resData.roomType,
-                            newMSg:resData
+                            newMSg: resData
                         }
                         uni.$emit('getMsgWss', option)
 

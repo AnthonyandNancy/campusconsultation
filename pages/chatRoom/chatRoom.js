@@ -92,105 +92,199 @@ export default {
             }
             console.log('断网重连', resDataMsg)
             const chatType = option.chatType
+            //判断是否来自分享
+            if (option.pathType != undefined || option.pathType == 'share') {
+
+                setTimeout(() => {
+                    try {
+                        const value = uni.getStorageSync('USER_SIGN');
+                        if (value) {
+                            console.log('异步拿到USER_SIGN》', value);
+                            this.userInfoSign = value
+                        }
+                    } catch (e) {
+                        // error
+                    }
+                }, 1500)
+                this.pathType = 1;
+                if (user.getIsAuthor()) {
+                    this.pathType = 0;
+                }
+                uni.$on('getGroupChat', (chatMsg) => {
+                    let res = chatMsg
+                    if (res.sign != this.userInfoSign) {
+                        this.msgList.push(res)
+                    }
+                    if (res.chatType == 1 && res.type != 'my') {
+                        this.msgImgList.push(res)
+                    }
+                })
+
+            }
+            let sign = option.roomSign
+            let userTag = 'chatList:' + sign
+            let name = option.roomName
+            console.log('当前的聊天的', chatType)
             if (chatType == 1) {
-                console.log('重连群聊')
-                if (res.roomSign == this.roomSign) {
-                    if (resDataMsg.sign != this.userInfoSign) {
-                        console.log('当前聊天群聊', res.roomSign)
-                        this.msgList.push(resDataMsg)
-                        const getLength = this.msgList.length
-                        this.scrollTop = 1500 * getLength
-                        uni.showTabBarRedDot({
-                            index: 3,
-                        })
-                        let json = await api.getGroupChatList({
-                            query: {
-                                sign: user.getUserSign()
-                            }
-                        })
-
-                        json.data.roomList.forEach(chatGroup => {
-                            if (res.roomSign == chatGroup.room__roomSign) {
-                                chatGroup['hasNewMsg'] = true;
-                            }
-                        })
-
-
-                        uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
-
-                        //进入页面时，群聊消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
-                        //缓存历史
-                        const userTag = 'chatList:' + res.roomSign
-                        uni.setStorage({
-                            key: userTag,
-                            data: this.msgList,
-                            success: function () {
-                                console.log('群聊缓存success');
-                            }
-                        });
-
-
-                        console.log('res.roomSign == this.roomSign--------')
+                //分享的状态
+                this.shareType = 1
+                const resData = res.newMSg
+                const resMsg = resData.message
+                let getSign = resData.sign
+                const resMsgRoomId = resData.roomId
+                const resRoomType = resData.roomType
+                if (resRoomType == 0) {
+                    if (resMsg.type == 'system') {
+                        console.log('>>>>>>>>>>>', resMsg.type)
                     } else {
-                        //进入页面时，消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
-                        console.log('这是自己的消息', resDataMsg)
+                        resMsg.type = 'orther'
                     }
+                    if (this.roomId == resMsgRoomId) {
+                        if (getSign != this.userInfoSign) {
+                            console.log('当前聊天群聊', this.roomSign)
+                            this.msgList.push(resMsg)
+                            const getLength = this.msgList.length
+                            this.scrollTop = 1500 * getLength
+                            console.log('wss-重连后群聊回来的数据1>1', JSON.parse(res.data))
+                            console.log('wss-重连后群聊回来的本地数据2>2', this.msgList)
+                            uni.showTabBarRedDot({
+                                index: 3,
+                            })
+                            let json = await api.getGroupChatList({
+                                query: {
+                                    sign: user.getUserSign()
+                                }
+                            })
 
-                    if (resDataMsg.chatType == 1 && resDataMsg != 'my') {
-                        this.msgImgList.push(resDataMsg.content)
-                        //进入页面时，消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
-                    }
-
-                } else {
-                    const userTag = 'chatList:' + res.roomSign
-                    console.log('重连后非本房间的roomSign', userTag)
-                    uni.getStorage({
-                        key: userTag,
-                        success: async (res) => {
-                            //重连后非本房间的
-                            console.log('重连后非本房间的历史消息', res.data);
-                            var jshouMsg = res.data
-                            jshouMsg.push(resDataMsg)
-                            // console.log(jshouMsg)
-
-                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-
-                            chatGroupList.forEach(chatGroup => {
-                                if (res.roomSign == chatGroup.room__roomSign) {
+                            json.data.roomList.forEach(chatGroup => {
+                                if (resMsgRoomId == chatGroup.room__roomSign) {
                                     chatGroup['hasNewMsg'] = true;
                                 }
                             })
 
 
-                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+                            uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
 
+                            //进入页面时，群聊消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                            //缓存历史
+                            const userTag = 'chatList:' + this.roomSign
+                            uni.setStorage({
+                                key: userTag,
+                                data: this.msgList,
+                                success: function () {
+                                    console.log('重连后群聊缓存success');
+                                }
+                            });
+                        } else {
                             //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
+                            uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                            console.log('重连后这是自己的消息', resMsg)
+                        }
 
+                    } else {
+                        console.log('重连后在一个群聊中收到来自别的群聊消息')
+                        uni.showTabBarRedDot({
+                            index: 3,
+                        })
+                        // if ( resMsg.type == 'system'){
+                        //     console.log('>>>>>>>>>>>',resMsg.type)
+                        // } else {
+                        //     resMsg.type = 'orther'
+                        // }
+                        const userTag = 'chatList:' + resMsgRoomId
+                        uni.getStorage({
+                            key: userTag,
+                            success: async (res) => {
+                                //在个人界面收到群聊信息
+                                console.log('//重连后在一个群聊中收到来自别的群聊消息检查内存', res.data);
+                                var jshouMsg = res.data
+                                jshouMsg.push(resMsg)
+                                console.log(jshouMsg)
+
+                                let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                                chatGroupList.forEach(chatGroup => {
+                                    if (resMsgRoomId == chatGroup.room__roomSign) {
+                                        chatGroup['hasNewMsg'] = true;
+                                    }
+                                })
+
+
+                                uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+
+                                //进入页面时，消息界面的红点需要页面中的连接来触发
+                                uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('重连后在一个群聊中收到来自别的群聊消息success');
+
+                                    },
+                                    fail: err => {
+                                        console.log(err)
+
+                                    }
+                                });
+                            },
+                            fail: err => {
+                                let jshouMsg = []
+                                jshouMsg.push(resMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('在一个群聊中收到来自别的群聊消息检查存储success');
+                                    }
+                                });
+                            }
+                        });
+
+
+                    }
+                    if (resMsg.chatType == 1 && resMsg != 'my') {
+                        this.msgImgList.push(resMsg.content)
+                        //进入页面时，消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resMsg})
+                    }
+
+                } else if (resRoomType == 1) {
+                    console.log('//重连后在群聊界面收到私聊信息');
+                    resMsg.type = 'orther'
+                    const userTag = 'chatList:' + resData.sign
+                    console.log(userTag)
+                    uni.getStorage({
+                        key: userTag,
+                        success: (res) => {
+                            //在群聊界面收到私聊信息
+                            console.log('//重连后在群聊界面收到私聊信息', res.data);
+                            var jshouMsg = res.data
+                            jshouMsg.push(resMsg)
+                            resMsg['hasPrivateNewMsg'] = true;
+
+                            //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                            uni.$emit('getPrivateLastChat', resMsg)
+
+                            console.log(jshouMsg)
                             uni.setStorage({
                                 key: userTag,
                                 data: jshouMsg,
                                 success: function () {
-                                    console.log('重连后非本房间的历史消息success');
-
-                                },
-                                fail: err => {
-                                    console.log(err)
-
+                                    console.log('重连后裙聊中存私聊缓存success');
                                 }
                             });
                         },
                         fail: err => {
+                            console.log(err)
                             let jshouMsg = []
-                            jshouMsg.push(resDataMsg)
+                            jshouMsg.push(resMsg)
                             uni.setStorage({
                                 key: userTag,
                                 data: jshouMsg,
                                 success: function () {
-                                    console.log('重连后非本房间的历史消息success');
+                                    console.log('重连后裙聊中存私聊缓存success');
                                 }
                             });
                         }
@@ -199,55 +293,110 @@ export default {
 
 
             } else {
-                console.log('重连单聊')
-                if (res.roomSign == this.userInfoSign) {
-                    console.log('res.roomSign == this.roomSign--------')
-                    this.msgList.push(resDataMsg)
-                    const getLength = this.msgList.length
-                    this.scrollTop = 1500 * getLength
-                    console.log('>>>>', this.msgList)
+                const resData = res.newMSg
+                const resMsg = resData.message
+                const getroomId = resData.sign
+                const resRoomType = resData.roomType
+                let length = this.msgList.length
+                resMsg.type = 'orther'
+                if (resRoomType == 1) {
+                    uni.showTabBarRedDot({
+                        index: 3
+                    })
 
-                    if (resDataMsg.chatType == 1 && resDataMsg != 'my' && res.roomSign == this.userInfoSign) {
-                        this.msgImgList.push(resDataMsg.content)
-                        resDataMsg['hasPrivateNewMsg'] = true;
+                    console.log('私聊')
+                    if (sign == getroomId) {
+                        this.msgList.push(resMsg)
+                        const userTag = 'chatList:' + getroomId
+                        console.log('wss-重连后私聊回来的本地数据2', userTag)
+                        resMsg['hasPrivateNewMsg'] = true;
 
                         //进入页面时，私聊消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getPrivateLastChat', resDataMsg);
+                        uni.$emit('getPrivateLastChat', resMsg)
+
+                        uni.setStorage({
+                            key: userTag,
+                            data: this.msgList,
+                            success: function () {
+                                console.log('重连后私聊缓存success');
+                            }
+                        });
+                    } else {
+                        //缓存历史,收到其他人
+                        const userTag = 'chatList:' + getroomId
+                        console.log('wss-重连后私聊回来的本地数据2', userTag)
+                        uni.getStorage({
+                            key: userTag,
+                            success: (res) => {
+                                //在个人界面收到群聊信息
+                                console.log('//重连后在个人界面收到群聊信息', res.data);
+                                var jshouMsg = res.data
+                                jshouMsg.push(resMsg)
+                                console.log(jshouMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: jshouMsg,
+                                    success: function () {
+                                        console.log('重连后私聊中其他人私聊缓存success');
+                                    },
+                                    fail: err => {
+                                        console.log(err)
+
+                                    }
+                                });
+                            },
+                            fail: err => {
+                                let list = []
+                                list.push(resMsg)
+                                uni.setStorage({
+                                    key: userTag,
+                                    data: list,
+                                    success: function () {
+                                        console.log('重连后私聊缓存success');
+                                    }
+                                });
+                            }
+                        });
+
 
                     }
 
-                } else {
-                    const userTag = 'chatList:' + res.roomSign
-                    console.log('重连后非本房间的roomSign', userTag)
+                    if (resMsg.chatType == 1 && resMsg != 'my' && sign == getroomId) {
+                        this.msgImgList.push(resMsg.content)
+                        resMsg['hasPrivateNewMsg'] = true;
+
+                        //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getPrivateLastChat', resMsg);
+
+                    }
+                    const getLength = this.msgList.length
+                    this.scrollTop = 1500 * getLength
+                    console.log('wss-重连后私聊回来的数据1>1', res.data)
+                    console.log('wss-重连后私聊回来的本地数据2>2', this.msgList)
+
+
+                } else if (resRoomType == 0) {
+                    if (resMsg.type == 'system') {
+                        console.log('>>>>>>>>>>>', resMsg.type)
+                    } else {
+                        resMsg.type = 'orther'
+                    }
+                    const roomId = resData.roomId
+                    const userTag = 'chatList:' + roomId
+                    console.log(userTag)
                     uni.getStorage({
                         key: userTag,
-                        success: async (res) => {
-                            //重连后非本房间的
-                            console.log('重连后非本房间的历史消息', res.data);
+                        success: (res) => {
+                            //在个人界面收到群聊信息
+                            console.log('//重连后在个人界面收到群聊信息', res.data);
                             var jshouMsg = res.data
-                            jshouMsg.push(resDataMsg)
+                            jshouMsg.push(resMsg)
                             console.log(jshouMsg)
-
-                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-
-                            chatGroupList.forEach(chatGroup => {
-                                if (res.roomSign == chatGroup.room__roomSign) {
-                                    chatGroup['hasNewMsg'] = true;
-                                }
-                            })
-
-
-                            uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
-
-                            //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
-
                             uni.setStorage({
                                 key: userTag,
                                 data: jshouMsg,
                                 success: function () {
-                                    console.log('重连后非本房间的历史消息success');
-
+                                    console.log('重连后私聊中存群聊缓存success');
                                 },
                                 fail: err => {
                                     console.log(err)
@@ -257,18 +406,22 @@ export default {
                         },
                         fail: err => {
                             let jshouMsg = []
-                            jshouMsg.push(resDataMsg)
+                            jshouMsg.push(resMsg)
                             uni.setStorage({
                                 key: userTag,
                                 data: jshouMsg,
                                 success: function () {
-                                    console.log('重连后非本房间的历史消息success');
+                                    console.log('重连后私聊中存群聊缓存success');
                                 }
                             });
                         }
                     });
+
                 }
+
+
             }
+
 
         })
         this.chatType = option.chatType;
