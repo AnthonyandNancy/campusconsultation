@@ -312,7 +312,7 @@ export default {
                             }
                         });
                     } else {
-                       
+
                         //缓存历史,收到其他人
                         const userTag = 'chatList:' + getroomId
                         console.log('wss-重连后私聊回来的本地数据2', userTag)
