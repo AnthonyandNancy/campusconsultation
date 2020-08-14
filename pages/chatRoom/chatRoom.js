@@ -176,20 +176,12 @@ export default {
                         }
 
                     } else {
-                        if (resMsg.type == 'system') {
-                            console.log('>>>>>>>>>>>', resMsg.type)
-                        } else {
-                            resMsg.type = 'orther'
-                        }
+
                         console.log('重连后在一个群聊中收到来自别的群聊消息')
                         uni.showTabBarRedDot({
                             index: 3,
                         })
-                        // if ( resMsg.type == 'system'){
-                        //     console.log('>>>>>>>>>>>',resMsg.type)
-                        // } else {
-                        //     resMsg.type = 'orther'
-                        // }
+
                         const userTag = 'chatList:' + resMsgRoomId
                         uni.getStorage({
                             key: userTag,
@@ -320,11 +312,7 @@ export default {
                             }
                         });
                     } else {
-                        if (resMsg.type == 'system') {
-                            console.log('>>>>>>>>>>>', resMsg.type)
-                        } else {
-                            resMsg.type = 'orther'
-                        }
+                       
                         //缓存历史,收到其他人
                         const userTag = 'chatList:' + getroomId
                         console.log('wss-重连后私聊回来的本地数据2', userTag)
@@ -639,11 +627,7 @@ export default {
                             uni.showTabBarRedDot({
                                 index: 3,
                             })
-                            // if ( resMsg.type == 'system'){
-                            //     console.log('>>>>>>>>>>>',resMsg.type)
-                            // } else {
-                            //     resMsg.type = 'orther'
-                            // }
+
                             const userTag = 'chatList:' + resMsgRoomId
                             uni.getStorage({
                                 key: userTag,
