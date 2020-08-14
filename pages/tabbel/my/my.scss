@@ -92,9 +92,6 @@
         }
         .userInfo{
           text-align: center;
-          //text-align: right;
-          //margin-bottom: 10rpx;
-          //padding-right: 10rpx;
         }
       }
       .avatar{
@@ -108,46 +105,8 @@
       }
     }
   }
-  /*.operationBox{
-    margin: 20rpx 25rpx;
-    border: 1px solid #ddd;
-    border-radius: 10rpx;
-    padding: 0 0 20rpx;
-    .moreTip{
-      border-bottom: 1px solid #ddd;
-      padding: 10rpx 0 10rpx 10rpx;
-      margin: 0 20rpx;
-      font-family: "Microsoft YaHei";
-      font-weight: 600;
-    }
-  }*/
-  /*.OperationFun{
-    display: flex;
-    padding: 20rpx 0 0;
 
-    .funItem{
-      flex: 1;
-      text-align: center;
-      .notice{
-        position: relative;
-        width: 50rpx;
-        margin: 0 auto;
-        .pointIcon{
-          position: absolute;
-          top: -10rpx;
-          right: -3rpx;
-          font-family: iconfont;
-          color: #ff0000;
-          font-size: 36rpx;
-        }
-      }
-    }
-  }*/
-  .dynamicList{
-    //height: 1000rpx;
-  }
   .myDynamic{
-    //padding: 0 25rpx;
     .tip{
       font-weight: 600;
       font-family: "Microsoft YaHei";

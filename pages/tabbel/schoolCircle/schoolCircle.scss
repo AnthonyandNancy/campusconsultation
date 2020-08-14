@@ -7,7 +7,6 @@
 
     .dynamInfo {
       display: flex;
-      //border-bottom: 1rpx solid rgba(0,0,0,0.1);
       .dynamInfoItem {
         flex: 1;
         margin: 15rpx 0;
@@ -99,9 +98,6 @@
           height: 230rpx;
         }
 
-        .image {
-          //height: 100px;
-        }
 
         .video {
           width: 0 !important;

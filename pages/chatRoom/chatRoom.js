@@ -77,7 +77,8 @@ export default {
             //路径识别
             pathType: 0,
             shareType: 1,
-            chatType: 0 //聊天类型 0 私聊 1群聊 与接口相反
+            chatType: 0, //聊天类型 0 私聊 1群聊 与接口相反
+            iSmatching:''
         };
     },
 
@@ -435,7 +436,7 @@ export default {
         // roomSign: "1c40e1da4b4fc766870f613240797e50"
         // userName: "Anthony"
 
-
+        this.iSmatching = option.matching;
         // 语音自然播放结束
         this.AUDIO.onEnded((res) => {
             this.playMsgid = null;
@@ -984,7 +985,7 @@ export default {
         //群聊转单聊sign处理
         async toPrivateChat(sign, name, avatar) {
 
-            if (this.chatType == 0) {
+            if (this.iSmatching == 'matching') {
                 return;
             }
 

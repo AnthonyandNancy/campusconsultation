@@ -32,32 +32,35 @@ export default {
         }
     },
     onLoad(){
+
         this.toLogin();
+
     },
     onReady() {
         uni.showLoading({
             title:'加载中...'
         })
+
         that = this;
         this.isAuthor = constant.getIsAuthor();
         let banner = constant.getUserLogin().banner;
         this.userSign= constant.getUserSign();
-        // banner.forEach(res=>{
-        //     this.bannerImg.push(res.pic);
-        // })
         this.bannerImg = banner;
 
-
-        uni.hideLoading();
+        if(this.bannerImg.length != 0){
+            uni.hideLoading();
+        }
     },
 
     methods: {
+
         toHotDynamicPage(index) {
             constant.setSelectType(index + 1)
             uni.switchTab({
                 url: '/pages/tabbel/schoolCircle/schoolCircle'
             })
         },
+
         toAuthor(){
             uni.getUserInfo({
                 provider: 'weixin',
@@ -67,9 +70,7 @@ export default {
                     that.isAuthor = true;
 
                     if (infoRes.errMsg == "getUserInfo:ok") {
-                        console.log('获取到的用户信息',infoRes)
                         constant.setUserInfo(infoRes.userInfo)
-
 
                         let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
                         let json = await api.updateUserInfo({
@@ -83,7 +84,6 @@ export default {
                                 city: city
                             }
                         })
-                        console.log('更新用户信息=====>',json)
                         if (json.data.errcode == 200) {
 
                             uni.showToast({

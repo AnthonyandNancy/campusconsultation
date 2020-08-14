@@ -5,7 +5,7 @@
                 <view class="notice" @click="toReadNotive">
                     <view class="notice_box">
                         <view class="noticeIcon">
-                            <image src="/static/images/notice.png" class="auto-img" ></image>
+                            <image src="/static/images/notice.png" class="auto-img"></image>
                         </view>
                         <text class="pointIcon" v-if="false">&#xe608;</text>
                     </view>
@@ -16,7 +16,8 @@
                                 @getuserinfo="toAuthor"></button>
                         <view class="avatar">
                             <image :src="userInfo.pic?userInfo.pic:'../../../static/images/avatar.png'"
-                                   style="width: 100%;height: 100%;border-radius: 100% !important;" mode="aspectFit"></image>
+                                   style="width: 100%;height: 100%;border-radius: 100% !important;"
+                                   mode="aspectFit"></image>
                         </view>
                     </view>
                     <view class="item nickNameItem">
@@ -75,7 +76,6 @@
             </view>
         </view>
 
-        <!--        <refresh ref="refresh" @dropOpen="dropOpen" @pullOpen="pullOpen" :drop="true" :pull="true">-->
 
         <view class="myDynamic" :style="{height: myDynamicViewH + 'px'}">
 
@@ -94,11 +94,12 @@
                     </view>
                     <view class="dynamicList">
 
-                        <dynamicCard  v-for="(item1,index1) in dynamicList" :key="index1"
+                        <dynamicCard v-for="(item1,index1) in dynamicList" :key="index1"
                                      :dynamic-obj="item1"
                                      :currentIndex="index1" :currentPageType="'mine'"
                                      @shareEvent="toShare" @commentEvent="toComment"
-                                     @supportEvent="toSupport" @showAllEvent="showAll(index1)" @toDetailEvent="dynamicDetail"></dynamicCard>
+                                     @supportEvent="toSupport" @showAllEvent="showAll(index1)"
+                                     @toDetailEvent="dynamicDetail"></dynamicCard>
                     </view>
                 </view>
             </load-refresh>

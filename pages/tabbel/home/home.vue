@@ -1,17 +1,7 @@
 <template>
     <view class="home_content">
         <view class="home_swiper">
-<!--            <mosowe-swiper-->
-<!--                    :lists="bannerImg"-->
-<!--                    :touchable="false"-->
-<!--                    indicator="dots"-->
-<!--                    :imageKey="image"-->
-<!--                    previewImage-->
-<!--                    pyramid-->
-<!--                    pyramidMargin="90rpx"/>-->
-<!--            @selected="selectedBanner"-->
             <carousel :img-list="bannerImg" url-key="pic" />
-
         </view>
 
         <view class="home_cart">

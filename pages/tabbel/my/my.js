@@ -25,13 +25,10 @@ export default {
             currPage:1,//当前的页数
             totalPage:0, //数据的总页数
             //refresh end
+
             isAuthor: Boolean,
-
-
             currentType:'my',
-
             getPrivateChatObj:{},
-
         };
     },
     onShareAppMessage() {
@@ -60,9 +57,6 @@ export default {
         this.userInfo = constant.getUserLogin();
     },
     onReady(){
-        // this.avatarBgImgUrl ='data:image/jpg;base64,'+ wx.getFileSystemManager().readFileSync(this.userInfo.pic, "base64");
-
-
         uni.setStorageSync('IS_PREVIEW',false);
         setTimeout(function () {
         },1500);
@@ -89,8 +83,6 @@ export default {
     methods:{
         //去修改个人信息修改页面、
         toEditDetail(val){
-            // console.log('去修改个人信息修改页面',val)
-            // url:"/pages/chatRoom/chatRoom?roomSign=" + roomSign + '&roomName=' + roomName + '&chatType=' + type + '&userName=' + constant.getUserInfo().name
             uni.navigateTo({
                 url: '/pages/personalPage/personalPage'
             });
@@ -172,7 +164,6 @@ export default {
                 }
             })
             if(json.data.errcode == 200){
-                console.log('获取所有动态列表===>',json)
                 this.totalPage = json.data.totalPage;
                 json.data.dynamicList.forEach((res) => {
                     res['isShowAllContent'] = false
@@ -201,7 +192,6 @@ export default {
 
         //展示全文
         showAll(index) {
-            console.log('11111111111111111',this.dynamicList)
 
             if (!this.dynamicList[index].isShowAllContent) {
                 this.dynamicList[index].isShowAllContent = true
@@ -230,7 +220,6 @@ export default {
                     mask: true,
                     icon: 'none'
                 })
-                console.log('----->分享成功', json)
             }
         },
 

@@ -26,71 +26,7 @@ export default {
             userSign: '',
             tab: 0,
             Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
-            tabsList: [
-                // {
-                //     id: 0,
-                //     title: '所有动态',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 1,
-                //     title: '热门动态',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 31,
-                //     title: '以书会友',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 36,
-                //     title: '校园爱情',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 32,
-                //     title: '百团大战',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 33,
-                //     title: '约起开黑',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 34,
-                //     title: '操场相见',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 35,
-                //     title: '个人杂物',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 35,
-                //     title: '热门校园',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-            ],
+            tabsList: [],
             currentSwiper: 0,
             systemInfo: {},
             //悬浮按钮 start
@@ -150,9 +86,6 @@ export default {
             path: '/pages/selectSchool/selectSchool',
             imageUrl: "/static/images/poster.png"
         }
-
-
-
     },
     onLoad() {
         that = this;
@@ -169,10 +102,6 @@ export default {
     onShow() {
 
         if(constant.getIsComment()){
-            // this.tabsList.forEach((res, index) => {
-            //     this.tabsList[index].dynamicList = [];
-            //     this.getAllDynamicList(index)
-            // })
             this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
                 if(res.dynamicSign == this.commentDySign){
                     res.commentTimes++;
@@ -227,16 +156,12 @@ export default {
         screenChange(e) {
 
             if(e.detail.fullScreen){
-                console.log('校圈全屏触发啦,开始播放')
                 setTimeout(res=>{
                     this.videoContext.play();
                 },200)
 
             }else{
                 this.videoUrl = '';
-                console.log('校圈全屏触发啦,暂停播放')
-                console.log('空了===>',this.videoUrl)
-
                 this.videoContext.stop()
             }
         },
@@ -269,7 +194,6 @@ export default {
         },
         trigger(val) {
             constant.setIsPublish(true);
-            console.log('点击悬浮按钮事件', val.index)
             let index = val.index
             if (index == 0) {
                 uni.navigateTo({
@@ -345,8 +269,6 @@ export default {
 
                 }
             })
-            console.log('添加好友', res, resFri)
-
 
             uni.navigateTo({
                 url: '/pages/chatRoom/chatRoom?roomSign=' + personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
@@ -355,7 +277,6 @@ export default {
         //所有动态
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
-            console.log(schoolName)
             uni.showLoading();
 
             if (this.tabsList[index].type == 37) {
@@ -369,7 +290,6 @@ export default {
                     uni.hideLoading();
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
                 }
-                console.log('111222聊天房间', chatGroupJson);
                 return;
             }
 
@@ -392,7 +312,6 @@ export default {
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
             }
-            console.log('tabsList======>', this.tabsList);
         },
 
         //进入动态详情页面
@@ -455,7 +374,6 @@ export default {
             })
 
             if (json.data.errcode == 200) {
-                console.log('11111111=>', this.currentSwiper)
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
                         res.likeTimes++;

@@ -23,71 +23,7 @@ export default {
             userSign: '',
             tab: 0,
             Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
-            tabsList: [
-                // {
-                //     id: 0,
-                //     title: '所有动态',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 1,
-                //     title: '热门动态',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 37,
-                //     title: '该校群聊',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 31,
-                //     title: '以书会友',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 36,
-                //     title: '校园爱情',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 32,
-                //     title: '百团大战',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 33,
-                //     title: '约起开黑',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 34,
-                //     title: '操场相见',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // },
-                // {
-                //     id: 35,
-                //     title: '个人杂物',
-                //     dynamicList: [],
-                //     currentPage: 1,
-                //     totalPage: 0
-                // }
-            ],
+            tabsList: [],
             currentSwiper: 0,
             systemInfo: {},
             //悬浮按钮 start
@@ -171,6 +107,7 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
+
     onLoad() {
         that = this;
         constant.setIsPublish(false);
@@ -188,10 +125,6 @@ export default {
         this.userSign = constant.getUserSign();
 
         if (constant.getIsComment()) {
-            // this.tabsList.forEach((res, index) => {
-            //     this.tabsList[index].dynamicList = [];
-            //     this.getAllDynamicList(index)
-            // })
             this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
                 if (res.dynamicSign == this.commentDySign) {
                     res.commentTimes++;
@@ -237,10 +170,10 @@ export default {
         })
 
     },
+
     methods: {
         showVideo(url) {
             this.videoUrl = url;
-            console.log('------------->', url);
 
             this.videoContext = wx.createVideoContext('videoId', this);
 
@@ -255,7 +188,6 @@ export default {
 
             } else {
                 this.videoUrl = '';
-                console.log('空了===>', this.videoUrl);
                 this.videoContext.stop()
             }
         },
@@ -287,7 +219,6 @@ export default {
         },
         trigger(val) {
             constant.setIsPublish(true);
-            console.log('点击悬浮按钮事件', val.index)
             let index = val.index
 
             if (index == 0) {
@@ -328,8 +259,6 @@ export default {
         //图片预览
         preViewImg(index, imgList) {
             this.tabsList[this.currentSwiper]
-            console.log('index', index);
-            console.log('imgList', imgList)
             constant.setIsPublish(false);
             uni.previewImage({
                 current: index,
@@ -510,7 +439,6 @@ export default {
                     mask: true,
                     icon: 'none'
                 })
-                console.log('----->分享成功', json)
             }
         },
         // 评论
@@ -543,27 +471,6 @@ export default {
                 })
             }
         },
-        // //获取我点赞的动态列表
-        // async getSupportList() {
-        //     let json = await api.getSupportList({
-        //         query: {
-        //             sign: this.userSign,
-        //             page: 1
-        //         }
-        //     })
-        //
-        //     if (json.data.errcode == 200) {
-        //         let supportList = json.data.dynamicList;
-        //         console.log(' 我点赞的列表', supportList)
-        //         for (let i = 0; i < this.tabsList[this.currentSwiper].dynamicList.length; i++) {
-        //             for (let j = 0; j < supportList.length; j++) {
-        //                 if (this.tabsList[this.currentSwiper].dynamicList[i].dynamicSign == supportList[j].dynamicSign) {
-        //                     this.$set(this.tabsList[this.currentSwiper].dynamicList[i], 'isMySupport', true)
-        //                 }
-        //             }
-        //         }
-        //     }
-        // },
         toAddChatRoom(dynamicObj) {
             let chatObj = dynamicObj
             uni.navigateTo({
@@ -588,7 +495,6 @@ export default {
 
                 }
             })
-            console.log('添加好友', res, resFri)
 
 
             uni.navigateTo({

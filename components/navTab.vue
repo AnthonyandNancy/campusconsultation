@@ -2,13 +2,15 @@
 	<view class="navTabBox">
 		<view class="longTab">
 			<scroll-view :scroll-left="tabLeft" scroll-with-animation scroll-x="true" style="white-space: nowrap; display: flex">
-<!--				:style='"width:"+isWidth+"px;"'-->
-				<view :class="index===tabClick?'click':''" :data-index="index"  :id="'id'+index" :key="index" @click="longClick(index)" class="longItem" style='padding:0 20rpx;' v-for="(item,index) in tabTitle">
 
-					{{item}}</view>
-<!--				<view class="underlineBox" :style='"transform:translateX("+isLeft+"px);width:"+isWidth+"px"'>-->
-<!--					<view class="underline"></view>-->
-<!--				</view>-->
+				<!--控制顶部导航之间的距离 :style='"width:"+isWidth+"px;"'-->
+				<view :class="index===tabClick?'click showPoint':'showPoint'" :data-index="index"  :id="'id'+index" :key="index" @click="longClick(index)" class="longItem" style='padding:0 20rpx;' v-for="(item,index) in tabTitle">
+					<view class="redPoint" v-if="item.hasGroupNewMsg"></view>
+					<view>{{item.title}}</view>
+				</view>
+				<view class="underlineBox" :style='"transform:translateX("+isLeft+"px);width:"+isWidth+"px"' v-if="false">
+					<view class="underline"></view>
+				</view>
 			</scroll-view>
 		</view>
 	</view>
@@ -80,6 +82,18 @@
 		.click {
 			color: #000;
 			font-size: 36rpx;
+		}
+		.showPoint{
+			position: relative;
+			.redPoint{
+				position: absolute;
+				background-color: #ff0000;
+				width: 15rpx;
+				height: 15rpx;
+				border-radius: 100%;
+				top: 25%;
+				right: 10rpx;
+			}
 		}
 		.longTab {
 			width: 100%;

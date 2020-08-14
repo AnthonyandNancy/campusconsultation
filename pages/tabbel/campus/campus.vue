@@ -46,7 +46,6 @@
                                     </view>
 
                                     <view class="dynamInfoItem" @click="showVideo(item1.video)">
-<!--                                    <view class="dynamInfoItem" @click="showVideo('videoId'+index,item1.video)">-->
                                         <view class="videoIcon" v-if="item1.video != null">
                                             <image src="/static/images/videoIcon.png" class="auto-img"></image>
                                         </view>
@@ -71,19 +70,7 @@
                                             <image :src="imgItem" class="auto-img" lazy-load
                                                    mode="aspectFill"></image>
                                         </view>
-<!--                                        <view v-if="item1.video != null">-->
-<!--                                            &lt;!&ndash;style="display: none"  ios   style="display: inline !important;"&ndash;&gt;-->
-<!--                                            <view>-->
-<!--                                                <video style="height: 0 !important;width: 0 !important;display: inline;" :id="'dynamicVideo'+index" object-fit="cover" controls-->
-<!--                                                       :src="item1.video" @fullscreenchange="screenChange"></video>-->
-<!--                                                &lt;!&ndash;dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"&ndash;&gt;-->
-<!--                                            </view>-->
-<!--                                        </view>-->
-<!--                                        <view v-if="item1.video != null">-->
-<!--                                        </view>-->
-
                                     </view>
-
                                     <view v-if="item1.audio != null">
 
                                         <luchAudio :src="item1.audio" :play.sync="audioPlay"
@@ -98,11 +85,11 @@
                                           v-if="item.type != 36 && item.type != 35 && item1.roomId != null && item1.type != 6 && item1.type != 5">
                                         <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
                                     </view>
-                                    <view class="Item publishTime" v-if="item.type == 36 && userSign != item1.sign">
+                                    <view class="Item publishTime" v-if="item.type == 36 &&  item1.type == 6 && userSign != item1.sign">
                                         <u-button size="mini" @click="toPersionalChat(item1)">进入表白</u-button>
                                     </view>
                                     <view class="Item publishTime" v-if="item1.type == 5 && userSign != item1.sign">
-                                        <u-button size="mini" @click="toPersionalChat(item1)">进入咨询</u-button>
+                                        <u-button size="mini" @click="toPersionalChat(item1)">咨询物主</u-button>
                                     </view>
                                     <view class="Item support_comment">
 
@@ -204,8 +191,6 @@
                 </view>
             </view>
         </u-popup>
-
-
     </view>
 </template>
 

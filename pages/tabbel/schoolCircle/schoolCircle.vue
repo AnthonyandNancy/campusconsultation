@@ -61,12 +61,6 @@
                                                 <image :src="imgItem" class="auto-img" lazy-load
                                                        mode="aspectFill"></image>
                                             </view>
-<!--                                            <view v-if="item1.video != null">-->
-<!--                                                <view class="video" v-show="false">-->
-<!--                                                    <video :id="'dynamicVideo' + index" object-fit="cover" controls class="auto-img"-->
-<!--                                                           :src="item1.video" @fullscreenchange="screenChange"></video>-->
-<!--                                                </view>-->
-<!--                                            </view>-->
 
                                         </view>
 
@@ -79,16 +73,16 @@
 
                                     <view class="support">
                                         <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
-                                        <view class="Item publishTime" v-if="item.type != 36 && item1.roomId != null && item1.type != 6">
+                                        <view class="Item publishTime" v-if="item.type != 36 && item1.roomId != null && item1.type != 5 && item1.type != 6">
                                             <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
                                         </view>
 
-                                        <view class="Item publishTime" v-if="item.type == 36 && userSign != item1.sign">
+                                        <view class="Item publishTime" v-if="item.type == 36 && item1.type == 6 && userSign != item1.sign">
                                             <u-button size="mini" @click="toPersionalChat(item1)">进入表白</u-button>
                                         </view>
 
                                         <view class="Item publishTime" v-if="item1.type == 5 && userSign != item1.sign">
-                                            <u-button size="mini" @click="toPersionalChat(item1)">进入咨询</u-button>
+                                            <u-button size="mini" @click="toPersionalChat(item1)">咨询物主</u-button>
                                         </view>
 
                                         <view class="Item support_comment">
