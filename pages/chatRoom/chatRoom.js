@@ -109,7 +109,7 @@ export default {
                         })
 
                         json.data.roomList.forEach(chatGroup => {
-                            if (resMsgRoomId == chatGroup.room__roomSign) {
+                            if (res.roomSign== chatGroup.room__roomSign) {
                                 chatGroup['hasNewMsg'] = true;
                             }
                         })
@@ -118,7 +118,7 @@ export default {
                         uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
 
                         //进入页面时，群聊消息界面的红点需要页面中的连接来触发
-                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resDataMsg})
+                        uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
                         //缓存历史
                         const userTag = 'chatList:' + res.roomSign
                         uni.setStorage({
@@ -134,7 +134,7 @@ export default {
                     } else {
                         //进入页面时，消息界面的红点需要页面中的连接来触发
                         uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
-                        console.log('这是自己的消息', resMsg)
+                        console.log('这是自己的消息', resDataMsg)
                     }
 
                     if (resDataMsg.chatType == 1 && resDataMsg != 'my') {
