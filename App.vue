@@ -327,6 +327,7 @@
                                     uni.showTabBarRedDot({
                                         index: 3,
                                     })
+
                                     let option = {
                                         roomSign: resData.sign,
                                         roomName: resData.name,
