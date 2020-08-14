@@ -120,6 +120,11 @@ export default {
             let name = option.roomName
             console.log('当前的聊天的', chatType)
             if (chatType == 1) {
+                if (resMsg.type == 'system') {
+                    console.log('>>>>>>>>>>>', resMsg.type)
+                } else {
+                    resMsg.type = 'orther'
+                }
                 //分享的状态
                 this.shareType = 1
                 const resData = res.newMSg
@@ -128,12 +133,17 @@ export default {
                 const resMsgRoomId = resData.roomId
                 const resRoomType = resData.roomType
                 if (resRoomType == 0) {
-                    // if (resMsg.type == 'system') {
-                    //     console.log('>>>>>>>>>>>', resMsg.type)
-                    // } else {
-                    //     resMsg.type = 'orther'
-                    // }
+                    if (resMsg.type == 'system') {
+                        console.log('>>>>>>>>>>>', resMsg.type)
+                    } else {
+                        resMsg.type = 'orther'
+                    }
                     if (this.roomId == resMsgRoomId) {
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
                         if (getSign != this.userInfoSign) {
                             console.log('当前聊天群聊', this.roomSign)
                             this.msgList.push(resMsg)
@@ -177,7 +187,11 @@ export default {
                         }
 
                     } else {
-
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
                         console.log('重连后在一个群聊中收到来自别的群聊消息')
                         uni.showTabBarRedDot({
                             index: 3,
@@ -289,7 +303,12 @@ export default {
                 const getroomId = resData.sign
                 const resRoomType = resData.roomType
                 let length = this.msgList.length
-                resMsg.type = 'orther'
+                // resMsg.type = 'orther'
+                if (resMsg.type == 'system') {
+                    console.log('>>>>>>>>>>>', resMsg.type)
+                } else {
+                    resMsg.type = 'orther'
+                }
                 if (resRoomType == 1) {
                     uni.showTabBarRedDot({
                         index: 3
@@ -297,6 +316,11 @@ export default {
 
                     console.log('私聊')
                     if (sign == getroomId) {
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
                         this.msgList.push(resMsg)
                         const userTag = 'chatList:' + getroomId
                         console.log('wss-重连后私聊回来的本地数据2', userTag)
@@ -313,7 +337,11 @@ export default {
                             }
                         });
                     } else {
-
+                        if (resMsg.type == 'system') {
+                            console.log('>>>>>>>>>>>', resMsg.type)
+                        } else {
+                            resMsg.type = 'orther'
+                        }
                         //缓存历史,收到其他人
                         const userTag = 'chatList:' + getroomId
                         console.log('wss-重连后私聊回来的本地数据2', userTag)
@@ -368,11 +396,11 @@ export default {
 
 
                 } else if (resRoomType == 0) {
-                    // if (resMsg.type == 'system') {
-                    //     console.log('>>>>>>>>>>>', resMsg.type)
-                    // } else {
-                    //     resMsg.type = 'orther'
-                    // }
+                    if (resMsg.type == 'system') {
+                        console.log('>>>>>>>>>>>', resMsg.type)
+                    } else {
+                        resMsg.type = 'orther'
+                    }
                     const roomId = resData.roomId
                     const userTag = 'chatList:' + roomId
                     console.log(userTag)
@@ -582,6 +610,7 @@ export default {
 
                         if (this.roomId == resMsgRoomId) {
                             if (this.getSign != this.userInfoSign) {
+
                                 console.log('当前聊天群聊', this.roomSign)
                                 this.msgList.push(resMsg)
                                 const getLength = this.msgList.length
@@ -755,7 +784,11 @@ export default {
                     const resRoomType = JSON.parse(res.data).roomType
                     let length = this.msgList.length
 
-                    resMsg.type = 'orther'
+                    if (resMsg.type == 'system') {
+                        console.log('>>>>>>>>>>>', resMsg.type)
+                    } else {
+                        resMsg.type = 'orther'
+                    }
 
                     if (resRoomType == 1) {
                         uni.showTabBarRedDot({
