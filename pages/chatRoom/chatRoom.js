@@ -126,11 +126,6 @@ export default {
                 let getSign = resData.sign
                 const resMsgRoomId = resData.roomId
                 const resRoomType = resData.roomType
-                if (resMsg.type == 'system') {
-                    console.log('>>>>>>>>>>>', resMsg.type)
-                } else {
-                    resMsg.type = 'orther'
-                }
                 if (resRoomType == 0) {
                     if (resMsg.type == 'system') {
                         console.log('>>>>>>>>>>>', resMsg.type)
