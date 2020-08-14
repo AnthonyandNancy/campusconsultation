@@ -7,7 +7,7 @@
         <swiper :current="currentTabIndex"  :style="{height:swiperHeight + 'px'}" @change="changeSwiper" class="swiper">
             <swiper-item :key="index" v-for="(item,index) in title" v-show="currentTabIndex == index">
                 <load-refresh :backgroundCover="'#FFFFFF'"
-                              :heightReduce="110"
+                              :heightReduce="48"
                               :isRefresh="true"
                               :pageNo="currentPage"
                               :refreshTime="800"
@@ -36,9 +36,6 @@
                                             <rich-text :nodes="item1.lastChatMsg" :selectable="true"></rich-text>
                                         </view>
 
-<!--                                        <view class="lastItem lastChatMsg">-->
-<!--                                            <rich-text :nodes="item1.lastChatMsg" :selectable="true"></rich-text>-->
-<!--                                        </view>-->
                                         <view class="lastItem" >
                                             <view class="privateRedPoint" v-if="item1.hasPrivateNewMsg"></view>
                                         </view>
@@ -51,7 +48,7 @@
                 </load-refresh>
 
                 <load-refresh :backgroundCover="'#FFFFFF'"
-                              :heightReduce="110"
+                              :heightReduce="48"
                               :isRefresh="true"
                               :pageNo="currentPage"
                               :refreshTime="800"

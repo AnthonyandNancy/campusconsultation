@@ -247,7 +247,7 @@
                         }
                         setTimeout(()=>{
                             uni.$emit('getMsgWss', option)
-                        },100)
+                        },1000)
 
 
                     } else {
