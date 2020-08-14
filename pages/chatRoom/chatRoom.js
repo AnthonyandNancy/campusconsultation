@@ -82,7 +82,7 @@ export default {
     },
 
     onLoad(option) {
-        uni.$on('getMsgWss', (res) => {
+        uni.$on('getMsgWss', async (res) => {
             // console.log('断网重连>>>>>>>>', res)
             const resDataMsg = res.newMSg.message
             if (resDataMsg.type == 'system') {
@@ -94,9 +94,55 @@ export default {
             if (res.roomType == 0) {
                 console.log('重连群聊')
                 if (res.roomSign == this.roomSign) {
-                    console.log('res.roomSign == this.roomSign--------')
-                    this.msgList.push(resDataMsg)
-                    console.log('>>>>', this.msgList)
+                    if (resDataMsg.sign != this.userInfoSign) {
+                        console.log('当前聊天群聊', res.roomSign)
+                        this.msgList.push(resDataMsg)
+                        const getLength = this.msgList.length
+                        this.scrollTop = 1500 * getLength
+                        uni.showTabBarRedDot({
+                            index: 3,
+                        })
+                        let json = await api.getGroupChatList({
+                            query: {
+                                sign: user.getUserSign()
+                            }
+                        })
+
+                        json.data.roomList.forEach(chatGroup => {
+                            if (resMsgRoomId == chatGroup.room__roomSign) {
+                                chatGroup['hasNewMsg'] = true;
+                            }
+                        })
+
+
+                        uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
+
+                        //进入页面时，群聊消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getGroupChat', {roomSign: resMsgRoomId, ...resDataMsg})
+                        //缓存历史
+                        const userTag = 'chatList:' + res.roomSign
+                        uni.setStorage({
+                            key: userTag,
+                            data: this.msgList,
+                            success: function () {
+                                console.log('群聊缓存success');
+                            }
+                        });
+
+
+                        console.log('res.roomSign == this.roomSign--------')
+                    } else {
+                        //进入页面时，消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
+                        console.log('这是自己的消息', resMsg)
+                    }
+
+                    if (resDataMsg.chatType == 1 && resDataMsg != 'my') {
+                        this.msgImgList.push(resDataMsg.content)
+                        //进入页面时，消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
+                    }
+
                 } else {
                     const userTag = 'chatList:' + res.roomSign
                     console.log('重连后非本房间的roomSign', userTag)
@@ -121,7 +167,7 @@ export default {
                             uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
                             //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resMsg})
+                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
 
                             uni.setStorage({
                                 key: userTag,
@@ -149,12 +195,26 @@ export default {
                         }
                     });
                 }
+
+
             } else {
                 console.log('重连单聊')
                 if (res.roomSign == this.userInfoSign) {
                     console.log('res.roomSign == this.roomSign--------')
                     this.msgList.push(resDataMsg)
+                    const getLength = this.msgList.length
+                    this.scrollTop = 1500 * getLength
                     console.log('>>>>', this.msgList)
+
+                    if (resDataMsg.chatType == 1 && resDataMsg != 'my' && res.roomSign == this.userInfoSign) {
+                        this.msgImgList.push(resMsg.content)
+                        resDataMsg['hasPrivateNewMsg'] = true;
+
+                        //进入页面时，私聊消息界面的红点需要页面中的连接来触发
+                        uni.$emit('getPrivateLastChat', resDataMsg);
+
+                    }
+
                 } else {
                     const userTag = 'chatList:' + res.roomSign
                     console.log('重连后非本房间的roomSign', userTag)
@@ -179,7 +239,7 @@ export default {
                             uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
 
                             //进入页面时，消息界面的红点需要页面中的连接来触发
-                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resMsg})
+                            uni.$emit('getGroupChat', {roomSign: res.roomSign, ...resDataMsg})
 
                             uni.setStorage({
                                 key: userTag,
