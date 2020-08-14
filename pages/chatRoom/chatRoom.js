@@ -120,11 +120,11 @@ export default {
             let name = option.roomName
             console.log('当前的聊天的', chatType)
             if (chatType == 1) {
-                if (resMsg.type == 'system') {
-                    console.log('>>>>>>>>>>>', resMsg.type)
-                } else {
-                    resMsg.type = 'orther'
-                }
+                // if (resMsg.type == 'system') {
+                //     console.log('>>>>>>>>>>>', resMsg.type)
+                // } else {
+                //     resMsg.type = 'orther'
+                // }
                 //分享的状态
                 this.shareType = 1
                 const resData = res.newMSg
