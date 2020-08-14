@@ -736,7 +736,8 @@ export default {
             const options = {
                 type: "system",
                 content: content,
-                chatType: 0
+                chatType: 0,
+                sign:this.roomSign
             }
             console.log('欢迎进入的聊天发送id', this.roomId)
             this.msgList.push(options)
