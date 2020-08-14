@@ -226,6 +226,11 @@
                     if (this.newWssType == true) {
                         if (resData.roomType == 0) {
                             this.roomId = resData.roomId
+							if (resDataMsg.type == 'system') {
+							    console.log('APP.Vue>>>>>>>>>>>', resDataMsg.type)
+							} else {
+							    resDataMsg.type = 'orther'
+							}
                         } else {
                             this.roomId = resDataMsg.sign
                         }

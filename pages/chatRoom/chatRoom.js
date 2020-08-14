@@ -128,11 +128,11 @@ export default {
                 const resMsgRoomId = resData.roomId
                 const resRoomType = resData.roomType
                 if (resRoomType == 0) {
-                    if (resMsg.type == 'system') {
-                        console.log('>>>>>>>>>>>', resMsg.type)
-                    } else {
-                        resMsg.type = 'orther'
-                    }
+                    // if (resMsg.type == 'system') {
+                    //     console.log('>>>>>>>>>>>', resMsg.type)
+                    // } else {
+                    //     resMsg.type = 'orther'
+                    // }
                     if (this.roomId == resMsgRoomId) {
                         if (getSign != this.userInfoSign) {
                             console.log('当前聊天群聊', this.roomSign)
@@ -368,11 +368,11 @@ export default {
 
 
                 } else if (resRoomType == 0) {
-                    if (resMsg.type == 'system') {
-                        console.log('>>>>>>>>>>>', resMsg.type)
-                    } else {
-                        resMsg.type = 'orther'
-                    }
+                    // if (resMsg.type == 'system') {
+                    //     console.log('>>>>>>>>>>>', resMsg.type)
+                    // } else {
+                    //     resMsg.type = 'orther'
+                    // }
                     const roomId = resData.roomId
                     const userTag = 'chatList:' + roomId
                     console.log(userTag)
