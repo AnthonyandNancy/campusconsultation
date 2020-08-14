@@ -83,9 +83,11 @@ export default {
 
     onLoad(option) {
         uni.$on('getMsgWss', (res) => {
-            console.log('断网重连>>>>>>>>', res)
+            // console.log('断网重连>>>>>>>>', res)
             const resDataMsg = res.newMSg.message
+            console.log('断网重连',resDataMsg)
             if (res.roomSign == this.roomSign) {
+                console.log('res.roomSign == this.roomSign--------')
                 this.msgList.push(resDataMsg)
             } else {
                 const userTag = 'chatList:' + res.roomSign
