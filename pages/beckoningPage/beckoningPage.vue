@@ -239,7 +239,7 @@
                     clearInterval(this.matchingTime)
                     setTimeout(() => {
                         uni.redirectTo({
-                            url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'maching'
+                            url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'matching'
                         });
                         this.matchingNum=null
                     }, 3000)
