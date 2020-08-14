@@ -829,7 +829,7 @@ export default {
                                 key: userTag,
                                 success: (res) => {
                                     //在个人界面收到群聊信息
-                                    console.log('//在个人界面收到群聊信息', res.data);
+                                    console.log('//私聊中其他人私聊缓存', res.data);
                                     var jshouMsg = res.data
                                     jshouMsg.push(resMsg)
                                     console.log(jshouMsg)
