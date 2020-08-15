@@ -507,7 +507,6 @@ export default {
             }
         });
 
-        // console.log('页面隐藏=====》')
         let groupList = uni.getStorageSync('CHAT_GROUP_LIST');
         let privateList = uni.getStorageSync('CHAT_FRIEND_LIST');
 

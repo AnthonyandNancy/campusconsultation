@@ -40,75 +40,94 @@ export default {
     },
     onShow() {
 
-        //界面显示时，遍历缓存中的数据，取消小红点
-        let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-        let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST');
-        let groupObj = {};
-        let friendObj = {};
-
-        if(uni.getStorageSync('GROUP_FRIEND_HASPOINT').length != 0){
-            this.tabTitle = uni.getStorageSync('GROUP_FRIEND_HASPOINT');
-        }
-
         new Promise((resolve, reject) => {
-            if (chatGroupList.length != 0) {
-                chatGroupList.forEach(res => {
-                    if (groupObj[res.hasNewMsg] == undefined) {
-                            groupObj[res.hasNewMsg] = 1
-                    } else {
-                        groupObj[res.hasNewMsg]++;
-                    }
-                })
-
-                for (let key in groupObj) {
-                    if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
-                        this.tabTitle[1]['hasGroupNewMsg'] = false
-                        resolve();
-                    }else{
-                        this.tabTitle[1]['hasGroupNewMsg'] = true
-                        uni.showTabBarRedDot({
-                            index:3
-                        })
-                    }
-                }
-            }else{
-                resolve();
+            //获取私聊和群聊数据
+            this.userSign = constant.getUserSign();
+            if (constant.getUserSign().length != 0) {
+                this.getGroupChatList();
+                this.getPrivateChatList();
             }
+            setTimeout(res=>{
+                resolve()
+            },1000)
+
         }).then(res=>{
-            if (chatFriendList.length != 0) {
-                chatFriendList.forEach(res => {
-                    if (friendObj[res.hasPrivateNewMsg] == undefined) {
-                        friendObj[res.hasPrivateNewMsg] = 1
-                    } else {
-                        friendObj[res.hasPrivateNewMsg]++;
-                    }
-                })
+            //界面显示时，遍历缓存中的数据，取消小红点
+            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+            let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST');
+            let groupObj = {};
+            let friendObj = {};
 
-                for (let key in friendObj) {
-                    if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
-                        this.tabTitle[0]['hasGroupNewMsg'] = false
-                        uni.hideTabBarRedDot({
-                            index:3
-                        })
-                    }else{
-                        this.tabTitle[0]['hasGroupNewMsg'] = true
-                        uni.showTabBarRedDot({
-                            index:3
-                        })
-                    }
-                }
+            if(uni.getStorageSync('GROUP_FRIEND_HASPOINT').length != 0){
+                this.tabTitle = uni.getStorageSync('GROUP_FRIEND_HASPOINT');
             }
 
-            uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle);
+            new Promise((resolve, reject) => {
+                if (chatGroupList.length != 0) {
+                    chatGroupList.forEach(res => {
+                        if (groupObj[res.hasNewMsg] == undefined) {
+                            groupObj[res.hasNewMsg] = 1
+                        } else {
+                            groupObj[res.hasNewMsg]++;
+                        }
+                    })
+
+                    for (let key in groupObj) {
+                        if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
+                            this.tabTitle[1]['hasGroupNewMsg'] = false
+                            resolve();
+                        }else{
+                            this.tabTitle[1]['hasGroupNewMsg'] = true
+                            that.$set( that.tabTitle,that.tabTitle[1].hasGroupNewMsg,true)
+                            uni.showTabBarRedDot({
+                                index:3
+                            })
+                        }
+                    }
+                }else{
+                    resolve();
+                }
+            }).then(res=>{
+                if (chatFriendList.length != 0) {
+                    chatFriendList.forEach(res => {
+                        if (friendObj[res.hasPrivateNewMsg] == undefined) {
+                            friendObj[res.hasPrivateNewMsg] = 1
+                        } else {
+                            friendObj[res.hasPrivateNewMsg]++;
+                        }
+                    })
+
+                    for (let key in friendObj) {
+                        if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
+
+                            console.log('hideTabBarRedDothideTabBarRedDothideTabBarRedDothideTabBarRedDot=============')
+                            that.tabTitle[0]['hasGroupNewMsg'] = false
+                            uni.hideTabBarRedDot({
+                                index:3
+                            })
+                        }else{
+                            console.log('=====================================================================================================')
+                            that.tabTitle[0]['hasGroupNewMsg'] = true
+                            that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
+                            uni.showTabBarRedDot({
+                                index:3
+                            })
+                        }
+                    }
+                }
+
+                uni.setStorageSync('GROUP_FRIEND_HASPOINT',that.tabTitle);
+            })
         })
 
 
-        //获取私聊和群聊数据
-        this.userSign = constant.getUserSign();
-        if (constant.getUserSign().length != 0) {
-            this.getGroupChatList();
-            this.getPrivateChatList();
-        }
+
+
+
+
+
+
+
 
 
         //监听群聊在全局或聊天窗口界面发来的消息，并修改hasNewMsg的状态，重新缓存
@@ -348,15 +367,7 @@ export default {
                     }else if(uni.getStorageSync('CHAT_GROUP_LIST').length > json.data.roomList.length){
 
                     }else{
-
-                        let chatGList = uni.getStorageSync('CHAT_GROUP_LIST');
-                        // chatGList.forEach(function (res) {
-                        //     res['hasNewMsg'] = true;
-                        // })
-
-
-                        this.groupChatList = chatGList
-                        // uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
+                        this.groupChatList = uni.getStorageSync('CHAT_GROUP_LIST')
                     }
                 }
             }

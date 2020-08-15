@@ -232,6 +232,26 @@
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
                     console.log(resData)
+                    //私聊
+                    if(resData.roomType == 1){
+                        if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
+                            let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
+                            friend.forEach(res=>{
+                                if(res.friend__sign == resData.sign){
+                                    res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
+                                    res['time'] = resData.message.time;
+                                    res['hasPrivateNewMsg'] = true;
+                                }
+                            })
+
+                            console.log('-12444=4-44-4-4-4-4-4-',friend)
+                            uni.setStorageSync('CHAT_FRIEND_LIST', friend);
+                        }
+
+                    //群聊
+                    }else if(resData.roomType == 0){
+
+                    }
 
                     if (this.newWssType == true) {
                         console.log('走了(this.newWssType == true)')
