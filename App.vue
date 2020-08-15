@@ -245,6 +245,11 @@
                                 resDataMsg.type = 'orther'
                             }
                         } else {
+                            if (resDataMsg.type == 'system') {
+                                console.log('>>>>>>>>>>>', resDataMsg.type)
+                            } else {
+                                resDataMsg.type = 'orther'
+                            }
                             console.log('resData.roomType == 0>>>私聊')
                             this.roomId = resDataMsg.sign
                         }
