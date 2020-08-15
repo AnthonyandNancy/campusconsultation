@@ -168,8 +168,6 @@
                     }
                 })
             }
-
-
         },
 
         methods: {
@@ -182,6 +180,8 @@
                 })
                 let {errcode, sign, schoolName} = json.data;
 
+
+                //当用户也存在学校时，跳过选择学校的界面 直接转到首页
                 if (schoolName != null) {
                     uni.switchTab({
                         url: '/pages/tabbel/home/home'
@@ -190,13 +190,16 @@
 
                 if (errcode == 200) {
 
+                    if(uni.getStorageSync('CHAT_FRIEND_LIST').length == 0 || uni.getStorageSync('CHAT_GROUP_LIST').length == 0){
+                        this.getGroupChatList(sign);
+                        this.getPrivateChatList(sign);
+                    }
+
                     this.wssType = uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                         success: res => {
                             console.log('wss连接成功')
                             this.getMsgWss()
-
-
                         },
                         fail: err => {
                             console.log('wss链接失败', err)
@@ -223,15 +226,23 @@
                     constant.setUserLogin(json.data);
                 }
             },
-
-
             getMsgWss() {
                 uni.onSocketMessage((res) => {
                     //总消息处理
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
                     console.log(resData)
+                    //私聊
+                    if(resData.roomType == 1){
+                        if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
+                            let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
 
+                        }
+
+                    //群聊
+                    }else if(resData.roomType == 0){
+
+                    }
 
                     if (this.newWssType == true) {
                         console.log('走了(this.newWssType == true)')
@@ -319,6 +330,13 @@
 
                     } else {
                         console.log('走了(this.newWssType == falees)')
+
+
+                        uni.showTabBarRedDot({
+                            index: 3,
+                        })
+
+                        // 群聊
                         if (resData.roomType == 0) {
 
                             if (resDataMsg.type == 'system') {
@@ -329,6 +347,7 @@
                             let sign = resData.roomId
                             let userTag = 'chatList:' + sign
                             let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
                             uni.showTabBarRedDot({
                                 index: 3,
                             })
@@ -374,6 +393,8 @@
                                     });
                                 }
                             });
+
+                        //私聊
                         } else if (resData.roomType == 1) {
                             resDataMsg.type = 'orther'
                             let sign = resData.sign
@@ -388,12 +409,15 @@
                                     resDataMsg['hasPrivateNewMsg'] = true;
                                     uni.$emit('getPrivateLastChat', resDataMsg)
 
-
-                                    let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
+                                    console.log('================================================================')
 
                                     uni.showTabBarRedDot({
                                         index: 3,
                                     })
+
+                                    let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
+
+
 
                                     let option = {
                                         roomSign: resData.sign,
@@ -440,6 +464,33 @@
 
 
                 });
+            },
+
+            //群聊列表
+            async getGroupChatList(userSign) {
+                let json = await api.getGroupChatList({
+                    query: {
+                        sign: userSign
+                    }
+                })
+                if(json.data.errcode == 200){
+                    uni.setStorageSync('CHAT_GROUP_LIST',json.data.roomList);
+                }
+                console.log('群聊列表',json);
+            },
+
+        //私聊列表
+            async getPrivateChatList(userSign) {
+                let json = await api.getNewFriendList({
+                    query: {
+                        sign: userSign
+                    }
+                })
+
+                if(json.data.errcode == 200){
+                    uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
+                }
+                console.log('私聊列表',json);
             }
         }
     }

@@ -302,10 +302,13 @@ export default {
                                 let content = strange[strange.length - 1].content;
                                 res['lastChatMsg'] = content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':content;
                                 res['time'] = strange[strange.length - 1].time;
+                                res['hasPrivateNewMsg'] = true;
                             }
                         })
 
                         this.privateChatList = chatFList;
+
+                        uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }
                 }
 
@@ -345,7 +348,15 @@ export default {
                     }else if(uni.getStorageSync('CHAT_GROUP_LIST').length > json.data.roomList.length){
 
                     }else{
-                        this.groupChatList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                        let chatGList = uni.getStorageSync('CHAT_GROUP_LIST');
+                        // chatGList.forEach(function (res) {
+                        //     res['hasNewMsg'] = true;
+                        // })
+
+
+                        this.groupChatList = chatGList
+                        // uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
                     }
                 }
             }
