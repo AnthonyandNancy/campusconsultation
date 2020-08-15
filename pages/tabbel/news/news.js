@@ -51,7 +51,7 @@ export default {
                 resolve()
             },1000)
 
-        }).then(res=>{
+        }).then(()=>{
             //界面显示时，遍历缓存中的数据，取消小红点
             let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
             let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST');
@@ -87,9 +87,11 @@ export default {
                 }else{
                     resolve();
                 }
-            }).then(res=>{
+            }).then(()=>{
+                console.log('fasdgsdfsgdfgdfsg======')
                 if (chatFriendList.length != 0) {
                     chatFriendList.forEach(res => {
+
                         if (friendObj[res.hasPrivateNewMsg] == undefined) {
                             friendObj[res.hasPrivateNewMsg] = 1
                         } else {
@@ -98,34 +100,63 @@ export default {
                     })
 
                     for (let key in friendObj) {
+                        console.log('adjsfadsljgfsgjsdklfgjldf',key)
                         if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
 
                             console.log('hideTabBarRedDothideTabBarRedDothideTabBarRedDothideTabBarRedDot=============')
-                            that.tabTitle[0]['hasGroupNewMsg'] = false
+                            this.tabTitle[0]['hasGroupNewMsg'] = false
                             uni.hideTabBarRedDot({
                                 index:3
                             })
                         }else{
                             console.log('=====================================================================================================')
-                            that.tabTitle[0]['hasGroupNewMsg'] = true
+                            this.tabTitle[0]['hasGroupNewMsg'] = true
+
                             that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
+
                             uni.showTabBarRedDot({
                                 index:3
                             })
                         }
                     }
+                    console.log('===========1111111111',this.tabTitle)
                 }
-
-                uni.setStorageSync('GROUP_FRIEND_HASPOINT',that.tabTitle);
             })
+
+
+
+            chatFriendList.forEach(res => {
+
+                if (friendObj[res.hasPrivateNewMsg] == undefined) {
+                    friendObj[res.hasPrivateNewMsg] = 1
+                } else {
+                    friendObj[res.hasPrivateNewMsg]++;
+                }
+            })
+
+            for (let key in friendObj) {
+                console.log('adjsfadsljgfsgjsdklfgjldf',key)
+                if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
+
+                    console.log('hideTabBarRedDothideTabBarRedDothideTabBarRedDothideTabBarRedDot=============')
+                    this.tabTitle[0]['hasGroupNewMsg'] = false
+                    // uni.hideTabBarRedDot({
+                    //     index:3
+                    // })
+                }else{
+                    console.log('=====================================================================================================')
+                    this.tabTitle[0]['hasGroupNewMsg'] = true
+
+                    that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
+
+                    uni.showTabBarRedDot({
+                        index:3
+                    })
+                }
+            }
+
+            uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle);
         })
-
-
-
-
-
-
-
 
 
 
@@ -280,6 +311,8 @@ export default {
 
                     if (this.privateChatList.length < json.data.friendList.length) {
 
+                        console.log('缓存的数据比线上的少========================')
+
                         let a = json.data.friendList;
                         let b = uni.getStorageSync('CHAT_FRIEND_LIST');
 
@@ -291,6 +324,8 @@ export default {
                                 }
                             }
                         }
+
+                        console.log('-----------------------ssssssssss',a)
                         this.privateChatList = [...a,...b];
                         uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }else if(this.privateChatList.length > json.data.friendList.length){
@@ -309,7 +344,7 @@ export default {
                         console.log('好友被删除了 看线上回来的数据=======>',b)
                         // this.privateChatList = [...a,...b];
                         // uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
-                    }else {
+                    }else if(this.privateChatList.length == json.data.friendList.length){
 
                         console.log('从私聊界面返回================》》》》》')
                         let chatFList = uni.getStorageSync('CHAT_FRIEND_LIST');
@@ -318,10 +353,11 @@ export default {
                             let strange = uni.getStorageSync('chatList:' + res.friend__sign);
 
                             if (strange.length != 0) {
-                                let content = strange[strange.length - 1].content;
-                                res['lastChatMsg'] = content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':content;
+                                let chatMsg = strange[strange.length - 1];
+                                res['lastChatMsg'] = chatMsg.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':chatMsg.content;
                                 res['time'] = strange[strange.length - 1].time;
-                                res['hasPrivateNewMsg'] = true;
+
+
                             }
                         })
 

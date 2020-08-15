@@ -2,6 +2,7 @@
     import constant from './utils/constant';
     import api from './utils/request/api';
 
+    let that;
     export default {
         data() {
             return {
@@ -9,10 +10,12 @@
                 wssType: {},
                 newWssType: false,
                 roomId: '',
-                sendAPPType: false
+                sendAPPType: false,
+                userSign:''
             };
         },
         onHide() {
+
             console.log('asdadad')
             // let sign = constant.getUserSign()
             // console.log('onHide检测链接', sign)
@@ -34,10 +37,8 @@
             // // })
         },
         onLoad() {
-
         },
         onShow() {
-
 
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
@@ -180,6 +181,7 @@
                 })
                 let {errcode, sign, schoolName} = json.data;
 
+                this.userSign = sign;
 
                 //当用户也存在学校时，跳过选择学校的界面 直接转到首页
                 if (schoolName != null) {
@@ -227,26 +229,54 @@
                 }
             },
             getMsgWss() {
-                uni.onSocketMessage((res) => {
+                uni.onSocketMessage(async (res) => {
                     //总消息处理
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
                     console.log(resData)
+
+
                     //私聊
                     if(resData.roomType == 1){
-                        if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
-                            let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
-                            friend.forEach(res=>{
-                                if(res.friend__sign == resData.sign){
-                                    res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
-                                    res['time'] = resData.message.time;
-                                    res['hasPrivateNewMsg'] = true;
-                                }
-                            })
 
-                            console.log('-12444=4-44-4-4-4-4-4-',friend)
-                            uni.setStorageSync('CHAT_FRIEND_LIST', friend);
+                        let json = await api.getNewFriendList({
+                            query: {
+                                sign: this.userSign
+                            }
+                        })
+
+                        if(json.data.errcode == 200){
+
+                            // uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
+
+                            if(json.data.friendList.length > uni.getStorageSync('CHAT_FRIEND_LIST').length){
+                                json.data.friendList.forEach(res=>{
+                                    if(res.friend__sign == resData.sign){
+                                        res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
+                                        res['time'] = resData.message.time;
+                                        res['hasPrivateNewMsg'] = true;
+                                    }
+                                })
+
+                                uni.setStorageSync('CHAT_FRIEND_LIST', json.data.friendList);
+                            }else{
+                                if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
+                                    let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
+                                    friend.forEach(res=>{
+                                        if(res.friend__sign == resData.sign){
+                                            res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
+                                            res['time'] = resData.message.time;
+                                            res['hasPrivateNewMsg'] = true;
+                                        }
+                                    })
+
+                                    uni.setStorageSync('CHAT_FRIEND_LIST', friend);
+                                }
+                            }
+
                         }
+
+
 
                     //群聊
                     }else if(resData.roomType == 0){
@@ -418,7 +448,6 @@
                                     resDataMsg['hasPrivateNewMsg'] = true;
                                     uni.$emit('getPrivateLastChat', resDataMsg)
 
-                                    console.log('================================================================')
 
                                     uni.showTabBarRedDot({
                                         index: 3,
