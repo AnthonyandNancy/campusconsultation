@@ -232,17 +232,6 @@
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
                     console.log(resData)
-                    //私聊
-                    if(resData.roomType == 1){
-                        if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
-                            let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
-
-                        }
-
-                    //群聊
-                    }else if(resData.roomType == 0){
-
-                    }
 
                     if (this.newWssType == true) {
                         console.log('走了(this.newWssType == true)')
