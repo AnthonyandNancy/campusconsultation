@@ -204,22 +204,22 @@
                         fail: err => {
                             console.log('wss链接失败', err)
                             console.log('链接失败', sign)
-                            // uni.onSocketError((res) => {
-                            //     console.log('WebSocket连接打开失败，请检查！');
-                            //     let wss = uni.connectSocket({
-                            //         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                            //         success: res => {
-                            //             console.log('onLaunch检测重连接成功', res)
-                            //             this.getMsgWss()
-                            //             // clearInterval(interval)
-                            //         },
-                            //         fail: err => {
-                            //             console.log('onLaunch检测重连接失败', err)
-                            //         }
-                            //
-                            //     });
-                            //     console.log(wss,'<><><><><><><>',wss.readyState)
-                            // });
+                            uni.onSocketError((res) => {
+                                console.log('WebSocket连接打开失败，请检查！');
+                                let wss = uni.connectSocket({
+                                    url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                    success: res => {
+                                        console.log('onLaunch检测重连接成功', res)
+                                        this.getMsgWss()
+                                        clearInterval(interval)
+                                    },
+                                    fail: err => {
+                                        console.log('onLaunch检测重连接失败', err)
+                                    }
+
+                                });
+                                console.log(wss,'<><><><><><><>',wss.readyState)
+                            });
                         }
                     });
                     constant.setUserSign(json.data.sign);
