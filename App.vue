@@ -8,7 +8,8 @@
                 msgList: [],
                 wssType: {},
                 newWssType: false,
-                roomId: ''
+                roomId: '',
+                sendAPPType: false
             };
         },
         onHide() {
@@ -80,7 +81,13 @@
 
         },
         async onLaunch() {
+            //聊天室已经加载过的信息
+            uni.$on('sendAPPType', (res) => {
+                if (res.sendAPPType == true) {
+                    this.sendAPPType = true
+                }
 
+            })
 
             // console.log('onLaunch')
             //断网重连
@@ -229,6 +236,8 @@
                     if (this.newWssType == true) {
                         console.log('走了(this.newWssType == true)')
                         if (resData.roomType == 0) {
+                            //群聊
+                            console.log('resData.roomType == 0>>>群聊')
                             this.roomId = resData.roomId
                             if (resDataMsg.type == 'system') {
                                 console.log('APP.Vue>>>>>>>>>>>', resDataMsg.type)
@@ -236,6 +245,7 @@
                                 resDataMsg.type = 'orther'
                             }
                         } else {
+                            console.log('resData.roomType == 0>>>私聊')
                             this.roomId = resDataMsg.sign
                         }
                         //重连后的消息判别
@@ -245,9 +255,61 @@
                             roomType: resData.roomType,
                             newMSg: resData
                         }
-                        setTimeout(()=>{
+
+                        //下次dom刷新才能用
+                        if (this.sendAPPType == true) {
                             uni.$emit('getMsgWss', option)
-                        },1000)
+                        } else {
+                            const userTag = 'chatList:' + this.roomId
+                            uni.getStorage({
+                                key: userTag,
+                                success: async (res) => {
+                                    ///appVue上《》此时聊天室页面还没有加载
+                                    console.log('//appVue上《》此时聊天室页面还没有加载,拿到缓存的信息', res.data);
+                                    var jshouMsg = res.data
+                                    jshouMsg.push(resDataMsg)
+                                    console.log(userTag)
+
+                                    let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+                                    chatGroupList.forEach(chatGroup => {
+                                        if (this.roomId == chatGroup.room__roomSign) {
+                                            chatGroup['hasNewMsg'] = true;
+                                        }
+                                    })
+
+
+                                    uni.setStorageSync('CHAT_GROUP_LIST', chatGroupList);
+
+                                    //进入页面时，消息界面的红点需要页面中的连接来触发
+                                    uni.$emit('getGroupChat', {roomSign: this.roomId, ...resDataMsg})
+
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: jshouMsg,
+                                        success: function () {
+                                            console.log('appVue上《》此时聊天室页面还没有加载success');
+
+                                        },
+                                        fail: err => {
+                                            console.log(err)
+
+                                        }
+                                    });
+                                },
+                                fail: err => {
+                                    let jshouMsg = []
+                                    jshouMsg.push(resDataMsg)
+                                    uni.setStorage({
+                                        key: userTag,
+                                        data: jshouMsg,
+                                        success: function () {
+                                            console.log('appVue上《》此时聊天室页面还没有加载success');
+                                        }
+                                    });
+                                }
+                            });
+                        }
 
 
                     } else {

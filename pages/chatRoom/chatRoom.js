@@ -83,6 +83,15 @@ export default {
     },
 
     onLoad(option) {
+        //向app.vue发送页面挂载的信号
+        let type={
+            sendAPPType:true
+        }
+        uni.$emit('sendAPPType', type)
+
+
+
+
         uni.$on('getMsgWss', async (res) => {
             console.log('断网重连', res)
             const chatType = option.chatType
@@ -486,7 +495,7 @@ export default {
     onUnload() {
         //关闭app。vue的状态
         uni.$emit('closeAPPVueNewWssType')
-
+        uni.$off('getMsgWss')
 
         const userTag = 'chatList:' + this.roomSign
         console.log('页面卸载', userTag)
