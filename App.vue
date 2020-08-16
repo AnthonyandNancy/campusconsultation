@@ -11,7 +11,7 @@
                 newWssType: false,
                 roomId: '',
                 sendAPPType: false,
-                userSign:''
+                userSign: ''
             };
         },
         onHide() {
@@ -192,7 +192,7 @@
 
                 if (errcode == 200) {
 
-                    if(uni.getStorageSync('CHAT_FRIEND_LIST').length == 0 || uni.getStorageSync('CHAT_GROUP_LIST').length == 0){
+                    if (uni.getStorageSync('CHAT_FRIEND_LIST').length == 0 || uni.getStorageSync('CHAT_GROUP_LIST').length == 0) {
                         this.getGroupChatList(sign);
                         this.getPrivateChatList(sign);
                     }
@@ -213,17 +213,36 @@
                                     success: res => {
                                         console.log('onLaunch检测重连接成功', res)
                                         this.getMsgWss()
-                                        clearInterval(interval)
+                                        // clearInterval(interval)
                                     },
                                     fail: err => {
                                         console.log('onLaunch检测重连接失败', err)
                                     }
 
                                 });
-                                console.log(wss,'<><><><><><><>',wss.readyState)
+                                console.log(this.wssType, '<><><><><><><>', this.wssType.readyState)
                             });
                         }
                     });
+                    let interval=setInterval(()=>{
+                        uni.onSocketError((res) => {
+                            console.log('WebSocket连接打开失败，请检查！');
+                            let wss = uni.connectSocket({
+                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                success: res => {
+                                    console.log('onLaunch检测重连接成功', res)
+                                    this.getMsgWss()
+                                    clearInterval(interval)
+                                },
+                                fail: err => {
+                                    console.log('onLaunch检测重连接失败', err)
+                                }
+
+                            });
+                            console.log(wss, 'onLaunch检测重连接失败', wss)
+                        });
+                    },1000)
+
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
                 }
@@ -237,7 +256,7 @@
 
 
                     //私聊
-                    if(resData.roomType == 1){
+                    if (resData.roomType == 1) {
 
                         let json = await api.getNewFriendList({
                             query: {
@@ -245,26 +264,26 @@
                             }
                         })
 
-                        if(json.data.errcode == 200){
+                        if (json.data.errcode == 200) {
 
                             // uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
 
-                            if(json.data.friendList.length > uni.getStorageSync('CHAT_FRIEND_LIST').length){
-                                json.data.friendList.forEach(res=>{
-                                    if(res.friend__sign == resData.sign){
-                                        res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
+                            if (json.data.friendList.length > uni.getStorageSync('CHAT_FRIEND_LIST').length) {
+                                json.data.friendList.forEach(res => {
+                                    if (res.friend__sign == resData.sign) {
+                                        res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ? '[图片]' : resData.message.content;
                                         res['time'] = resData.message.time;
                                         res['hasPrivateNewMsg'] = true;
                                     }
                                 })
 
                                 uni.setStorageSync('CHAT_FRIEND_LIST', json.data.friendList);
-                            }else{
-                                if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
+                            } else {
+                                if (uni.getStorageSync('CHAT_FRIEND_LIST').length != 0) {
                                     let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
-                                    friend.forEach(res=>{
-                                        if(res.friend__sign == resData.sign){
-                                            res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
+                                    friend.forEach(res => {
+                                        if (res.friend__sign == resData.sign) {
+                                            res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ? '[图片]' : resData.message.content;
                                             res['time'] = resData.message.time;
                                             res['hasPrivateNewMsg'] = true;
                                         }
@@ -277,9 +296,8 @@
                         }
 
 
-
-                    //群聊
-                    }else if(resData.roomType == 0){
+                        //群聊
+                    } else if (resData.roomType == 0) {
 
                     }
 
@@ -433,7 +451,7 @@
                                 }
                             });
 
-                        //私聊
+                            //私聊
                         } else if (resData.roomType == 1) {
                             resDataMsg.type = 'orther'
                             let sign = resData.sign
@@ -454,7 +472,6 @@
                                     })
 
                                     let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
-
 
 
                                     let option = {
@@ -511,13 +528,13 @@
                         sign: userSign
                     }
                 })
-                if(json.data.errcode == 200){
-                    uni.setStorageSync('CHAT_GROUP_LIST',json.data.roomList);
+                if (json.data.errcode == 200) {
+                    uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
                 }
-                console.log('群聊列表',json);
+                console.log('群聊列表', json);
             },
 
-        //私聊列表
+            //私聊列表
             async getPrivateChatList(userSign) {
                 let json = await api.getNewFriendList({
                     query: {
@@ -525,10 +542,10 @@
                     }
                 })
 
-                if(json.data.errcode == 200){
-                    uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
+                if (json.data.errcode == 200) {
+                    uni.setStorageSync('CHAT_FRIEND_LIST', json.data.friendList);
                 }
-                console.log('私聊列表',json);
+                console.log('私聊列表', json);
             }
         }
     }
