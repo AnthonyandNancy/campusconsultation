@@ -202,7 +202,7 @@
             toChatRoom(){
                 this.$emit('toChatRoomEvent',this.dynamicObj)
             },
-            //点击头像进入个人页面
+            // 点击头像进入个人页面
             toOtherMineInfoPage(){
 
                 let data = this.dynamicObj
