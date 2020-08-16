@@ -213,17 +213,36 @@
                                     success: res => {
                                         console.log('onLaunch检测重连接成功', res)
                                         this.getMsgWss()
-                                        clearInterval(interval)
+                                        // clearInterval(interval)
                                     },
                                     fail: err => {
                                         console.log('onLaunch检测重连接失败', err)
                                     }
 
                                 });
-                                console.log(wss, '<><><><><><><>', wss.readyState)
+                                console.log(this.wssType, '<><><><><><><>', this.wssType.readyState)
                             });
                         }
                     });
+                    let interval=setInterval(()=>{
+                        uni.onSocketError((res) => {
+                            console.log('WebSocket连接打开失败，请检查！');
+                            let wss = uni.connectSocket({
+                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                success: res => {
+                                    console.log('onLaunch检测重连接成功', res)
+                                    this.getMsgWss()
+                                    clearInterval(interval)
+                                },
+                                fail: err => {
+                                    console.log('onLaunch检测重连接失败', err)
+                                }
+
+                            });
+                            console.log(wss, 'onLaunch检测重连接失败', wss)
+                        });
+                    },1000)
+
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
                 }
