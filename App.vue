@@ -44,8 +44,6 @@
                 if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
                     console.log('进入了[2, 3].includes(this.wssType.readyState)的判断')
-
-
                     uni.onNetworkStatusChange((res) => {
                         // console.log(res)
                         console.log('是否重连联网1>1', res);
