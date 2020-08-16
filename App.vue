@@ -359,6 +359,7 @@
                         if (this.sendAPPType == true) {
                             uni.$emit('getMsgWss', option)
                         } else {
+                            console.log('此时并没有进聊天')
                             const userTag = 'chatList:' + this.roomId
                             uni.getStorage({
                                 key: userTag,
