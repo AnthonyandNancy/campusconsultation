@@ -49,7 +49,7 @@ export default {
             }
             setTimeout(res=>{
                 resolve()
-            },1000)
+            },500)
 
         }).then(()=>{
             //界面显示时，遍历缓存中的数据，取消小红点
@@ -182,11 +182,14 @@ export default {
 
         //监听群聊在全局或聊天窗口界面发来的消息，并修改hasPrivateNewMsg的状态
         uni.$on('getPrivateLastChat', (res) => {
+
+            console.log('11111111111111111==============>>>>>>>>',res);
+
             this.privateChatList.forEach(friend => {
                 if (res.sign == friend.friend__sign) {
                     friend.lastChatMsg = res.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':res.content;
                     friend.time = res.time;
-                    friend['hasPrivateNewMsg'] = res.hasPrivateNewMsg;
+                    friend['hasPrivateNewMsg'] = true;
                     that.tabTitle[0]['hasGroupNewMsg'] = true;
                     uni.showTabBarRedDot({
                         index:3

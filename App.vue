@@ -387,7 +387,7 @@
 
                     } else {
                         console.log('走了(this.newWssType == falees)')
-
+                        uni.$emit('getPrivateLastChat', resDataMsg)
 
                         uni.showTabBarRedDot({
                             index: 3,
