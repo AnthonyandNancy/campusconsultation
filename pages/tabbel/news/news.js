@@ -164,7 +164,8 @@ export default {
         //监听群聊在全局或聊天窗口界面发来的消息，并修改hasNewMsg的状态，重新缓存
         uni.$on('getGroupChat', (res) => {
             this.groupChatList.forEach(chatGroup => {
-                if (res.roomSign == chatGroup.room__roomSign) {
+                // roomSign 是我自定义的sign，其实key应该为sign
+                if (res.roomSign == chatGroup.room__roomSign || res.sign == chatGroup.room__roomSign) {
                     chatGroup['hasNewMsg'] = true;
                     that.tabTitle[1]['hasGroupNewMsg'] = true
                     uni.showTabBarRedDot({
@@ -172,6 +173,9 @@ export default {
                     })
                 }
             })
+
+            this.getGroupChatList();
+
             uni.setStorageSync('CHAT_GROUP_LIST', this.groupChatList);
             uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle)
         })
@@ -189,10 +193,12 @@ export default {
                     })
                 }
             })
+
+            this.getPrivateChatList();
+
             uni.setStorageSync('CHAT_FRIEND_LIST', this.privateChatList);
             uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle)
         })
-        console.log('===============================>',this.tabTitle);
     },
 
     onReady() {
@@ -208,7 +214,6 @@ export default {
         uni.$on('getPrivateLastChat', (res) => {
             this.privateChatList.forEach(friend => {
                 if (res.sign == friend.friend__sign) {
-                    // friend.lastChatMsg = res.content;
                     friend.lastChatMsg = res.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':res.content;
                     friend.time = res.time;
                     friend['hasPrivateNewMsg'] = res.hasPrivateNewMsg;

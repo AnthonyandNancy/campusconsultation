@@ -423,7 +423,7 @@
                                         data: groupChat,
                                         success: function () {
                                             console.log('群聊success');
-
+                                            uni.$emit('getGroupChat', resDataMsg)
                                         },
                                         fail: err => {
                                             console.log(err)
