@@ -43,12 +43,12 @@
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
-                    // console.log(this.wssType)
+                    console.log('进入了[2, 3].includes(this.wssType.readyState)的判断')
 
                     uni.getNetworkType({
                         success: (res) => {
                             let netType = res.networkType
-                            // console.log(netType)
+                            console.log('getNetworkType获取成功',res)
                             if (netType == 'none') {
                                 // console.log('1')
                                 uni.onNetworkStatusChange((res) => {
@@ -74,6 +74,9 @@
                             } else {
                                 // console.log("netType !== 'none'")
                             }
+                        },
+                        fail:err=>{
+                            console.log('getNetworkType获取是失败',err)
                         }
                     });
                 }
