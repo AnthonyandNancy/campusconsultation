@@ -52,9 +52,10 @@
                             if (netType == 'none') {
                                 // console.log('1')
                                 uni.onNetworkStatusChange((res) => {
-                                    console.log('是否重连联网1>1', res.isConnected);
+                                    // console.log(res)
+                                    console.log('是否重连联网1>1', res);
                                     console.log('是否重连联网2>2', res.networkType);
-                                    if (res.isConnected == true && res.networkType != "none") {
+                                    if (res.isConnected == true) {
                                         console.log('是否重连联网1>1>1', res.isConnected);
                                         console.log('是否重连联网2>2>2', res.networkType);
                                         uni.connectSocket({
