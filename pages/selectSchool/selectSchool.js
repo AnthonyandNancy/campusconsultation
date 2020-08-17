@@ -95,6 +95,11 @@ export default {
                         constant.setUserInfo(infoRes.userInfo)
 
 
+                        if(that.locationProvince == '北京市' &&  that.locationCity== '北京市'){
+                            that.locationProvince =null;
+                            that.locationCity = null;
+                        }
+
                         let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
                         let json = await api.updateUserInfo({
                             query: {
@@ -139,10 +144,12 @@ export default {
 
                 that.userSign = constant.getUserSign();
 
-                this.locationProvince = json.data.msg.subdivisions || null;
-                this.locationCity = json.data.msg.city || null;
+                this.locationProvince = json.data.msg.subdivisions;
+                this.locationCity = json.data.msg.city;
 
-                if(this.locationProvince == null &&  this.locationCity == null){
+                console.log(this.locationProvince,'---------------',this.locationCity)
+
+                if(!this.locationProvince &&  !this.locationCity){
                     this.locationProvince = '北京市';
                     this.locationCity = '北京市';
                 }
@@ -161,7 +168,7 @@ export default {
 
                     let obj = {};
                     schoolJson.data.campusList.forEach((res, index) => {
-                        if (index > 10) {
+                        if (index > 9) {
                             return;
                         }
                         obj = {

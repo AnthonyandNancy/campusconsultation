@@ -293,7 +293,6 @@
                         if (json.data.errcode == 200) {
 
                             // uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
-
                             if (json.data.friendList.length > uni.getStorageSync('CHAT_FRIEND_LIST').length) {
                                 json.data.friendList.forEach(res => {
                                     if (res.friend__sign == resData.sign) {
@@ -329,9 +328,14 @@
 
                     if (this.newWssType == true) {
                         console.log('走了(this.newWssType == true)')
+
+                        uni.$emit('pri')
+
                         if (resData.roomType == 0) {
                             //群聊
                             console.log('resData.roomType == 0>>>群聊')
+
+                            uni.$emit('getGroupChat', {roomSign: this.roomId, ...resDataMsg})
                             this.roomId = resData.roomId
                             if (resDataMsg.type == 'system') {
                                 console.log('APP.Vue>>>>>>>>>>>', resDataMsg.type)
@@ -344,6 +348,7 @@
                             } else {
                                 resDataMsg.type = 'orther'
                             }
+                            uni.$emit('getPrivateLastChat', resDataMsg)
                             console.log('resData.roomType == 0>>>私聊')
                             this.roomId = resDataMsg.sign
                         }
@@ -360,6 +365,12 @@
                             uni.$emit('getMsgWss', option)
                         } else {
                             console.log('此时并没有进聊天')
+
+                            uni.showTabBarRedDot({
+                                index: 3
+                            })
+
+
                             const userTag = 'chatList:' + this.roomId
                             uni.getStorage({
                                 key: userTag,
@@ -415,7 +426,6 @@
                     } else {
                         console.log('走了(this.newWssType == falees)')
                         uni.$emit('getPrivateLastChat', resDataMsg)
-
                         uni.showTabBarRedDot({
                             index: 3,
                         })
