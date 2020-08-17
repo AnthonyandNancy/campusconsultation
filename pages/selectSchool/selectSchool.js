@@ -74,12 +74,6 @@ export default {
         } else {
             this.getCurLocation()
         }
-        const query = uni.createSelectorQuery().in(this);
-
-        query.select('#schoolBox').boundingClientRect(data => {
-            data.top
-        }).exec();
-
     },
     methods: {
         //授权
@@ -168,7 +162,7 @@ export default {
 
                     let obj = {};
                     schoolJson.data.campusList.forEach((res, index) => {
-                        if (index > 9) {
+                        if (index > 10) {
                             return;
                         }
                         obj = {

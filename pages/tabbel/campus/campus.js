@@ -366,8 +366,6 @@ export default {
         },
         //所有动态
         async getAllDynamicList(index) {
-            uni.showLoading();
-
             let schoolName = constant.getUserLogin().schoolName;
 
             //获取群聊
@@ -379,7 +377,6 @@ export default {
                     }
                 })
                 if (chatGroupJson.data.errcode == 200) {
-                    uni.hideLoading();
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
                 }
                 return;
@@ -401,9 +398,11 @@ export default {
                     res['isShowAllContent'] = false
                 })
 
-                uni.hideLoading();
-
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
+
+                if(index == this.tabsList.length - 1){
+                    uni.hideLoading();
+                }
             }
         },
         //进入动态详情页面

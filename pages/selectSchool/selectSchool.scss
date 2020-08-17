@@ -6,11 +6,11 @@
   bottom: 0;
 
   .contain{
-    position: relative;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    //position: relative;
+    //left: 0;
+    //right: 0;
+    //top: 0;
+    //bottom: 0;
     width: 100%;
     height: 100%;
     margin: 0 auto ;
@@ -20,10 +20,11 @@
     .getUserInfo{
       position:absolute;
       width: 100%;
-      height: calc((250rpx + 15rpx + 35rpx) * 5);
+      height: 100%;
       left: 0;
       right: 0;
       top: 0;
+      bottom: 0;
       z-index: 1000;
       opacity: 0;
     }
@@ -59,6 +60,7 @@
           flex-direction: column;
           box-shadow:0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 
+          position: relative;
           &:nth-child(2n){
              margin-right: 0;
            }

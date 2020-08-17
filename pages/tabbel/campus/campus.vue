@@ -119,7 +119,6 @@
                                     </view>
                                 </view>
                             </view>
-
                         </view>
                     </load-refresh>
                 </swiper-item>

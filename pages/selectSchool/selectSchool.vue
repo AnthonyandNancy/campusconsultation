@@ -1,28 +1,39 @@
 <template>
     <view class="selectSchoolcontain">
         <view class="contain">
-            <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
             <view class="selectSchool">
                 <view class="selectTip">选择你喜欢的校园</view>
                 <view class="selectTarget">我们将为您提供更多校园资讯</view>
 
                 <view class="schoolBox" id="schoolBox">
-                    <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index != 9" @click="selectSchool(item.schoolName)">
-                        <view class="moreText">{{item.schoolName}}</view>
-                        <view class="avatarBox">
-                            <view class="avatar" :style="index == 5?'width:150rpx;height:150rpx;margin-top:10rpx;margin-right:10rpx':''">
-                                <image :src="item.schoolPic" class="auto-img" :mode="index == 5?'aspectFit':'scaleToFill'" ></image>
+                    <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index != 9" >
+
+                        <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
+
+                        <view @click="selectSchool(item.schoolName)">
+                            <view class="moreText">{{item.schoolName}}</view>
+                            <view class="avatarBox">
+                                <view class="avatar" :style="index == 5?'width:150rpx;height:150rpx;margin-top:10rpx;margin-right:10rpx':''">
+                                    <image :src="item.schoolPic" class="auto-img" :mode="index == 5?'aspectFit':'scaleToFill'" ></image>
+                                </view>
                             </view>
                         </view>
+
                     </view>
 
-                    <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index == 9" @click="showPopup = true">
-                        <view class='moreText' style="margin-left: 20rpx">更多</view>
-                        <view class="avatarBox">
-                            <view class="moreIcon">
-                                <image src="/static/images/moreIcon.png" class="auto-img"></image>
+                    <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index == 9" >
+
+                        <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
+
+                        <view @click="showPopup = true">
+                            <view class='moreText' style="margin-left: 20rpx">更多</view>
+                            <view class="avatarBox">
+                                <view class="moreIcon">
+                                    <image src="/static/images/moreIcon.png" class="auto-img"></image>
+                                </view>
                             </view>
                         </view>
+
                     </view>
                 </view>
             </view>
