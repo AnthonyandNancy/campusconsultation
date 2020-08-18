@@ -2,6 +2,7 @@
     import constant from './utils/constant';
     import api from './utils/request/api';
 
+    let that;
     export default {
         data() {
             return {
@@ -9,10 +10,12 @@
                 wssType: {},
                 newWssType: false,
                 roomId: '',
-                sendAPPType: false
+                sendAPPType: false,
+                userSign: ''
             };
         },
         onHide() {
+
             console.log('asdadad')
             // let sign = constant.getUserSign()
             // console.log('onHide检测链接', sign)
@@ -34,47 +37,71 @@
             // // })
         },
         onLoad() {
-
         },
         onShow() {
-
 
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
-                    // console.log(this.wssType)
-
-                    uni.getNetworkType({
-                        success: (res) => {
-                            let netType = res.networkType
-                            // console.log(netType)
-                            if (netType == 'none') {
-                                // console.log('1')
-                                uni.onNetworkStatusChange((res) => {
-                                    console.log('是否重连联网1>1', res.isConnected);
-                                    console.log('是否重连联网2>2', res.networkType);
-                                    if (res.isConnected == true && res.networkType != "none") {
-                                        console.log('是否重连联网1>1>1', res.isConnected);
-                                        console.log('是否重连联网2>2>2', res.networkType);
-                                        uni.connectSocket({
-                                            url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                                            success: res => {
-                                                console.log('重连成功', res)
-                                                this.newWssType = true
-                                                this.getMsgWss()
-                                            },
-                                            fail: err => {
-                                                console.log('重连成功失败', err)
-                                            }
-                                        });
-                                    }
-
-                                });
-                            } else {
-                                // console.log("netType !== 'none'")
-                            }
+                    console.log('进入了[2, 3].includes(this.wssType.readyState)的判断')
+                    uni.onNetworkStatusChange((res) => {
+                        // console.log(res)
+                        console.log('是否重连联网1>1', res);
+                        console.log('是否重连联网2>2', res.networkType);
+                        if (res.isConnected == true) {
+                            console.log('是否重连联网1>1>1', res.isConnected);
+                            console.log('是否重连联网2>2>2', res.networkType);
+                            uni.connectSocket({
+                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                success: res => {
+                                    console.log('重连成功', res)
+                                    this.newWssType = true
+                                    this.getMsgWss()
+                                },
+                                fail: err => {
+                                    console.log('重连成功失败', err)
+                                }
+                            });
                         }
+
                     });
+
+
+                    // uni.getNetworkType({
+                    //     success: (res) => {
+                    //         let netType = res.networkType
+                    //         console.log('getNetworkType获取成功',res)
+                    //         if ( res.networkType === 'none') {
+                    //             // console.log('1')
+                    //             uni.onNetworkStatusChange((res) => {
+                    //                 // console.log(res)
+                    //                 console.log('是否重连联网1>1', res);
+                    //                 console.log('是否重连联网2>2', res.networkType);
+                    //                 if (res.isConnected == true) {
+                    //                     console.log('是否重连联网1>1>1', res.isConnected);
+                    //                     console.log('是否重连联网2>2>2', res.networkType);
+                    //                     uni.connectSocket({
+                    //                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                    //                         success: res => {
+                    //                             console.log('重连成功', res)
+                    //                             this.newWssType = true
+                    //                             this.getMsgWss()
+                    //                         },
+                    //                         fail: err => {
+                    //                             console.log('重连成功失败', err)
+                    //                         }
+                    //                     });
+                    //                 }
+                    //
+                    //             });
+                    //         } else {
+                    //             // console.log("netType !== 'none'")
+                    //         }
+                    //     },
+                    //     fail:err=>{
+                    //         console.log('getNetworkType获取是失败',err)
+                    //     }
+                    // });
                 }
             }, 1000)
 
@@ -180,6 +207,7 @@
                 })
                 let {errcode, sign, schoolName} = json.data;
 
+                this.userSign = sign;
 
                 //当用户也存在学校时，跳过选择学校的界面 直接转到首页
                 if (schoolName != null) {
@@ -190,7 +218,7 @@
 
                 if (errcode == 200) {
 
-                    if(uni.getStorageSync('CHAT_FRIEND_LIST').length == 0 || uni.getStorageSync('CHAT_GROUP_LIST').length == 0){
+                    if (uni.getStorageSync('CHAT_FRIEND_LIST').length == 0 || uni.getStorageSync('CHAT_GROUP_LIST').length == 0) {
                         this.getGroupChatList(sign);
                         this.getPrivateChatList(sign);
                     }
@@ -211,53 +239,103 @@
                                     success: res => {
                                         console.log('onLaunch检测重连接成功', res)
                                         this.getMsgWss()
-                                        clearInterval(interval)
+                                        // clearInterval(interval)
                                     },
                                     fail: err => {
                                         console.log('onLaunch检测重连接失败', err)
                                     }
 
                                 });
-                                console.log(wss,'<><><><><><><>',wss.readyState)
+                                console.log(this.wssType, '<><><><><><><>', this.wssType.readyState)
                             });
                         }
                     });
+                    let interval=setInterval(()=>{
+                        uni.onSocketError((res) => {
+                            console.log('WebSocket连接打开失败，请检查！');
+                            let wss = uni.connectSocket({
+                                url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
+                                success: res => {
+                                    console.log('onLaunch检测重连接成功', res)
+                                    this.getMsgWss()
+                                    clearInterval(interval)
+                                },
+                                fail: err => {
+                                    console.log('onLaunch检测重连接失败', err)
+                                }
+
+                            });
+                            console.log(wss, 'onLaunch检测重连接失败', wss)
+                        });
+                    },1000)
+
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
                 }
             },
             getMsgWss() {
-                uni.onSocketMessage((res) => {
+                uni.onSocketMessage(async (res) => {
                     //总消息处理
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
                     console.log(resData)
-                    //私聊
-                    if(resData.roomType == 1){
-                        if(uni.getStorageSync('CHAT_FRIEND_LIST').length != 0 ){
-                            let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
-                            friend.forEach(res=>{
-                                if(res.friend__sign == resData.sign){
-                                    res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':resData.message.content;
-                                    res['time'] = resData.message.time;
-                                    res['hasPrivateNewMsg'] = true;
-                                }
-                            })
 
-                            console.log('-12444=4-44-4-4-4-4-4-',friend)
-                            uni.setStorageSync('CHAT_FRIEND_LIST', friend);
+
+                    //私聊
+                    if (resData.roomType == 1) {
+
+                        let json = await api.getNewFriendList({
+                            query: {
+                                sign: this.userSign
+                            }
+                        })
+
+                        if (json.data.errcode == 200) {
+
+                            // uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
+                            if (json.data.friendList.length > uni.getStorageSync('CHAT_FRIEND_LIST').length) {
+                                json.data.friendList.forEach(res => {
+                                    if (res.friend__sign == resData.sign) {
+                                        res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ? '[图片]' : resData.message.content;
+                                        res['time'] = resData.message.time;
+                                        res['hasPrivateNewMsg'] = true;
+                                    }
+                                })
+
+                                uni.setStorageSync('CHAT_FRIEND_LIST', json.data.friendList);
+                            } else {
+                                if (uni.getStorageSync('CHAT_FRIEND_LIST').length != 0) {
+                                    let friend = uni.getStorageSync('CHAT_FRIEND_LIST');
+                                    friend.forEach(res => {
+                                        if (res.friend__sign == resData.sign) {
+                                            res['lastChatMsg'] = resData.message.content.indexOf('https://cdn4game.xunyi.online') == 0 ? '[图片]' : resData.message.content;
+                                            res['time'] = resData.message.time;
+                                            res['hasPrivateNewMsg'] = true;
+                                        }
+                                    })
+
+                                    uni.setStorageSync('CHAT_FRIEND_LIST', friend);
+                                }
+                            }
+
                         }
 
-                    //群聊
-                    }else if(resData.roomType == 0){
+
+                        //群聊
+                    } else if (resData.roomType == 0) {
 
                     }
 
                     if (this.newWssType == true) {
                         console.log('走了(this.newWssType == true)')
+
+                        uni.$emit('pri')
+
                         if (resData.roomType == 0) {
                             //群聊
                             console.log('resData.roomType == 0>>>群聊')
+
+                            uni.$emit('getGroupChat', {roomSign: this.roomId, ...resDataMsg})
                             this.roomId = resData.roomId
                             if (resDataMsg.type == 'system') {
                                 console.log('APP.Vue>>>>>>>>>>>', resDataMsg.type)
@@ -270,6 +348,7 @@
                             } else {
                                 resDataMsg.type = 'orther'
                             }
+                            uni.$emit('getPrivateLastChat', resDataMsg)
                             console.log('resData.roomType == 0>>>私聊')
                             this.roomId = resDataMsg.sign
                         }
@@ -286,6 +365,13 @@
                             console.log('this.sendAPPType == true')
                             uni.$emit('getMsgWss', option)
                         } else {
+                            console.log('此时并没有进聊天')
+
+                            uni.showTabBarRedDot({
+                                index: 3
+                            })
+
+
                             const userTag = 'chatList:' + this.roomId
                             console.log('走了false',userTag)
                             uni.getStorage({
@@ -341,8 +427,7 @@
 
                     } else {
                         console.log('走了(this.newWssType == falees)')
-
-
+                        uni.$emit('getPrivateLastChat', resDataMsg)
                         uni.showTabBarRedDot({
                             index: 3,
                         })
@@ -395,7 +480,7 @@
                                         data: groupChat,
                                         success: function () {
                                             console.log('群聊success');
-
+                                            uni.$emit('getGroupChat', resDataMsg)
                                         },
                                         fail: err => {
                                             console.log(err)
@@ -405,7 +490,7 @@
                                 }
                             });
 
-                        //私聊
+                            //私聊
                         } else if (resData.roomType == 1) {
                             resDataMsg.type = 'orther'
                             let sign = resData.sign
@@ -420,14 +505,12 @@
                                     resDataMsg['hasPrivateNewMsg'] = true;
                                     uni.$emit('getPrivateLastChat', resDataMsg)
 
-                                    console.log('================================================================')
 
                                     uni.showTabBarRedDot({
                                         index: 3,
                                     })
 
                                     let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
-
 
 
                                     let option = {
@@ -484,13 +567,13 @@
                         sign: userSign
                     }
                 })
-                if(json.data.errcode == 200){
-                    uni.setStorageSync('CHAT_GROUP_LIST',json.data.roomList);
+                if (json.data.errcode == 200) {
+                    uni.setStorageSync('CHAT_GROUP_LIST', json.data.roomList);
                 }
-                console.log('群聊列表',json);
+                console.log('群聊列表', json);
             },
 
-        //私聊列表
+            //私聊列表
             async getPrivateChatList(userSign) {
                 let json = await api.getNewFriendList({
                     query: {
@@ -498,10 +581,10 @@
                     }
                 })
 
-                if(json.data.errcode == 200){
-                    uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
+                if (json.data.errcode == 200) {
+                    uni.setStorageSync('CHAT_FRIEND_LIST', json.data.friendList);
                 }
-                console.log('私聊列表',json);
+                console.log('私聊列表', json);
             }
         }
     }

@@ -277,21 +277,23 @@ export default {
         //所有动态
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
-            uni.showLoading();
+            uni.showLoading({
+                title:'加载中...'
+            });
 
-            if (this.tabsList[index].type == 37) {
-                const chatGroupJson = await api.getGroupChatList({
-                    query: {
-                        sign: this.userSign,
-                        schoolName: constant.getUserLogin().schoolName
-                    }
-                })
-                if (chatGroupJson.data.errcode == 200) {
-                    uni.hideLoading();
-                    this.tabsList[index].dynamicList = chatGroupJson.data.roomList
-                }
-                return;
-            }
+            // if (this.tabsList[index].type == 37) {
+            //     const chatGroupJson = await api.getGroupChatList({
+            //         query: {
+            //             sign: this.userSign,
+            //             schoolName: constant.getUserLogin().schoolName
+            //         }
+            //     })
+            //     if (chatGroupJson.data.errcode == 200) {
+            //         // uni.hideLoading();
+            //         this.tabsList[index].dynamicList = chatGroupJson.data.roomList
+            //     }
+            //     return;
+            // }
 
             let json = await api.getDynamicList({
                 query: {
@@ -303,14 +305,18 @@ export default {
 
 
             if (json.data.errcode == 200) {
-                uni.hideLoading();
                 this.tabsList[index].totalPage = json.data.totalPage
                 json.data.dynamicList.forEach((res) => {
                     res['isShowAllContent'] = false
                 })
 
 
+
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
+
+               if(index == this.tabsList.length - 1){
+                   uni.hideLoading();
+               }
             }
         },
 

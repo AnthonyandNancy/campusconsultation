@@ -7,7 +7,6 @@
                         <view class="noticeIcon"><image style="width: 100%;height: 100%;border-radius: 100% !important;" src="/static/images/notice.png"></image></view>
                         <text class="pointIcon" v-if="false">&#xe608;</text>
                     </view>
-
                 </view>
                 <view class="avatar_nickName">
                     <view class="item avatarItem">
