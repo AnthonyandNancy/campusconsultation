@@ -283,9 +283,11 @@
 
                         //下次dom刷新才能用
                         if (this.sendAPPType == true) {
+                            console.log('this.sendAPPType == true')
                             uni.$emit('getMsgWss', option)
                         } else {
                             const userTag = 'chatList:' + this.roomId
+                            console.log('走了false',userTag)
                             uni.getStorage({
                                 key: userTag,
                                 success: async (res) => {
