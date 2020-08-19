@@ -399,7 +399,6 @@ export default {
                 })
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
-
                 if(index == this.tabsList.length - 1){
                     uni.hideLoading();
                 }
