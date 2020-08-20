@@ -39,7 +39,6 @@ export default {
         })
     },
     onShow() {
-
         new Promise((resolve, reject) => {
             //获取私聊和群聊数据
             this.userSign = constant.getUserSign();
@@ -63,6 +62,7 @@ export default {
             }
 
             new Promise((resolve, reject) => {
+
                 if (chatGroupList.length != 0) {
                     chatGroupList.forEach(res => {
                         if (groupObj[res.hasNewMsg] == undefined) {
@@ -87,8 +87,9 @@ export default {
                 }else{
                     resolve();
                 }
+
             }).then(()=>{
-                console.log('fasdgsdfsgdfgdfsg======')
+
                 if (chatFriendList.length != 0) {
                     chatFriendList.forEach(res => {
 
@@ -100,16 +101,12 @@ export default {
                     })
 
                     for (let key in friendObj) {
-                        console.log('adjsfadsljgfsgjsdklfgjldf',key)
                         if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
-
-                            console.log('hideTabBarRedDothideTabBarRedDothideTabBarRedDothideTabBarRedDot=============')
                             this.tabTitle[0]['hasGroupNewMsg'] = false
                             uni.hideTabBarRedDot({
                                 index:3
                             })
                         }else{
-                            console.log('=====================================================================================================')
                             this.tabTitle[0]['hasGroupNewMsg'] = true
 
                             that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
@@ -119,11 +116,27 @@ export default {
                             })
                         }
                     }
-                    console.log('===========1111111111',this.tabTitle)
+
                 }
             })
 
+            let tabbarObj = {};
 
+            this.tabTitle.forEach(res=>{
+                if (tabbarObj[res.hasGroupNewMsg] == undefined) {
+                    tabbarObj[res.hasGroupNewMsg] = 1
+                } else {
+                    tabbarObj[res.hasGroupNewMsg]++;
+                }
+            })
+
+            for (let key in tabbarObj) {
+                if (tabbarObj['true'] == 0 || tabbarObj['true'] == undefined) {
+                    uni.hideTabBarRedDot({
+                        index:3
+                    })
+                }
+            }
 
             chatFriendList.forEach(res => {
 
@@ -135,16 +148,12 @@ export default {
             })
 
             for (let key in friendObj) {
-                console.log('adjsfadsljgfsgjsdklfgjldf',key)
                 if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
-
-                    console.log('hideTabBarRedDothideTabBarRedDothideTabBarRedDothideTabBarRedDot=============')
                     this.tabTitle[0]['hasGroupNewMsg'] = false
                     // uni.hideTabBarRedDot({
                     //     index:3
                     // })
                 }else{
-                    console.log('=====================================================================================================')
                     this.tabTitle[0]['hasGroupNewMsg'] = true
 
                     that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
@@ -154,7 +163,6 @@ export default {
                     })
                 }
             }
-
             uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle);
         })
 
@@ -182,9 +190,6 @@ export default {
 
         //监听群聊在全局或聊天窗口界面发来的消息，并修改hasPrivateNewMsg的状态
         uni.$on('getPrivateLastChat', (res) => {
-
-            console.log('11111111111111111==============>>>>>>>>',res);
-
             this.privateChatList.forEach(friend => {
                 if (res.sign == friend.friend__sign) {
                     friend.lastChatMsg = res.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':res.content;

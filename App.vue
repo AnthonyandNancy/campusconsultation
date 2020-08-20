@@ -54,6 +54,8 @@
                             uni.connectSocket({
                                 url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                 success: res => {
+                                    console.log('{remoteUrl:constant.getUserLogin().remoteUrl}',{remoteUrl:constant.getUserLogin().remoteUrl})
+
                                     console.log('重连成功', res)
                                     this.newWssType = true
                                     this.getMsgWss()
@@ -226,6 +228,19 @@
                     this.wssType = uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                         success: res => {
+
+                            uni.onSocketOpen(function (res) {
+                                uni.sendSocketMessage({
+                                    data: JSON.stringify({remoteUrl:constant.getUserLogin().remoteUrl}),
+                                    success: res => {
+                                        console.log('remoteUrl 已经发送到后台了。。。', res)
+                                    },
+                                    fail: err => {
+                                        console.log('remoteUrl =====已经发送到后失败。。。', err)
+                                    }
+                                });
+                            });
+
                             console.log('wss连接成功')
                             this.getMsgWss()
                         },
@@ -237,6 +252,8 @@
                                 let wss = uni.connectSocket({
                                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                     success: res => {
+
+
                                         console.log('onLaunch检测重连接成功', res)
                                         this.getMsgWss()
                                         // clearInterval(interval)
@@ -256,6 +273,17 @@
                             let wss = uni.connectSocket({
                                 url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                 success: res => {
+
+                                    uni.sendSocketMessage({
+                                        data: JSON.stringify({remoteUrl:constant.getUserLogin().remoteUrl}),
+                                        success: res => {
+                                            console.log('remoteUrl 已经发送到后台了。。。', res)
+                                        },
+                                        fail: err => {
+                                            console.log('remoteUrl 已经发送到后失败。。。', err)
+                                        }
+                                    });
+
                                     console.log('onLaunch检测重连接成功', res)
                                     this.getMsgWss()
                                     clearInterval(interval)
@@ -428,9 +456,10 @@
                     } else {
                         console.log('走了(this.newWssType == falees)')
                         uni.$emit('getPrivateLastChat', resDataMsg)
-                        uni.showTabBarRedDot({
-                            index: 3,
-                        })
+
+                        // uni.showTabBarRedDot({
+                        //     index: 3,
+                        // })
 
                         // 群聊
                         if (resData.roomType == 0) {
