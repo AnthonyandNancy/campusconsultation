@@ -15,26 +15,6 @@
             };
         },
         onHide() {
-
-            console.log('asdadad')
-            // let sign = constant.getUserSign()
-            // console.log('onHide检测链接', sign)
-            // // uni.onSocketClose(() => {
-            // let interval = setInterval(() => {
-            //     uni.connectSocket({
-            //         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-            //         success: res => {
-            //             console.log('onHide检测重连接成功', res)
-            //             this.getMsgWss()
-            //             clearInterval(interval)
-            //         },
-            //         fail: err => {
-            //             console.log('onHide检测重连接失败', err)
-            //         }
-            //
-            //     });
-            // }, 1000)
-            // // })
         },
         onLoad() {
         },
@@ -67,43 +47,7 @@
                         }
 
                     });
-
-
-                    // uni.getNetworkType({
-                    //     success: (res) => {
-                    //         let netType = res.networkType
-                    //         console.log('getNetworkType获取成功',res)
-                    //         if ( res.networkType === 'none') {
-                    //             // console.log('1')
-                    //             uni.onNetworkStatusChange((res) => {
-                    //                 // console.log(res)
-                    //                 console.log('是否重连联网1>1', res);
-                    //                 console.log('是否重连联网2>2', res.networkType);
-                    //                 if (res.isConnected == true) {
-                    //                     console.log('是否重连联网1>1>1', res.isConnected);
-                    //                     console.log('是否重连联网2>2>2', res.networkType);
-                    //                     uni.connectSocket({
-                    //                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
-                    //                         success: res => {
-                    //                             console.log('重连成功', res)
-                    //                             this.newWssType = true
-                    //                             this.getMsgWss()
-                    //                         },
-                    //                         fail: err => {
-                    //                             console.log('重连成功失败', err)
-                    //                         }
-                    //                     });
-                    //                 }
-                    //
-                    //             });
-                    //         } else {
-                    //             // console.log("netType !== 'none'")
-                    //         }
-                    //     },
-                    //     fail:err=>{
-                    //         console.log('getNetworkType获取是失败',err)
-                    //     }
-                    // });
+                    
                 }
             }, 1000)
 
@@ -253,6 +197,17 @@
                                     url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                     success: res => {
 
+                                        uni.onSocketOpen(function (res) {
+                                            uni.sendSocketMessage({
+                                                data: JSON.stringify({remoteUrl:constant.getUserLogin().remoteUrl}),
+                                                success: res => {
+                                                    console.log('remoteUrl 已经发送到后台了。。。', res)
+                                                },
+                                                fail: err => {
+                                                    console.log('remoteUrl =====已经发送到后失败。。。', err)
+                                                }
+                                            });
+                                        });
 
                                         console.log('onLaunch检测重连接成功', res)
                                         this.getMsgWss()
@@ -274,14 +229,16 @@
                                 url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                 success: res => {
 
-                                    uni.sendSocketMessage({
-                                        data: JSON.stringify({remoteUrl:constant.getUserLogin().remoteUrl}),
-                                        success: res => {
-                                            console.log('remoteUrl 已经发送到后台了。。。', res)
-                                        },
-                                        fail: err => {
-                                            console.log('remoteUrl 已经发送到后失败。。。', err)
-                                        }
+                                    uni.onSocketOpen(function (res) {
+                                        uni.sendSocketMessage({
+                                            data: JSON.stringify({remoteUrl:constant.getUserLogin().remoteUrl}),
+                                            success: res => {
+                                                console.log('remoteUrl 已经发送到后台了。。。', res)
+                                            },
+                                            fail: err => {
+                                                console.log('remoteUrl =====已经发送到后失败。。。', err)
+                                            }
+                                        });
                                     });
 
                                     console.log('onLaunch检测重连接成功', res)
@@ -341,7 +298,6 @@
                                             res['hasPrivateNewMsg'] = true;
                                         }
                                     })
-
                                     uni.setStorageSync('CHAT_FRIEND_LIST', friend);
                                 }
                             }

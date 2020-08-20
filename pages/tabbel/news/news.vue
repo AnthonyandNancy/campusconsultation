@@ -12,5 +12,4 @@
 
 <script src="./news.js"></script>
 <style lang="scss" scoped>
-    @import "./news";
 </style>
