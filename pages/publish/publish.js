@@ -440,22 +440,15 @@ export default {
             })
             if (resHistory.data.errcode == 200 || resSchoolChat.data.errcode == 200) {
 
-                // if (resHistory.data.roomList.length ==0 &&resSchoolChat.data.roomList.length==0){
-                //     this.btnDis=true
-                // }
                 if (resHistory.data.roomList.length == 0) {
                     this.btnDis = true
                 } else {
                     this.roomList = resHistory.data.roomList
-                    // this.roomList.push(resHistory.data.roomList)
-                    // this.roomList.push(res02.data.roomList)
+
                 }
 
                 this.showBtn = true
                 //测试
-                // this.showSchoolList=true
-                // this.showCreatSchool=true
-                // console.log('resHistory',resHistory.data)
                 console.log('resHistory', this.roomList)
                 console.log('resSchoolChat', resSchoolChat.data)
             }
@@ -541,9 +534,6 @@ export default {
         },
         /**群聊选择
          * */
-        // radioGroupChange(val){
-        //     console.log('radioGroupChange>>>',val)
-        // },
         radioChange(val) {
             console.log('radioChange>>>', val[0])
             for (let i = 0; i <= this.roomList.length; i++) {
@@ -554,14 +544,7 @@ export default {
                     this.showgroupChatText = true
                 }
             }
-            // this.chooseRoomId=val
-            // this.roomList.map(e=>{
-            //     if (e.roomSign==val){
-            //         console.log(e.roomName)
-            //         this.creatSchoolGrounpName=e.roomName
-            //         this.showgroupChatText=true
-            //     }
-            // })
+
             this.showSchoolList = false
 
         },
@@ -586,7 +569,6 @@ export default {
         async creatSchoolGrounp() {
             //上传头像
             this.upLoadAvatar(this.groupChatAvatar)
-            // let res= await api.
         },
         //上传头像
         async upLoadAvatar(val) {
@@ -597,7 +579,6 @@ export default {
                     key: 'img'
                 }
             })
-            // console.log(JSON.parse(resImg.data))
             const status = JSON.parse(resImg.data).errcode
             const avatar = JSON.parse(resImg.data).img
             if (status == 200) {

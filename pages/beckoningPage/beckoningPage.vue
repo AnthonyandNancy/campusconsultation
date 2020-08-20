@@ -172,7 +172,6 @@
         onUnload() {
             clearInterval(this.time)
             clearInterval(this.matchingTime)
-            // clearInterval(this.matchingTimeInterval)
         },
         methods: {
             /*头像闪烁*/
@@ -233,9 +232,7 @@
                     this.matchingTimeFun()
 
                     if (this.setTime <= 0) {
-                        //测试1
-                        // this.matchingTimeGetFun()
-                        // this.showChat = true
+
                         // 测试2
                         this.showSetTime = true
                         clearInterval(this.time)
@@ -245,11 +242,9 @@
                         if (this.setTime == 0) {
                             --timesLeave;
                             resolve(timesLeave)
-                            console.log('this.setTime == 0======>', timesLeave)
                         }
                     }).then(res => {
                         if (res > -2) {
-                            console.log('atimesLeave == -2dad======>', timesLeave)
                             // this.showChat=true
                             clearInterval(this.matchingTime)
                         }
@@ -299,11 +294,9 @@
             },
 
             matchingTimeGetFun() {
-                console.log('匹配到时间倒计时')
                 //匹配到时间倒计时
                 let matchingTimeInterval = setInterval(() => {
                     if (this.lastTime <= 0) {
-                        console.log('清理匹配到时间倒计时')
                         clearInterval(matchingTimeInterval)
                     } else {
                         this.lastTime = this.lastTime - 1
@@ -337,8 +330,6 @@
 
     .aixin {
         position: fixed;
-        /*background-image: url("../../static/images/starrysky.jpg");*/
-        /*background: url("https://game.xunyi.online/static/SchoolLian/bannerImg/1.jpg") no-repeat fixed center;*/
         height: 100vh;
         top: 0;
         left: 0;
@@ -383,16 +374,6 @@
         }
     }
 
-
-    /*.reStart {*/
-    /*    width: 100%;*/
-    /*    height: 100%;*/
-    /*    text-align: center;*/
-    /*    font-size: 53rpx;*/
-    /*    line-height: 10vh;*/
-    /*    font-family: "Microsoft YaHei";*/
-    /*}*/
-
     .continue {
         position: absolute;
         left: 50%;
@@ -408,8 +389,6 @@
 
 
     .popLeft {
-        /*margin-top:31%;*/
-        /*margin-left: 11%;*/
         position: relative;
         top: 7%;
         left: 11%;
@@ -423,7 +402,6 @@
             width: 20vh;
             height: 20vh;
             border-radius: 10vh;
-            /*border: #2B83FF solid;*/
         }
     }
 
@@ -431,9 +409,6 @@
         border-radius: 10vh;
         width: 20vh;
         height: 20vh;
-        /*position: absolute;*/
-        /*top: 31%;*/
-        /*left: 56%;*/
         margin-top: -22%;
         margin-left: 56%;
         text-align: center;
@@ -441,7 +416,6 @@
     }
 
     .Rightsrc {
-        /*border: #2B83FF solid;*/
         border-radius: 10vh;
         width: 20vh;
         height: 20vh;
@@ -456,8 +430,6 @@
         -webkit-transform: rotate(-45deg);
         transform: rotate(-45deg);
         background-color: tomato;
-
-
     }
 
 
@@ -470,7 +442,6 @@
         height: 5vh;
         border-radius: 50%;
         background-color: tomato;
-
     }
 
     .middleImg:after {
@@ -482,7 +453,6 @@
         height: 5vh;
         background-color: tomato;
         border-radius: 50%;
-
     }
 
 </style>

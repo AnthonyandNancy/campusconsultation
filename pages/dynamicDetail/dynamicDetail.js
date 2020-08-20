@@ -99,7 +99,6 @@ export default {
             }
         },
         toComment(){
-            // this.showAddCommentPnael = true
             uni.navigateTo({
                 url:"/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + this.dynamicObj.dynamicSign
             })
@@ -139,7 +138,6 @@ export default {
                  dynamicList.forEach((res)=>{
                      if(res.dynamicSign == this.dynamicObj.dynamicSign){
                          this.isMySupport = true;
-                         console.log('11111111111',res);
                          this.dynamicObj= {...this.dynamicObj,...res}
                      }
                  })

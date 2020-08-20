@@ -324,7 +324,6 @@ export default {
 
                     if (this.privateChatList.length < json.data.friendList.length) {
 
-                        console.log('缓存的数据比线上的少========================')
 
                         let a = json.data.friendList;
                         let b = uni.getStorageSync('CHAT_FRIEND_LIST');

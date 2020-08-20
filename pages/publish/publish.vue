@@ -47,13 +47,6 @@
 
         </u-cell-group>
 
-        <!--话题-->
-<!--        <view class="tab" v-if="chooseActiveTab==true">-->
-<!--            <view style="width:200%;">-->
-<!--                <view   @click="activeTab(index)" class="tabss" v-for="(item,index) in list ">{{item.value}}</view>-->
-<!--            </view>-->
-<!--        </view>-->
-
         <view class="operation">
             <view class="item">
                 <view @click="uploadImage" class="img_video_express">

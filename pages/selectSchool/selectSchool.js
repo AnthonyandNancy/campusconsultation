@@ -141,7 +141,6 @@ export default {
                 this.locationProvince = json.data.msg.subdivisions;
                 this.locationCity = json.data.msg.city;
 
-                console.log(this.locationProvince,'---------------',this.locationCity)
 
                 if(!this.locationProvince &&  !this.locationCity){
                     this.locationProvince = '北京市';
@@ -278,8 +277,6 @@ export default {
                     this.searchSchoolList = json.data.campusList;
                 }
             }
-
-
         },
     }
 }

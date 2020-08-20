@@ -950,7 +950,6 @@ export default {
             }
             console.log('欢迎进入的聊天发送id', this.roomId)
             this.msgList.push(options)
-            // console.log('本地缓存',this.msgList)
             const length = this.msgList.length
             this.scrollTop = 1500 * length
             //通讯

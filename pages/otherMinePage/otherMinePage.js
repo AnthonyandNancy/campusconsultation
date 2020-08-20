@@ -130,11 +130,6 @@ export default {
             })
             if(json.data.errcode == 200){
                 this.dynamicList =json.data.dynamicList
-                // json.data.dynamicList.forEach(res=>{
-                //     if(res.sign == that.userSign){
-                //         this.dynamicList.push(res);
-                //     }
-                // })
             }
         },
         async toPrivateChat(){

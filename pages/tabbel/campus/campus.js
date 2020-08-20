@@ -515,18 +515,6 @@ export default {
                 })
 
             }
-
-
-            // if (obj.chatType == 1) {
-            //     uni.setStorage({
-            //         key: 'privateChatSign',
-            //         data: obj.roomSign
-            //     });
-            //     uni.setStorage({
-            //         key: 'privateChatName',
-            //         data: obj.roomName
-            //     });
-            // }
         },
 
     }

@@ -26,10 +26,7 @@ export default {
         msDropdownMenu
     },
     async onLoad() {
-        // if (Object.keys(constant.getSchoolInfo()).length != 0) {
-        //     console.log(Object.keys(constant.getSchoolInfo()).length != 0)
-        //
-        // }
+
         //获取用户sign
 
         this.getUserSign = constant.getUserSign();
@@ -88,16 +85,6 @@ export default {
         },
         //选择学校之后跳转到该学校的详情
         getschoolVal(index) {
-
-            // //缓存学校信息
-            // let schoolInfo = {
-            //     schoolName:this.schoolList[index].total[0],
-            //     schoolCode:this.schoolList[index].total[1],
-            //     province:this.schoolList[index].total[2],
-            //     education:this.schoolList[index].total[3],
-            //     city:this.cityList[this.cityValue].text
-            // }
-            // constant.setSchoolInfo(schoolInfo);
 
             uni.switchTab({
                 url: '../tabbel/home/home'

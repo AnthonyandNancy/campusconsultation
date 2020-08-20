@@ -63,7 +63,6 @@ export default {
         uni.getStorage({
             key: 'USER_LOGIN',
             success:  (res) =>{
-                // console.log('USER_LOGIN>>>>>>>>',res.data);
                 let data=res.data
                 this.schoolName=data.schoolName
                 this.userAvater=data.pic
@@ -101,14 +100,6 @@ export default {
                 }
             }
         });
-        // uni.getStorage({
-        //     key: 'SCHOOL_INFO',
-        //     success:  (res) =>{
-        //         // console.log('SCHOOL_INFO>>>>>>>>',res.data);
-        //         let data=res.data
-        //         this.schoolName=data.schoolName
-        //     }
-        // });
         uni.getStorage({
             key: 'USER_INFO',
             success:  (res) =>{
@@ -259,18 +250,14 @@ export default {
         getschoolVal(val) {
             let schoolTotal = this.schoolList[val].total;
             this.schoolTotal=this.schoolList[val].total;
-            // console.log('>>>>>>>>>>>',schoolTotal)
             this.schoolName=schoolTotal[0]
             //确定按钮
-            // this.updateSchool(schoolTotal);
             this.schoolValue = val;
             this.showPopup=false
         },
         async updateSchool(schoolItem) {
             let oldSchoolName=constant.getUserLogin().schoolName
             if (oldSchoolName==this.schoolName) {
-                console.log('>>>>>>>>>>>',schoolItem)
-                // console.log('>>>>>>>>>',this.schoolName)
                 return;
             }
             //缓存学校信息
@@ -300,9 +287,6 @@ export default {
                     constant.setUserLogin(userInfo)
                     this.toLogin();
 
-                    // uni.reLaunch({
-                    //     url: '/pages/tabbel/home/home'
-                    // })
                 }
             } else {
                 if (this.schoolName == null) {
@@ -326,7 +310,6 @@ export default {
                     }
 
                     this.schoolInfo = schoolInfo;
-                    // this.schoolName = schoolItem[0];
                     console.log('第二个200',schoolItem)
                     this.avatarImgUrl = 'https://cdn4game.xunyi.online/static/SchoolLian/Badges/' + this.schoolName + '.png';
                     constant.setSchoolInfo(schoolInfo);
@@ -337,7 +320,6 @@ export default {
                             schoolName: this.schoolName
                         }
                     })
-                        console.log('>>>>>>>>>>>',updateJson)
                     if (updateJson.data.errcode == 200) {
                         constant.setIsUpdateData(true)
                         console.log('第三个200',schoolItem)
@@ -353,8 +335,6 @@ export default {
                         this.dynamicList = []
                         this.currPage = 1;
                         this.toLogin();
-                        // this.getDynamicList(this.currPage)
-                        // this.getChatRoom();
                     }
                 }
             }
@@ -364,12 +344,9 @@ export default {
             this.showRegion=true
         },
         confirmRegion(val){
-            // console.log('地区？》》》》',val)
             if (val.city.label == "市辖区"){
-                // console.log('市辖区？》》》》',val)
                 this.chooseRegion=val.province.label+'  '+val.area.label
             }else{
-                // console.log('不是市辖区？》》》》',val)
                 this.chooseRegion=val.province.label+'  '+val.city.label
             }
 
@@ -426,19 +403,10 @@ export default {
                                 uni.navigateBack();
                             }
                         })
-
-
-
-
                     }
-                    // console.log(times)
                 },1000)
 
-
-
             }
-
-
         }
     }
 }
