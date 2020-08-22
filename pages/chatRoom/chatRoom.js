@@ -102,7 +102,6 @@ export default {
                             this.userInfoSign = value
                         }
                     } catch (e) {
-                        // error
                     }
                 }, 1500)
                 this.pathType = 1;
@@ -125,11 +124,7 @@ export default {
             let name = option.roomName
             console.log('当前的聊天的', chatType)
             if (chatType == 1) {
-                // if (resMsg.type == 'system') {
-                //     console.log('>>>>>>>>>>>', resMsg.type)
-                // } else {
-                //     resMsg.type = 'orther'
-                // }
+
                 //分享的状态
                 this.shareType = 1
                 const resData = res.newMSg
@@ -464,10 +459,7 @@ export default {
 
         //option的chatType = 1是群聊
         //roomType	number  0（或者不传） 群聊；1 单聊
-        // chatType: "1"
-        // roomName: "高考助力"
-        // roomSign: "1c40e1da4b4fc766870f613240797e50"
-        // userName: "Anthony"
+
 
         this.iSmatching = option.matching;
         // 语音自然播放结束
@@ -1046,9 +1038,7 @@ export default {
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + sign + '&roomName=' + name + '&chatType=' + chatType + '&avatar=' + avatar
             })
 
-            // uni.redirectTo({
-            //     url: '/pages/chatRoom/chatRoom'
-            // });
+
             uni.setStorage({
                 key: 'privateChatSign',
                 data: this.roomId,

@@ -2,16 +2,6 @@
 	<view>
 		<view @touchstart="hideDrawer" class="content">
 			<scroll-view :scroll-into-view="scrollToView" :scroll-top="scrollTop" :scroll-with-animation="scrollAnimation" @scrolltoupper="loadHistory" class="msg-list" scroll-y="true" upper-threshold="50">
-				<!-- 加载历史数据waitingUI -->
-<!--				<view class="loading">-->
-<!--					<view class="spinner">-->
-<!--						<view class="rect1"></view>-->
-<!--						<view class="rect2"></view>-->
-<!--						<view class="rect3"></view>-->
-<!--						<view class="rect4"></view>-->
-<!--						<view class="rect5"></view>-->
-<!--					</view>-->
-<!--				</view>-->
 				<view :key="index" class="row" v-for="(row,index) in msgList">
 					<!-- 系统消息 -->
 					<block v-if="row.type=='system'" >
@@ -21,15 +11,9 @@
 							<view class="text" v-if="row.chatType== 0">
 								{{row.content}}
 							</view>
-							<!-- 领取红包消息 -->
-<!--							<view v-if="row.msg.type=='redEnvelope'" class="red-envelope">-->
-<!--								<image src="/static/img/red-envelope-chat.png"></image>-->
-<!--								{{row.msg.content.text}}-->
-<!--							</view>-->
 						</view>
 					</block>
 					<!-- 用户消息 -->
-<!--					{{JSON.stringify(row)}}-->
 					<block>
 						<!-- 自己发出的消息 -->
 						<view class="my" v-if="row.sign == userInfoSign">
@@ -37,7 +21,6 @@
 							<view class="left">
 								<!-- 文字消息 -->
 								<view class="bubble" v-if="row.chatType== 0">
-<!--									<u-loading mode="flower" :show="loadingShow" size="55rpx"></u-loading>-->
 									<rich-text :nodes="row.content"></rich-text>
 								</view>
 								<!-- 语言消息 :class="playMsgid == row.msg.id?'play':''"-->
@@ -47,14 +30,12 @@
 								</view>
 								<!-- 图片消息 -->
 								<view @tap="showPic(index)" class="bubble img" v-if="row.chatType== 1 ">
-<!--									<u-loading mode="flower" :show="loadingShow" size="55rpx"></u-loading>-->
 									<image :src="row.content" mode='aspectFill' style="width: 200px;height: 100px; "></image>
 
 								</view>
 
 								<!-- 视频消息 -->
 								<view class="bubble img" v-if="row.chatType== 3 " >
-<!--									<u-loading mode="flower" :show="loadingShow" size="55rpx"></u-loading>-->
 									<video  :src="row.content"   controls  style="width: 200px;height: 100px;"></video>
 								</view>
 

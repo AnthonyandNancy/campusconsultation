@@ -303,9 +303,9 @@
                     clearInterval(this.time)
                     clearInterval(this.matchingTime)
                     setTimeout(() => {
-                        // uni.redirectTo({
-                        //     url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'matching'
-                        // });
+                        uni.redirectTo({
+                            url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'matching'
+                        });
                         this.matchingNum = null
                     }, 3000)
                 } else if (this.setTime <= 0) {

@@ -16,12 +16,6 @@
                         {{dynamicObj.addTime.split(' ')[0].substring(dynamicObj.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{dynamicObj.addTime.split(' ')[1].substring(dynamicObj.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{dynamicObj.schoolName}}
                     </view>
                 </view>
-
-<!--                <view class="dynamInfoItem" >-->
-<!--                    <view class="videoIcon" @fullscreenchange="screenChange" v-if="dynamicObj.video != null && currentPageType != 'detail'" >-->
-<!--                        <image src="/static/images/videoIcon.png" class="auto-img"></image>-->
-<!--                    </view>-->
-<!--                </view>-->
             </view>
 
             <!--动态内容-->

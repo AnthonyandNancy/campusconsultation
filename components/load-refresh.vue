@@ -16,7 +16,6 @@
 			@touchmove="coverTouchmove"
 			@touchstart="coverTouchstart"
 			class="cover-container">
-<!--			:upper-threshold="10" @scrolltoupper="scrollevent"-->
 			<scroll-view :style="getHeight" @scroll="scrollevent"  @scrolltolower="loadMore" class="list" scroll-y  show-scrollbar="true" >
 				<!-- 数据集插槽 -->
 				<slot name="content-list"></slot>

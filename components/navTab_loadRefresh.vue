@@ -84,12 +84,7 @@
 </template>
 
 <script>
-    /*
-    * title  后台传回来的数据
-    * swiperHeight  轮播切换视图的高度
-    * currentTabIndex  当前tab的下标
-    * currentPage  轮播图切换的当前页面
-    * */
+
     import navTab from './navTab';
     import loadRefresh from './load-refresh';
     import constant from "../utils/constant";
@@ -163,9 +158,6 @@
                 }
             });
 
-            // uni.$on('getPrivateLastChat',(res)=>{
-            //     console.log('最新的消息--------------------------',res)
-            // })
         },
         methods: {
             tabChange(index) {
