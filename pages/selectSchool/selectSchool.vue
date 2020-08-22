@@ -2,39 +2,50 @@
     <view class="selectSchoolcontain">
         <view class="contain">
             <view class="selectSchool">
-                <view class="selectTip">选择你喜欢的校园</view>
-                <view class="selectTarget">我们将为您提供更多校园资讯</view>
+                <view class="selectSchool_header">
+                    <view class="selectTip">关注的校园</view>
+                    <view class="selectTarget">我们将为您提供更多校园资讯</view>
+                </view>
+
 
                 <view class="schoolBox" id="schoolBox">
                     <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index != 9" >
-
                         <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
-
-                        <view @click="selectSchool(item.schoolName)">
-                            <view class="moreText">{{item.schoolName}}</view>
-                            <view class="avatarBox">
-                                <view class="avatar" :style="index == 5?'width:150rpx;height:150rpx;margin-top:10rpx;margin-right:10rpx':''">
-                                    <image :src="item.schoolPic" class="auto-img" :mode="index == 5?'aspectFit':'scaleToFill'" ></image>
+                            <view class="select_item" @click="selectSchool(item.schoolName)">
+                                <view class="avatarBox">
+                                    <view class="avatar_img" >
+                                        <image :src="item.schoolPic" class="auto-img"  mode="aspectFit"></image>
+                                    </view>
                                 </view>
-                            </view>
-                        </view>
 
+                            </view>
+
+                            <view class="select_item " @click="selectSchool(item.schoolName)">
+                                <view class="moreText">
+                                    {{item.schoolName}}
+                                </view>
+
+                            </view>
                     </view>
 
-                    <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index == 9" >
+                        <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index == 9"  >
+                            <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
 
-                        <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
-
-                        <view @click="showPopup = true">
-                            <view class='moreText' style="margin-left: 20rpx">更多</view>
-                            <view class="avatarBox">
-                                <view class="moreIcon">
-                                    <image src="/static/images/moreIcon.png" class="auto-img"></image>
+                            <view class="select_item" @click="showPopup = true">
+                                <view class="avatarBox">
+                                    <view class="avatar_img">
+                                        <image src="/static/images/moreIcon.png" class="auto-img"  mode="aspectFit"></image>
+                                    </view>
                                 </view>
                             </view>
-                        </view>
 
-                    </view>
+                            <view class="select_item " @click="showPopup = true">
+                                <view class="moreText">
+                                    更多校园
+                                </view>
+
+                            </view>
+                        </view>
                 </view>
             </view>
         </view>
@@ -48,7 +59,6 @@
                 </view>
                 <view class="item">
                     <uni-search-bar placeholder="请输入你喜欢的院校" @focus="getFocus" @blur="toBlus" @input="handelSearch" v-model="keyword" :radius="100" ></uni-search-bar>
-
             </view>
             </view>
 
@@ -56,7 +66,6 @@
                 <u-cell-item v-for="(item,index) in searchSchoolList" :key="index" icon="none" :title="item[0]"
                              :arrow="false" @click="selectSchool(item[0])"></u-cell-item>
             </u-cell-group>
-
 
             <view v-if="!showSelect">
                 <ms-dropdown-menu>
@@ -68,7 +77,6 @@
                                       @input="getschoolVal" :placeholderTip="'请输入您期望的学校'"></ms-dropdown-item>
                 </ms-dropdown-menu>
             </view>
-
         </u-popup>
 
     </view>

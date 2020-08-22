@@ -88,10 +88,14 @@ swiper {
     line-height: 90upx;
     margin: 0 10upx;
     padding: 0 20upx;
+    font-family:Source Han Sans SC;
+    font-weight:300;
+    color:rgba(0,0,0,1);
 }
 
 .wuc-tab-item.cur {
     border-bottom: 4upx solid;
+
 }
 
 .wuc-tab.fixed {
@@ -112,7 +116,10 @@ swiper {
     flex: 1;
 }
 .text-blue{
-  color:#0081ff;
+  font-size: 35rpx;
+  font-family:Source Han Sans SC;
+  font-weight:bold;
+  color:rgba(0,0,0,1);
 }
 .text-white{
   color:#ffffff;

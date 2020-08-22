@@ -1,7 +1,7 @@
 <template>
-	<swiper class="image-container" previous-margin="45rpx" next-margin="45rpx" circular autoplay @change="swiperChange">
+	<swiper class="image-container" previous-margin="45rpx" next-margin="45rpx" circular autoplay @change="swiperChange" :indicator-dots="true"  :indicator-active-color="'#fff'"  :indicator-color="'rgba(255,255,255,0.3)'">
 		<swiper-item :class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" v-for="(item, index) in imgList" :key="item[urlKey]">
-			<image @click="clickImg(item)" :class="currentIndex == index ? 'item-img' : 'item-img-side'" :src="item[urlKey]" lazy-load :style="dontFirstAnimation ? 'animation: none;' : ''" mode="aspectFill"></image>
+			<image @click="clickImg(item)"  :class="currentIndex == index ? 'item-img' : 'item-img-side'" :src="item[urlKey]" lazy-load :style="dontFirstAnimation ? 'animation: none;' : ''" mode="aspectFill"></image>
 		</swiper-item>
 	</swiper>
 </template>
@@ -41,7 +41,7 @@
 <style scoped>
 	.image-container {
 		width: 750rpx;
-		height: 350rpx;
+		height: 320rpx;
 	}
 
 	.item-img {
@@ -49,6 +49,7 @@
 		height: 300rpx;
 		border-radius: 14rpx;
 		animation: to-big .3s;
+		border: 1rpx solid rgba(0,0,0,0.1);
 	}
 
 	.swiper-item {

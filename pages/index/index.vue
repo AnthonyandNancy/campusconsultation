@@ -18,9 +18,7 @@
 				</ms-dropdown-menu>
 			</view>
 		</view>
-
 	</view>
-
 </template>
 
 <script src="./index.js"></script>

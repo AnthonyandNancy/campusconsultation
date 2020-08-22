@@ -6,10 +6,10 @@
   bottom: 0;
 
   .contain{
+    position: relative;
     width: 100%;
     height: 100%;
     margin: 0 auto ;
-    padding: 10rpx 2.5%;
     overflow-y: auto;
 
     .getUserInfo{
@@ -25,68 +25,93 @@
     }
 
     .selectSchool{
-      //position: absolute;
-      left: 0;
-      top: 0;
       z-index: 500;
-      .selectTip{
-        font-size: 28upx;
-        font-family: "Microsoft YaHei UI";
-        margin: 15rpx 0;
-        font-weight: 600;
+
+      .selectSchool_header{
+        height:436rpx;
+        background:linear-gradient(180deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%);
+        opacity:1;
+        padding-left: 32rpx;
+        .selectTip{
+          font-size:48rpx;
+          font-family:Source Han Sans SC;
+          font-weight:bold;
+          line-height:41px;
+          color:rgba(20,20,20,1);
+          letter-spacing:3.058823585510254px;
+          opacity:1;
+        }
+        .selectTarget{
+          font-size: 28upx;
+          color: #ddd;
+          font-family:Source Han Sans SC;
+          font-weight:300;
+          color:rgba(20,20,20,1);
+          letter-spacing:2.058823585510254px;
+          opacity:0.7;
+        }
       }
-      .selectTarget{
-        font-size: 28upx;
-        font-family: "Microsoft YaHei UI";
-        color: #ddd;
-      }
+
       .schoolBox{
-        display: flex;
-        margin-top: 30rpx;
-        flex-wrap: wrap;
+        position: absolute;
+        top: 156rpx;
+        width: 100%;
+        padding: 24rpx 32rpx;
+        background:rgba(242,242,242,1);
+        border-top-left-radius:40px ;
+        border-top-right-radius: 40px;
+
         .schoolItem{
-          flex:0 0 calc((100%  -  (30rpx / 2))/2);
-          height: 250rpx;
-          //border: 1rpx solid rgba(0,0,0,0);
-          margin-right: 15rpx;
-          margin-bottom: 15rpx;
-          border-radius: 10rpx;
           display: flex;
-          flex-direction: column;
-          box-shadow:0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20rpx;
+          .select_item{
+            flex: 1;
 
-          position: relative;
-          &:nth-child(2n){
-             margin-right: 0;
-           }
+            &:last-child{
+              flex-grow: 3.5;
+            }
+            .avatar_img{
+              position: relative;
+              width: 140rpx;
+              height: 140rpx;
+              top: 50%;
+              transform: translateY(-50%);
+              border-radius: 100%;
+              overflow: hidden;
+              margin:0  auto;
+              padding: 10rpx
+            }
 
-          .avatar{
-            float: right;
-            width: 100rpx;
-            height: 100rpx;
-            margin-right: 25rpx;
-            overflow: hidden;
+            .moreText{
+              background-color: #ffffff;
+              height: 120rpx;
+              line-height: 120rpx;
+              border-top-right-radius: 50rpx;
+              border-bottom-right-radius: 50rpx;
+              margin-left: -30rpx;
+              text-indent:70rpx;
+              font-size:40upx;
+              font-family:Source Han Sans SC;
+              font-weight:600;
+              color:rgba(20,20,20,1);
+              letter-spacing:1.058823585510254px;
+            }
           }
+          .avatarBox{
+            width: 150rpx;
+            height: 150rpx;
+             background-color: #fff;
+             border-radius: 100%;
+           }
           .moreIcon{
             float: right;
             width: 120rpx;
             height: 120rpx;
             border: 5px solid #fff;
             margin-right: 25rpx;
-            //margin-top: 25rpx;
-          }
-          .moreText{
-            flex: 1;
-            line-height:50rpx;
-            font-size: 29rpx;
-             font-family: "Microsoft YaHei UI";
-            font-weight: 600;
-            color: #000000;
-            margin-left: 10rpx;
-            margin-top: 25rpx;
-          }
-          .avatarBox{
-            flex: 1;
           }
         }
         .moreSchool{

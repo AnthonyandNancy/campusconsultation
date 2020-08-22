@@ -3,18 +3,11 @@
     "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
   },
   "pages": [
-
     {
       "path": "pages/selectSchool/selectSchool",
       "style": {
         "navigationBarTitleText": "连校园",
         "backgroundColorTop": "#ffffff"
-      },
-      "permission": {
-        "scope.userLocation": {
-          "desc": "你的位置信息将用于小程序位置接口的效果展示"
-          // 高速公路行驶持续后台定位
-        }
       }
     },
     {
@@ -108,8 +101,8 @@
     }
   ],
   "tabBar": {
-    "selectedColor": "#1B7AFF",
-    "color": "#000",
+    "selectedColor": "#FE6160",
+    "color": "#C9C9C9",
     "list": [
       {
         "text": "首页",

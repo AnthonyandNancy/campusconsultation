@@ -74,6 +74,8 @@ export default {
       const query = uni.createSelectorQuery().in(this);
 
       query.select('.myDynamic').boundingClientRect(res=>{
+          console.log('我的动态列表===》',res)
+
           this.myDynamicViewH = this.pageHeight - res.top;
           this.loadRefreshHeight = res.top;
       }).exec();

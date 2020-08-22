@@ -1,36 +1,43 @@
 <template>
     <view class="main">
-       <view class="header" >
+        <view class="header">
             <view class="header-Info">
                 <view @click="toReadNotive" class="notice" v-if="false">
                     <view class="notice_box">
-                        <view class="noticeIcon"><image style="width: 100%;height: 100%;border-radius: 100% !important;" src="/static/images/notice.png"></image></view>
+                        <view class="noticeIcon">
+                            <image style="width: 100%;height: 100%;border-radius: 100% !important;"
+                                   src="/static/images/notice.png"></image>
+                        </view>
                         <text class="pointIcon" v-if="false">&#xe608;</text>
                     </view>
                 </view>
                 <view class="avatar_nickName">
                     <view class="item avatarItem">
-                    <!--<button class="getUserInfo" open-type="getUserInfo"  v-if="!isAuthor && !userInfo.pic" @getuserinfo="toAuthor"></button>-->
+                        <!--<button class="getUserInfo" open-type="getUserInfo"  v-if="!isAuthor && !userInfo.pic" @getuserinfo="toAuthor"></button>-->
                         <view class="avatar">
-                            <image :src="userInfo.avatar?userInfo.avatar:'../../static/images/avatar.png'" mode="aspectFit" style="width: 100%;height: 100%;border-radius: 100% !important;"></image>
+                            <image :src="userInfo.avatar?userInfo.avatar:'../../static/images/avatar.png'"
+                                   mode="aspectFit"
+                                   style="width: 100%;height: 100%;border-radius: 100% !important;"></image>
                         </view>
                     </view>
                     <view class="item nickNameItem">
-                        <view class="item userInfo" >
+                        <view class="item userInfo">
                             {{userInfo.roomName?userInfo.roomName:'请先授权'}}
                         </view>
 
                         <view @click="follow" class="item followBox">
                             <view class="follow">
-                            <!--<image :src="isFollow?'/static/images/follow_active.png':'/static/images/follow.png'" class="auto-img"></image>-->
-                                <u-icon :name="isFollow?'star-fill':'star'" :color="isFollow?'#2979ff':'#5f5f5f'" size="28"></u-icon>
+                                <!--<image :src="isFollow?'/static/images/follow_active.png':'/static/images/follow.png'" class="auto-img"></image>-->
+                                <u-icon :name="isFollow?'star-fill':'star'" :color="isFollow?'#2979ff':'#5f5f5f'"
+                                        size="28"></u-icon>
                             </view>
-                               <view class="followIcon">关注</view>
+                            <view class="followIcon">关注</view>
                         </view>
 
-                        <view class="nickitem userInfo" v-if="false">{{userInfo.roomName?userInfo.roomName:'请先授权'}}</view>
+                        <view class="nickitem userInfo" v-if="false">{{userInfo.roomName?userInfo.roomName:'请先授权'}}
+                        </view>
                         <view class="nickite" v-if="false">
-                            <u-button  @click="toPrivateChat" class="sendMessageBtn" size="mini">发消息</u-button>
+                            <u-button @click="toPrivateChat" class="sendMessageBtn" size="mini">发消息</u-button>
                         </view>
                         <view class="editMeans" v-if="false">编辑资料
                             <text class="arrow-right">&#xe658;</text>
@@ -38,7 +45,7 @@
                     </view>
                 </view>
             </view>
-            <view class="header-bg" >
+            <view class="header-bg">
                 <image :src="userInfo.avatar" class="auto-img" mode="aspectFill"></image>
             </view>
         </view>
@@ -79,16 +86,30 @@
                 </view>
             </view>
         </view>
-        <refresh :drop="true" :pull="true" @dropOpen="dropOpen" @pullOpen="pullOpen" ref="refresh">
-            <view :style="{height: myDynamicViewH + 'px'}" class="myDynamic">
-                <view class="tip">
-                    我的动态
+
+
+        <view :style="{height: myDynamicViewH + 'px'}" class="myDynamic">
+            <load-refresh ref="hideLoading"
+                          :isRefresh="true"
+                          :refreshTime="800"
+                          :heightReduce="loadRefreshH"
+                          :backgroundCover="'#fff'"
+                          :pageNo="currPage"
+                          :totalPageNo="totalPage"
+                          @loadMore="loadMore"
+                          @refresh="refresh">
+                <view slot="content-list">
+                    <view class="tip">
+                        我的动态
+                    </view>
+                    <view class="dynamicList">
+                        <dynamicCard :currentPageType="'mine'" :dynamicObj="item" :key="index"
+                                     v-for="(item,index) in dynamicList"></dynamicCard>
+                    </view>
                 </view>
-                <view class="dynamicList">
-                    <dynamicCard :currentPageType="'mine'" :dynamicObj="item" :key="index" v-for="(item,index) in dynamicList"></dynamicCard>
-                </view>
-            </view>
-        </refresh>
+            </load-refresh>
+        </view>
+
     </view>
 </template>
 

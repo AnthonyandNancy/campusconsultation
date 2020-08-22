@@ -31,25 +31,36 @@
                                 <view class="dynamInfo">
                                     <view class="dynamInfoItem PublisherAvatar">
                                         <view class="avatar u-skeleton-circle" @click="toOtherMineInfoPage(item1)">
-                                            <image :src="item1.pic" style="width: 100%;height: 100%;border-radius: 100% !important;" mode="aspectFill"></image>
+                                            <image :src="item1.pic" style="position:absolute;width: 100%;height: 100%;border-radius: 100% !important;" mode="aspectFill"></image>
                                         </view>
+                                        <view class="onLine_tip" :style="{background:item1.online.isOnline?'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)':'#b2b2b2'}"></view>
+
+
                                     </view>
+
                                     <view class="dynamInfoItem Publishertime" @click="dynamicDetail(item1)">
-                                        <view class="Publisher">{{item1.name}}
-                                            <text v-if="false" class="point" @click="dynamicDetail(item1)">
-                                                &#xe608;
-                                            </text>
-                                        </view>
+                                        <view class="Publisher">{{item1.name}}</view>
                                         <view class="time" @click="dynamicDetail(item1)">
-                                            {{item1.addTime}}&nbsp;&nbsp;{{item1.schoolName}}
+                                            {{item1.addTime.split(' ')[0].substring(item1.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{item1.addTime.split(' ')[1].substring(item1.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item1.schoolName}}
                                         </view>
                                     </view>
 
-                                    <view class="dynamInfoItem" @click="showVideo(item1.video)">
-                                        <view class="videoIcon" v-if="item1.video != null">
-                                            <image src="/static/images/videoIcon.png" class="auto-img"></image>
-                                        </view>
+                                    <view class="dynamInfoItem chatRoom_Entrance">
+                                        <view @click="toAddChatRoom(item1)"  class="chat_btn" v-if="item.type != 36 && item.type != 35 && item1.roomId != null && item1.type != 6 && item1.type != 5">加入聊天</view>
+
+                                        <view   class="chat_btn" @click="toPersionalChat(item1)" v-if="item.type == 36 &&  item1.type == 6 && userSign != item1.sign">进入表白</view>
+
+                                        <view   class="chat_btn" @click="toPersionalChat(item1)" v-if="item1.type == 5 && userSign != item1.sign">咨询物主</view>
+
                                     </view>
+
+                                        <!--播放视频-->
+                                        <!--<view class="dynamInfoItem" @click="showVideo(item1.video)">-->
+                                        <!--   <view class="videoIcon" v-if="item1.video != null">-->
+                                        <!--     <image src="/static/images/videoIcon.png" class="auto-img"></image>-->
+                                        <!--   </view>-->
+                                        <!--</view>-->
+
                                 </view>
 
                                 <!--动态内容-->
@@ -70,6 +81,16 @@
                                             <image :src="imgItem" class="auto-img" lazy-load
                                                    mode="aspectFill"></image>
                                         </view>
+
+                                        <view class="item image" v-if="item1.video != null && item1.videoPreview != 'https://cdn4game.xunyi.onlineNone' " @click="showVideo(item1.video)" >
+                                            <image :src="item1.videoPreview" class="auto-img"></image>
+
+<!--                                            <view class="videoMask">-->
+                                                <view class="videoBtnIcon">
+                                                    <image src="/static/images/video_play.png" class="auto-img" mode="aspectFit"></image>
+                                                </view>
+<!--                                            </view>-->
+                                        </view>
                                     </view>
                                     <view v-if="item1.audio != null">
 
@@ -81,16 +102,6 @@
 
                                 <view class="support">
                                     <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
-                                    <view class="Item publishTime"
-                                          v-if="item.type != 36 && item.type != 35 && item1.roomId != null && item1.type != 6 && item1.type != 5">
-                                        <u-button size="mini" @click="toAddChatRoom(item1)">加入聊天</u-button>
-                                    </view>
-                                    <view class="Item publishTime" v-if="item.type == 36 &&  item1.type == 6 && userSign != item1.sign">
-                                        <u-button size="mini" @click="toPersionalChat(item1)">进入表白</u-button>
-                                    </view>
-                                    <view class="Item publishTime" v-if="item1.type == 5 && userSign != item1.sign">
-                                        <u-button size="mini" @click="toPersionalChat(item1)">咨询物主</u-button>
-                                    </view>
                                     <view class="Item support_comment">
 
                                         <view class="shareIcon" @click="toShare(item1.dynamicSign)">
@@ -131,7 +142,7 @@
 
         <view class="loveBtn" v-if="content.length==1" @click="tofindLove">
             <view class="loveImg">
-                <image src="/static/images/loveIcon.png" class="auto-img"></image>
+                <image src="/static/images/fab_love.png" class="auto-img"></image>
             </view>
             <view class="loveText">怦然心动</view>
         </view>

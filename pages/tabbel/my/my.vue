@@ -20,64 +20,35 @@
                                    mode="aspectFit"></image>
                         </view>
                     </view>
+
                     <view class="item nickNameItem">
                         <view class="item userInfo">{{userInfo.name?userInfo.name:'请先授权'}}</view>
+                    </view>
 
-                        <view class="nickitem userInfo" v-if="false">{{userInfo.name?userInfo.name:'请先授权'}}</view>
-                        <view class="nickite" v-if="false">
-                            <u-button class="sendMessageBtn" size="mini" @click="toPrivateChat">发消息</u-button>
+                    <view class="item support_or_folloew">
+                        <view class="supportOrFollowItem">
+                            <view  class="supportBox" @click="toMySupport">
+                                <view class="supportOrFollowNum">15</view>
+                                <view class="supportOrFollowText">我赞过的</view>
+                            </view>
                         </view>
-                        <view class="editMeans" v-if="false">编辑资料
-                            <text class="arrow-right">&#xe658;</text>
+                        <view class="supportOrFollowItem">
+                            <view class="followBox" @click="toMyFollow">
+                                <view class="supportOrFollowNum">20</view>
+                                <view class="supportOrFollowText">我的关注</view>
+                            </view>
                         </view>
                     </view>
                 </view>
             </view>
+
             <view class="header-bg">
-                <image :src="userInfo.pic" class="auto-img" mode="aspectFill"></image>
-            </view>
-        </view>
-        <view>
-            <u-cell-group>
-                <u-cell-item @click="toMySupport" icon="heart" title="我赞过的" :arrow="true"
-                             arrow-direction="right"></u-cell-item>
-                <u-cell-item @click="toMyFollow" icon="star" title="我的关注" :arrow="true"
-                             arrow-direction="right"></u-cell-item>
-            </u-cell-group>
-        </view>
-        <view class="operationBox" v-if="false">
-            <view class="moreTip">
-                更多功能
-            </view>
-
-            <view class="OperationFun">
-                <view class="funItem" @click="toReadNotive">
-                    <view class="notice">
-                        <text class="noticeIcon">
-                            &#xe651;
-                        </text>
-                        <text class="pointIcon">&#xe608;</text>
-
-                    </view>
-                    <view>通知</view>
-                </view>
-                <view class="funItem">
-                    <view>
-                        <text class="setIcon">&#xe6b6;</text>
-                    </view>
-                    <view>设置</view>
-                </view>
-                <view class="funItem">
-                    <view>
-                        <text class="historyIcon">&#xe7aa;</text>
-                    </view>
-                    <view>浏览历史</view>
-                </view>
+                <!--userInfo.pic-->
+                <image src="/static/images/mineBG@2x.png" class="auto-img" mode="aspectFill"></image>
             </view>
         </view>
 
-
-        <view class="myDynamic" :style="{height: myDynamicViewH + 'px'}">
+        <view class="myDynamic"  :style="{height: myDynamicViewH + 'px'}">
 
             <load-refresh ref="hideLoading"
                           :isRefresh="true"
@@ -89,7 +60,7 @@
                           @loadMore="loadMore"
                           @refresh="refresh">
                 <view slot="content-list">
-                    <view class="tip" @click="toother">
+                    <view class="tip">
                         我的动态
                     </view>
                     <view class="dynamicList">

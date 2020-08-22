@@ -2,7 +2,7 @@
   .header{
     position: relative;
     width: 100%;
-    height: 300rpx;
+    height: 520rpx;
     border-bottom: 5px solid #eee;
 
     .header-Info{
@@ -21,19 +21,9 @@
       left: 0;
       top:0;
       width: 100%;
-      height: 300rpx;
+      height: 520rpx;
       z-index: 500;
-      //filter: blur(6rpx);//高斯模糊
-      //filter: brightness(70%);//亮度
-      //filter: contrast(50%);//对比度
-      //filter: drop-shadow(15rpx 15rpx 10rpx #999999);//给图像设置一个阴影效果
-      //filter: grayscale(60%);//灰度
-      //filter: hue-rotate(90deg);//色相
-      //filter: invert(0.8);//反相
-      //filter: opacity(20%);//透明度
-      //filter: saturate(0%);//饱和度
-      //filter: sepia(70%);//褐色
-      filter: opacity(50%)  sepia(10%);
+
     }
     .notice{
       .notice_box{
@@ -92,25 +82,71 @@
         }
         .userInfo{
           text-align: center;
+          font-family:Source Han Sans SC;
+          font-weight:400;
+          line-height:44rpx;
+          color:rgba(255,255,255,1);
         }
       }
+
       .avatar{
-        width: 100rpx;
-        height: 100rpx;
+        width: 192rpx;
+        height: 192rpx;
         margin: 0 auto;
-        //border: 1px solid #ddd;
         border-radius:100% ;
         overflow: hidden;
-        margin-bottom: 10rpx;
+        margin-bottom: 16rpx;
+      }
+
+      .support_or_folloew{
+          width: 100%;
+          display: flex;
+        margin-top: 70rpx;
+      }
+      .supportOrFollowItem{
+        flex: 1;
+        height: 100rpx;
+        text-align: center;
+        &:first-child{
+          border-right: 1px solid #ddd;
+        }
+      }
+
+      .supportBox{
+        float: right;
+        width: 112rpx;
+        margin-right: 94rpx;
+      }
+      .followBox{
+        float: left;
+        width: 112rpx;
+        margin-left: 94rpx;
+      }
+      .supportOrFollowNum{
+        font-size:40rpx;
+        font-family:Roboto;
+        font-weight:bold;
+        color:rgba(255,255,255,1);
+      }
+      .supportOrFollowText{
+        font-size:28rpx;
+        font-family:Source Han Sans SC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
       }
     }
   }
 
   .myDynamic{
     .tip{
-      font-weight: 600;
-      font-family: "Microsoft YaHei";
-      padding: 10px 25rpx;
+      background-color:#F2F2F2;
+      height: 120rpx;
+      text-indent:40rpx;
+      font-size:28rpx;
+      font-family:Source Han Sans SC;
+      font-weight:400;
+      line-height:120rpx;
+      color:rgba(159,159,159,1);
     }
   }
 }

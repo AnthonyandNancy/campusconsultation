@@ -13,13 +13,13 @@ export default {
     data() {
         return {
             bannerImg: [],
-            cartTypeList: [{name: '热门动态', bgColor: '#ABB3FE'}, {name: '以书会友', bgColor: '#ABB3FE'}, {
-                name: '校园爱情',
-                bgColor: '#89D2B7'
-            }, {name: '百团大战', bgColor: '#89D2B7'}, {name: '约起开黑', bgColor: '#ABB3FE'}, {
-                name: '操场相见',
-                bgColor: '#ABB3FE'
-            }],
+            cartTypeList: [
+                {name: '热门动态'},
+                {name: '以书会友'},
+                {name: '校园爱情'},
+                {name: '百团大战'},
+                {name: '约起开黑'},
+                {name: '操场相见'}],
             isAuthor: Boolean,
             userSign: ''
         }
@@ -31,23 +31,23 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
-    onLoad(){
+    onLoad() {
 
         this.toLogin();
 
     },
     onReady() {
         uni.showLoading({
-            title:'加载中...'
+            title: '加载中...'
         })
 
         that = this;
         this.isAuthor = constant.getIsAuthor();
         let banner = constant.getUserLogin().banner;
-        this.userSign= constant.getUserSign();
+        this.userSign = constant.getUserSign();
         this.bannerImg = banner;
 
-        if(this.bannerImg.length != 0){
+        if (this.bannerImg.length != 0) {
             uni.hideLoading();
         }
     },
@@ -61,10 +61,10 @@ export default {
             })
         },
 
-        toAuthor(){
+        toAuthor() {
             uni.getUserInfo({
                 provider: 'weixin',
-                lang:'zh_CN',
+                lang: 'zh_CN',
                 success: async function (infoRes) {
                     constant.setIsAuthor(true);
                     that.isAuthor = true;

@@ -11,20 +11,17 @@
                 </view>
                 <view class="dynamInfoItem Publishertime" @click="toDetail(dynamicObj)">
                     <view class="Publisher">{{dynamicObj.name}}
-                        <text v-if="false" class="point" @click="dynamicDetail(dynamicObj)">
-                            &#xe608;
-                        </text>
                     </view>
                     <view class="time" @click="toDetail(dynamicObj)">
-                        {{dynamicObj.addTime}}&nbsp;&nbsp;{{dynamicObj.schoolName}}
+                        {{dynamicObj.addTime.split(' ')[0].substring(dynamicObj.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{dynamicObj.addTime.split(' ')[1].substring(dynamicObj.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{dynamicObj.schoolName}}
                     </view>
                 </view>
 
-                <view class="dynamInfoItem" @click="showVideo()">
-                    <view class="videoIcon" @fullscreenchange="screenChange" v-if="dynamicObj.video != null && currentPageType != 'detail'" >
-                        <image src="/static/images/videoIcon.png" class="auto-img"></image>
-                    </view>
-                </view>
+<!--                <view class="dynamInfoItem" >-->
+<!--                    <view class="videoIcon" @fullscreenchange="screenChange" v-if="dynamicObj.video != null && currentPageType != 'detail'" >-->
+<!--                        <image src="/static/images/videoIcon.png" class="auto-img"></image>-->
+<!--                    </view>-->
+<!--                </view>-->
             </view>
 
             <!--动态内容-->
@@ -46,10 +43,16 @@
                                mode="aspectFill"></image>
                     </view>
 
+                    <view class="item image" v-if="currentPageType != 'detail'&&dynamicObj.video != null && dynamicObj.videoPreview != 'https://cdn4game.xunyi.onlineNone' " @click="showVideo(dynamicObj.video)" >
+                        <image :src="dynamicObj.videoPreview" class="auto-img"></image>
+                        <view class="videoBtnIcon" @click="showVideo(dynamicObj.video)">
+                            <image src="/static/images/video_play.png" class="auto-img" mode="aspectFit"></image>
+                        </view>
+                    </view>
+
                     <view class="video" v-show="currentPageType == 'detail'&&dynamicObj.video!=null">
                         <video id="dynamicVideo" object-fit="cover" controls class="auto-img"
                                :src="dynamicObj.video"></video>
-                    <!--dynamicObj.video   v-if="dynamicObj.video != 'https://cdn4game.xunyi.online' && dynamicObj.video != null"-->
                     </view>
                 </view>
 
@@ -98,6 +101,8 @@
 
         </view>
 
+        <video id="videoId"  style="display: block !important; width: 0 !important; height: 0 !important;" :src="videoUrl" class="video" controls @fullscreenchange="screenChange"></video>
+
         <!-- 群聊列表-->
         <view v-if="currentPageType == 'chat'">
             <view class="chatItemBox" @click="toChatRoom">
@@ -141,7 +146,8 @@
             return{
                 audioPlay:false,
                 videoContext:{},
-                userSign:''
+                userSign:'',
+                videoUrl:''
             }
         },
         onReady(){
@@ -189,12 +195,21 @@
             showAllContent(){
                 this.$emit('showAllEvent')
             },
-            showVideo() {
-                this.videoContext = wx.createVideoContext('dynamicVideo', this);
-                this.videoContext.requestFullScreen();
+            showVideo(url) {
+                this.videoUrl = url
+                this.videoContext = wx.createVideoContext('videoId', this);
+                this.videoContext.requestFullScreen({direction: 0});
             },
-            screenChange() {
-                this.videoContext.play();
+            screenChange(e) {
+                if (e.detail.fullScreen) {
+                    setTimeout(res => {
+                        this.videoContext.play();
+                    }, 200)
+
+                } else {
+                    this.videoUrl = '';
+                    this.videoContext.stop()
+                }
             },
             toDetail(){
                 this.$emit('toDetailEvent',this.dynamicObj)
@@ -229,7 +244,7 @@
     .dynamicItem {
         background-color: #FFFFFF;
         padding: 20rpx 20rpx;
-        border-bottom: 5px solid #eee;
+        border-bottom: 5px solid #F2F2F2;
 
         .dynamInfo {
             display: flex;
@@ -261,23 +276,20 @@
             .Publishertime {
                 flex-grow: 4.5;
                 .Publisher {
-                    color: #A2BDFC;
                     font-weight: 600;
                     font-size: 28rpx;
-                    font-family: "Microsoft YaHei";
                     margin-bottom: 5rpx;
-                }
-
-                .point {
-                    font-family: iconfont;
-                    font-size: 20rpx;
-                    color: #ddd;
+                    font-family:Source Han Sans SC;
+                    color:rgba(0,0,0,1);
+                    padding-left: 20rpx;
                 }
 
                 .time {
-                    color: #B0B0B0;
-                    font-family: "Microsoft YaHei";
-                    font-size: 20rpx;
+                    font-size:24upx;
+                    font-family:Source Han Sans SC;
+                    font-weight:300;
+                    color:rgba(159,159,159,1);
+                    padding-left: 20rpx;
                 }
             }
         }
@@ -325,8 +337,26 @@
                     height: 230rpx;
                 }
 
-                .image {
-                    //height: 100px;
+                .image{
+                    position: relative;
+                    //.videoMask{
+                    //  position: absolute;
+                    //  left: 0;
+                    //  top: 0;
+                    //  width: 100%;
+                    //  height: 100%;
+                    //  background: rgba(0,0,0,0.2);
+                    //  z-index: 800;
+                    //}
+                    .videoBtnIcon{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%,-50%);
+                        width: 96rpx;
+                        height: 96rpx;
+                        z-index: 1000;
+                    }
                 }
 
                 .video {
@@ -386,7 +416,7 @@
                 opacity: 0;
             }
             .tip{
-                margin-left: 5rpx;
+                margin-left: 20rpx;
             }
             .icon{
                 width: 40rpx;
@@ -405,7 +435,7 @@
         .chatItem{
             flex: 1;
             &:last-child{
-                flex-grow: 4.5;
+                flex-grow: 7.5;
             }
             .chatAvatar{
                 width: 80rpx;

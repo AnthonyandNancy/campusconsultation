@@ -15,13 +15,22 @@
           'uni-fab__content--flexDirectionEnd': flexDirectionEnd,
 		  'uni-fab__content--other-platform': !isAndroidNvue
         }"
-			 :style="{ width: boxWidth, height: boxHeight, backgroundColor: styles.backgroundColor }" class="uni-fab__content"
+			 :style="{ width: customBoxWidth, height: boxHeight  }" class="uni-fab__content"
 			 elevation="5">
 				<view class="uni-fab__item uni-fab__item--first" v-if="flexDirectionStart || horizontalLeft" />
+
 				<view :class="{ 'uni-fab__item--active': isShow }" :key="index" @click="_onItemClick(index, item)" class="uni-fab__item"
 				 v-for="(item, index) in content">
-					<image :src="item.active ? item.selectedIconPath : item.iconPath" class="uni-fab__item-image" mode="widthFix" />
-					<text :style="{ color: item.active ? styles.selectedColor : styles.color }" class="uni-fab__item-text">{{ item.text }}</text>
+					<view class="fab_Img">
+						<view class="img_item">
+							<image :src="item.active ? item.selectedIconPath : item.iconPath" class="uni-fab__item-image" mode="widthFix" />
+						</view>
+
+					</view>
+					<view class="fab_title">
+						<text :style="{ color: item.active ? styles.selectedColor : styles.color }" class="uni-fab__item-text">{{ item.text }}</text>
+					</view>
+
 				</view>
 				<view class="uni-fab__item uni-fab__item--first" v-if="flexDirectionEnd || horizontalRight" />
 			</view>
@@ -33,7 +42,8 @@
 		  'uni-fab__circle--rightTop': rightTop,
 		  'uni-fab__content--other-platform': !isAndroidNvue
 		}"
-		 :style="{ 'background-color': styles.buttonColor }" @click="_onClick" class="uni-fab__circle uni-fab__plus">
+		 :style="{ 'background': isShow ? styles.clickBtnColor:styles.buttonColor}" @click="_onClick" class="uni-fab__circle uni-fab__plus">
+
 			<view :class="{'uni-fab__plus--active': isShow}" class="fab-circle-v"></view>
 			<view :class="{'uni-fab__plus--active': isShow}" class="fab-circle-h"></view>
 		</view>
@@ -110,13 +120,16 @@
 					color: '#3c3e49',
 					selectedColor: '#007AFF',
 					backgroundColor: '#fff',
-					buttonColor: '#3c3e49'
+					buttonColor: 'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)'
 				}
 			}
 		},
 		computed: {
 			contentWidth(e) {
-				return (this.content.length + 1) * 48 + 10 + 'px'
+				return (this.content.length + 1) * 50 + 10 + 'px'
+			},
+			curstomContentWidth(){
+				return 140 + 'px';
 			},
 			contentWidthMin() {
 				return 45 + 'px'
@@ -124,6 +137,9 @@
 			// 动态计算宽度
 			boxWidth() {
 				return this.getPosition(3, 'horizontal')
+			},
+			customBoxWidth() {
+				return this.getPosition(4, 'vertical')
 			},
 			// 动态计算高度
 			boxHeight() {
@@ -169,7 +185,9 @@
 				this.fabShow = true
 			}
 			// 初始化样式
-			this.styles = Object.assign({}, this.styles, this.pattern)
+			this.styles = Object.assign({}, this.styles, this.pattern);
+
+			console.log(this.styles);
 		},
 		methods: {
 			_onClick() {
@@ -204,8 +222,10 @@
 					return this.direction === paramA && this.vertical === paramB
 				} else if (types === 2) {
 					return this.direction === paramA && this.horizontal === paramB
-				} else {
+				} else if(types === 3) {
 					return this.isShow && this.direction === paramA ? this.contentWidth : this.contentWidthMin
+				}else{
+					return  this.isShow && this.direction === paramA ? this.curstomContentWidth : this.contentWidthMin;
 				}
 			}
 		}
@@ -271,9 +291,9 @@
 		justify-content: center;
 		align-items: center;
 		width: 45px;
-		height: 45px;
+		height:  45px;
 		background-color: #3c3e49;
-		border-radius: 45px;
+		border-radius:  45px;
 		z-index: 11;
 	}
 
@@ -331,24 +351,30 @@
 
 	.fab-circle-v {
 		position: absolute;
-		width: 3px;
-		height: 31px;
-		left: 22px;
-		top: 8px;
-		background-color: white;
+		/*width: 3px;*/
+		/*height: 31px;*/
+		width:6px;
+		height:26px;
+		left: 20px;
+		top: 10px;
+		background:rgba(255,255,255,1);
 		transform: rotate(0deg);
 		transition: transform 0.3s;
+		border-radius:3px;
 	}
 
 	.fab-circle-h {
 		position: absolute;
-		width: 31px;
-		height: 3px;
-		left: 8px;
-		top: 22px;
-		background-color: white;
+		/*width: 31px;*/
+		/*height: 3px;*/
+		width:26px;
+		height:6px;
+		left: 10px;
+		top: 20px;
+		background:rgba(255,255,255,1);
 		transform: rotate(0deg);
 		transition: transform 0.3s;
+		border-radius:3px;
 	}
 
 	.uni-fab__plus--active {
@@ -361,7 +387,7 @@
 		display: flex;
 		/* #endif */
 		flex-direction: row;
-		border-radius: 55px;
+		/*border-radius: 55px;*/
 		overflow: hidden;
 		transition-property: width, height;
 		transition-duration: 0.2s;
@@ -373,7 +399,7 @@
 
 	.uni-fab__content--other-platform {
 		border-width: 0px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		/*box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);*/
 	}
 
 	.uni-fab__content--left {
@@ -403,15 +429,39 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		flex-direction: column;
+
+		/*flex-direction: column;*/
 		justify-content: center;
 		align-items: center;
-		width: 45px;
-		height: 45px;
+		width:140px;
+		height:50px;
 		opacity: 0;
-		margin-right: 5rpx;
+		/*margin-right: 5rpx;*/
 		transition: opacity 0.2s;
+		margin: 10rpx 0;
+		background:linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%);
+		box-shadow:0px 0px 4px rgba(80,18,17,0.3);
+		border-radius: 25px;
+
+		.fab_Img{
+			flex: 1;
+			image{
+				position: relative;
+				left: 50%;
+				transform: translateX(-50%);
+				opacity:1;
+			}
+		}
+		.fab_title{
+			flex: 1;
+			font-family:Source Han Sans SC;
+			font-weight:400;
+			line-height:40px;
+			color:rgba(255,255,255,1) !important;
+			opacity:1;
+		}
 	}
+
 
 	.uni-fab__item--active {
 		opacity: 1;
@@ -420,12 +470,11 @@
 	.uni-fab__item-image {
 		width: 25px;
 		height: 25px;
-		margin-bottom: 3px;
 	}
 
 	.uni-fab__item-text {
 		color: #FFFFFF;
-		font-size: 11px;
+		font-size: 14px;
 		font-family: "Microsoft YaHei UI";
 		font-weight: 500;
 	}

@@ -31,37 +31,38 @@ export default {
             systemInfo: {},
             //悬浮按钮 start
             pattern: {
-                color: '#7A7E83',
+                color: 'rgba(255,255,255,1)',
                 backgroundColor: '#fff',
-                selectedColor: '#007AFF',
-                buttonColor: '#007AFF'
+                selectedColor: 'rgba(255,255,255,1)',
+                buttonColor: 'linear-gradient(360deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)',
+                clickBtnColor:'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)'
             },
             content: [],
             createContent: [
                 {
-                    iconPath: '/static/images/pinglun.png',
-                    selectedIconPath: '/static/images/pinglun.png',
+                    iconPath: '/static/images/fab_publish.png',
+                    selectedIconPath: '/static/images/fab_publish.png',
                     text: '发布动态',
                     active: false
                 },
                 {
-                    iconPath: '/static/images/love.png',
-                    selectedIconPath: '/static/images/love.png',
+                    iconPath: '/static/images/fab_love.png',
+                    selectedIconPath: '/static/images/fab_love.png',
                     text: '怦然心动',
                     active: false
                 }
             ],
             loveContent: [
                 {
-                    iconPath: '/static/images/love.png',
-                    selectedIconPath: '/static/images/love.png',
+                    iconPath: '/static/images/fab_love.png',
+                    selectedIconPath: '/static/images/fab_love.png',
                     text: '怦然心动',
                     active: false
                 }
             ],
             horizontal: 'right',
             vertical: 'bottom',
-            direction: 'horizontal',
+            direction: 'vertical',
             //悬浮按钮 end
 
             //刷新refresh start

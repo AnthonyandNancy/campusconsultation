@@ -1,13 +1,12 @@
 import api from '../../utils/request/api';
 import constant from '../../utils/constant';
 import dynamicCard from "../../components/dynamicCard";
-import refresh from '../../components/refresh';
-
+import loadRefresh from '../../components/load-refresh';
 let that;
 export default {
     components:{
         dynamicCard,
-        refresh
+        loadRefresh
     },
     data() {
         return {
@@ -17,9 +16,10 @@ export default {
             dynamicList:[],
             pageHeight:0,
             myDynamicViewH:0,
+            loadRefreshH:0,
 
             currPage:1,//当前的页数
-            totalPage:3,//数据的总页数
+            totalPage:0,//数据的总页数
             currentType:'my',
             isAuthor: Boolean,
             isFollow:Boolean
@@ -52,6 +52,8 @@ export default {
 
         query.select('.myDynamic').boundingClientRect(res=>{
             this.myDynamicViewH = this.pageHeight - res.top;
+            this.loadRefreshH = res.top;
+
         }).exec();
 
         this.getDynamicList(this.currPage);
@@ -101,8 +103,9 @@ export default {
                 url:'/pages/notice/notice'
             })
         },
+
         // 刷新数据
-        dropOpen(next) { // 下拉刷新触发方法
+        refresh(next) { // 下拉刷新触发方法
             this.currPage = 1;
             this.dynamicList = [];
             this.getDynamicList(this.currPage)
@@ -112,7 +115,7 @@ export default {
             }, 1000);
         },
         //加载更多
-        pullOpen(next) { // 上拉加载触发方法
+        loadMore(next) { // 上拉加载触发方法
             this.currPage++;
             this.getDynamicList(this.currPage)
             setTimeout(() => { // 模拟请求
@@ -128,6 +131,7 @@ export default {
                     type: 2
                 }
             })
+            this.totalPage = json.data.totalPage;
             if(json.data.errcode == 200){
                 this.dynamicList =json.data.dynamicList
             }

@@ -15,23 +15,6 @@
 </template>
 
 <script>
-/**
- * luch-audio 0.0.1
- * @module luch-audio
- * @Author lu-ch
- * @Date 2019-06-11
- * @Email webwork.s@qq.com
- * @description 音频播放组件，使用了createInnerAudioContext
- */
-/**
- * Props itemsProps
- * @prop {Boolean} play - 是否播放，双向绑定，绑定时需使用.sync 如果为true 则播放，为false 则暂停
- * ... 其他api同文档 （https://uniapp.dcloud.io/api/media/audio-context?id=createinneraudiocontext）
- */
-/**
- * 将秒转换为 分:秒
- * @param {Number} s - 秒数
- */
 function sToHs(s) {
 	//计算分钟
 	//算法：将秒数除以60，然后下舍入，既得到分钟数

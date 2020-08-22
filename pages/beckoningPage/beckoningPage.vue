@@ -100,25 +100,49 @@
             </view>
         </view>
 
-        <u-popup height="100vh" mode="center" v-model="showChat" width="100%">
-
-            <view style="width: 100%;height: 100vh;font-family: 'Microsoft YaHei';background: linear-gradient(to bottom,#ad82db,pink);margin: 0;padding: 0;">
+        <u-popup height="100%" mode="center" v-model="showChat" width="100%">
 
 
-                <view class="popLeft">
-                    <image :src="leftsrc" class="leftsrc" size="50vh"></image>
-                    <view>{{userName}}</view>
+            <view class="matchingBox">
+                <view class="matching">
+
+                    <view class="popLeft">
+
+                        <view class="matchingLeftImgBox">
+                            <view class="popLeftBg">
+                                <image src="/static/images/boy.png" class="auto-img" mode="aspectFit"></image>
+                            </view>
+                            <view class="leftSrc">
+                                <image :src="leftsrc" class="auto-img" mode="aspectFit"></image>
+                            </view>
+                        </view>
+
+                        <view class="matchingUser">{{userName}}</view>
+                    </view>
+
+
+                    <view class="popRight">
+
+                        <view class="matchingRightImgBox">
+                            <view class="popRightBg">
+                                <image src="/static/images/girl.png" class="auto-img" mode="aspectFit"></image>
+                            </view>
+                            <view class="rightSrc">
+                                <image :src="Rightsrc" class="auto-img" mode="aspectFit"></image>
+                            </view>
+                        </view>
+
+                        <view class="matchingUser">{{matchingName}}</view>
+                    </view>
+
                 </view>
 
-                <view class="popRight">
-                    <image :src="Rightsrc" class="Rightsrc" size="50vh"></image>
-                    <view>{{matchingName}}</view>
+                <view class="matchingSuccess">
+                    还有{{lastTime}}秒马上进入聊天室....
                 </view>
+            </view>
 
-            </view>
-            <view style="font-size: 18px;color: #ffff;position: relative;top: -47vh;left: 15vh;">
-                还有{{lastTime}}秒马上进入聊天室....
-            </view>
+
 
 
         </u-popup>
@@ -279,9 +303,9 @@
                     clearInterval(this.time)
                     clearInterval(this.matchingTime)
                     setTimeout(() => {
-                        uni.redirectTo({
-                            url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'matching'
-                        });
+                        // uni.redirectTo({
+                        //     url: '/pages/chatRoom/chatRoom?roomSign=' + res.data.matchUser.sign + '&roomName=' + res.data.matchUser.name + '&chatType=' + 0 + '&avatar=' + res.data.matchUser.pic + '&matching=' + 'matching'
+                        // });
                         this.matchingNum = null
                     }, 3000)
                 } else if (this.setTime <= 0) {
@@ -342,7 +366,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 50 rpx;
+        font-size: 50rpx;
         text-align: center;
         color: rgba(213, 165, 253, 0.9);
         font-weight: 600;
@@ -379,46 +403,111 @@
         left: 50%;
         transform: translateX(-50%);
         bottom: 10%;
-        width: 440 rpx;
-        height: 100 rpx;
+        width: 440rpx;
+        height: 100rpx;
         background-color: rgba(213, 165, 253, 0.9);
         text-align: center;
         color: #FFFFFF;
-        line-height: 100 rpx;
+        line-height: 100rpx;
     }
 
 
-    .popLeft {
-        position: relative;
-        top: 7%;
-        left: 11%;
-        width: 20vh;
-        height: 20vh;
-        border-radius: 10vh;
-        text-align: center;
-        color: #ffff;
+    .matchingBox {
+        width: 100%;
+        height: 100vh;
+        font-family: 'Microsoft YaHei';
+        background: url('/static/images/BG@2x.png');
+        background-size: 100% 100%;
 
-        .leftsrc {
-            width: 20vh;
-            height: 20vh;
-            border-radius: 10vh;
+        .matching {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-top: 280rpx;
+
+        }
+
+        .popLeft {
+            flex: 1;
+
+            .matchingLeftImgBox{
+                position: relative;
+                width: 320rpx;
+                height: 264rpx;
+                left: 50%;
+                transform: translateX(-50%);
+
+            }
+
+            .popLeftBg {
+                position: absolute;
+                width: 320rpx;
+                height: 264rpx;
+                margin-left: 10rpx;
+            }
+
+            .leftSrc {
+                position: absolute;
+                width: 180rpx;
+                height: 180rpx;
+                right: 75rpx;
+                bottom: 0;
+                border-radius:100% ;
+                overflow: hidden;
+                z-index: -1;
+            }
+        }
+
+        .popRight {
+            flex: 1;
+            .matchingRightImgBox{
+                position: relative;
+                width: 320rpx;
+                height: 264rpx;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .popRightBg {
+                position: absolute;
+                width: 320rpx;
+                height: 264rpx;
+                margin: 0 auto;
+                margin-left: 10rpx;
+            }
+
+            .rightSrc {
+                position: absolute;
+                width: 180rpx;
+                height: 180rpx;
+                left: 75rpx;
+                bottom: 0;
+                border-radius:100% ;
+                overflow: hidden;
+                z-index: -1;
+            }
+        }
+        .matchingUser {
+            margin-top: 20rpx;
+            text-align: center;
+            font-size:32rpx;
+            font-family:Source Han Sans SC;
+            font-weight:400;
+            color:rgba(255,255,255,1);
+            letter-spacing:2px;
         }
     }
 
-    .popRight {
-        border-radius: 10vh;
-        width: 20vh;
-        height: 20vh;
-        margin-top: -22%;
-        margin-left: 56%;
-        text-align: center;
+    .matchingSuccess{
+        font-size: 18px;
         color: #ffff;
-    }
-
-    .Rightsrc {
-        border-radius: 10vh;
-        width: 20vh;
-        height: 20vh;
+        text-align: center;
+        background:rgba(255,255,255,0.1);
+        border-radius:26px;
+        width: 466rpx;
+        height: 104rpx;
+        margin:  274rpx auto 0;
+        line-height:104rpx ;
     }
 
     .middleImg {
@@ -448,7 +537,7 @@
         content: "";
         position: absolute;
         top: 0px;
-        left: 33 rpx;
+        left: 33rpx;
         width: 5vh;
         height: 5vh;
         background-color: tomato;
