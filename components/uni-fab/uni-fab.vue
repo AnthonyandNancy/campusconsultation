@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="fab_main">
 		<view :class="{
         'uni-fab--leftBottom': leftBottom,
         'uni-fab--rightBottom': rightBottom,
@@ -171,11 +171,13 @@
 		},
 		methods: {
 			_onClick() {
-				this.$emit('fabClick')
+				// this.$emit('fabClick',this.isShow)
 				if (!this.popMenu) {
 					return
 				}
 				this.isShow = !this.isShow
+				this.$emit('fabClick',this.isShow)
+
 			},
 			open() {
 				this.isShow = true
@@ -213,6 +215,10 @@
 </script>
 
 <style lang="scss" scoped>
+	.fab_main{
+
+	}
+
 	.uni-fab {
 		position: fixed;
 		/* #ifndef APP-NVUE */

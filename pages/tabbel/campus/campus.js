@@ -98,7 +98,9 @@ export default {
 
             videoContext: {},
             videoUrl: '',
-            commentDySign: ''
+            commentDySign: '',
+
+            isShowMark:false
         }
     },
     onShareAppMessage() {
@@ -234,6 +236,12 @@ export default {
                     url: "/pages/beckoningPage/beckoningPage"
                 })
             }
+        },
+        fabclick(val){
+            this.isShowMark = val
+        },
+        hideFabMark(){
+            this.$refs.unifab._onClick();
         },
         tofindLove() {
             uni.navigateTo({

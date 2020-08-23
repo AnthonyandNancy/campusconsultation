@@ -147,7 +147,8 @@
             <view class="loveText">怦然心动</view>
         </view>
 
-        <view class="addDynamic" v-if="content.length>1">
+        <view  v-if="content.length>1" >
+            <view :class="isShowMark?'addDynamic':''" @click="hideFabMark"></view>
             <uni-fab
                     :pattern="pattern"
                     :content="content"
@@ -155,6 +156,8 @@
                     :vertical="vertical"
                     :direction="direction"
                     @trigger="trigger"
+                    @fabClick="fabclick"
+                    ref="unifab"
             ></uni-fab>
         </view>
 
