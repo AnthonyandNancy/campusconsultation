@@ -243,7 +243,6 @@
                 .avatar {
                     width: 100rpx;
                     height: 100rpx;
-                    border: 1px solid #ddd;
                     border-radius: 20rpx;
                     margin: 0 auto;
                     overflow: hidden;

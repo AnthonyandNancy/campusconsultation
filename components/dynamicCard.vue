@@ -450,7 +450,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 10rpx 0;
+        margin: 10rpx 15rpx;
         .chatItem{
             flex: 1;
             &:last-child{
@@ -460,7 +460,7 @@
                 width: 80rpx;
                 height: 80rpx;
                 border-radius: 20rpx;
-                margin: 10rpx auto;
+                margin: 10rpx 20rpx;
             }
             .chatRoomName{
                 font-family: "Microsoft YaHei UI";
