@@ -5,7 +5,6 @@
 				<view :key="index" class="row" v-for="(row,index) in msgList">
 					<!-- 系统消息 -->
 					<block v-if="row.type=='system'" >
-<!--						row.type>>>>>>>>>>{{row.type}}-->
 						<view class="system">
 							<!-- 文字消息 -->
 							<view class="text" v-if="row.chatType== 0">
@@ -31,7 +30,6 @@
 								<!-- 图片消息 -->
 								<view @tap="showPic(index)" class="bubble img" v-if="row.chatType== 1 ">
 									<image :src="row.content" mode='aspectFill' style="width: 200px;height: 100px; "></image>
-
 								</view>
 
 								<!-- 视频消息 -->
@@ -47,7 +45,6 @@
 						</view>
 						<!-- 别人发出的消息 v-if="item.sign !=userInfoSign" -->
 						<view class="other" v-if="row.type == 'orther'">
-<!--							{{row}}-->
 							<!-- 左-头像 -->
 							<view class="left">
 								<image :src="row.avatar" @click="toPrivateChat(row.sign,row.name,row.avatar)"></image>
