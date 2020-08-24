@@ -124,7 +124,6 @@ export default {
             let name = option.roomName
             console.log('当前的聊天的', chatType)
             if (chatType == 1) {
-
                 //分享的状态
                 this.shareType = 1
                 const resData = res.newMSg
@@ -975,7 +974,6 @@ export default {
                         }
                     }
                     console.log('wss发送失败', err)
-                    // console.log('454',err)
                 }
             });
 

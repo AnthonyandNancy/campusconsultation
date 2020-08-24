@@ -14,12 +14,9 @@
                 userSign: ''
             };
         },
-        onHide() {
-        },
-        onLoad() {
-        },
         onShow() {
 
+            //页面展示时，判断是否断开连接，如果断开就重新连接
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
                     let sign = constant.getUserSign()
@@ -47,11 +44,8 @@
                         }
 
                     });
-
                 }
             }, 1000)
-
-
         },
         async onLaunch() {
             //聊天室已经加载过的信息
@@ -59,16 +53,12 @@
                 if (res.sendAPPType == true) {
                     this.sendAPPType = true
                 }
-
             })
-
-            // console.log('onLaunch')
             //断网重连
             uni.$on('closeAPPVueNewWssType', () => {
                 this.newWssType = false
                 console.log('关闭了  //closeAPPVueNewWssType')
             })
-
 
             if (constant.getUserLogin().length != 0) {
                 if (constant.getUserLogin().schoolName != null) {
@@ -143,6 +133,7 @@
             }
         },
 
+
         methods: {
             async getLogin(jscode) {
                 let json = await api.getLogin({
@@ -172,7 +163,6 @@
                     this.wssType = uni.connectSocket({
                         url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                         success: res => {
-
                             uni.onSocketOpen(function (res) {
                                 uni.sendSocketMessage({
                                     data: JSON.stringify({remoteUrl:constant.getUserLogin().remoteUrl}),
@@ -263,12 +253,11 @@
                     //总消息处理
                     const resData = JSON.parse(res.data)
                     const resDataMsg = JSON.parse(res.data).message
-                    console.log(resData)
-
 
                     //私聊
                     if (resData.roomType == 1) {
 
+                        //获取私聊好友列表
                         let json = await api.getNewFriendList({
                             query: {
                                 sign: this.userSign
@@ -277,7 +266,6 @@
 
                         if (json.data.errcode == 200) {
 
-                            // uni.setStorageSync('CHAT_FRIEND_LIST',json.data.friendList);
                             if (json.data.friendList.length > uni.getStorageSync('CHAT_FRIEND_LIST').length) {
                                 json.data.friendList.forEach(res => {
                                     if (res.friend__sign == resData.sign) {
@@ -303,11 +291,6 @@
                             }
 
                         }
-
-
-                        //群聊
-                    } else if (resData.roomType == 0) {
-
                     }
 
                     if (this.newWssType == true) {
@@ -390,7 +373,6 @@
                                         },
                                         fail: err => {
                                             console.log(err)
-
                                         }
                                     });
                                 },
@@ -540,8 +522,6 @@
                             });
                         }
                     }
-
-
                 });
             },
 
@@ -571,6 +551,8 @@
                 }
                 console.log('私聊列表', json);
             }
+
+
         }
     }
 </script>
