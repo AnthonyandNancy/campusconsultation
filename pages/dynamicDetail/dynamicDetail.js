@@ -1,10 +1,12 @@
 import dynamicCard from "../../components/dynamicCard";
 import constant from "../../utils/constant";
-import api from '../../utils/request/api'
+import api from '../../utils/request/api';
+import loadRefresh from '../../components/load-refresh';
 
 export default {
     components: {
-        dynamicCard
+        dynamicCard,
+        loadRefresh
     },
     data() {
         return {
@@ -18,28 +20,41 @@ export default {
                 border: 'none'
             },
             showAddCommentPnael:false,
-            isMySupport:false
+            isMySupport:false,
+
+            currPage:1,
+            totalPage:0,
         }
     },
-    onLoad(option) {
-        console.log('11111===>',option)
+    async onLoad(option) {
         this.userSign = constant.getUserSign();
         //获取动态详情
-        this.dynamicObj = JSON.parse(option.dynamicObj);
+        let dynamicObj = JSON.parse(option.dynamicObj);
 
-        this.getCommentList()
+        let json = await api.getOnlyDynamic({
+            query:{
+                dynamicSign:dynamicObj.dynamicSign,
+                sign:this.userSign
+            }
+        })
+
+        console.log('单条动态的内容------>>>>',json.data);
+
+        if(json.data.errcode == 200){
+            this.dynamicObj = json.data.content
+        }
+
     },
     onShow(){
         if(constant.getUserSign().length !=0){
             this.getCommentList();
-            this.getCommentNum();
+            // this.getCommentNum();
             this.getSupportList();
         }
     },
     onReady(){
         uni.setStorageSync('IS_PREVIEW',false);
-
-        this.getSupportList();
+        // this.getSupportList();
     },
     onShareAppMessage(){
         return {
@@ -49,17 +64,17 @@ export default {
         }
     },
     methods: {
-        //    获取评论列表
+        //获取评论列表
         async getCommentList() {
             let json = await api.getCommentList({
                 query: {
                     sign:this.userSign,
                     dynamicSign:this.dynamicObj.dynamicSign,
-                    page:1
+                    page:this.currPage
                 }
             })
             if(json.data.errcode == 200){
-                this.commentList = json.data.commentList
+                this.commentList =[...this.commentList,...json.data.commentList];
             }
         },
         //获取动态评论数
@@ -85,7 +100,6 @@ export default {
                 urls:imgList
             })
         },
-
         dynamicDetail(obj){
             uni.navigateTo({
                 url:'/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(obj)
@@ -123,6 +137,7 @@ export default {
                 this.dynamicObj.likeTimes++;
             }
         },
+
         // 获取我点赞的动态列表
         async getSupportList(){
             let json  = await api.getSupportList({
@@ -134,7 +149,6 @@ export default {
 
             if(json.data.errcode == 200 ){
                  let dynamicList = json.data.dynamicList;
-
                  dynamicList.forEach((res)=>{
                      if(res.dynamicSign == this.dynamicObj.dynamicSign){
                          this.isMySupport = true;
@@ -142,6 +156,16 @@ export default {
                      }
                  })
             }
+        },
+
+        loadMore(){
+            this.currPage++;
+            this.getCommentList();
+        },
+        refresh(){
+            this.commentList = [];
+            this.currPage = 1;
+            this.getCommentList();
         }
     }
 }

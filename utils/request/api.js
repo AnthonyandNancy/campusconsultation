@@ -29,6 +29,9 @@ const updateUserSchool = (params)=>uniRequest(params,base_URL + '/SchoolLian_wx/
 // 发送动态
 const sendDynamic = (params)=> uniRequest(params,base_URL + '/SchoolLian_wx/api/addDynamicContent');
 
+//获取单条动态内容
+const  getOnlyDynamic = (params)=> uniRequest(params,base_URL + '/SchoolLian_wx/api/getDynamicContent');
+
 //上传图片
 const uploadImages = (params) => uniUpload(params , base_URL + '/SchoolLian_wx/api/uploadSingleImg');
 
@@ -99,6 +102,7 @@ export default {
     searchSchool,
     updateUserSchool,
     sendDynamic,
+    getOnlyDynamic,
     uploadImages,
     uploadVideoFile,
     applyNewChatRoom,

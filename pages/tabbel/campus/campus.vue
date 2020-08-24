@@ -41,7 +41,7 @@
                                     <view class="dynamInfoItem Publishertime" @click="dynamicDetail(item1)">
                                         <view class="Publisher">{{item1.name}}</view>
                                         <view class="time" >
-                                            {{item1.addTime.split(' ')[0].substring(item1.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{item1.addTime.split(' ')[1].substring(item1.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item1.schoolName}}
+                                            {{item1.addTime.split(' ')[0].substring(item1.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{item1.addTime.split(' ')[1].substring(0,item1.addTime.split(' ')[1].lastIndexOf(':'))}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item1.schoolName}}
                                         </view>
                                     </view>
 
@@ -53,14 +53,6 @@
                                         <view   class="chat_btn" @click="toPersionalChat(item1)" v-if="item1.type == 5 && userSign != item1.sign">咨询物主</view>
 
                                     </view>
-
-                                        <!--播放视频-->
-                                        <!--<view class="dynamInfoItem" @click="showVideo(item1.video)">-->
-                                        <!--   <view class="videoIcon" v-if="item1.video != null">-->
-                                        <!--     <image src="/static/images/videoIcon.png" class="auto-img"></image>-->
-                                        <!--   </view>-->
-                                        <!--</view>-->
-
                                 </view>
 
                                 <!--动态内容-->

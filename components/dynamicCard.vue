@@ -12,8 +12,8 @@
                 <view class="dynamInfoItem Publishertime" @click="toDetail(dynamicObj)">
                     <view class="Publisher">{{dynamicObj.name}}
                     </view>
-                    <view class="time" @click="toDetail(dynamicObj)">
-                        {{dynamicObj.addTime.split(' ')[0].substring(dynamicObj.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{dynamicObj.addTime.split(' ')[1].substring(dynamicObj.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{dynamicObj.schoolName}}
+                    <view class="time" @click="toDetail(dynamicObj)" v-if="Object.keys(dynamicObj).length != 0">
+                        {{dynamicObj.addTime.split(' ')[0].substring(dynamicObj.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{dynamicObj.addTime.split(' ')[1].substring(0,dynamicObj.addTime.split(' ')[1].lastIndexOf(':'))}}&nbsp;&nbsp;|&nbsp;&nbsp;{{currentPageType=='detail'?dynamicObj.campus:dynamicObj.schoolName}}
                     </view>
                 </view>
 

@@ -33,7 +33,7 @@
                                             <view class="Publisher">{{item1.name}}
                                             </view>
                                             <view class="time" >
-                                                {{item1.addTime.split(' ')[0].substring(item1.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{item1.addTime.split(' ')[1].substring(item1.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item1.schoolName}}
+                                                {{item1.addTime.split(' ')[0].substring(item1.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{item1.addTime.split(' ')[1].substring(0,item1.addTime.split(' ')[1].lastIndexOf(':'))}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item1.schoolName}}
                                             </view>
                                         </view>
 
