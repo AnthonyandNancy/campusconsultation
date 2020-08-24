@@ -93,7 +93,6 @@
                    style="width: 5vh;height: 5vh;position: absolute;top: 55%;left: 25%;border-radius: 50%;"
                    v-if="showOnce ==2"></image>
 
-
             <view class="time">{{setTime}}</view>
             <view>
                 <button class="continue" @click="reStart" v-if="showSetTime">继续等待~</button>
@@ -101,8 +100,6 @@
         </view>
 
         <u-popup height="100%" mode="center" v-model="showChat" width="100%">
-
-
             <view class="matchingBox">
                 <view class="matching">
 
@@ -141,12 +138,7 @@
                     还有{{lastTime}}秒马上进入聊天室....
                 </view>
             </view>
-
-
-
-
         </u-popup>
-
 
     </view>
 </template>

@@ -187,7 +187,7 @@ export default {
         //选择学校后直接跳回首页
         selectSchool(schoolName) {
             this.updateSchool(schoolName);
-
+            this.keyword = '';
             uni.switchTab({
                 url: '/pages/tabbel/home/home'
             })

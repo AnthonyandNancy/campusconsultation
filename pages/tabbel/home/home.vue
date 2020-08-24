@@ -3,7 +3,7 @@
         <!-- banner -->
         <view class="home_swiper">
             <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
-            <carousel :img-list="bannerImg" url-key="pic" />
+            <carousel :img-list="bannerImg" url-key="pic"  @selected="jumpToOtherPath"/>
         </view>
 
         <!-- cart -->

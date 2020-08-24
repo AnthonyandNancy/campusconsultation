@@ -53,6 +53,9 @@ export default {
     },
 
     methods: {
+        jumpToOtherPath(res){
+            console.log('轮播图跳转====>',res)
+        },
 
         toHotDynamicPage(index) {
             constant.setSelectType(index + 1)

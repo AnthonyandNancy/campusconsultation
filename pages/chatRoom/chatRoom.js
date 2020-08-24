@@ -59,8 +59,6 @@ export default {
                 money: null
             },
             roomName: '',
-
-
             //用户信息
             userInfoSign: '',
             avatar: '',

@@ -100,7 +100,8 @@ export default {
             videoUrl: '',
             commentDySign: '',
 
-            isShowMark:false
+            isShowMark:false,
+            isRefresh:false
         }
     },
     onShareAppMessage() {
@@ -245,6 +246,8 @@ export default {
             })
         },
         refresh() {
+
+            this.isRefresh = true;
             this.tabsList[this.currentSwiper].dynamicList = [];
             this.tabsList[this.currentSwiper].currentPage = 1;
             this.getAllDynamicList(this.currentSwiper)
@@ -385,6 +388,7 @@ export default {
                 })
                 if (chatGroupJson.data.errcode == 200) {
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList
+                    uni.hideLoading();
                 }
                 return;
             }
@@ -407,8 +411,8 @@ export default {
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
                 if(index == this.tabsList.length - 1){
-                    uni.hideLoading();
-                }else if(index != this.tabsList.length - 1){
+                        uni.hideLoading();
+                }else if(this.isRefresh){
                     uni.hideLoading();
                 }
             }
