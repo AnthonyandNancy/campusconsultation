@@ -6,7 +6,8 @@
                     <view class="selectTip">关注的校园</view>
                     <view class="selectTarget">我们将为您提供更多校园资讯</view>
                 </view>
-                <view class="schoolBox" id="schoolBox">
+
+                <view class="schoolBox" id="schoolBox" v-if="getSchoolList.length != 0">
                     <view class="schoolItem" v-for="(item,index) in getSchoolList" :key="index" v-if="index != 9" >
                         <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
                             <view class="select_item" @click="selectSchool(item.schoolName)">

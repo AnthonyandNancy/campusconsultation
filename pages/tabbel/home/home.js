@@ -54,7 +54,34 @@ export default {
 
     methods: {
         jumpToOtherPath(res){
-            console.log('轮播图跳转====>',res)
+            if(res.jumpPage == null){
+                return;
+            }
+
+            let jumpUrl = res.jumpPage.split('?')[0]
+            console.log('====>',jumpUrl)
+
+            let jumpObj =  {};
+            res.jumpPage.replace(/([^?&]+)=([^?&]+)/g, function(s, key, value) {
+                jumpObj[key] =  value
+            });
+
+            console.log(jumpObj.jumpIndex)
+           switch (jumpObj.jumpType) {
+               case 'navigate':
+                   uni.navigateTo({
+                        url:jumpUrl
+                   })
+                   break;
+
+               case 'switchTab':
+                   constant.setSelectType( !jumpObj.jumpIndex?'0':jumpObj.jumpIndex);
+                   uni.switchTab({
+                       url: jumpUrl
+                   })
+                   break;
+
+           }
         },
 
         toHotDynamicPage(index) {

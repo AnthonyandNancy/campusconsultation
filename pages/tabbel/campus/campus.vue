@@ -78,20 +78,18 @@
                                     <view class="resources">
                                         <view class="item image" v-for="(imgItem,imgIndex) in item1.imgList"
                                               @click='preViewImg(imgIndex,item1.imgList)' :key="imgIndex">
-                                            <image :src="imgItem" class="auto-img" lazy-load
-                                                   mode="aspectFill"></image>
+                                            <image :src="imgItem" class="auto-img" lazy-load  mode="aspectFill"></image>
                                         </view>
 
                                         <view class="item image" v-if="item1.video != null && item1.videoPreview != 'https://cdn4game.xunyi.onlineNone' " @click="showVideo(item1.video)" >
                                             <image :src="item1.videoPreview" class="auto-img"></image>
-
                                                 <view class="videoBtnIcon">
                                                     <image src="/static/images/video_play.png" class="auto-img" mode="aspectFit"></image>
                                                 </view>
+                                                <view class="videoMark"></view>
                                         </view>
                                     </view>
                                     <view v-if="item1.audio != null">
-
                                         <luchAudio :src="item1.audio" :play.sync="audioPlay"
                                                    :name='item1.schoolName'
                                                    :author="item1.name" @click="controlAudioPlay"></luchAudio>
@@ -99,7 +97,6 @@
                                 </view>
 
                                 <view class="support">
-                                    <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
                                     <view class="Item support_comment">
 
                                         <view class="shareIcon" @click="toShare(item1.dynamicSign)">

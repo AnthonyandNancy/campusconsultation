@@ -292,20 +292,6 @@ export default {
                 title:'加载中...'
             });
 
-            // if (this.tabsList[index].type == 37) {
-            //     const chatGroupJson = await api.getGroupChatList({
-            //         query: {
-            //             sign: this.userSign,
-            //             schoolName: constant.getUserLogin().schoolName
-            //         }
-            //     })
-            //     if (chatGroupJson.data.errcode == 200) {
-            //         // uni.hideLoading();
-            //         this.tabsList[index].dynamicList = chatGroupJson.data.roomList
-            //     }
-            //     return;
-            // }
-
             let json = await api.getDynamicList({
                 query: {
                     sign: this.userSign,
@@ -313,7 +299,6 @@ export default {
                     type: this.tabsList[index].type
                 }
             })
-
 
             if (json.data.errcode == 200) {
                 this.tabsList[index].totalPage = json.data.totalPage
@@ -324,7 +309,9 @@ export default {
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
 
                if(index == this.tabsList.length - 1){
-                   uni.hideLoading();
+                   setTimeout(res=>{
+                       uni.hideLoading();
+                   },1500)
                }else if(this.isRefresh){
                    uni.hideLoading();
                }
@@ -359,12 +346,6 @@ export default {
                     if(res.dynamicSign == dynSign){
                         res.shareTimes++;
                     }
-                })
-
-                uni.showToast({
-                    title: json.data.info,
-                    mask: true,
-                    icon: 'none'
                 })
             }
         },

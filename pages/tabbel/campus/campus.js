@@ -387,8 +387,10 @@ export default {
                     }
                 })
                 if (chatGroupJson.data.errcode == 200) {
-                    this.tabsList[index].dynamicList = chatGroupJson.data.roomList
-                    uni.hideLoading();
+                    this.tabsList[index].dynamicList = chatGroupJson.data.roomList;
+                    if(this.isRefresh){
+                        uni.hideLoading();
+                    }
                 }
                 return;
             }
@@ -411,7 +413,10 @@ export default {
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
                 if(index == this.tabsList.length - 1){
+                    setTimeout( ()=> {
                         uni.hideLoading();
+
+                    },1500)
                 }else if(this.isRefresh){
                     uni.hideLoading();
                 }
@@ -444,11 +449,6 @@ export default {
                     if (res.dynamicSign == dynSign) {
                         res.shareTimes++;
                     }
-                })
-                uni.showToast({
-                    title: json.data.info,
-                    mask: true,
-                    icon: 'none'
                 })
             }
         },

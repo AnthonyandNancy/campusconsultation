@@ -51,6 +51,7 @@
                         <view class="videoBtnIcon" @click="showVideo(dynamicObj.video)">
                             <image src="/static/images/video_play.png" class="auto-img" mode="aspectFit"></image>
                         </view>
+                        <view class="videoMark"></view>
                     </view>
 
                     <view class="video" v-show="currentPageType == 'detail'&&dynamicObj.video!=null">
@@ -215,19 +216,6 @@
             toChatRoom(){
                 this.$emit('toChatRoomEvent',this.dynamicObj)
             },
-            // // 点击头像进入个人页面
-            // toOtherMineInfoPage(){
-            //
-            //     let data = this.dynamicObj
-            //     console.log(data,'==-=-=--=-=-=-==--=');
-            //
-            //     if (this.userSign == data.sign) {
-            //         return;
-            //     }
-            //     uni.navigateTo({
-            //         url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
-            //     })
-            // },
             toAddChatRoom(){
                 let chatObj = this.dynamicObj
                 uni.navigateTo({
@@ -351,22 +339,22 @@
                 margin-bottom: 20rpx;
 
                 .item {
-                    padding: 10rpx;
+                    margin: 10rpx;
                     width: calc(100% / 3);
                     height: 230rpx;
                 }
 
                 .image{
                     position: relative;
-                    //.videoMask{
-                    //  position: absolute;
-                    //  left: 0;
-                    //  top: 0;
-                    //  width: 100%;
-                    //  height: 100%;
-                    //  background: rgba(0,0,0,0.2);
-                    //  z-index: 800;
-                    //}
+                    .videoMark{
+                         position: absolute;
+                         left: 0;
+                         top: 0;
+                         width: 100%;
+                         height: 100%;
+                         background: rgba(0,0,0,0.2);
+                          z-index: 800;
+                    }
                     .videoBtnIcon{
                         position: absolute;
                         left: 50%;
