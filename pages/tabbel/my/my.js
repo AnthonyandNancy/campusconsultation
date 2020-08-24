@@ -54,6 +54,7 @@ export default {
     onShow(){
 
         this.followNum = constant.getUserLogin().followNum;
+        this.supportNum = constant.getUserLogin().ILikeTimes;
 
         if(constant.getUserSign().length != 0){
             this.currPage = 1;
@@ -256,7 +257,7 @@ export default {
                 icon: 'none'
             })
             if (json.data.errcode == 200) {
-
+                this.toLogin();
                 this.dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
                         res.likeTimes++;
@@ -266,17 +267,6 @@ export default {
 
             }
         },
-
-        //获取点赞数
-
-       async  getSupportNum(){
-
-        },
-
-        //获取关注数
-        async getFollowNum(){
-
-        }
 
     }
 }

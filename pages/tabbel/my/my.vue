@@ -28,7 +28,7 @@
                     <view class="item support_or_folloew">
                         <view class="supportOrFollowItem">
                             <view  class="supportBox" @click="toMySupport">
-                                <view class="supportOrFollowNum">15</view>
+                                <view class="supportOrFollowNum">{{supportNum}}</view>
                                 <view class="supportOrFollowText">我赞过的</view>
                             </view>
                         </view>

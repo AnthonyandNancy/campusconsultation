@@ -85,11 +85,9 @@
                                         <view class="item image" v-if="item1.video != null && item1.videoPreview != 'https://cdn4game.xunyi.onlineNone' " @click="showVideo(item1.video)" >
                                             <image :src="item1.videoPreview" class="auto-img"></image>
 
-<!--                                            <view class="videoMask">-->
                                                 <view class="videoBtnIcon">
                                                     <image src="/static/images/video_play.png" class="auto-img" mode="aspectFit"></image>
                                                 </view>
-<!--                                            </view>-->
                                         </view>
                                     </view>
                                     <view v-if="item1.audio != null">

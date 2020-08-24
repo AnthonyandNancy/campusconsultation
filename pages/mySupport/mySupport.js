@@ -38,6 +38,7 @@ export default {
             })
 
             if(json.data.errcode == 200){
+                this.totalPage = json.data.totalPage;
                 console.log('我赞过的动态列表',json);
                 this.supportList = [...this.supportList,...json.data.dynamicList];
             }

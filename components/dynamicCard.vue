@@ -5,7 +5,7 @@
             <!--头部样式-->
             <view class="dynamInfo">
                 <view class="dynamInfoItem PublisherAvatar">
-                    <view class="avatar u-skeleton-circle" @click="toOtherMineInfoPage">
+                    <view class="avatar u-skeleton-circle">
                         <image :src="dynamicObj.pic" style="width: 100%;height: 100%;border-radius: 100% !important;" mode="aspectFill"></image>
                     </view>
                 </view>
@@ -15,6 +15,15 @@
                     <view class="time" @click="toDetail(dynamicObj)">
                         {{dynamicObj.addTime.split(' ')[0].substring(dynamicObj.addTime.split(' ')[0].indexOf('-')+1)}}&nbsp;&nbsp;{{dynamicObj.addTime.split(' ')[1].substring(dynamicObj.addTime.split(' ')[1].indexOf(':')+1)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{dynamicObj.schoolName}}
                     </view>
+                </view>
+
+                <view class="dynamInfoItem chatRoom_Entrance">
+                    <view @click="toAddChatRoom(dynamicObj)"  class="chat_btn" v-if=" dynamicObj.roomId != null && dynamicObj.type != 6 && dynamicObj.type != 5">加入聊天</view>
+
+                    <view   class="chat_btn" @click="toPersionalChat(dynamicObj)" v-if=" dynamicObj.type == 6 && userSign != dynamicObj.sign">进入表白</view>
+
+                    <view   class="chat_btn" @click="toPersionalChat(dynamicObj)" v-if="dynamicObj.type == 5 && userSign != dynamicObj.sign">咨询物主</view>
+
                 </view>
             </view>
 
@@ -58,11 +67,6 @@
             </view>
 
             <view class="support" v-if="currentPageType != 'detail'">
-
-                <view class="Item publishTime" v-if="false">{{dynamicObj.addTime}}</view>
-                <view class="Item publishTime" v-if="dynamicObj.roomId != null && dynamicObj.type != 6">
-                    <u-button size="mini" @click="toAddChatRoom">加入群聊</u-button>
-                </view>
 
                 <view class="Item support_comment">
 
@@ -211,18 +215,19 @@
             toChatRoom(){
                 this.$emit('toChatRoomEvent',this.dynamicObj)
             },
-            // 点击头像进入个人页面
-            toOtherMineInfoPage(){
-
-                let data = this.dynamicObj
-
-                if (this.userSign == data.sign) {
-                    return;
-                }
-                uni.navigateTo({
-                    url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
-                })
-            },
+            // // 点击头像进入个人页面
+            // toOtherMineInfoPage(){
+            //
+            //     let data = this.dynamicObj
+            //     console.log(data,'==-=-=--=-=-=-==--=');
+            //
+            //     if (this.userSign == data.sign) {
+            //         return;
+            //     }
+            //     uni.navigateTo({
+            //         url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
+            //     })
+            // },
             toAddChatRoom(){
                 let chatObj = this.dynamicObj
                 uni.navigateTo({
@@ -258,6 +263,26 @@
                 }
             }
 
+            .chatRoom_Entrance{
+                flex-grow: 3;
+                font-size: 24rpx;
+                color: #b2b2b2;
+            }
+            .chat_btn{
+                width:136rpx;
+                height:60rpx;
+                text-align: center;
+                background:linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%);
+                opacity:1;
+                border-radius:15px;
+                line-height: 60rpx;
+                font-size:24rpx;
+                font-family:Source Han Sans SC;
+                font-weight:400;
+                color:rgba(255,255,255,1);
+                letter-spacing:0.5px;
+                margin: 0  auto;
+            }
             .videoIcon{
                 position: absolute;
                 width: 48rpx;
@@ -268,7 +293,7 @@
             }
 
             .Publishertime {
-                flex-grow: 4.5;
+                flex-grow: 7.5;
                 .Publisher {
                     font-weight: 600;
                     font-size: 28rpx;

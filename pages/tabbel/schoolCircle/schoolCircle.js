@@ -324,6 +324,8 @@ export default {
 
                if(index == this.tabsList.length - 1){
                    uni.hideLoading();
+               }else if(index != this.tabsList.length - 1){
+                   uni.hideLoading();
                }
             }
         },

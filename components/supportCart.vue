@@ -120,7 +120,6 @@
             width: 100%;
             height: 160rpx;
             border-radius: 10rpx;
-            margin: 10rpx;
             border:1px solid #ddd;
 
         }

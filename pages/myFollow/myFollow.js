@@ -42,6 +42,7 @@ export default {
 
 
            if(json.data.errcode == 200){
+               this.totalPage = json.data.totalPage;
                json.data.userList.forEach(res=>{
                    new Promise((resolve, reject) => {
                        resolve(that.checkIsFollow(res.sign))

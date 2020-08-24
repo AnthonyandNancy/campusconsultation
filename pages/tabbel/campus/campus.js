@@ -152,10 +152,6 @@ export default {
     onReady() {
         this.userSign = constant.getUserSign();
 
-        uni.showLoading({
-            title: '加载中...'
-        })
-
         new Promise((resolve, reject) => {
             resolve(this.tabsList);
         }).then(res => {
@@ -376,7 +372,9 @@ export default {
         //所有动态
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
-
+            uni.showLoading({
+                title:'加载中...'
+            });
             //获取群聊
             if (this.tabsList[index].type == 37) {
                 const chatGroupJson = await api.getSchoolChatRoom({
@@ -409,6 +407,8 @@ export default {
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
                 if(index == this.tabsList.length - 1){
+                    uni.hideLoading();
+                }else if(index != this.tabsList.length - 1){
                     uni.hideLoading();
                 }
             }
@@ -470,6 +470,7 @@ export default {
                 icon: 'none'
             })
             if (json.data.errcode == 200) {
+                this.toLogin();
                 this.tabsList[this.currentSwiper].dynamicList.forEach(res => {
                     if (res.dynamicSign == dynSign) {
                         res.likeTimes++;
