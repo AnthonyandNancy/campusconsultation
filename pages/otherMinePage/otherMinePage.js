@@ -22,7 +22,7 @@ export default {
             totalPage:0,//数据的总页数
             currentType:'my',
             isAuthor: Boolean,
-            isFollow:Boolean
+            isFollow:false
 
 
         };
@@ -200,12 +200,15 @@ export default {
                         }
                     })
                     if(json.data.errcode == 200 ){
+                        this.toLogin();
+
                         uni.showToast({
                             title: '已关注',
                             icon:'none',
                             mask:true
                         })
                        this.isFollow = true;
+
                     }
                     console.log('点击关注',json);
                 }
@@ -221,15 +224,84 @@ export default {
             })
 
             if(cancelJson.data.errcode == 200){
+                this.toLogin();
+
                 uni.showToast({
                     title: '关注已取消',
                     icon:'none',
                     mask:true
                 })
                 this.isFollow = false;
+
             }
             console.log('取消关注',cancelJson);
         },
 
+        //分享
+        async toShare(dynSign) {
+            let json = await api.shareDynamic({
+                query: {
+                    dynamicSign: dynSign,
+                    sign: this.userSign
+                }
+            })
+
+            if (json.data.errcode == 200) {
+                uni.showToast({
+                    title: json.data.info,
+                    mask: true,
+                    icon: 'none'
+                })
+            }
+        },
+
+        // 评论
+        toComment(dynSign) {
+            uni.navigateTo({
+                url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
+            })
+        },
+        //点赞
+        async toSupport(dynSign) {
+            let json = await api.addSupport({
+                query: {
+                    dynamicSign: dynSign,
+                    sign: this.userSign
+                }
+            })
+
+            uni.showToast({
+                title: json.data.info,
+                mask: true,
+                icon: 'none'
+            })
+            if (json.data.errcode == 200) {
+
+                this.dynamicList.forEach(res => {
+                    if (res.dynamicSign == dynSign) {
+                        res.likeTimes++;
+                        this.$set(res, 'like', true)
+                    }
+                })
+
+            }
+        },
+
+        //展示全文
+        showAll(index) {
+
+            if (!this.dynamicList[index].isShowAllContent) {
+                this.dynamicList[index].isShowAllContent = true
+            } else {
+                this.dynamicList[index].isShowAllContent = false
+            }
+        },
+
+        //进入动态详情页面
+        dynamicDetail(obj) {
+            uni.navigateTo({
+                url: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(obj)
+            })
+        },
     }
 }

@@ -62,39 +62,37 @@
       .item{
         flex: 1;
       }
+
       .followBox{
         display: flex;
         align-items: center;
+
       }
       .follow{
         float: left;
         width: 40rpx;
         height: 40rpx;
-        line-height: 30rpx
+        line-height: 30rpx;
+        padding-top:5rpx;
       }
       .followIcon{
         font-size: 20rpx;
         font-weight: 500;
-        color: #7E7D7B;
+        color: #000;
         font-family: "Microsoft YaHei";
         line-height: 40rpx;
       }
       .nickNameItem{
-        display: flex;
-        flex-grow: 4;
-        font-size: 16px;
-        .nickitem{
-          flex: 1;
-        }
-        .sendMessageBtn{
-          float: left;
-          margin-left: 10rpx;
-        }
         .userInfo{
-          text-align: right;
-          margin-bottom: 10rpx;
-          padding-right: 10rpx;
-          flex-grow: 1.5;
+          display: inline-block;
+          position: relative;
+          left: 50%;
+          transform: translateX(-50%);
+          .followFatherBox{
+            position: absolute;
+            top: 0rpx;
+            right: -90rpx;
+          }
         }
       }
       .avatar{
@@ -122,7 +120,7 @@
     height: 100rpx;
     line-height: 100rpx;
     text-align: center;
-    background-color: #FEAD57;
+    background:linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%);
     -moz-box-shadow: 1px 2px 16px #FEAD57, 2px 2px 5px #333333;
     -webkit-box-shadow: 1px 2px 16px #FEAD57, 2px 2px 5px #333333;
     box-shadow: 1px 2px 16px #FEAD57, 2px 2px 5px #333333;

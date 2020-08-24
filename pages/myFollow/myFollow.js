@@ -1,25 +1,42 @@
 import api from "../../utils/request/api";
 import constant from "../../utils/constant";
+import loadRefresh from '../../components/load-refresh';
+
 let that;
 export default {
     data(){
         return{
             mineSign:'',
             userSign:'',
-            followList:[]
+            followList:[],
+
+            loadRefreshHeight:0,
+            currPage:1,
+            totalPage:0,
         }
     },
+    components:{
+        loadRefresh
+    },
+
     onReady(){
         that = this;
+
+        let query = uni.createSelectorQuery().in(this);
+        query.select('.myFollow_content').boundingClientRect(res => {
+            this.loadRefreshHeight = res.top;
+        }).exec();
+
         this.mineSign = constant.getUserSign();
         this.getFollowList();
     },
+
     methods:{
        async getFollowList(){
             let json  = await api.getFollowList({
                 query:{
                     sign:this.mineSign,
-                    page:1
+                    page:this.currPage
                 }
             })
 
@@ -63,22 +80,6 @@ export default {
                 //检测是否已关注
                 if(checkStatus){
                     this.cancelFollow(sign);
-                }else{
-                    // let json  = await api.setFollow({
-                    //     query:{
-                    //         sign:this.mineSign,
-                    //         followSign:this.userSign
-                    //     }
-                    // })
-                    // if(json.data.errcode == 200 ){
-                    //     uni.showToast({
-                    //         title: '已关注',
-                    //         icon:'none',
-                    //         mask:true
-                    //     })
-                    //     this.isFollow = true;
-                    // }
-                    // console.log('点击关注',json);
                 }
             }
         },
@@ -91,9 +92,12 @@ export default {
             })
 
             if(cancelJson.data.errcode == 200){
-                that.followList.forEach(res=>{
+                this.toLogin();
+
+                that.followList.forEach((res,index)=>{
                     if(res.sign == followerSign){
                         res.isMineFollow = false;
+                        that.followList.splice(index,1)
                     }
                 })
                 uni.showToast({
@@ -101,9 +105,17 @@ export default {
                     icon:'none',
                     mask:true
                 })
-
             }
             console.log('取消关注',cancelJson);
         },
+        loadMore(){
+            this.currPage++;
+            this.getFollowList();
+        },
+        refresh(){
+            this.currPage = 1;
+            this.followList = [];
+            this.getFollowList();
+        }
     }
 }

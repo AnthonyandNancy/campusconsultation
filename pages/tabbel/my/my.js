@@ -29,6 +29,9 @@ export default {
             isAuthor: Boolean,
             currentType:'my',
             getPrivateChatObj:{},
+
+            followNum:0,
+            supportNum:0
         };
     },
     onShareAppMessage() {
@@ -39,6 +42,7 @@ export default {
         }
     },
     onLoad(){
+
         that = this;
         this.userInfo = constant.getUserLogin();
         uni.getSystemInfo({
@@ -48,6 +52,9 @@ export default {
         });
     },
     onShow(){
+
+        this.followNum = constant.getUserLogin().followNum;
+
         if(constant.getUserSign().length != 0){
             this.currPage = 1;
             this.dynamicList = [];
@@ -57,9 +64,12 @@ export default {
         this.userInfo = constant.getUserLogin();
     },
     onReady(){
+
         uni.setStorageSync('IS_PREVIEW',false);
         setTimeout(function () {
         },1500);
+
+
 
         that.userInfo = constant.getUserLogin();
 
@@ -256,5 +266,17 @@ export default {
 
             }
         },
+
+        //获取点赞数
+
+       async  getSupportNum(){
+
+        },
+
+        //获取关注数
+        async getFollowNum(){
+
+        }
+
     }
 }

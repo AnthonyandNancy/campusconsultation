@@ -34,7 +34,7 @@
                         </view>
                         <view class="supportOrFollowItem">
                             <view class="followBox" @click="toMyFollow">
-                                <view class="supportOrFollowNum">20</view>
+                                <view class="supportOrFollowNum">{{followNum}}</view>
                                 <view class="supportOrFollowText">我的关注</view>
                             </view>
                         </view>
