@@ -22,7 +22,6 @@
                     let sign = constant.getUserSign()
                     console.log('进入了[2, 3].includes(this.wssType.readyState)的判断')
                     uni.onNetworkStatusChange((res) => {
-                        // console.log(res)
                         console.log('是否重连联网1>1', res);
                         console.log('是否重连联网2>2', res.networkType);
                         if (res.isConnected == true) {
@@ -77,64 +76,68 @@
 
                 }
             })
-
-            //针对不在消息界面的情况下，检测是否有小圆点，进行取消
-            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
-            let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST')
-            let groupObj = {};
-            let friendObj = {};
-
-            if (chatGroupList.length != 0 || chatFriendList.length != 0) {
-                new Promise((resolve, reject) => {
-                    if (chatGroupList.length != 0) {
-                        chatGroupList.forEach(res => {
-                            if (groupObj[res.hasNewMsg] == undefined) {
-                                groupObj[res.hasNewMsg] = 1
-                            } else {
-                                groupObj[res.hasNewMsg]++;
-                            }
-                        })
-
-                        for (let key in groupObj) {
-                            if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
-                                resolve();
-                            } else {
-                                uni.showTabBarRedDot({
-                                    index: 3
-                                })
-                            }
-                        }
-                    } else {
-                        resolve();
-                    }
-                }).then(res => {
-                    if (chatFriendList.length != 0) {
-                        chatFriendList.forEach(res => {
-                            if (friendObj[res.hasPrivateNewMsg] == undefined) {
-                                friendObj[res.hasPrivateNewMsg] = 1
-                            } else {
-                                friendObj[res.hasPrivateNewMsg]++;
-                            }
-                        })
-
-                        for (let key in friendObj) {
-                            if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
-                                uni.hideTabBarRedDot({
-                                    index: 3
-                                })
-                            } else {
-                                uni.showTabBarRedDot({
-                                    index: 3
-                                })
-                            }
-                        }
-                    }
-                })
-            }
+            this.checkIsShowRedPoint();
         },
 
 
         methods: {
+            // 检测是否显示消息的小红点
+            checkIsShowRedPoint(){
+                //针对不在消息界面的情况下，检测是否有小圆点，进行取消
+                let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+                let chatFriendList = uni.getStorageSync('CHAT_FRIEND_LIST')
+                let groupObj = {};
+                let friendObj = {};
+
+                if (chatGroupList.length != 0 || chatFriendList.length != 0) {
+                    new Promise((resolve, reject) => {
+                        if (chatGroupList.length != 0) {
+                            chatGroupList.forEach(res => {
+                                if (groupObj[res.hasNewMsg] == undefined) {
+                                    groupObj[res.hasNewMsg] = 1
+                                } else {
+                                    groupObj[res.hasNewMsg]++;
+                                }
+                            })
+
+                            for (let key in groupObj) {
+                                if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
+                                    resolve();
+                                } else {
+                                    uni.showTabBarRedDot({
+                                        index: 3
+                                    })
+                                }
+                            }
+                        } else {
+                            resolve();
+                        }
+                    }).then(res => {
+                        if (chatFriendList.length != 0) {
+                            chatFriendList.forEach(res => {
+                                if (friendObj[res.hasPrivateNewMsg] == undefined) {
+                                    friendObj[res.hasPrivateNewMsg] = 1
+                                } else {
+                                    friendObj[res.hasPrivateNewMsg]++;
+                                }
+                            })
+
+                            for (let key in friendObj) {
+                                if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
+                                    uni.hideTabBarRedDot({
+                                        index: 3
+                                    })
+                                } else {
+                                    uni.showTabBarRedDot({
+                                        index: 3
+                                    })
+                                }
+                            }
+                        }
+                    })
+                }
+            },
+
             async getLogin(jscode) {
                 let json = await api.getLogin({
                     query: {
@@ -411,9 +414,18 @@
                             let userTag = 'chatList:' + sign
                             let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
 
-                            uni.showTabBarRedDot({
-                                index: 3,
-                            })
+
+                            if(chatGroupList.length != 0){
+                                chatGroupList.forEach(resGroup=>{
+                                    if(resGroup.room__roomSign == sign){
+                                        uni.showTabBarRedDot({
+                                            index: 3,
+                                        })
+                                    }
+                                })
+                            }
+
+
 
 
                             if (chatGroupList.length != 0) {
@@ -472,13 +484,15 @@
                                     resDataMsg['hasPrivateNewMsg'] = true;
                                     uni.$emit('getPrivateLastChat', resDataMsg)
 
-
-                                    uni.showTabBarRedDot({
-                                        index: 3,
-                                    })
+                                    console.log('在对方没有群聊列表的时候就触发了消息tabbar的小红点')
 
                                     let PrivateLastChat = uni.getStorageSync('CHAT_FRIEND_LIST');
 
+                                    if(PrivateLastChat.length != 0){
+                                        uni.showTabBarRedDot({
+                                            index: 3,
+                                        })
+                                    }
 
                                     let option = {
                                         roomSign: resData.sign,

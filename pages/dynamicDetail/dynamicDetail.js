@@ -24,6 +24,9 @@ export default {
 
             currPage:1,
             totalPage:0,
+
+            scrollH:0,
+            upperDistance:0
         }
     },
     async onLoad(option) {
@@ -46,15 +49,30 @@ export default {
 
     },
     onShow(){
-        if(constant.getUserSign().length !=0){
+        if(constant.getIsComment()){
+            this.dynamicObj.commentTimes++;
+            this.currPage = 1;
+            this.commentList=[];
             this.getCommentList();
-            // this.getCommentNum();
-            this.getSupportList();
         }
     },
     onReady(){
         uni.setStorageSync('IS_PREVIEW',false);
-        // this.getSupportList();
+        this.getCommentList();
+
+        uni.getSystemInfo({
+            success: (res)=> {
+                console.log(res,'===============');
+                this.scrollH = res.windowHeight;
+            }
+        })
+
+
+        let query = uni.createSelectorQuery().in(this);
+        query.select('.commentTip').boundingClientRect(res => {
+            console.log('========>>>>>>>>>>>>>>>>>>>>',res.top);
+            this.upperDistance = res.top;
+        }).exec();
     },
     onShareAppMessage(){
         return {
@@ -64,6 +82,16 @@ export default {
         }
     },
     methods: {
+        scroll(res){
+
+            console.log('.========>>>',res);
+        },
+        toupper(res){
+            console.log('----toupper=====>',res)
+        },
+        tolower(res){
+            console.log('-----tolower=====>',res)
+        },
         //获取评论列表
         async getCommentList() {
             let json = await api.getCommentList({
@@ -74,24 +102,9 @@ export default {
                 }
             })
             if(json.data.errcode == 200){
+                console.log('========------->>>',json.data)
+                this.totalPage = json.data.totalPage;
                 this.commentList =[...this.commentList,...json.data.commentList];
-            }
-        },
-        //获取动态评论数
-        async getCommentNum(){
-            let json = await api.getDynamicList({
-                query: {
-                    sign: this.userSign,
-                    page: 1,
-                    type: 0
-                }
-            })
-            if (json.data.errcode == 200) {
-                json.data.dynamicList.forEach(res=>{
-                    if(this.dynamicObj.dynamicSign == res.dynamicSign ){
-                        this.dynamicObj.commentTimes =res.commentTimes;
-                    }
-                })
             }
         },
         previewImg(index,imgList){
@@ -118,6 +131,7 @@ export default {
             })
 
         },
+        //添加点赞
         async addSupport(){
             let json = await api.addSupport({
                 query:{
@@ -133,28 +147,8 @@ export default {
             })
 
             if(json.data.errcode == 200){
-                this.isMySupport = true;
+                this.dynamicObj.ILike = true;
                 this.dynamicObj.likeTimes++;
-            }
-        },
-
-        // 获取我点赞的动态列表
-        async getSupportList(){
-            let json  = await api.getSupportList({
-                query:{
-                    sign:this.userSign,
-                    page: 1
-                }
-            })
-
-            if(json.data.errcode == 200 ){
-                 let dynamicList = json.data.dynamicList;
-                 dynamicList.forEach((res)=>{
-                     if(res.dynamicSign == this.dynamicObj.dynamicSign){
-                         this.isMySupport = true;
-                         this.dynamicObj= {...this.dynamicObj,...res}
-                     }
-                 })
             }
         },
 

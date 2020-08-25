@@ -656,9 +656,19 @@ export default {
                                 resMsg.type = 'orther'
                             }
                             console.log('在一个群聊中收到来自别的群聊消息')
-                            uni.showTabBarRedDot({
-                                index: 3,
-                            })
+
+                            let chatGroupList = uni.getStorageSync('CHAT_GROUP_LIST');
+
+
+                            if(chatGroupList.length != 0){
+                                chatGroupList.forEach(resGroup=>{
+                                    if(resGroup.room__roomSign == sign){
+                                        uni.showTabBarRedDot({
+                                            index: 3,
+                                        })
+                                    }
+                                })
+                            }
 
                             const userTag = 'chatList:' + resMsgRoomId
                             uni.getStorage({

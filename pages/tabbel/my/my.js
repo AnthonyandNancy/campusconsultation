@@ -7,31 +7,33 @@ import loadRefresh from '../../../components/load-refresh';
 //插件 end
 let that;
 export default {
-    components:{
+    components: {
         dynamicCard,
         loadRefresh
     },
     data() {
         return {
-            userInfo:{},
-            avatarBgImgUrl:'',
-            userSign:'',
-            dynamicList:[],
-            pageHeight:0,
+            userInfo: {},
+            avatarBgImgUrl: '',
+            userSign: '',
+            dynamicList: [],
+            pageHeight: 0,
 
             //refresh start
-            myDynamicViewH:0,//视图的高度
-            loadRefreshHeight:0,//刷新的高度
-            currPage:1,//当前的页数
-            totalPage:0, //数据的总页数
+            myDynamicViewH: 0,//视图的高度
+            loadRefreshHeight: 0,//刷新的高度
+            currPage: 1,//当前的页数
+            totalPage: 0, //数据的总页数
             //refresh end
 
             isAuthor: Boolean,
-            currentType:'my',
-            getPrivateChatObj:{},
+            currentType: 'my',
+            getPrivateChatObj: {},
 
-            followNum:0,
-            supportNum:0
+            followNum: 0,
+            supportNum: 0,
+
+            isScroll: false
         };
     },
     onShareAppMessage() {
@@ -41,18 +43,20 @@ export default {
             imageUrl: "/static/images/poster.png"
         }
     },
-    onLoad(){
-
+    onLoad() {
         that = this;
-        this.userInfo = constant.getUserLogin();
+        this.userInfo = {
+            name: constant.getUserLogin().name,
+            pic: constant.getUserLogin().pic
+        }
         uni.getSystemInfo({
             success: (res) => {
                 this.pageHeight = res.windowHeight;
             }
         });
     },
-    onShow(){
-
+    onShow() {
+        //获取关注数和点赞数
         this.followNum = constant.getUserLogin().followNum;
         this.supportNum = constant.getUserLogin().ILikeTimes;
 
@@ -62,17 +66,14 @@ export default {
             this.getDynamicList(this.currPage);
         }
 
-        this.userInfo = constant.getUserLogin();
+        this.userInfo = {
+            name: constant.getUserLogin().name,
+            pic: constant.getUserLogin().pic
+        }
+
     },
-    onReady(){
-
-        uni.setStorageSync('IS_PREVIEW',false);
-        setTimeout(function () {
-        },1500);
-
-
-
-        that.userInfo = constant.getUserLogin();
+    onReady() {
+        uni.setStorageSync('IS_PREVIEW', false);
 
         if (constant.getIsAuthor().length == 0) {
             this.isAuthor = false;
@@ -80,22 +81,27 @@ export default {
             this.isAuthor = constant.getIsAuthor();
         }
 
-      this.userSign = constant.getUserSign();
+        this.userSign = constant.getUserSign();
 
-      const query = uni.createSelectorQuery().in(this);
+        const query = uni.createSelectorQuery().in(this);
 
-      query.select('.myDynamic').boundingClientRect(res=>{
-          console.log('我的动态列表===》',res)
+        query.select('.main').boundingClientRect(res => {
+            this.myDynamicViewH = this.pageHeight - res.top;
+            this.loadRefreshHeight = res.top;
+        }).exec();
 
-          this.myDynamicViewH = this.pageHeight - res.top;
-          this.loadRefreshHeight = res.top;
-      }).exec();
-
-      this.getDynamicList(this.currPage);
+        this.getDynamicList(this.currPage);
     },
-    methods:{
+    methods: {
+        scroll(res) {
+            if (res.detail.scrollTop > 10) {
+                this.isScroll = true;
+            } else if (res.detail.scrollTop < 20) {
+                this.isScroll = false;
+            }
+        },
         //去修改个人信息修改页面、
-        toEditDetail(val){
+        toEditDetail() {
             uni.navigateTo({
                 url: '/pages/personalPage/personalPage'
             });
@@ -122,9 +128,9 @@ export default {
                         })
                         if (json.data.errcode == 200) {
                             uni.showToast({
-                                title:'授权成功',
-                                mask:true,
-                                icon:'none'
+                                title: '授权成功',
+                                mask: true,
+                                icon: 'none'
                             });
                             that.showPopup = true;
                             that.toLogin();
@@ -141,15 +147,15 @@ export default {
             });
         },
 
-        toother(){
+        toother() {
             uni.navigateTo({
-                url:"/pages/otherMinePage/otherMinePage"
+                url: "/pages/otherMinePage/otherMinePage"
             })
         },
 
-        toReadNotive(){
+        toReadNotive() {
             uni.navigateTo({
-                url:'/pages/notice/notice'
+                url: '/pages/notice/notice'
             })
         },
 
@@ -164,35 +170,34 @@ export default {
         loadMore(next) { // 上拉加载触发方法
             this.currPage++;
             this.getDynamicList(this.currPage)
-            that.$refs.hideLoading[1].loadOver()
         },
 
         //获取动态列表
-        async getDynamicList(currentPage){
+        async getDynamicList(currentPage) {
             let json = await api.getDynamicList({
-                query:{
-                    sign:this.userSign,
+                query: {
+                    sign: this.userSign,
                     page: currentPage,
                     type: 2
                 }
             })
-            if(json.data.errcode == 200){
+            if (json.data.errcode == 200) {
                 this.totalPage = json.data.totalPage;
                 json.data.dynamicList.forEach((res) => {
                     res['isShowAllContent'] = false
                 })
-                this.dynamicList = [...this.dynamicList,...json.data.dynamicList];
+                this.dynamicList = [...this.dynamicList, ...json.data.dynamicList];
             }
         },
 
-        toPrivateChat(){
+        toPrivateChat() {
             uni.redirectTo({
                 url: '/pages/chatRoom/chatRoom'
             });
         },
-        toMySupport(){
+        toMySupport() {
             uni.navigateTo({
-                url:"/pages/mySupport/mySupport"
+                url: "/pages/mySupport/mySupport"
             })
         },
 
@@ -213,9 +218,9 @@ export default {
             }
         },
 
-        toMyFollow(){
+        toMyFollow() {
             uni.navigateTo({
-                url:"/pages/myFollow/myFollow"
+                url: "/pages/myFollow/myFollow"
             })
         },
         //分享
@@ -264,9 +269,7 @@ export default {
                         this.$set(res, 'like', true)
                     }
                 })
-
             }
-        },
-
+        }
     }
 }

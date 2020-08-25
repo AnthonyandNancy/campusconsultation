@@ -1,23 +1,24 @@
 <template>
     <view>
-        <view style="padding-bottom: 10rpx">
-            <!--动态-->
-            <dynamicCard :currentPageType="'detail'" :dynamicObj="dynamicObj" @showAllEvent="showAll"></dynamicCard>
-        </view>
-
+<!--        <scroll-view :scroll-y="true" @scroll="scroll" :scroll-top="500" :upper-threshold="upperDistance" :lower-threshold="upperDistance"  @scrolltolower="tolower"  :style="{height:(scrollH )+ 'px'}"  :scroll-with-animation="true" @scrolltoupper = 'toupper'>-->
 
         <!--评论列表-->
-        <view class="commentList">
+        <view class="commentList" v-if="Object.keys(dynamicObj).length != 0">
             <load-refresh ref="hideLoading"
                           :isRefresh="true"
                           :refreshTime="800"
-                          :heightReduce="loadRefreshHeight"
+                          :heightReduce="0"
                           :backgroundCover="'#fff'"
                           :pageNo="currPage"
                           :totalPageNo="totalPage"
                           @loadMore="loadMore"
                           @refresh="refresh">
                 <view slot="content-list">
+                    <view style="padding-bottom: 10rpx">
+                        <!--动态-->
+                        <dynamicCard :currentPageType="'detail'" :dynamicObj="dynamicObj" @showAllEvent="showAll"></dynamicCard>
+                    </view>
+
                     <view class="commentTip">评论 {{dynamicObj.commentTimes}}</view>
                     <view :key="index" class="commentFlex" v-for="(item,index) in commentList">
                         <view class="item commentUser">
@@ -48,11 +49,12 @@
 
         </view>
 
+<!--        </scroll-view>-->
         <view class="content">
             <view class="comment">
                 <view class="item">
                     <view @click="addSupport" class="supportBox">
-                        <view class="supportIcon"><image :src="isMySupport?'/static/images/support_active.png':'/static/images/support.png'" class="auto-img"></image></view>
+                        <view class="supportIcon"><image :src="dynamicObj.ILike?'/static/images/support_active.png':'/static/images/support.png'" class="auto-img"></image></view>
                         <view class="tip">{{dynamicObj.likeTimes}}</view>
                     </view>
 
@@ -70,9 +72,7 @@
                 </view>
             </view>
         </view>
-
     </view>
-
 </template>
 
 <script src="./dynamicDetail.js">

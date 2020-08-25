@@ -68,7 +68,7 @@
                                     </view>
 
                                     <view class="resources">
-                                        <view class="item image" v-for="(imgItem,imgIndex) in item1.imgList"
+                                        <view class="item" v-for="(imgItem,imgIndex) in item1.imgList"
                                               @click='preViewImg(imgIndex,item1.imgList)' :key="imgIndex">
                                             <image :src="imgItem" class="auto-img" lazy-load  mode="aspectFill"></image>
                                         </view>

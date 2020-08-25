@@ -339,9 +339,13 @@
                 margin-bottom: 20rpx;
 
                 .item {
-                    margin: 10rpx;
-                    width: calc(100% / 3);
+                    margin:0 10rpx 10rpx 0;
+                    /*flex: 0 0 calc(((100% - 50rpx) / 3  ) + 10rpx  );*/
+                    width: calc((100% - 40rpx + (61rpx / 3) ) / 3);
                     height: 230rpx;
+                    &:nth-child(3n){
+                        margin-right: 0;
+                    }
                 }
 
                 .image{
