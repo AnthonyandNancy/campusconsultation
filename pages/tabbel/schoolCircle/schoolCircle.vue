@@ -91,7 +91,7 @@
                                     <view class="support">
                                         <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
                                         <view class="Item support_comment">
-                                            <view class="shareIcon" @click="toShare(item1.dynamicSign)">
+                                            <view class="shareIcon" @click="toShare(item1)">
                                                 <button class="shareIconBtn" open-type="share"></button>
                                                 <view class="icon">
                                                     <image src="/static/images/share.png"

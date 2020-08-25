@@ -101,19 +101,46 @@ export default {
             commentDySign: '',
 
             isShowMark:false,
-            isRefresh:false
+            isRefresh:false,
+
+            shareDynamicObj:{}
         }
     },
-    onShareAppMessage() {
-        return {
-            title: "传播校园文化,助力高考报考",
-            path: '/pages/selectSchool/selectSchool',
-            imageUrl: "/static/images/poster.png"
+    onShareAppMessage(res) {
+
+        console.log('分享的方式===》',res)
+
+        if(res.from == 'button'){
+            return {
+                title: shareDynamicObj.content,
+                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(shareDynamicObj),
+                imageUrl: shareDynamicObj.imgList.length != 0 ?shareDynamicObj.imgList[0]:shareDynamicObj.videoPreview == null?'':shareDynamicObj.videoPreview
+            }
+
+        }else if(res.from == 'menu'){
+
+            return {
+                title: this.Tabs[this.tab],
+                path: '/pages/campus/campus?intoType=share&currentTabIndex=' + this.tab ,
+                imageUrl: ""
+            }
         }
+
+
     },
 
-    onLoad() {
+    onLoad(option) {
         that = this;
+
+        if(option.intoType == 'share'){
+            if(option.currentTabIndex == 3){
+                this.content = this.loveContent;
+            }
+
+            this.tab = option.currentTabIndex;
+            this.currentSwiper = option.currentTabIndex;
+        }
+
         constant.setIsPublish(false);
         uni.getSystemInfo({
             success: (data) => {
@@ -436,17 +463,19 @@ export default {
             })
         },
         //分享
-        async toShare(dynSign) {
+        async toShare(dynamicItem) {
+            this.shareDynamicObj = dynamicItem
+
             let json = await api.shareDynamic({
                 query: {
-                    dynamicSign: dynSign,
+                    dynamicSign: dynamicItem.dynamicSign,
                     sign: this.userSign
                 }
             })
 
             if (json.data.errcode == 200) {
                 this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
-                    if (res.dynamicSign == dynSign) {
+                    if (res.dynamicSign == dynamicItem.dynamicSign) {
                         res.shareTimes++;
                     }
                 })

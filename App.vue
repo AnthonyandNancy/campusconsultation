@@ -578,6 +578,11 @@
         height: 100%;
         /*border-radius: 20rpx;*/
     }
+    scroll-view ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        background-color: transparent;
+    }
 
     @import "uview-ui/index.scss";
 </style>
