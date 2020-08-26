@@ -146,7 +146,9 @@ export default {
                 }
             });
         },
-
+        toCheckAuthor(authorStatus){
+                this.isAuthor = authorStatus
+        },
         toother() {
             uni.navigateTo({
                 url: "/pages/otherMinePage/otherMinePage"

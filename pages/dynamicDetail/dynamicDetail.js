@@ -11,6 +11,7 @@ export default {
     data() {
         return {
             dynamicObj: {},
+            addressDynamicObj:{},
             userSign:'',
             commentList:[],
             customStyle: {
@@ -26,7 +27,8 @@ export default {
             totalPage:0,
 
             scrollH:0,
-            upperDistance:0
+            upperDistance:0,
+            isAuthor:Boolean
         }
     },
     async onLoad(option) {
@@ -34,14 +36,16 @@ export default {
         //获取动态详情
         let dynamicObj = JSON.parse(option.dynamicObj);
 
+        console.log({
+            dynamicSign:dynamicObj.dynamicSign,
+            sign:this.userSign
+        })
         let json = await api.getOnlyDynamic({
             query:{
                 dynamicSign:dynamicObj.dynamicSign,
-                sign:this.userSign
+                sign:this.userSign !=''?this.userSign:dynamicObj.userSign
             }
         })
-
-        console.log('单条动态的内容------>>>>',json.data);
 
         if(json.data.errcode == 200){
             this.dynamicObj = json.data.content
@@ -57,12 +61,13 @@ export default {
         }
     },
     onReady(){
+        this.isAuthor = constant.getIsAuthor();
+
         uni.setStorageSync('IS_PREVIEW',false);
         this.getCommentList();
 
         uni.getSystemInfo({
             success: (res)=> {
-                console.log(res,'===============');
                 this.scrollH = res.windowHeight;
             }
         })
@@ -70,27 +75,63 @@ export default {
 
         let query = uni.createSelectorQuery().in(this);
         query.select('.commentTip').boundingClientRect(res => {
-            console.log('========>>>>>>>>>>>>>>>>>>>>',res.top);
             this.upperDistance = res.top;
         }).exec();
     },
-    onShareAppMessage(){
-        return {
-            title: "传播校园文化,助力高考报考",
-            path: '/pages/tabbel/home/home',
-            imageUrl: "/static/images/poster.png"
+
+    onShareAppMessage(res){
+        if(res.from == 'button'){
+            let  dyObj = res.target.dataset.detaildy;
+            return{
+                title: dyObj.content,
+                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(dyObj),
+                imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
+            }
         }
     },
-    methods: {
-        scroll(res){
 
-            console.log('.========>>>',res);
+    methods: {
+        toAuthor(res) {
+            uni.getUserInfo({
+                provider: 'weixin',
+                success: async function (infoRes) {
+                    constant.setIsAuthor(true)
+                    that.isAuthor = true;
+                    if (infoRes.errMsg == "getUserInfo:ok") {
+                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
+                        let json = await api.updateUserInfo({
+                            query: {
+                                sign: that.userSign,
+                                name: nickName,
+                                pic: avatarUrl,
+                                gender: gender,
+                                country: country,
+                                province: province,
+                                city: city
+                            }
+                        })
+                        if (json.data.errcode == 200) {
+                            uni.showToast({
+                                title: '授权成功',
+                                mask: true,
+                                icon: 'none'
+                            });
+                            that.showPopup = true;
+                            that.toLogin();
+                            that.userInfo.pic = avatarUrl;
+                            that.userInfo.name = nickName;
+
+                        }
+                    }
+                },
+                fail(res) {
+                    constant.setIsAuthor(false)
+                    that.isAuthor = false;
+                }
+            });
         },
-        toupper(res){
-            console.log('----toupper=====>',res)
-        },
-        tolower(res){
-            console.log('-----tolower=====>',res)
+        toCheckAuthor(authorStatus){
+            this.isAuthor = authorStatus
         },
         //获取评论列表
         async getCommentList() {

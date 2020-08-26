@@ -1,9 +1,20 @@
 .schoolCircle_content{
   .dynamicItem {
+    position: relative;
     margin: 0 0 15rpx;
     background-color: #FFFFFF;
     padding: 0 20rpx;
     border-bottom: 5px solid #eee;
+
+    .getUserInfo{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index:1500 ;
+      opacity: 0;
+    }
 
     .dynamInfo {
       display: flex;

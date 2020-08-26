@@ -73,8 +73,9 @@
                                          :currentIndex="index1" :currentPageType="'mine'"
                                          @shareEvent="toShare" @commentEvent="toComment"
                                          @supportEvent="toSupport" @showAllEvent="showAll(index1)"
-                                         @toDetailEvent="dynamicDetail"></dynamicCard>
+                                         @toDetailEvent="dynamicDetail"  :isAuthor="isAuthor" @failAuth="toCheckAuthor" @successAuth="toCheckAuthor"></dynamicCard>
                         </view>
+<!--                        -->
                     </view>
                 </view>
             </load-refresh>

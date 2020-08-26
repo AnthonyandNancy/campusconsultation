@@ -18,6 +18,9 @@
                                   @refresh="refresh">
                         <view slot="content-list">
                                 <view class="dynamicItem"  v-for="(item1,index1) in item.dynamicList" :key="index1">
+
+                                    <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor" ></button>
+
                                     <!--头部样式-->
                                     <view class="dynamInfo">
 
@@ -91,8 +94,8 @@
                                     <view class="support">
                                         <view class="Item publishTime" v-if="false">{{item1.addTime}}</view>
                                         <view class="Item support_comment">
-                                            <view class="shareIcon" @click="toShare(item1)">
-                                                <button class="shareIconBtn" open-type="share"></button>
+                                            <view class="shareIcon" @click="toShare(item1.dynamicSign)">
+                                                <button class="shareIconBtn" open-type="share" :data-dyobj="item1"></button>
                                                 <view class="icon">
                                                     <image src="/static/images/share.png"
                                                            class="auto-img"></image>

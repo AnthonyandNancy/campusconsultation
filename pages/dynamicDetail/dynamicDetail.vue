@@ -16,7 +16,7 @@
                 <view slot="content-list">
                     <view style="padding-bottom: 10rpx">
                         <!--动态-->
-                        <dynamicCard :currentPageType="'detail'" :dynamicObj="dynamicObj" @showAllEvent="showAll"></dynamicCard>
+                        <dynamicCard :currentPageType="'detail'" :dynamicObj="dynamicObj" @showAllEvent="showAll"  :isAuthor="isAuthor" @failAuth="toCheckAuthor" @successAuth="toCheckAuthor"></dynamicCard>
                     </view>
 
                     <view class="commentTip">评论 {{dynamicObj.commentTimes}}</view>
@@ -51,7 +51,12 @@
 
 <!--        </scroll-view>-->
         <view class="content">
+
             <view class="comment">
+
+                <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
+
+
                 <view class="item">
                     <view @click="addSupport" class="supportBox">
                         <view class="supportIcon"><image :src="dynamicObj.ILike?'/static/images/support_active.png':'/static/images/support.png'" class="auto-img"></image></view>
@@ -64,7 +69,7 @@
                     </view>
                 </view>
                 <view class="item">
-                    <button class="hideShareBtn" open-type="share">分享</button>
+                    <button class="hideShareBtn" open-type="share" :data-detaildy="dynamicObj">分享</button>
                     <u-button :custom-style="customStyle" class="shareBtn" shape="circle" size="mini">
                         <u-icon color="#fff" name="weixin-circle-fill" size="28"></u-icon>
                         分享

@@ -11,11 +11,12 @@
                 newWssType: false,
                 roomId: '',
                 sendAPPType: false,
-                userSign: ''
+                userSign: '',
+                isJoinWhitShare:false
             };
         },
-        onShow() {
-
+        onShow(scene) {
+            console.log('----------onShow-----------------------------------------',scene)
             //页面展示时，判断是否断开连接，如果断开就重新连接
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
@@ -46,7 +47,10 @@
                 }
             }, 1000)
         },
-        async onLaunch() {
+        async onLaunch(sceneNum) {
+            if(sceneNum.scene == 1007){
+                this.isJoinWhitShare = true;
+            }
             //聊天室已经加载过的信息
             uni.$on('sendAPPType', (res) => {
                 if (res.sendAPPType == true) {
@@ -58,7 +62,7 @@
                 this.newWssType = false
                 console.log('关闭了  //closeAPPVueNewWssType')
             })
-
+        if(sceneNum.scene != 1007){
             if (constant.getUserLogin().length != 0) {
                 if (constant.getUserLogin().schoolName != null) {
                     uni.switchTab({
@@ -66,6 +70,8 @@
                     })
                 }
             }
+        }
+
 
             await uni.login({
                 success: res => {
@@ -149,12 +155,20 @@
 
                 this.userSign = sign;
 
+                uni.$emit('userLogin',json.data)
+
+                constant.setUserSign(json.data.sign);
+                constant.setUserLogin(json.data);
+
                 //当用户也存在学校时，跳过选择学校的界面 直接转到首页
-                if (schoolName != null) {
-                    uni.switchTab({
-                        url: '/pages/tabbel/home/home'
-                    })
+                if(!this.isJoinWhitShare){
+                    if (schoolName != null) {
+                        uni.switchTab({
+                            url: '/pages/tabbel/home/home'
+                        })
+                    }
                 }
+
 
                 if (errcode == 200) {
 
@@ -247,8 +261,10 @@
                         });
                     },1000)
 
-                    constant.setUserSign(json.data.sign);
-                    constant.setUserLogin(json.data);
+
+
+
+
                 }
             },
             getMsgWss() {

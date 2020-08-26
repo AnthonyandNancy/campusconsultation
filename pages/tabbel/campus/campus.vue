@@ -28,6 +28,9 @@
                             <view class="dynamicItem" v-if="item.type != 37" v-for="(item1,index1) in item.dynamicList"
                                   :key="index1">
                                 <!--头部样式-->
+
+                                <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
+
                                 <view class="dynamInfo">
                                     <view class="dynamInfoItem PublisherAvatar">
                                         <view class="avatar u-skeleton-circle" @click="toOtherMineInfoPage(item1)">
@@ -91,8 +94,8 @@
                                 <view class="support">
                                     <view class="Item support_comment">
 
-                                        <view class="shareIcon" @click="toShare(item1)">
-                                            <button class="shareIconBtn" open-type="share"></button>
+                                        <view class="shareIcon" @click="toShare(item1.dynamicSign)">
+                                            <button class="shareIconBtn" open-type="share" :data-dyobj="item1"></button>
                                             <view class="icon">
                                                 <image src="/static/images/share.png"
                                                        class="auto-img"></image>

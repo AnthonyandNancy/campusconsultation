@@ -35,7 +35,7 @@ export default {
                 backgroundColor: '#fff',
                 selectedColor: 'rgba(255,255,255,1)',
                 buttonColor: 'linear-gradient(360deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)',
-                clickBtnColor:'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)'
+                clickBtnColor: 'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)'
             },
             content: [],
             createContent: [
@@ -77,61 +77,98 @@ export default {
             animationData: {},
             videoContext: {},
 
-            videoUrl:'',
-            commentDySign:'',
-            isShowMark:false,
+            videoUrl: '',
+            commentDySign: '',
+            isShowMark: false,
 
-            isRefresh:false,
+            isRefresh: false,
 
-            shareDynamicObj:{}
+            isAuthor:Boolean,
+            isJoinOfShare: false,
         }
     },
     onShareAppMessage(res) {
-        if(res.from == 'button'){
+
+        if (res.from == 'button') {
+
+            let dyObj = res.target.dataset.dyobj;
+            dyObj['userSign'] = that.userSign;
             return {
-                title: shareDynamicObj.content,
-                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(shareDynamicObj),
-                imageUrl: shareDynamicObj.imgList.length != 0 ?shareDynamicObj.imgList[0]:shareDynamicObj.videoPreview == null?'':shareDynamicObj.videoPreview
+                title: dyObj.content,
+                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(dyObj),
+                imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
             }
 
-        }else if(res.from == 'menu'){
+        } else if (res.from == 'menu') {
 
             return {
-                title: this.Tabs[this.tab],
-                path: '/pages/schoolCircle/schoolCircle?intoType=share&currentTabIndex=' + this.tab ,
+                title: that.tabsList[that.tab].title,
+                path: '/pages/tabbel/schoolCircle/schoolCircle?intoType=share&currentTabIndex=' + that.tab,
                 imageUrl: ""
             }
         }
     },
     onLoad(option) {
         that = this;
-
-        if(option.intoType == 'share'){
-            if(option.currentTabIndex == 3){
-                this.content = this.loveContent;
-            }
-
-            this.tab = option.currentTabIndex;
-            this.currentSwiper = option.currentTabIndex;
-        }
-
-
-
+        this.isAuthor = constant.getIsAuthor();
+        this.userSign = constant.getUserSign();
         constant.setIsPublish(false);
+
+
         uni.getSystemInfo({
             success: (data) => {
                 this.systemInfo = data;
             }
         })
-        this.userSign = constant.getUserSign();
-        this.tabsList = constant.getUserLogin().header[1].title;
+
+
+        if (constant.getUserLogin().length != 0) {
+            this.tabsList = constant.getUserLogin().header[1].title;
+        }
+
         this.content = this.createContent;
+
+        if (option.intoType == 'share') {
+            this.isJoinOfShare = true;
+            new Promise((resolve, reject) => {
+                uni.$on('userLogin', function (res) {
+                    that.userSign = res.sign;
+                    that.tabsList = res.header[1].title;
+                    resolve(that.tabsList)
+                })
+
+            }).then(resData => {
+                let query = uni.createSelectorQuery().in(this);
+
+
+                query.select('.navTab').boundingClientRect(res => {
+                    this.loadRefreshHeight = res.top;
+                    this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+                }).exec();
+
+                resData.forEach((res, index) => {
+                    console.log('onReady====》foreach')
+                    that.getAllDynamicList(index)
+                })
+            })
+
+
+            if (option.currentTabIndex == 3) {
+                this.content = this.loveContent;
+            }
+
+            this.tab = option.currentTabIndex;
+            this.currentSwiper = option.currentTabIndex;
+        } else {
+            this.isJoinOfShare = false
+            that.tabsList = constant.getUserLogin().header[1].title
+        }
     },
     onShow() {
 
-        if(constant.getIsComment()){
-            this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
-                if(res.dynamicSign == this.commentDySign){
+        if (constant.getIsComment()) {
+            this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
+                if (res.dynamicSign == this.commentDySign) {
                     res.commentTimes++;
                 }
             })
@@ -141,11 +178,9 @@ export default {
 
 
         if (constant.getSelectType().length != 0) {
-
-            if(constant.getSelectType() == 3){
+            if (constant.getSelectType() == 3) {
                 this.content = this.loveContent;
             }
-
             this.tab = constant.getSelectType();
             this.currentSwiper = constant.getSelectType();
             uni.removeStorageSync('SELECT_TYPE');
@@ -154,41 +189,82 @@ export default {
     onReady() {
         this.userSign = constant.getUserSign();
 
-        new Promise((resolve, reject) => {
+        if (!this.isJoinOfShare) {
+            new Promise((resolve, reject) => {
+                if (this.tabsList.length != 0) {
+                    resolve(this.tabsList)
+                }
 
-            resolve(this.tabsList)
+            }).then(res => {
+                let query = uni.createSelectorQuery().in(this);
+                query.select('.navTab').boundingClientRect(res => {
+                    this.loadRefreshHeight = res.top;
+                    this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+                }).exec();
+                res.forEach((res, index) => {
+                    this.getAllDynamicList(index)
+                })
 
-        }).then(res => {
-
-            let query = uni.createSelectorQuery().in(this);
-
-            query.select('.navTab').boundingClientRect(res => {
-                this.loadRefreshHeight = res.top;
-                this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
-            }).exec();
-
-            this.tabsList.forEach((res, index) => {
-                this.getAllDynamicList(index)
             })
+        }
 
-        })
     },
     methods: {
+        toAuthor() {
+            uni.getUserInfo({
+                provider: 'weixin',
+                lang: 'zh_CN',
+                success: async function (infoRes) {
+                    constant.setIsAuthor(true);
+                    that.isAuthor = true;
+
+                    if (infoRes.errMsg == "getUserInfo:ok") {
+                        constant.setUserInfo(infoRes.userInfo)
+
+                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
+                        let json = await api.updateUserInfo({
+                            query: {
+                                sign: that.userSign,
+                                name: nickName,
+                                pic: avatarUrl,
+                                gender: gender,
+                                country: country,
+                                province: province,
+                                city: city
+                            }
+                        })
+                        if (json.data.errcode == 200) {
+
+                            uni.showToast({
+                                title: '授权成功',
+                                mask: true,
+                                icon: 'none'
+                            });
+                            that.toLogin();
+                        }
+                    }
+                },
+                fail(res) {
+                    constant.setIsAuthor(false)
+                    that.isAuthor = false;
+                }
+            });
+        },
         showVideo(url) {
             this.videoUrl = url;
 
             this.videoContext = uni.createVideoContext('videoId', this);
 
-            this.videoContext.requestFullScreen({direction:0});
+            this.videoContext.requestFullScreen({direction: 0});
         },
         screenChange(e) {
 
-            if(e.detail.fullScreen){
-                setTimeout(res=>{
+            if (e.detail.fullScreen) {
+                setTimeout(res => {
                     this.videoContext.play();
-                },200)
+                }, 200)
 
-            }else{
+            } else {
                 this.videoUrl = '';
                 this.videoContext.stop()
             }
@@ -234,13 +310,13 @@ export default {
                 })
             }
         },
-        fabclick(val){
+        fabclick(val) {
             this.isShowMark = val;
         },
-        hideFabMark(){
+        hideFabMark() {
             this.$refs.unifab._onClick();
         },
-        tofindLove(){
+        tofindLove() {
             uni.navigateTo({
                 url: "/pages/beckoningPage/beckoningPage"
             })
@@ -313,8 +389,16 @@ export default {
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
             uni.showLoading({
-                title:'加载中...'
+                title: '加载中...'
             });
+
+            console.log({
+                sign: this.userSign,
+                page: this.tabsList[index].currentPage,
+                type: this.tabsList[index].type
+            })
+
+            console.log(' this.tabsList', this.tabsList)
 
             let json = await api.getDynamicList({
                 query: {
@@ -325,21 +409,30 @@ export default {
             })
 
             if (json.data.errcode == 200) {
+
                 this.tabsList[index].totalPage = json.data.totalPage
                 json.data.dynamicList.forEach((res) => {
                     res['isShowAllContent'] = false
                 })
 
-                that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
+                // that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
 
-               if(index == this.tabsList.length - 1){
-                   setTimeout(res=>{
-                       uni.hideLoading();
-                   },1500)
-               }else if(this.isRefresh){
-                   uni.hideLoading();
-               }
+                that.$set(that.tabsList[index], 'dynamicList', [...that.tabsList[index].dynamicList, ...json.data.dynamicList])
+
+                console.log(index, '===', that.tabsList[index].dynamicList)
+
+                if (index == this.tabsList.length - 1) {
+                    setTimeout(res => {
+                        uni.hideLoading();
+                    }, 1500)
+                } else if (this.isRefresh) {
+                    uni.hideLoading();
+                }
             }
+
+            console.log('=====???that.tabsList===>', that.tabsList);
+
+            // that.$set(that.tabsList,null,that.tabsList)
         },
 
         //进入动态详情页面
@@ -357,20 +450,18 @@ export default {
         },
 
         //分享
-        async toShare(dynamicObj) {
-            this.shareDynamicObj = dynamicObj;
-            console.log(this.shareDynamicObj,'===========>>>>>>>>>>>>>>>>>>>>>>');
+        async toShare(dySign) {
             let json = await api.shareDynamic({
                 query: {
-                    dynamicSign: dynamicObj.dynamicSign,
+                    dynamicSign: dySign,
                     sign: this.userSign
                 }
             })
 
             if (json.data.errcode == 200) {
 
-                this.tabsList[this.currentSwiper].dynamicList.forEach((res)=>{
-                    if(res.dynamicSign == dynamicObj.dynamicSign){
+                this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
+                    if (res.dynamicSign == dynamicObj.dynamicSign) {
                         res.shareTimes++;
                     }
                 })

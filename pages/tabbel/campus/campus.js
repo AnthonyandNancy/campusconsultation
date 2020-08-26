@@ -32,7 +32,7 @@ export default {
                 backgroundColor: '#fff',
                 selectedColor: 'rgba(255,255,255,1)',
                 buttonColor: 'linear-gradient(360deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)',
-                clickBtnColor:'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)'
+                clickBtnColor: 'linear-gradient(90deg,rgba(254,97,96,1) 0%,rgba(255,176,97,1) 100%)'
             },
             content: [],
             createContent: [
@@ -100,46 +100,39 @@ export default {
             videoUrl: '',
             commentDySign: '',
 
-            isShowMark:false,
-            isRefresh:false,
+            isShowMark: false,
+            isRefresh: false,
 
-            shareDynamicObj:{}
+            isAuthor: Boolean,
         }
     },
     onShareAppMessage(res) {
 
-        console.log('分享的方式===》',res)
 
-        if(res.from == 'button'){
+        if (res.from == 'button') {
+
+            let dyObj = res.target.dataset.dyobj;
+            dyObj['userSign'] = that.userSign;
+
             return {
-                title: shareDynamicObj.content,
-                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(shareDynamicObj),
-                imageUrl: shareDynamicObj.imgList.length != 0 ?shareDynamicObj.imgList[0]:shareDynamicObj.videoPreview == null?'':shareDynamicObj.videoPreview
+                title: dyObj.content,
+                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(dyObj),
+                imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
             }
 
-        }else if(res.from == 'menu'){
+        } else if (res.from == 'menu') {
 
             return {
-                title: this.Tabs[this.tab],
-                path: '/pages/campus/campus?intoType=share&currentTabIndex=' + this.tab ,
+                title: that.tabsList[that.tab].title,
+                path: '/pages/tabbel/campus/campus?intoType=share&schoolName='+constant.getUserLogin().schoolName +'&currentTabIndex=' + that.tab,
                 imageUrl: ""
             }
         }
-
-
     },
 
     onLoad(option) {
         that = this;
-
-        if(option.intoType == 'share'){
-            if(option.currentTabIndex == 3){
-                this.content = this.loveContent;
-            }
-
-            this.tab = option.currentTabIndex;
-            this.currentSwiper = option.currentTabIndex;
-        }
+        this.isAuthor = constant.getIsAuthor();
 
         constant.setIsPublish(false);
         uni.getSystemInfo({
@@ -148,12 +141,57 @@ export default {
             }
         })
 
+        uni.$on('userLogin', function (res) {
+            console.log('onLoad=-==>', res)
+            that.tabsList = res.header[0].title
+        })
+        if (constant.getUserLogin().length != 0) {
+            this.tabsList = constant.getUserLogin().header[0].title
+        }
+
+
         //获取导标签 对应的动态
-        this.tabsList = constant.getUserLogin().header[0].title
+
         this.content = this.createContent;
+
+
+        if (option.intoType == 'share') {
+
+            new Promise((resolve, reject) => {
+                uni.$on('userLogin',function (res) {
+                    that.userSign = res.sign;
+                    that.tabsList = res.header[0].title
+                    resolve(that.tabsList);
+                })
+
+            }).then(resData=>{
+                let query = uni.createSelectorQuery().in(this);
+                query.select('.navTab').boundingClientRect(res => {
+                    this.loadRefreshHeight = res.top;
+                    this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+                }).exec();
+
+                //遍历获取所有动态
+                that.tabsList.forEach((res, index) => {
+                    that.getAllDynamicList(index)
+                })
+            })
+
+
+            if (option.currentTabIndex == 3) {
+                this.content = this.loveContent;
+            }
+
+            this.tab = option.currentTabIndex;
+            this.currentSwiper = option.currentTabIndex;
+        }
+
     },
     onShow() {
         this.userSign = constant.getUserSign();
+        uni.$on('userLogin', function (res) {
+            this.tabsList = res.header[0].title
+        })
 
         if (constant.getIsComment()) {
             this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
@@ -190,7 +228,6 @@ export default {
             }).exec();
         })
 
-
         //遍历获取所有动态
         this.tabsList.forEach((res, index) => {
             this.getAllDynamicList(index)
@@ -199,6 +236,46 @@ export default {
     },
 
     methods: {
+        toAuthor() {
+            uni.getUserInfo({
+                provider: 'weixin',
+                lang: 'zh_CN',
+                success: async function (infoRes) {
+                    constant.setIsAuthor(true);
+                    that.isAuthor = true;
+
+                    if (infoRes.errMsg == "getUserInfo:ok") {
+                        constant.setUserInfo(infoRes.userInfo)
+
+                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
+                        let json = await api.updateUserInfo({
+                            query: {
+                                sign: that.userSign,
+                                name: nickName,
+                                pic: avatarUrl,
+                                gender: gender,
+                                country: country,
+                                province: province,
+                                city: city
+                            }
+                        })
+                        if (json.data.errcode == 200) {
+
+                            uni.showToast({
+                                title: '授权成功',
+                                mask: true,
+                                icon: 'none'
+                            });
+                            that.toLogin();
+                        }
+                    }
+                },
+                fail(res) {
+                    constant.setIsAuthor(false)
+                    that.isAuthor = false;
+                }
+            });
+        },
         showVideo(url) {
             this.videoUrl = url;
 
@@ -261,10 +338,10 @@ export default {
                 })
             }
         },
-        fabclick(val){
+        fabclick(val) {
             this.isShowMark = val
         },
-        hideFabMark(){
+        hideFabMark() {
             this.$refs.unifab._onClick();
         },
         tofindLove() {
@@ -352,28 +429,28 @@ export default {
             this.applyRealImageUrl = '';
         },
         async submitApply() {
-            if(this.realImgUrlList == ''){
+            if (this.realImgUrlList == '') {
                 uni.showToast({
-                    title:'请上传图片',
-                    icon:'none',
-                    mask:true
+                    title: '请上传图片',
+                    icon: 'none',
+                    mask: true
                 })
-                return ;
-            }else if(this.applyObj.roomName == ''){
+                return;
+            } else if (this.applyObj.roomName == '') {
                 uni.showToast({
-                    title:'请输入群聊名称',
-                    icon:'none',
-                    mask:true
+                    title: '请输入群聊名称',
+                    icon: 'none',
+                    mask: true
                 })
-                return ;
+                return;
 
-            }else if(this.applyObj.describe == ''){
+            } else if (this.applyObj.describe == '') {
                 uni.showToast({
-                    title:'请输入群聊描述',
-                    icon:'none',
-                    mask:true
+                    title: '请输入群聊描述',
+                    icon: 'none',
+                    mask: true
                 })
-                return ;
+                return;
             }
 
 
@@ -403,7 +480,7 @@ export default {
         async getAllDynamicList(index) {
             let schoolName = constant.getUserLogin().schoolName;
             uni.showLoading({
-                title:'加载中...'
+                title: '加载中...'
             });
             //获取群聊
             if (this.tabsList[index].type == 37) {
@@ -415,7 +492,7 @@ export default {
                 })
                 if (chatGroupJson.data.errcode == 200) {
                     this.tabsList[index].dynamicList = chatGroupJson.data.roomList;
-                    if(this.isRefresh){
+                    if (this.isRefresh) {
                         uni.hideLoading();
                     }
                 }
@@ -439,12 +516,12 @@ export default {
                 })
 
                 that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
-                if(index == this.tabsList.length - 1){
-                    setTimeout( ()=> {
+                if (index == this.tabsList.length - 1) {
+                    setTimeout(() => {
                         uni.hideLoading();
 
-                    },1500)
-                }else if(this.isRefresh){
+                    }, 1500)
+                } else if (this.isRefresh) {
                     uni.hideLoading();
                 }
             }
@@ -463,19 +540,18 @@ export default {
             })
         },
         //分享
-        async toShare(dynamicItem) {
-            this.shareDynamicObj = dynamicItem
+        async toShare(dySign) {
 
             let json = await api.shareDynamic({
                 query: {
-                    dynamicSign: dynamicItem.dynamicSign,
+                    dynamicSign: dySign,
                     sign: this.userSign
                 }
             })
 
             if (json.data.errcode == 200) {
                 this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
-                    if (res.dynamicSign == dynamicItem.dynamicSign) {
+                    if (res.dynamicSign == dySign) {
                         res.shareTimes++;
                     }
                 })

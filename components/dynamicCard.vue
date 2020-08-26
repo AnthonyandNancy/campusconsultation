@@ -1,7 +1,11 @@
 <template>
     <view class="dyCartContent">
 
+
         <view class="dynamicItem" v-if="currentPageType != 'chat'">
+
+            <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
+
             <!--头部样式-->
             <view class="dynamInfo">
                 <view class="dynamInfoItem PublisherAvatar">
@@ -103,7 +107,8 @@
         <video id="videoId"  style="display: block !important; width: 0 !important; height: 0 !important;" :src="videoUrl" class="video" controls @fullscreenchange="screenChange"></video>
 
         <!-- 群聊列表-->
-        <view v-if="currentPageType == 'chat'">
+        <view class="chatObjItem" v-if="currentPageType == 'chat'">
+            <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor" @getuserinfo="toAuthor"></button>
             <view class="chatItemBox" @click="toChatRoom">
                 <view class="chatItem">
                     <view class="chatAvatar">
@@ -122,7 +127,10 @@
 <script>
     import luchAudio from '../components/luch-audio/luch-audio';
     import constant from "../utils/constant";
+    import api from "../utils/request/api";
+
     let that;
+
     export default {
         props:{
             dynamicObj:{
@@ -136,6 +144,10 @@
             currentPageType:{
                 type:String,
                 defaule: ''
+            },
+            isAuthor:{
+                type:Boolean,
+                defaule:false
             }
         },
         components:{
@@ -149,8 +161,10 @@
                 videoUrl:''
             }
         },
+
         onReady(){
             that = this;
+
             this.userSign = constant.getUserSign();
         },
         onShareAppMessage:(res)=>{
@@ -161,6 +175,47 @@
             }
         },
         methods:{
+            toAuthor() {
+                uni.getUserInfo({
+                    provider: 'weixin',
+                    lang: 'zh_CN',
+                    success: async  (infoRes)=> {
+                        constant.setIsAuthor(true);
+                       this.$emit('successAuth',true);
+
+                        if (infoRes.errMsg == "getUserInfo:ok") {
+                            constant.setUserInfo(infoRes.userInfo)
+
+                            let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
+                            let json = await api.updateUserInfo({
+                                query: {
+                                    sign: that.userSign,
+                                    name: nickName,
+                                    pic: avatarUrl,
+                                    gender: gender,
+                                    country: country,
+                                    province: province,
+                                    city: city
+                                }
+                            })
+                            if (json.data.errcode == 200) {
+
+                                uni.showToast({
+                                    title: '授权成功',
+                                    mask: true,
+                                    icon: 'none'
+                                });
+                                that.toLogin();
+                            }
+                        }
+                    },
+                    fail:(res) =>{
+                        constant.setIsAuthor(false)
+                        this.$emit('failAuth',false)
+                    }
+                });
+            },
+
             //图片预览
             preViewImg(index,imgList){
                 uni.previewImage({
@@ -229,9 +284,20 @@
 <style lang="scss" scoped>
 .dyCartContent{
     .dynamicItem {
+        position: relative;
         background-color: #FFFFFF;
         padding: 20rpx 20rpx;
         border-bottom: 5px solid #F2F2F2;
+
+        .getUserInfo{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1500;
+            opacity: 0;
+        }
 
         .dynamInfo {
             display: flex;
@@ -438,6 +504,20 @@
         }
 
     }
+
+    .chatObjItem{
+        position: relative;
+        .getUserInfo{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 1000;
+            opacity: 0;
+        }
+    }
+
     .chatItemBox{
         display: flex;
         align-items: center;
