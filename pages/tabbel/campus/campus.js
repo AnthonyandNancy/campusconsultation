@@ -99,11 +99,10 @@ export default {
             videoContext: {},
             videoUrl: '',
             commentDySign: '',
-
             isShowMark: false,
             isRefresh: false,
-
             isAuthor: Boolean,
+            shareSchoolName:''
         }
     },
     onShareAppMessage(res) {
@@ -115,16 +114,23 @@ export default {
                 path: '/pages/dynamicDetail/dynamicDetail?intoType=share&dynamicObj=' + JSON.stringify(dyObj),
                 imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
             }
+
         } else if (res.from == 'menu') {
+            let tab = that.tab == 2? 0 : that.tab
             return {
-                title: that.tabsList[that.tab].title,
-                path: '/pages/tabbel/campus/campus?intoType=share&schoolName='+constant.getUserLogin().schoolName +'&currentTabIndex=' + that.tab,
+                title: that.tab == 2?that.tabsList[0].title:that.tabsList[that.tab].title,
+                path: '/pages/tabbel/schoolCircle/schoolCircle?intoType=share&currentTabIndex=' + tab,
                 imageUrl: ""
             }
         }
     },
-
     onLoad(option) {
+        if(constant.getUserLogin().schoolName == null){
+            uni.reLaunch({
+                url:'/pages/selectSchool/selectSchool'
+            })
+        }
+
         that = this;
         this.isAuthor = constant.getIsAuthor();
 
@@ -136,17 +142,17 @@ export default {
         })
 
         // 新用户通过分享入口首次进入小程序
-        uni.$on('userLogin', function (res) {
-            that.tabsList = res.header[0].title
-        })
+        if(option.intoType == 'share'){
+            uni.$on('userLogin', function (res) {
+                that.tabsList = res.header[0].title
+            })
+        }
 
         if (constant.getUserLogin().length != 0) {
             this.tabsList = constant.getUserLogin().header[0].title
         }
 
-
         //获取导标签 对应的动态
-
         this.content = this.createContent;
 
 
@@ -207,8 +213,6 @@ export default {
             })
             constant.setIsUpdateData(false)
         }
-
-
     },
     onReady() {
         this.userSign = constant.getUserSign();

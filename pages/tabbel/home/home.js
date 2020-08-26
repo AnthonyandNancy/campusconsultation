@@ -32,8 +32,16 @@ export default {
         }
     },
     onLoad() {
-
         this.toLogin();
+
+        if(constant.getUserLogin().schoolName == null){
+            uni.reLaunch({
+                url:'/pages/selectSchool/selectSchool'
+            })
+        }
+
+
+
 
     },
     onReady() {

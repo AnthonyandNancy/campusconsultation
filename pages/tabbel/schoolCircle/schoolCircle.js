@@ -83,7 +83,7 @@ export default {
 
             isRefresh: false,
 
-            isAuthor:Boolean,
+            isAuthor: Boolean,
             isJoinOfShare: false,
         }
     },
@@ -148,7 +148,6 @@ export default {
                 })
             })
 
-
             if (option.currentTabIndex == 3) {
                 this.content = this.loveContent;
             }
@@ -161,6 +160,19 @@ export default {
         }
     },
     onShow() {
+        if (this.tabsList.length != 0  &&  this.tabsList[0].dynamicList.length == 0) {
+            let query = uni.createSelectorQuery().in(this);
+            query.select('.navTab').boundingClientRect(res => {
+                this.loadRefreshHeight = res.top;
+                this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+            }).exec();
+
+            this.tabsList.forEach((res, index) => {
+                that.getAllDynamicList(index);
+            })
+
+        }
+
 
         if (constant.getIsComment()) {
             this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
@@ -180,6 +192,7 @@ export default {
             this.currentSwiper = constant.getSelectType();
             uni.removeStorageSync('SELECT_TYPE');
         }
+
     },
     onReady() {
         this.userSign = constant.getUserSign();
@@ -191,11 +204,13 @@ export default {
                 }
 
             }).then(res => {
+
                 let query = uni.createSelectorQuery().in(this);
                 query.select('.navTab').boundingClientRect(res => {
                     this.loadRefreshHeight = res.top;
                     this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
                 }).exec();
+
                 res.forEach((res, index) => {
                     this.getAllDynamicList(index)
                 })
@@ -413,7 +428,6 @@ export default {
                     uni.hideLoading();
                 }
             }
-
         },
 
         //进入动态详情页面
