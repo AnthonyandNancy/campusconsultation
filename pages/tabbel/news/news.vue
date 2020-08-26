@@ -6,7 +6,6 @@
                                 :title="tabTitle" @changeFatherTab="changeTab" @loadMoreData="loadMore"
                                 @refreshFatherData='refresh'></navTab_loadRefresh>
         </view>
-        <button @click="newRoom" v-if="false">新聊天室</button>
     </view>
 </template>
 

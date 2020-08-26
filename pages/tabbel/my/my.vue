@@ -1,6 +1,5 @@
 <template>
     <view class="main">
-
         <scroll-view :scroll-y="true" :scroll-top="isScroll?'520':'0'" :style="{height:(pageHeight )+ 'px'}" :scroll-with-animation="true">
             <view class="header">
                 <view class="header-Info">
@@ -14,7 +13,6 @@
                     </view>
 
                     <view class="avatar_nickName">
-
                         <view class="item avatarItem">
                             <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor"
                                     @getuserinfo="toAuthor"></button>
@@ -24,20 +22,17 @@
                                        mode="aspectFit"></image>
                             </view>
                         </view>
-
                         <view class="item">
                             <view class="userInfo">{{userInfo.name != null ?userInfo.name:'请先授权'}}</view>
                         </view>
 
                         <view class="item support_or_folloew">
-
                             <view class="supportOrFollowItem">
                                 <view class="supportBox" @click="toMySupport">
                                     <view class="supportOrFollowNum">{{supportNum}}</view>
                                     <view class="supportOrFollowText">我赞过的</view>
                                 </view>
                             </view>
-
                             <view class="supportOrFollowItem">
                                 <view class="followBox" @click="toMyFollow">
                                     <view class="supportOrFollowNum">{{followNum}}</view>
@@ -45,14 +40,13 @@
                                 </view>
                             </view>
                         </view>
-
                     </view>
                 </view>
             </view>
 
             <load-refresh ref="hideLoading"
                           :isRefresh="true"
-                          :refreshTime="800"
+                          :refreshTime="500"
                           :heightReduce="loadRefreshHeight"
                           :backgroundCover="'#fff'"
                           :pageNo="currPage"
@@ -75,13 +69,10 @@
                                          @supportEvent="toSupport" @showAllEvent="showAll(index1)"
                                          @toDetailEvent="dynamicDetail"  :isAuthor="isAuthor" @failAuth="toCheckAuthor" @successAuth="toCheckAuthor"></dynamicCard>
                         </view>
-<!--                        -->
                     </view>
                 </view>
             </load-refresh>
         </scroll-view>
-
-
     </view>
 </template>
 

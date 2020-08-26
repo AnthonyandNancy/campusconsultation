@@ -3,7 +3,6 @@
         <view class="navTab">
             <navTab :schoolNameType="getMineSchoolName" :tabTitle="title" @changeTab="tabChange" ref="navTab"></navTab>
         </view>
-
         <swiper :current="currentTabIndex"  :style="{height:swiperHeight + 'px'}" @change="changeSwiper" class="swiper">
             <swiper-item :key="index" v-for="(item,index) in title" v-show="currentTabIndex == index">
                 <load-refresh :backgroundCover="'#FFFFFF'"
@@ -15,7 +14,6 @@
                               @loadMore="loadMore"
                               @refresh="refresh"
                               ref="loadRefresh" v-if="viewType == '私聊'">
-
                     <view slot="content-list"  style="margin:0 20rpx">
                         <view :key="index1" @click="gotoChat(item1.friend__sign,item1.friend__name,currentTabIndex)" class="dynamicItem" v-for="(item1,index1) in privateChatList">
 
@@ -79,7 +77,6 @@
                 </load-refresh>
             </swiper-item>
         </swiper>
-<!--        <button @click="gotoChat">聊天</button>-->
     </view>
 </template>
 
@@ -96,10 +93,6 @@
                 type: Array,
                 default: []
             },
-            // swiperHeight: {
-            //     type: Number,
-            //     default: 0
-            // },
             currentTabIndex: {
                 type: Number,
                 default: 0
@@ -170,18 +163,12 @@
             loadMore() {
                 console.log('loadMore')
                 // 请求新数据完成后调用 组件内loadOver()方法
-                // 注意更新当前页码 currPage
-                // this.$refs.loadRefresh.loadOver()
-                // setTimeout(res => {
-                //     this.dynamicList += 8;
-                //     this.currPage += 1;
-                // }, 2000)
-
                 this.$emit('loadMoreData')
+                // this.$refs.loadRefresh.loadOver()
             },
             refresh() {
                 this.$emit('refreshFatherData')
-                console.log('refresh')
+                // this.$refs.loadRefresh.loadOver()
             },
             gotoChat(roomSign,roomName,type){
                 this.groupChatList.forEach(res=>{

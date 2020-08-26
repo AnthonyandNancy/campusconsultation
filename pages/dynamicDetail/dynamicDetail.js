@@ -35,26 +35,45 @@ export default {
         that = this;
         this.userSign = constant.getUserSign();
         //获取动态详情
-        let dynamicObj = JSON.parse(option.dynamicObj);
+        this.addressDynamicObj = JSON.parse(option.dynamicObj);
 
         // 新用户首次通过分享入口进入小程序
         if(option.intoType == 'share'){
-            uni.$on('userLogin',(res)=>{
-                this.userSign = res.sign;
+            new  Promise((resolve, reject) => {
+                uni.showLoading({
+                    title:'加载中...'
+                })
+                uni.$on('userLogin',(res)=>{
+                    that.userSign = res.sign;
+                    if(that.userSign != ''){
+                        resolve(that.userSign);
+                    }
+                })
+            }).then(async res=>{
+                let json = await api.getOnlyDynamic({
+                    query:{
+                        dynamicSign:that.addressDynamicObj.dynamicSign,
+                        sign:res
+                    }
+                })
+
+                if(json.data.errcode == 200){
+                    uni.hideLoading();
+                    that.dynamicObj = json.data.content
+                }
             })
-        }
+        }else{
+            let json = await api.getOnlyDynamic({
+                query:{
+                    dynamicSign:this.addressDynamicObj.dynamicSign,
+                    sign:this.userSign
+                }
+            })
 
-        let json = await api.getOnlyDynamic({
-            query:{
-                dynamicSign:dynamicObj.dynamicSign,
-                sign:this.userSign !=''?this.userSign:dynamicObj.userSign
+            if(json.data.errcode == 200){
+                that.dynamicObj = json.data.content
             }
-        })
-
-        if(json.data.errcode == 200){
-            this.dynamicObj = json.data.content
         }
-
     },
     onShow(){
         if(constant.getIsComment()){
@@ -64,7 +83,8 @@ export default {
             this.getCommentList();
         }
     },
-    onReady(){
+    async onReady(){
+
         this.isAuthor = constant.getIsAuthor();
 
         uni.setStorageSync('IS_PREVIEW',false);

@@ -17,19 +17,18 @@ export default {
             currPage: 2,
             currentTab: 0,
             chatType: '私聊',
-            schoolName: '',
             privateChatList: [],
             groupChatList: []
         }
     },
 
-    onShareAppMessage() {
-        return {
-            title: "传播校园文化,助力高考报考",
-            path: '/pages/selectSchool/selectSchool',
-            imageUrl: "/static/images/poster.png"
-        }
-    },
+    // onShareAppMessage() {
+    //     return {
+    //         title: "传播校园文化,助力高考报考",
+    //         path: '/pages/selectSchool/selectSchool',
+    //         imageUrl: ""
+    //     }
+    // },
     onLoad() {
         that = this;
         uni.getSystemInfo({
@@ -71,7 +70,6 @@ export default {
                             groupObj[res.hasNewMsg]++;
                         }
                     })
-
                     for (let key in groupObj) {
                         if (groupObj['true'] == 0 || groupObj['true'] == undefined) {
                             this.tabTitle[1]['hasGroupNewMsg'] = false
@@ -87,9 +85,7 @@ export default {
                 }else{
                     resolve();
                 }
-
             }).then(()=>{
-
                 if (chatFriendList.length != 0) {
                     chatFriendList.forEach(res => {
 
@@ -108,9 +104,7 @@ export default {
                             })
                         }else{
                             this.tabTitle[0]['hasGroupNewMsg'] = true
-
                             that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
-
                             uni.showTabBarRedDot({
                                 index:3
                             })
@@ -129,7 +123,6 @@ export default {
                     tabbarObj[res.hasGroupNewMsg]++;
                 }
             })
-
             for (let key in tabbarObj) {
                 if (tabbarObj['true'] == 0 || tabbarObj['true'] == undefined) {
                     uni.hideTabBarRedDot({
@@ -150,14 +143,9 @@ export default {
             for (let key in friendObj) {
                 if (friendObj['true'] == 0 || friendObj['true'] == undefined) {
                     this.tabTitle[0]['hasGroupNewMsg'] = false
-                    // uni.hideTabBarRedDot({
-                    //     index:3
-                    // })
                 }else{
                     this.tabTitle[0]['hasGroupNewMsg'] = true
-
                     that.$set( that.tabTitle,that.tabTitle[0].hasGroupNewMsg,true)
-
                     uni.showTabBarRedDot({
                         index:3
                     })
@@ -181,12 +169,11 @@ export default {
                     })
                 }
             })
-
             this.getGroupChatList();
-
             uni.setStorageSync('CHAT_GROUP_LIST', this.groupChatList);
             uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle)
         })
+
 
         //监听群聊在全局或聊天窗口界面发来的消息，并修改hasPrivateNewMsg的状态
         uni.$on('getPrivateLastChat', (res) => {
@@ -201,9 +188,7 @@ export default {
                     })
                 }
             })
-
             this.getPrivateChatList();
-
             uni.setStorageSync('CHAT_FRIEND_LIST', this.privateChatList);
             uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle)
         })
@@ -261,7 +246,6 @@ export default {
         refresh() {
             if (this.currentTab == 0) {
                 this.privateChatList = [];
-
                 uni.$on('getPrivateLastChat', (res) => {
                     this.privateChatList.forEach(friend => {
                         if (res.sign == friend.friend__sign) {
@@ -277,12 +261,9 @@ export default {
                     uni.setStorageSync('CHAT_FRIEND_LIST', this.privateChatList);
                     uni.setStorageSync('GROUP_FRIEND_HASPOINT',this.tabTitle)
                 })
-
                 this.getPrivateChatList();
-
             } else if (this.currentTab == 1) {
                 this.groupChatList = []
-
                 uni.$on('getGroupChat', (res) => {
                     this.groupChatList.forEach(chatGroup => {
                         if (res.roomSign == chatGroup.room__roomSign) {
@@ -337,7 +318,6 @@ export default {
                             }
                         }
 
-                        console.log('-----------------------ssssssssss',a)
                         this.privateChatList = [...a,...b];
                         uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }else if(this.privateChatList.length > json.data.friendList.length){
@@ -357,24 +337,17 @@ export default {
                         // this.privateChatList = [...a,...b];
                         // uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }else if(this.privateChatList.length == json.data.friendList.length){
-
                         console.log('从私聊界面返回================》》》》》')
                         let chatFList = uni.getStorageSync('CHAT_FRIEND_LIST');
-
                         chatFList.forEach(res => {
                             let strange = uni.getStorageSync('chatList:' + res.friend__sign);
-
                             if (strange.length != 0) {
                                 let chatMsg = strange[strange.length - 1];
                                 res['lastChatMsg'] = chatMsg.content.indexOf('https://cdn4game.xunyi.online') == 0 ?'[图片]':chatMsg.content;
                                 res['time'] = strange[strange.length - 1].time;
-
-
                             }
                         })
-
                         this.privateChatList = chatFList;
-
                         uni.setStorageSync('CHAT_FRIEND_LIST',this.privateChatList);
                     }
                 }
@@ -388,7 +361,6 @@ export default {
                     sign: this.userSign
                 }
             })
-
             if (json.data.errcode == 200) {
                 if (uni.getStorageSync('CHAT_GROUP_LIST').length == 0) {
                     this.groupChatList = json.data.roomList;
@@ -413,7 +385,6 @@ export default {
                         this.groupChatList = [...a,...b];
                         uni.setStorageSync('CHAT_GROUP_LIST',this.groupChatList);
                     }else if(uni.getStorageSync('CHAT_GROUP_LIST').length > json.data.roomList.length){
-
                     }else{
                         this.groupChatList = uni.getStorageSync('CHAT_GROUP_LIST')
                     }

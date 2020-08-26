@@ -14,7 +14,6 @@ export default {
     data() {
         return {
             userInfo: {},
-            avatarBgImgUrl: '',
             userSign: '',
             dynamicList: [],
             pageHeight: 0,
@@ -27,21 +26,10 @@ export default {
             //refresh end
 
             isAuthor: Boolean,
-            currentType: 'my',
-            getPrivateChatObj: {},
-
             followNum: 0,
             supportNum: 0,
-
             isScroll: false
         };
-    },
-    onShareAppMessage() {
-        return {
-            title: "传播校园文化,助力高考报考",
-            path: '/pages/selectSchool/selectSchool',
-            imageUrl: "/static/images/poster.png"
-        }
     },
     onLoad() {
         that = this;
@@ -65,26 +53,23 @@ export default {
             this.dynamicList = [];
             this.getDynamicList(this.currPage);
         }
-
         this.userInfo = {
             name: constant.getUserLogin().name,
             pic: constant.getUserLogin().pic
         }
-
     },
-    onReady() {
-        uni.setStorageSync('IS_PREVIEW', false);
 
+    onReady() {
+        this.userSign = constant.getUserSign();
+
+        uni.setStorageSync('IS_PREVIEW', false);
         if (constant.getIsAuthor().length == 0) {
             this.isAuthor = false;
         } else {
             this.isAuthor = constant.getIsAuthor();
         }
 
-        this.userSign = constant.getUserSign();
-
         const query = uni.createSelectorQuery().in(this);
-
         query.select('.main').boundingClientRect(res => {
             this.myDynamicViewH = this.pageHeight - res.top;
             this.loadRefreshHeight = res.top;
@@ -100,6 +85,7 @@ export default {
                 this.isScroll = false;
             }
         },
+
         //去修改个人信息修改页面、
         toEditDetail() {
             uni.navigateTo({
@@ -154,13 +140,11 @@ export default {
                 url: "/pages/otherMinePage/otherMinePage"
             })
         },
-
         toReadNotive() {
             uni.navigateTo({
                 url: '/pages/notice/notice'
             })
         },
-
         // 刷新数据
         refresh(next) { // 下拉刷新触发方法
             this.currPage = 1;
@@ -212,7 +196,6 @@ export default {
 
         //展示全文
         showAll(index) {
-
             if (!this.dynamicList[index].isShowAllContent) {
                 this.dynamicList[index].isShowAllContent = true
             } else {
@@ -225,6 +208,7 @@ export default {
                 url: "/pages/myFollow/myFollow"
             })
         },
+
         //分享
         async toShare(dynSign) {
             let json = await api.shareDynamic({
@@ -249,6 +233,7 @@ export default {
                 url: "/pages/publish/publish?publishType=commentDynamic&dynamicSign=" + dynSign
             })
         },
+
         //点赞
         async toSupport(dynSign) {
             let json = await api.addSupport({
@@ -263,6 +248,7 @@ export default {
                 mask: true,
                 icon: 'none'
             })
+
             if (json.data.errcode == 200) {
                 this.toLogin();
                 this.dynamicList.forEach(res => {
@@ -272,6 +258,7 @@ export default {
                     }
                 })
             }
+
         }
     }
 }

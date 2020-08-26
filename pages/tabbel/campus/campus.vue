@@ -129,7 +129,6 @@
         <!--视频-->
         <video id="videoId"  style="display: block !important; width: 0 !important; height: 0 !important;" :src="videoUrl" class="video" controls @fullscreenchange="screenChange"></video>
 
-
         <view class="loveBtn" v-if="content.length==1" @click="tofindLove">
             <view class="loveImg">
                 <image src="/static/images/fab_love.png" class="auto-img"></image>
@@ -142,9 +141,9 @@
             <uni-fab
                     :pattern="pattern"
                     :content="content"
-                    :horizontal="horizontal"
-                    :vertical="vertical"
-                    :direction="direction"
+                    :horizontal="'right'"
+                    :vertical="'bottom'"
+                    :direction="'vertical'"
                     @trigger="trigger"
                     @fabClick="fabclick"
                     ref="unifab"
@@ -182,7 +181,7 @@
                                 </view>
                                 <u-button v-if="applyObj.pic == ''" :custom-style="customStyle" size="mini"
                                           @click="onUploaded">
-                                    <text class="addIcon">&#xe641;</text>
+                                    <text class="addIcon">+</text>
                                     选择图片
                                 </u-button>
                             </u-form-item>

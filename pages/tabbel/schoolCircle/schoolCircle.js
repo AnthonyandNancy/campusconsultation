@@ -1,16 +1,10 @@
-//插件 start
 import WucTab from '../../../components/wuc-tab/wuc-tab';
 import loadRefresh from '../../../components/load-refresh';
 import uniFab from '../../../components/uni-fab/uni-fab'
 import luchAudio from '../../../components/luch-audio/luch-audio';
-//插件 end
-
+import dynamicCard from "../../../components/dynamicCard";
 import api from "../../../utils/request/api";
 import constant from "../../../utils/constant";
-
-//组件 start
-import dynamicCard from "../../../components/dynamicCard";
-//组件 end
 
 let that;
 export default {
@@ -25,7 +19,6 @@ export default {
         return {
             userSign: '',
             tab: 0,
-            // Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
             tabsList: [],
             currentSwiper: 0,
             systemInfo: {},
@@ -60,11 +53,8 @@ export default {
                     active: false
                 }
             ],
-            horizontal: 'right',
-            vertical: 'bottom',
-            direction: 'vertical',
-            //悬浮按钮 end
 
+            //悬浮按钮 end
             //刷新refresh start
             swiperViewHeight: 0,
             loadRefreshHeight: 0,
@@ -72,33 +62,27 @@ export default {
             totalPage: 0,
             //刷新refresh end
 
-            hotDynamicList: [], //热门动态列表,
             audioPlay: false,
-            animationData: {},
             videoContext: {},
-
             videoUrl: '',
             commentDySign: '',
             isShowMark: false,
-
             isRefresh: false,
-
             isAuthor: Boolean,
             isJoinOfShare: false,
         }
     },
+
     onShareAppMessage(res) {
         if (res.from == 'button') {
             let dyObj = res.target.dataset.dyobj;
-            dyObj['userSign'] = that.userSign;
+            // dyObj['userSign'] = that.userSign;
             return {
                 title: dyObj.content,
                 path: '/pages/dynamicDetail/dynamicDetail?intoType=share&dynamicObj=' + JSON.stringify(dyObj),
                 imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
             }
-
         } else if (res.from == 'menu') {
-
             return {
                 title: that.tabsList[that.tab].title,
                 path: '/pages/tabbel/schoolCircle/schoolCircle?intoType=share&currentTabIndex=' + that.tab,
@@ -110,21 +94,16 @@ export default {
         that = this;
         this.isAuthor = constant.getIsAuthor();
         this.userSign = constant.getUserSign();
+        this.content = this.createContent;
+
         constant.setIsPublish(false);
 
-
+        //获取系统的属性
         uni.getSystemInfo({
             success: (data) => {
                 this.systemInfo = data;
             }
         })
-
-
-        if (constant.getUserLogin().length != 0) {
-            this.tabsList = constant.getUserLogin().header[1].title;
-        }
-
-        this.content = this.createContent;
 
         if (option.intoType == 'share') {
             this.isJoinOfShare = true;
@@ -147,43 +126,45 @@ export default {
                     that.getAllDynamicList(index)
                 })
             })
-
             if (option.currentTabIndex == 3) {
                 this.content = this.loveContent;
             }
-
             this.tab = option.currentTabIndex;
             this.currentSwiper = option.currentTabIndex;
         } else {
             this.isJoinOfShare = false
-            that.tabsList = constant.getUserLogin().header[1].title
+            if (constant.getUserLogin().length != 0) {
+                that.tabsList = constant.getUserLogin().header[1].title
+            }
         }
     },
     onShow() {
-        if (this.tabsList.length != 0  &&  this.tabsList[0].dynamicList.length == 0) {
+
+        that.tabsList = constant.getUserLogin().header[1].title
+
+        if (this.tabsList.length != 0 && this.tabsList[0].dynamicList.length == 0) {
+            //计算navTab的可视高度
             let query = uni.createSelectorQuery().in(this);
             query.select('.navTab').boundingClientRect(res => {
                 this.loadRefreshHeight = res.top;
                 this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
             }).exec();
-
             this.tabsList.forEach((res, index) => {
                 that.getAllDynamicList(index);
             })
-
         }
 
-
+        //评论返回，数量加1
         if (constant.getIsComment()) {
             this.tabsList[this.currentSwiper].dynamicList.forEach((res) => {
                 if (res.dynamicSign == this.commentDySign) {
                     res.commentTimes++;
                 }
             })
-
             constant.setIsComment(false)
         }
 
+        //判断从首页点击跳转后的标签类型
         if (constant.getSelectType().length != 0) {
             if (constant.getSelectType() == 3) {
                 this.content = this.loveContent;
@@ -192,32 +173,9 @@ export default {
             this.currentSwiper = constant.getSelectType();
             uni.removeStorageSync('SELECT_TYPE');
         }
-
     },
     onReady() {
         this.userSign = constant.getUserSign();
-
-        if (!this.isJoinOfShare) {
-            new Promise((resolve, reject) => {
-                if (this.tabsList.length != 0) {
-                    resolve(this.tabsList)
-                }
-
-            }).then(res => {
-
-                let query = uni.createSelectorQuery().in(this);
-                query.select('.navTab').boundingClientRect(res => {
-                    this.loadRefreshHeight = res.top;
-                    this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
-                }).exec();
-
-                res.forEach((res, index) => {
-                    this.getAllDynamicList(index)
-                })
-
-            })
-        }
-
     },
     methods: {
         toAuthor() {
@@ -262,39 +220,37 @@ export default {
         },
         showVideo(url) {
             this.videoUrl = url;
-
+            //创建video对象
             this.videoContext = uni.createVideoContext('videoId', this);
-
             this.videoContext.requestFullScreen({direction: 0});
         },
         screenChange(e) {
-
             if (e.detail.fullScreen) {
                 setTimeout(res => {
                     this.videoContext.play();
                 }, 200)
-
             } else {
                 this.videoUrl = '';
                 this.videoContext.stop()
             }
         },
+
         //点击头像进入个人页面
         toOtherMineInfoPage(item) {
             let data = item
-
             if (this.userSign == data.sign) {
                 return;
             }
-
             uni.navigateTo({
                 url: '/pages/otherMinePage/otherMinePage?roomSign=' + data.sign + '&roomName=' + data.name + '&from=home' + '&avatar=' + data.pic
             })
         },
+
         changeTab(index) {
             this.currentSwiper = index;
             this.tab = index;
         },
+
         changeSwiper(e) {
             let index = e.detail.current;
             this.tab = index;
@@ -306,19 +262,22 @@ export default {
                 this.content = this.createContent;
             }
         },
+
         trigger(val) {
             constant.setIsPublish(true);
-            let index = val.index
+            let index = val.index;
+
             if (index == 0) {
                 uni.navigateTo({
                     url: "/pages/publish/publish?publishType=publishDynamic"
                 })
             } else if (index == 1) {
-                // this.showApplyPanel = true;
                 uni.navigateTo({
                     url: "/pages/beckoningPage/beckoningPage"
                 })
             }
+
+            this.$refs.unifab._onClick();
         },
         fabclick(val) {
             this.isShowMark = val;
@@ -386,7 +345,6 @@ export default {
                 query: {
                     sign: personalObj.sign,
                     friendSign: this.userSign
-
                 }
             })
             uni.navigateTo({
@@ -414,11 +372,8 @@ export default {
                 json.data.dynamicList.forEach((res) => {
                     res['isShowAllContent'] = false
                 })
-
                 // that.tabsList[index].dynamicList = [...that.tabsList[index].dynamicList, ...json.data.dynamicList];
-
                 that.$set(that.tabsList[index], 'dynamicList', [...that.tabsList[index].dynamicList, ...json.data.dynamicList])
-
 
                 if (index == this.tabsList.length - 1) {
                     setTimeout(res => {

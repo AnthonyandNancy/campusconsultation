@@ -47,9 +47,6 @@
 
                                             <view class="circle_chat_btn" @click="toPersionalChat(item1)" v-if="item1.type == 5 && userSign != item1.sign">咨询物主</view>
                                         </view>
-
-
-
                                     </view>
 
                                     <!--动态内容-->
@@ -142,9 +139,9 @@
             <uni-fab
                     :pattern="pattern"
                     :content="content"
-                    :horizontal="horizontal"
-                    :vertical="vertical"
-                    :direction="direction"
+                    :horizontal="'right'"
+                    :vertical="'bottom'"
+                    :direction="'vertical'"
                     @trigger="trigger"
                     @fabClick="fabclick"
                     ref="unifab"

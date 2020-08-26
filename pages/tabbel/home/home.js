@@ -1,6 +1,4 @@
-//插件 start
 import carousel from '@/components/vear-carousel/vear-carousel';
-//插件 end
 import constant from "../../../utils/constant";
 import api from '../../../utils/request/api';
 
@@ -28,28 +26,26 @@ export default {
         return {
             title: "传播校园文化,助力高考报考",
             path: '/pages/selectSchool/selectSchool',
-            imageUrl: "/static/images/poster.png"
+            imageUrl: ""
         }
     },
     onLoad() {
         this.toLogin();
-
         if(constant.getUserLogin().schoolName == null){
             uni.reLaunch({
                 url:'/pages/selectSchool/selectSchool'
             })
         }
-
-
-
-
     },
+
     onReady() {
+        that = this;
         uni.showLoading({
-            title: '加载中...'
+            title: '加载中...',
+            mask: true
         })
 
-        that = this;
+
         this.isAuthor = constant.getIsAuthor();
         let banner = constant.getUserLogin().banner;
         this.userSign = constant.getUserSign();
@@ -67,28 +63,24 @@ export default {
             }
 
             let jumpUrl = res.jumpPage.split('?')[0]
-            console.log('====>',jumpUrl)
 
             let jumpObj =  {};
             res.jumpPage.replace(/([^?&]+)=([^?&]+)/g, function(s, key, value) {
                 jumpObj[key] =  value
             });
 
-            console.log(jumpObj.jumpIndex)
            switch (jumpObj.jumpType) {
                case 'navigate':
                    uni.navigateTo({
                         url:jumpUrl
                    })
                    break;
-
                case 'switchTab':
                    constant.setSelectType( !jumpObj.jumpIndex?'0':jumpObj.jumpIndex);
                    uni.switchTab({
                        url: jumpUrl
                    })
                    break;
-
            }
         },
 
@@ -106,7 +98,6 @@ export default {
                 success: async function (infoRes) {
                     constant.setIsAuthor(true);
                     that.isAuthor = true;
-
                     if (infoRes.errMsg == "getUserInfo:ok") {
                         constant.setUserInfo(infoRes.userInfo)
 

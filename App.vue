@@ -16,7 +16,6 @@
             };
         },
         onShow(scene) {
-            console.log('--=-=-=-=-=>',scene)
             //页面展示时，判断是否断开连接，如果断开就重新连接
             let interval = setInterval(() => {
                 if ([2, 3].includes(this.wssType.readyState)) {
@@ -32,7 +31,6 @@
                                 url: 'wss://pets.neargh.com/tucaolove/ws/oneChat/' + sign,
                                 success: res => {
                                     console.log('{remoteUrl:constant.getUserLogin().remoteUrl}',{remoteUrl:constant.getUserLogin().remoteUrl})
-
                                     console.log('重连成功', res)
                                     this.newWssType = true
                                     this.getMsgWss()
