@@ -37,7 +37,7 @@ export default {
         //获取动态详情
         let dynamicObj = JSON.parse(option.dynamicObj);
 
-
+        // 新用户首次通过分享入口进入小程序
         if(option.intoType == 'share'){
             uni.$on('userLogin',(res)=>{
                 this.userSign = res.sign;
