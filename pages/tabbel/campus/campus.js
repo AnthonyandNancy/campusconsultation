@@ -22,7 +22,7 @@ export default {
         return {
             userSign: '',
             tab: 0,
-            Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
+            // Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '该校群聊',],
             tabsList: [],
             currentSwiper: 0,
             systemInfo: {},
@@ -107,21 +107,15 @@ export default {
         }
     },
     onShareAppMessage(res) {
-
-
         if (res.from == 'button') {
-
             let dyObj = res.target.dataset.dyobj;
             dyObj['userSign'] = that.userSign;
-
             return {
                 title: dyObj.content,
-                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(dyObj),
+                path: '/pages/dynamicDetail/dynamicDetail?intoType=share&dynamicObj=' + JSON.stringify(dyObj),
                 imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
             }
-
         } else if (res.from == 'menu') {
-
             return {
                 title: that.tabsList[that.tab].title,
                 path: '/pages/tabbel/campus/campus?intoType=share&schoolName='+constant.getUserLogin().schoolName +'&currentTabIndex=' + that.tab,
@@ -141,10 +135,11 @@ export default {
             }
         })
 
+        // 新用户通过分享入口首次进入小程序
         uni.$on('userLogin', function (res) {
-            console.log('onLoad=-==>', res)
             that.tabsList = res.header[0].title
         })
+
         if (constant.getUserLogin().length != 0) {
             this.tabsList = constant.getUserLogin().header[0].title
         }
@@ -178,7 +173,7 @@ export default {
             })
 
 
-            if (option.currentTabIndex == 3) {
+            if (option.currentTabIndex == 4) {
                 this.content = this.loveContent;
             }
 

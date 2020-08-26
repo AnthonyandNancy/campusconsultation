@@ -23,7 +23,7 @@
                     <view :key="index" class="commentFlex" v-for="(item,index) in commentList">
                         <view class="item commentUser">
                             <view class="avatar">
-                                <image :src="item.pic" class="auto-img" ></image>
+                                <image :src="item.pic" class="auto-img"  style="overflow: hidden; border-radius: 100%;"></image>
                             </view>
                         </view>
                         <view class="item commentInfo">
@@ -38,6 +38,7 @@
                                     <video :src="item.video" class="auto-img" controls object-fit="cover"></video>
                                 </view>
                             </view>
+
                             <view class="otherInfo">
                                 <view class="otherItem commentTime">{{item.addTime}}</view>
                                 <view class="otherItem suppertText" v-if="false"><text class="supportIcon">&#xe601;</text>点赞</view>

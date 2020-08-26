@@ -25,7 +25,7 @@ export default {
         return {
             userSign: '',
             tab: 0,
-            Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
+            // Tabs: ['所有动态', '热门动态', '以书会友', '校园爱情', '百团大战', '约起开黑', '操场相见', '个人杂物', '热门校园'],
             tabsList: [],
             currentSwiper: 0,
             systemInfo: {},
@@ -88,14 +88,12 @@ export default {
         }
     },
     onShareAppMessage(res) {
-
         if (res.from == 'button') {
-
             let dyObj = res.target.dataset.dyobj;
             dyObj['userSign'] = that.userSign;
             return {
                 title: dyObj.content,
-                path: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(dyObj),
+                path: '/pages/dynamicDetail/dynamicDetail?intoType=share&dynamicObj=' + JSON.stringify(dyObj),
                 imageUrl: dyObj.imgList.length != 0 ? dyObj.imgList[0] : dyObj.videoPreview == null ? '' : dyObj.videoPreview
             }
 
@@ -140,14 +138,12 @@ export default {
             }).then(resData => {
                 let query = uni.createSelectorQuery().in(this);
 
-
                 query.select('.navTab').boundingClientRect(res => {
                     this.loadRefreshHeight = res.top;
                     this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
                 }).exec();
 
                 resData.forEach((res, index) => {
-                    console.log('onReady====》foreach')
                     that.getAllDynamicList(index)
                 })
             })
@@ -175,7 +171,6 @@ export default {
 
             constant.setIsComment(false)
         }
-
 
         if (constant.getSelectType().length != 0) {
             if (constant.getSelectType() == 3) {
@@ -370,7 +365,6 @@ export default {
 
                     sign: this.userSign,
                     friendSign: personalObj.sign
-
                 }
             })
             const resFri = await api.addNewFriend({
@@ -380,7 +374,6 @@ export default {
 
                 }
             })
-
             uni.navigateTo({
                 url: '/pages/chatRoom/chatRoom?roomSign=' + personalObj.sign + '&roomName=' + personalObj.name + '&chatType=' + 0 + '&avatar=' + personalObj.pic
             })
@@ -391,14 +384,6 @@ export default {
             uni.showLoading({
                 title: '加载中...'
             });
-
-            console.log({
-                sign: this.userSign,
-                page: this.tabsList[index].currentPage,
-                type: this.tabsList[index].type
-            })
-
-            console.log(' this.tabsList', this.tabsList)
 
             let json = await api.getDynamicList({
                 query: {
@@ -419,7 +404,6 @@ export default {
 
                 that.$set(that.tabsList[index], 'dynamicList', [...that.tabsList[index].dynamicList, ...json.data.dynamicList])
 
-                console.log(index, '===', that.tabsList[index].dynamicList)
 
                 if (index == this.tabsList.length - 1) {
                     setTimeout(res => {
@@ -430,9 +414,6 @@ export default {
                 }
             }
 
-            console.log('=====???that.tabsList===>', that.tabsList);
-
-            // that.$set(that.tabsList,null,that.tabsList)
         },
 
         //进入动态详情页面

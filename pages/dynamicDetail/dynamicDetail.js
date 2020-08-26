@@ -2,7 +2,7 @@ import dynamicCard from "../../components/dynamicCard";
 import constant from "../../utils/constant";
 import api from '../../utils/request/api';
 import loadRefresh from '../../components/load-refresh';
-
+let that;
 export default {
     components: {
         dynamicCard,
@@ -32,14 +32,18 @@ export default {
         }
     },
     async onLoad(option) {
+        that = this;
         this.userSign = constant.getUserSign();
         //获取动态详情
         let dynamicObj = JSON.parse(option.dynamicObj);
 
-        console.log({
-            dynamicSign:dynamicObj.dynamicSign,
-            sign:this.userSign
-        })
+
+        if(option.intoType == 'share'){
+            uni.$on('userLogin',(res)=>{
+                this.userSign = res.sign;
+            })
+        }
+
         let json = await api.getOnlyDynamic({
             query:{
                 dynamicSign:dynamicObj.dynamicSign,
@@ -73,10 +77,11 @@ export default {
         })
 
 
-        let query = uni.createSelectorQuery().in(this);
-        query.select('.commentTip').boundingClientRect(res => {
-            this.upperDistance = res.top;
-        }).exec();
+        // let query = uni.createSelectorQuery().in(this);
+        // query.select('.commentTip').boundingClientRect(res => {
+        //     this.upperDistance = res.top;
+        // }).exec();
+
     },
 
     onShareAppMessage(res){
@@ -118,8 +123,6 @@ export default {
                             });
                             that.showPopup = true;
                             that.toLogin();
-                            that.userInfo.pic = avatarUrl;
-                            that.userInfo.name = nickName;
 
                         }
                     }
@@ -143,7 +146,6 @@ export default {
                 }
             })
             if(json.data.errcode == 200){
-                console.log('========------->>>',json.data)
                 this.totalPage = json.data.totalPage;
                 this.commentList =[...this.commentList,...json.data.commentList];
             }
