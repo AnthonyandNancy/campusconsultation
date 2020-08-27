@@ -15,6 +15,7 @@ const SWITCH_TYPE = '';
 const STARS_STYLES = '';
 const IS_UPDATE_SAVE_DATA = '';
 const IS_COMMENT = '';
+const IS_PREVIEW = '';
 
 
 /**
@@ -123,7 +124,14 @@ const getIsComment = ()=>{
 	}
 	return ret;
 }
-
+const getIsPreview = ()=>{
+	let ret = '';
+	ret = uni.getStorageSync('IS_PREVIEW');
+	if (!ret) {
+		ret = '';
+	}
+	return ret;
+}
 
 
 /**
@@ -175,6 +183,10 @@ const setIsComment= (res)=>{
 	uni.setStorageSync('IS_COMMENT', res);
 }
 
+const setIsPreview= (res)=>{
+	uni.setStorageSync('IS_PREVIEW', res);
+}
+
 
 
 export default {
@@ -190,6 +202,7 @@ export default {
 	getStarStyle,
 	getIsUpdateData,
 	getIsComment,
+	getIsPreview,
 
 
     setUserSign,
@@ -204,6 +217,6 @@ export default {
 	setStarStyle,
 	setIsUpdateData,
 	setIsComment,
-
+	setIsPreview
 
 }

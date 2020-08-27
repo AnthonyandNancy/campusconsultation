@@ -12,8 +12,8 @@
                                   :refreshTime="800"
                                   :heightReduce="loadRefreshHeight"
                                   :backgroundCover="'#fff'"
-                                  :pageNo="currPage"
-                                  :totalPageNo="totalPage"
+                                  :pageNo="tabsList[currentSwiper].currentPage"
+                                  :totalPageNo="tabsList[currentSwiper].totalPage"
                                   @loadMore="loadMore"
                                   @refresh="refresh">
                         <view slot="content-list">

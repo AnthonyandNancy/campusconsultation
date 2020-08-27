@@ -98,6 +98,8 @@
 		methods: {
 			// 根据pageNo和totalPageNo的值来判断 是否触发@loadMore
 			loadMore(e) {
+				console.log(pageNo, totalPageNo)
+
 				const { pageNo, totalPageNo } = this
 				if (pageNo < totalPageNo) {
 					console.log('100111111')

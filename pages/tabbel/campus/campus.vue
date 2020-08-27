@@ -12,8 +12,8 @@
                                   :refreshTime="800"
                                   :heightReduce="loadRefreshHeight"
                                   :backgroundCover="'#fff'"
-                                  :pageNo="currPage"
-                                  :totalPageNo="totalPage"
+                                  :pageNo="tabsList[currentSwiper].currentPage"
+                                  :totalPageNo="tabsList[currentSwiper].totalPage"
                                   @loadMore="loadMore"
                                   @refresh="refresh">
 
@@ -23,7 +23,7 @@
                                          :currentIndex="index1" :currentPageType="item.type== 37?'chat':''"
                                          @shareEvent="toShare" @commentEvent="toComment"
                                          @supportEvent="toSupport" @showAllEvent="showAll"
-                                         @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"></dynamicCard>
+                                         @toDetailEvent="dynamicDetail" @toChatRoomEvent="toChat"  :isAuthor="isAuthor" @failAuth="toCheckAuthor" @successAuth="toCheckAuthor"></dynamicCard>
 
                             <view class="dynamicItem" v-if="item.type != 37" v-for="(item1,index1) in item.dynamicList"
                                   :key="index1">

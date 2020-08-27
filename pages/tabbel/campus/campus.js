@@ -218,6 +218,9 @@ export default {
                 }
             });
         },
+        toCheckAuthor(authorStatus){
+            this.isAuthor = authorStatus
+        },
         showVideo(url) {
             this.videoUrl = url;
 
@@ -269,7 +272,7 @@ export default {
 
             if (index == 0) {
                 uni.navigateTo({
-                    url: "/pages/publish/publish?publishType=publishDynamic"
+                    url: "/pages/publish/publish?publishType=publishDynamic&currentPageType=campus"
                 })
             } else if (index == 1) {
                 this.showApplyPanel = true;
@@ -300,8 +303,10 @@ export default {
             this.getAllDynamicList(this.currentSwiper)
         },
         loadMore() {
+            this.isLoadMore = true;
             this.tabsList[this.currentSwiper].currentPage++
             this.getAllDynamicList(this.currentSwiper)
+            that.$refs.hideLoading[this.currentSwiper].loadOver()
         },
         //展示全文
         showAll(index) {
@@ -465,6 +470,8 @@ export default {
 
                     }, 1500)
                 } else if (this.isRefresh) {
+                    uni.hideLoading();
+                }else if(this.isLoadMore){
                     uni.hideLoading();
                 }
             }

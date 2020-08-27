@@ -218,6 +218,7 @@
 
             //图片预览
             preViewImg(index,imgList){
+                constant.setIsPreview(true);
                 uni.previewImage({
                     current: index,
                     urls: imgList

@@ -1,48 +1,6 @@
 <template>
     <view class="main">
-        <scroll-view :scroll-y="true" :scroll-top="isScroll?'520':'0'" :style="{height:(pageHeight )+ 'px'}" :scroll-with-animation="true">
-            <view class="header">
-                <view class="header-Info">
-                    <!--通知-->
-                    <view class="notice" @click="toReadNotive">
-                        <view class="notice_box">
-                            <view class="noticeIcon">
-                                <image src="/static/images/notice.png" class="auto-img"></image>
-                            </view>
-                        </view>
-                    </view>
 
-                    <view class="avatar_nickName">
-                        <view class="item avatarItem">
-                            <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor"
-                                    @getuserinfo="toAuthor"></button>
-                            <view class="avatar" @click="toEditDetail()">
-                                <image :src="userInfo.pic?userInfo.pic:'../../../static/images/avatar.png'"
-                                       style="width: 100%;height: 100%;border-radius: 100% !important;"
-                                       mode="aspectFit"></image>
-                            </view>
-                        </view>
-                        <view class="item">
-                            <view class="userInfo">{{userInfo.name != null ?userInfo.name:'请先授权'}}</view>
-                        </view>
-
-                        <view class="item support_or_folloew">
-                            <view class="supportOrFollowItem">
-                                <view class="supportBox" @click="toMySupport">
-                                    <view class="supportOrFollowNum">{{supportNum}}</view>
-                                    <view class="supportOrFollowText">我赞过的</view>
-                                </view>
-                            </view>
-                            <view class="supportOrFollowItem">
-                                <view class="followBox" @click="toMyFollow">
-                                    <view class="supportOrFollowNum">{{followNum}}</view>
-                                    <view class="supportOrFollowText">我的关注</view>
-                                </view>
-                            </view>
-                        </view>
-                    </view>
-                </view>
-            </view>
 
             <load-refresh ref="hideLoading"
                           :isRefresh="true"
@@ -56,6 +14,49 @@
                           @scrollEvent="scroll">
 
                 <view slot="content-list">
+
+                    <view class="header">
+                    <view class="header-Info">
+                        <!--通知-->
+                        <view class="notice" @click="toReadNotive">
+                            <view class="notice_box">
+                                <view class="noticeIcon">
+                                    <image src="/static/images/notice.png" class="auto-img"></image>
+                                </view>
+                            </view>
+                        </view>
+
+                        <view class="avatar_nickName">
+                            <view class="item avatarItem">
+                                <button class="getUserInfo" open-type="getUserInfo" v-if="!isAuthor"
+                                        @getuserinfo="toAuthor"></button>
+                                <view class="avatar" @click="toEditDetail()">
+                                    <image :src="userInfo.pic?userInfo.pic:'../../../static/images/avatar.png'"
+                                           style="width: 100%;height: 100%;border-radius: 100% !important;"
+                                           mode="aspectFit"></image>
+                                </view>
+                            </view>
+                            <view class="item">
+                                <view class="userInfo">{{userInfo.name != null ?userInfo.name:'请先授权'}}</view>
+                            </view>
+
+                            <view class="item support_or_folloew">
+                                <view class="supportOrFollowItem">
+                                    <view class="supportBox" @click="toMySupport">
+                                        <view class="supportOrFollowNum">{{supportNum}}</view>
+                                        <view class="supportOrFollowText">我赞过的</view>
+                                    </view>
+                                </view>
+                                <view class="supportOrFollowItem">
+                                    <view class="followBox" @click="toMyFollow">
+                                        <view class="supportOrFollowNum">{{followNum}}</view>
+                                        <view class="supportOrFollowText">我的关注</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
                     <view class="myDynamic">
                         <view class="tip">
                             我的动态
@@ -72,7 +73,6 @@
                     </view>
                 </view>
             </load-refresh>
-        </scroll-view>
     </view>
 </template>
 

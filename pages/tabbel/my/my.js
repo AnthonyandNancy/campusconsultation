@@ -48,15 +48,17 @@ export default {
         this.followNum = constant.getUserLogin().followNum;
         this.supportNum = constant.getUserLogin().ILikeTimes;
 
-        if(constant.getUserSign().length != 0){
+        if(constant.getUserSign().length != 0 && !constant.getIsPreview()){
             this.currPage = 1;
             this.dynamicList = [];
             this.getDynamicList(this.currPage);
+
         }
         this.userInfo = {
             name: constant.getUserLogin().name,
             pic: constant.getUserLogin().pic
         }
+        constant.setIsPreview(false);
     },
 
     onReady() {

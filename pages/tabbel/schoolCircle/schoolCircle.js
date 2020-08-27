@@ -58,8 +58,8 @@ export default {
             //刷新refresh start
             swiperViewHeight: 0,
             loadRefreshHeight: 0,
-            currPage: 1,
-            totalPage: 0,
+            // currPage: 1,
+            // totalPage: 0,
             //刷新refresh end
 
             audioPlay: false,
@@ -68,6 +68,7 @@ export default {
             commentDySign: '',
             isShowMark: false,
             isRefresh: false,
+            isLoadMore: false,
             isAuthor: Boolean,
             isJoinOfShare: false,
         }
@@ -140,19 +141,25 @@ export default {
     },
     onShow() {
 
-        that.tabsList = constant.getUserLogin().header[1].title
 
-        if (this.tabsList.length != 0 && this.tabsList[0].dynamicList.length == 0) {
-            //计算navTab的可视高度
-            let query = uni.createSelectorQuery().in(this);
-            query.select('.navTab').boundingClientRect(res => {
-                this.loadRefreshHeight = res.top;
-                this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
-            }).exec();
-            this.tabsList.forEach((res, index) => {
-                that.getAllDynamicList(index);
-            })
+        if (this.isJoinOfShare) {
+            // if(!constant.getIsPublish()){
+            that.tabsList = constant.getUserLogin().header[1].title;
+
+            if (this.tabsList.length != 0 && this.tabsList[0].dynamicList.length == 0) {
+                //计算navTab的可视高度
+                let query = uni.createSelectorQuery().in(this);
+                query.select('.navTab').boundingClientRect(res => {
+                    this.loadRefreshHeight = res.top;
+                    this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+                }).exec();
+                this.tabsList.forEach((res, index) => {
+                    that.getAllDynamicList(index);
+                })
+            }
+            // }
         }
+
 
         //评论返回，数量加1
         if (constant.getIsComment()) {
@@ -161,7 +168,7 @@ export default {
                     res.commentTimes++;
                 }
             })
-            constant.setIsComment(false)
+            // constant.setIsComment(false)
         }
 
         //判断从首页点击跳转后的标签类型
@@ -173,9 +180,24 @@ export default {
             this.currentSwiper = constant.getSelectType();
             uni.removeStorageSync('SELECT_TYPE');
         }
+
+        constant.setIsPublish(false);
     },
     onReady() {
         this.userSign = constant.getUserSign();
+
+        if(!this.isJoinOfShare){
+            let query = uni.createSelectorQuery().in(this);
+            query.select('.navTab').boundingClientRect(res => {
+                this.loadRefreshHeight = res.top;
+                this.swiperViewHeight = this.systemInfo.windowHeight - res.top;
+            }).exec();
+
+            this.tabsList.forEach((res, index) => {
+                that.getAllDynamicList(index);
+            })
+        }
+
     },
     methods: {
         toAuthor() {
@@ -269,7 +291,7 @@ export default {
 
             if (index == 0) {
                 uni.navigateTo({
-                    url: "/pages/publish/publish?publishType=publishDynamic"
+                    url: "/pages/publish/publish?publishType=publishDynamic&currentPageType=schoolCircle"
                 })
             } else if (index == 1) {
                 uni.navigateTo({
@@ -291,14 +313,17 @@ export default {
             })
         },
         refresh() {
+            console.log('refresh')
             this.isRefresh = true;
             this.tabsList[this.currentSwiper].dynamicList = [];
             this.tabsList[this.currentSwiper].currentPage = 1;
             this.getAllDynamicList(this.currentSwiper)
         },
         loadMore() {
+            this.isLoadMore = true;
             this.tabsList[this.currentSwiper].currentPage++
             this.getAllDynamicList(this.currentSwiper)
+            that.$refs.hideLoading[this.currentSwiper].loadOver()
         },
 
         //展示全文
@@ -381,12 +406,15 @@ export default {
                     }, 1500)
                 } else if (this.isRefresh) {
                     uni.hideLoading();
+                } else if (this.isLoadMore) {
+                    uni.hideLoading();
                 }
             }
         },
 
         //进入动态详情页面
         dynamicDetail(obj) {
+            constant.setIsPublish(true);
             uni.navigateTo({
                 url: '/pages/dynamicDetail/dynamicDetail?dynamicObj=' + JSON.stringify(obj)
             })
@@ -394,6 +422,8 @@ export default {
 
         //发布动态
         toPublishDynamic() {
+            constant.setIsPublish(true);
+
             uni.navigateTo({
                 url: "/pages/publish/publish?publishType=publishDynamic"
             })

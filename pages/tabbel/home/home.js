@@ -31,14 +31,18 @@ export default {
     },
     onLoad() {
         this.toLogin();
-        if(constant.getUserLogin().schoolName == null){
-            uni.reLaunch({
-                url:'/pages/selectSchool/selectSchool'
-            })
-        }
+
     },
 
     onReady() {
+        uni.$on('schoolName', (res) => {
+            if (res == null) {
+                uni.reLaunch({
+                    url: '/pages/selectSchool/selectSchool'
+                })
+            }
+        })
+
         that = this;
         uni.showLoading({
             title: '加载中...',
@@ -57,31 +61,31 @@ export default {
     },
 
     methods: {
-        jumpToOtherPath(res){
-            if(res.jumpPage == null){
+        jumpToOtherPath(res) {
+            if (res.jumpPage == null) {
                 return;
             }
 
             let jumpUrl = res.jumpPage.split('?')[0]
 
-            let jumpObj =  {};
-            res.jumpPage.replace(/([^?&]+)=([^?&]+)/g, function(s, key, value) {
-                jumpObj[key] =  value
+            let jumpObj = {};
+            res.jumpPage.replace(/([^?&]+)=([^?&]+)/g, function (s, key, value) {
+                jumpObj[key] = value
             });
 
-           switch (jumpObj.jumpType) {
-               case 'navigate':
-                   uni.navigateTo({
-                        url:jumpUrl
-                   })
-                   break;
-               case 'switchTab':
-                   constant.setSelectType( !jumpObj.jumpIndex?'0':jumpObj.jumpIndex);
-                   uni.switchTab({
-                       url: jumpUrl
-                   })
-                   break;
-           }
+            switch (jumpObj.jumpType) {
+                case 'navigate':
+                    uni.navigateTo({
+                        url: jumpUrl
+                    })
+                    break;
+                case 'switchTab':
+                    constant.setSelectType(!jumpObj.jumpIndex ? '0' : jumpObj.jumpIndex);
+                    uni.switchTab({
+                        url: jumpUrl
+                    })
+                    break;
+            }
         },
 
         toHotDynamicPage(index) {
@@ -89,46 +93,6 @@ export default {
             uni.switchTab({
                 url: '/pages/tabbel/schoolCircle/schoolCircle'
             })
-        },
-
-        toAuthor() {
-            uni.getUserInfo({
-                provider: 'weixin',
-                lang: 'zh_CN',
-                success: async function (infoRes) {
-                    constant.setIsAuthor(true);
-                    that.isAuthor = true;
-                    if (infoRes.errMsg == "getUserInfo:ok") {
-                        constant.setUserInfo(infoRes.userInfo)
-
-                        let {nickName, avatarUrl, gender, country, province, city} = infoRes.userInfo;
-                        let json = await api.updateUserInfo({
-                            query: {
-                                sign: that.userSign,
-                                name: nickName,
-                                pic: avatarUrl,
-                                gender: gender,
-                                country: country,
-                                province: province,
-                                city: city
-                            }
-                        })
-                        if (json.data.errcode == 200) {
-
-                            uni.showToast({
-                                title: '授权成功',
-                                mask: true,
-                                icon: 'none'
-                            });
-                            that.toLogin();
-                        }
-                    }
-                },
-                fail(res) {
-                    constant.setIsAuthor(false)
-                    that.isAuthor = false;
-                }
-            });
         }
     }
 }

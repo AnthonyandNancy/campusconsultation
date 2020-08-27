@@ -412,13 +412,12 @@
                         console.log('走了(this.newWssType == falees)')
                         uni.$emit('getPrivateLastChat', resDataMsg)
 
-                        // uni.showTabBarRedDot({
-                        //     index: 3,
-                        // })
+
 
                         // 群聊
                         if (resData.roomType == 0) {
 
+                            console.log('resData.roomType == 0' )
                             if (resDataMsg.type == 'system') {
                                 console.log('>>>>>>>>>>>', resDataMsg)
                             } else {
@@ -438,8 +437,6 @@
                                     }
                                 })
                             }
-
-
 
 
                             if (chatGroupList.length != 0) {
@@ -485,9 +482,16 @@
 
                             //私聊
                         } else if (resData.roomType == 1) {
+
+                            console.log('resData.roomType == 1')
+
                             resDataMsg.type = 'orther'
                             let sign = resData.sign
                             let userTag = 'chatList:' + sign
+
+                            uni.showTabBarRedDot({
+                                index: 3,
+                            })
 
                             // 获取缓存的聊天消息
                             uni.getStorage({

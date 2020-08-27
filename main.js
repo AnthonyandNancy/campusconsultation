@@ -29,6 +29,7 @@ Vue.prototype.toLogin = () => {
                 if (errcode == 200) {
                     constant.setUserSign(json.data.sign);
                     constant.setUserLogin(json.data);
+                    uni.$emit('schoolName',json.data.schoolName)
                 }
             }
         }

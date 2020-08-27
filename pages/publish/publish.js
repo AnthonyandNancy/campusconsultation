@@ -20,6 +20,7 @@ export default {
             realVideoUrlList: '',
             realAudioUrlList: '',
             publishType: '',
+            pageType:'',
             dynamicSign: '',
             audioPlay: false,
             audioIsAuthor: Boolean,
@@ -77,6 +78,7 @@ export default {
         console.log(option)
         this.publishType = option.publishType;
         this.dynamicSign = option.dynamicSign;
+        this.pageType = option.currentPageType;
         //动态修改顶部导航
         uni.setNavigationBarTitle({
             title: option.publishType == 'publishDynamic' ? '发表动态' : '发表评论'
@@ -326,12 +328,15 @@ export default {
             })
             if (json.data.errcode == 200) {
                 uni.hideLoading();
-                // uni.navigateBack({
-                //     delta: 1
-                // });
-                uni.reLaunch({
-                    url: '/pages/tabbel/campus/campus'
-                });
+                if(this.pageType == 'campus'){
+                    uni.reLaunch({
+                        url: '/pages/tabbel/campus/campus'
+                    });
+                }else if(this.pageType == 'schoolCircle'){
+                    uni.reLaunch({
+                        url: '/pages/tabbel/schoolCircle/schoolCircle'
+                    });
+                }
             }
         },
         //发表评论
