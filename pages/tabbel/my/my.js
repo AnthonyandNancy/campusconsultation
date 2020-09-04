@@ -148,16 +148,17 @@ export default {
             })
         },
         // 刷新数据
-        refresh(next) { // 下拉刷新触发方法
+        refresh() { // 下拉刷新触发方法
             this.currPage = 1;
             this.dynamicList = [];
             this.getDynamicList(this.currPage)
         },
 
         //加载更多
-        loadMore(next) { // 上拉加载触发方法
+        loadMore() { // 上拉加载触发方法
             this.currPage++;
             this.getDynamicList(this.currPage)
+            that.$refs.hideLoading.loadOver()
         },
 
         //获取动态列表

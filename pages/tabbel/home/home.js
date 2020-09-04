@@ -24,16 +24,14 @@ export default {
     },
     onShareAppMessage() {
         return {
-            title: "传播校园文化,助力高考报考",
+            title: "加入校园圈，认识更多校友",
             path: '/pages/selectSchool/selectSchool',
             imageUrl: ""
         }
     },
     onLoad() {
         this.toLogin();
-
     },
-
     onReady() {
         uni.$on('schoolName', (res) => {
             if (res == null) {

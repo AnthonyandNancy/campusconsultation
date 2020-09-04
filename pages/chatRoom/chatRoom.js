@@ -516,13 +516,13 @@ export default {
     onShareAppMessage() {
         if (this.shareType == 1) {
             return {
-                title: "传播校园文化,助力高考报考",
+                title: "加入校园圈，认识更多校友",
                 path: '/pages/chatRoom/chatRoom?roomSign=' + this.roomSign + '&roomName=' + this.roomName + '&chatType=' + 1 + '&userName=' + this.userName + '&pathType=' + 'share' + '&schoolName=' + this.schoolName,
                 imageUrl: "/static/images/poster.png"
             }
         } else if (this.shareType == 0) {
             return {
-                title: "传播校园文化,助力高考报考",
+                title: "加入校园圈，认识更多校友",
                 path: '/pages/tabbel/home/home',
                 imageUrl: "/static/images/poster.png"
             }

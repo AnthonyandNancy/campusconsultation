@@ -83,7 +83,9 @@
 				} else if (pageNo < totalPageNo) {
 					return '上拉加载更多'
 				} else {
-					return '已经到底啦~'
+					setTimeout( ()=> {},1500)
+						return '已经到底啦~'
+
 				}
 			}
 		},
