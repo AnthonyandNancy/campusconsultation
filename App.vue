@@ -14,7 +14,7 @@
                 userSign: '',
                 isJoinWhitShare:false
             };
-            
+
         },
         onShow(scene) {
             //页面展示时，判断是否断开连接，如果断开就重新连接
